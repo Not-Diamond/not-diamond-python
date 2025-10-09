@@ -80,14 +80,6 @@ from .llm_usage import (
     LlmUsageResourceWithStreamingResponse,
     AsyncLlmUsageResourceWithStreamingResponse,
 )
-from .optimizer import (
-    OptimizerResource,
-    AsyncOptimizerResource,
-    OptimizerResourceWithRawResponse,
-    AsyncOptimizerResourceWithRawResponse,
-    OptimizerResourceWithStreamingResponse,
-    AsyncOptimizerResourceWithStreamingResponse,
-)
 from .semihuman import (
     SemihumanResource,
     AsyncSemihumanResource,
@@ -146,12 +138,6 @@ from .adaptation_runs import (
 )
 
 __all__ = [
-    "OptimizerResource",
-    "AsyncOptimizerResource",
-    "OptimizerResourceWithRawResponse",
-    "AsyncOptimizerResourceWithRawResponse",
-    "OptimizerResourceWithStreamingResponse",
-    "AsyncOptimizerResourceWithStreamingResponse",
     "ModelRouterResource",
     "AsyncModelRouterResource",
     "ModelRouterResourceWithRawResponse",

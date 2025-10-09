@@ -30,7 +30,7 @@ class ReportResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/not-diamond-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Not-Diamond/not-diamond-python#accessing-raw-response-data-eg-headers
         """
         return ReportResourceWithRawResponse(self)
 
@@ -39,7 +39,7 @@ class ReportResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/not-diamond-python#with_streaming_response
+        For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
         """
         return ReportResourceWithStreamingResponse(self)
 
@@ -137,7 +137,7 @@ class AsyncReportResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/not-diamond-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Not-Diamond/not-diamond-python#accessing-raw-response-data-eg-headers
         """
         return AsyncReportResourceWithRawResponse(self)
 
@@ -146,7 +146,7 @@ class AsyncReportResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/not-diamond-python#with_streaming_response
+        For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
         """
         return AsyncReportResourceWithStreamingResponse(self)
 

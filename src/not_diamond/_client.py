@@ -37,7 +37,6 @@ from .resources import (
     prompt,
     api_keys,
     llm_usage,
-    optimizer,
     semihuman,
     error_debug,
     evaluations,
@@ -73,7 +72,6 @@ __all__ = [
 
 
 class NotDiamond(SyncAPIClient):
-    optimizer: optimizer.OptimizerResource
     model_router: model_router.ModelRouterResource
     evaluations: evaluations.EvaluationsResource
     report: report.ReportResource
@@ -144,7 +142,6 @@ class NotDiamond(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.optimizer = optimizer.OptimizerResource(self)
         self.model_router = model_router.ModelRouterResource(self)
         self.evaluations = evaluations.EvaluationsResource(self)
         self.report = report.ReportResource(self)
@@ -303,7 +300,6 @@ class NotDiamond(SyncAPIClient):
 
 
 class AsyncNotDiamond(AsyncAPIClient):
-    optimizer: optimizer.AsyncOptimizerResource
     model_router: model_router.AsyncModelRouterResource
     evaluations: evaluations.AsyncEvaluationsResource
     report: report.AsyncReportResource
@@ -374,7 +370,6 @@ class AsyncNotDiamond(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.optimizer = optimizer.AsyncOptimizerResource(self)
         self.model_router = model_router.AsyncModelRouterResource(self)
         self.evaluations = evaluations.AsyncEvaluationsResource(self)
         self.report = report.AsyncReportResource(self)
@@ -534,7 +529,6 @@ class AsyncNotDiamond(AsyncAPIClient):
 
 class NotDiamondWithRawResponse:
     def __init__(self, client: NotDiamond) -> None:
-        self.optimizer = optimizer.OptimizerResourceWithRawResponse(client.optimizer)
         self.model_router = model_router.ModelRouterResourceWithRawResponse(client.model_router)
         self.evaluations = evaluations.EvaluationsResourceWithRawResponse(client.evaluations)
         self.report = report.ReportResourceWithRawResponse(client.report)
@@ -560,7 +554,6 @@ class NotDiamondWithRawResponse:
 
 class AsyncNotDiamondWithRawResponse:
     def __init__(self, client: AsyncNotDiamond) -> None:
-        self.optimizer = optimizer.AsyncOptimizerResourceWithRawResponse(client.optimizer)
         self.model_router = model_router.AsyncModelRouterResourceWithRawResponse(client.model_router)
         self.evaluations = evaluations.AsyncEvaluationsResourceWithRawResponse(client.evaluations)
         self.report = report.AsyncReportResourceWithRawResponse(client.report)
@@ -586,7 +579,6 @@ class AsyncNotDiamondWithRawResponse:
 
 class NotDiamondWithStreamedResponse:
     def __init__(self, client: NotDiamond) -> None:
-        self.optimizer = optimizer.OptimizerResourceWithStreamingResponse(client.optimizer)
         self.model_router = model_router.ModelRouterResourceWithStreamingResponse(client.model_router)
         self.evaluations = evaluations.EvaluationsResourceWithStreamingResponse(client.evaluations)
         self.report = report.ReportResourceWithStreamingResponse(client.report)
@@ -612,7 +604,6 @@ class NotDiamondWithStreamedResponse:
 
 class AsyncNotDiamondWithStreamedResponse:
     def __init__(self, client: AsyncNotDiamond) -> None:
-        self.optimizer = optimizer.AsyncOptimizerResourceWithStreamingResponse(client.optimizer)
         self.model_router = model_router.AsyncModelRouterResourceWithStreamingResponse(client.model_router)
         self.evaluations = evaluations.AsyncEvaluationsResourceWithStreamingResponse(client.evaluations)
         self.report = report.AsyncReportResourceWithStreamingResponse(client.report)

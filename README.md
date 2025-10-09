@@ -16,8 +16,8 @@ The full API of this library can be found in [api.md](api.md).
 ## Installation
 
 ```sh
-# install from this staging repo
-pip install git+ssh://git@github.com/stainless-sdks/not-diamond-python.git
+# install from the production repo
+pip install git+ssh://git@github.com/Not-Diamond/not-diamond-python.git
 ```
 
 > [!NOTE]
@@ -28,19 +28,14 @@ pip install git+ssh://git@github.com/stainless-sdks/not-diamond-python.git
 The full API of this library can be found in [api.md](api.md).
 
 ```python
+import os
 from not_diamond import NotDiamond
 
-client = NotDiamond()
-
-response = client.optimizer.select_model(
-    llm_providers=[
-        {
-            "model": "model",
-            "provider": "provider",
-        }
-    ],
-    messages=[{"foo": "string"}],
+client = NotDiamond(
+    api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
 )
+
+response = client.retrieve_root()
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -53,22 +48,17 @@ so that your API Key is not stored in source control.
 Simply import `AsyncNotDiamond` instead of `NotDiamond` and use `await` with each API call:
 
 ```python
+import os
 import asyncio
 from not_diamond import AsyncNotDiamond
 
-client = AsyncNotDiamond()
+client = AsyncNotDiamond(
+    api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
+)
 
 
 async def main() -> None:
-    response = await client.optimizer.select_model(
-        llm_providers=[
-            {
-                "model": "model",
-                "provider": "provider",
-            }
-        ],
-        messages=[{"foo": "string"}],
-    )
+    response = await client.retrieve_root()
 
 
 asyncio.run(main())
@@ -83,8 +73,8 @@ By default, the async client uses `httpx` for HTTP requests. However, for improv
 You can enable this by installing `aiohttp`:
 
 ```sh
-# install from this staging repo
-pip install 'not_diamond[aiohttp] @ git+ssh://git@github.com/stainless-sdks/not-diamond-python.git'
+# install from the production repo
+pip install 'not_diamond[aiohttp] @ git+ssh://git@github.com/Not-Diamond/not-diamond-python.git'
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
@@ -97,17 +87,10 @@ from not_diamond import AsyncNotDiamond
 
 async def main() -> None:
     async with AsyncNotDiamond(
+        api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
-        response = await client.optimizer.select_model(
-            llm_providers=[
-                {
-                    "model": "model",
-                    "provider": "provider",
-                }
-            ],
-            messages=[{"foo": "string"}],
-        )
+        response = await client.retrieve_root()
 
 
 asyncio.run(main())
@@ -182,15 +165,7 @@ from not_diamond import NotDiamond
 client = NotDiamond()
 
 try:
-    client.optimizer.select_model(
-        llm_providers=[
-            {
-                "model": "model",
-                "provider": "provider",
-            }
-        ],
-        messages=[{"foo": "string"}],
-    )
+    client.retrieve_root()
 except not_diamond.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -233,15 +208,7 @@ client = NotDiamond(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).optimizer.select_model(
-    llm_providers=[
-        {
-            "model": "model",
-            "provider": "provider",
-        }
-    ],
-    messages=[{"foo": "string"}],
-)
+client.with_options(max_retries=5).retrieve_root()
 ```
 
 ### Timeouts
@@ -264,15 +231,7 @@ client = NotDiamond(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).optimizer.select_model(
-    llm_providers=[
-        {
-            "model": "model",
-            "provider": "provider",
-        }
-    ],
-    messages=[{"foo": "string"}],
-)
+client.with_options(timeout=5.0).retrieve_root()
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -313,24 +272,16 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from not_diamond import NotDiamond
 
 client = NotDiamond()
-response = client.optimizer.with_raw_response.select_model(
-    llm_providers=[{
-        "model": "model",
-        "provider": "provider",
-    }],
-    messages=[{
-        "foo": "string"
-    }],
-)
+response = client.with_raw_response.retrieve_root()
 print(response.headers.get('X-My-Header'))
 
-optimizer = response.parse()  # get the object that `optimizer.select_model()` would have returned
-print(optimizer)
+client = response.parse()  # get the object that `retrieve_root()` would have returned
+print(client)
 ```
 
-These methods return an [`APIResponse`](https://github.com/stainless-sdks/not-diamond-python/tree/main/src/not_diamond/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/not_diamond/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/not-diamond-python/tree/main/src/not_diamond/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/not_diamond/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -339,15 +290,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.optimizer.with_streaming_response.select_model(
-    llm_providers=[
-        {
-            "model": "model",
-            "provider": "provider",
-        }
-    ],
-    messages=[{"foo": "string"}],
-) as response:
+with client.with_streaming_response.retrieve_root() as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
@@ -442,7 +385,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/not-diamond-python/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/Not-Diamond/not-diamond-python/issues) with questions, bugs, or suggestions.
 
 ### Determining the installed version
 
