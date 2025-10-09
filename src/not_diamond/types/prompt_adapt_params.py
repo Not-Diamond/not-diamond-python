@@ -6,9 +6,8 @@ from typing import Dict, Iterable, Optional
 from typing_extensions import Required, TypedDict
 
 from .._types import SequenceNotStr
-from .report.request_provider_param import RequestProviderParam
 
-__all__ = ["PromptAdaptParams", "Golden"]
+__all__ = ["PromptAdaptParams", "Golden", "OriginModel", "TargetModel"]
 
 
 class PromptAdaptParams(TypedDict, total=False):
@@ -16,11 +15,11 @@ class PromptAdaptParams(TypedDict, total=False):
 
     goldens: Required[Iterable[Golden]]
 
-    origin_model: Required[RequestProviderParam]
+    origin_model: Required[OriginModel]
 
     system_prompt: Required[str]
 
-    target_models: Required[Iterable[RequestProviderParam]]
+    target_models: Required[Iterable[TargetModel]]
 
     template: Required[str]
 
@@ -35,3 +34,35 @@ class Golden(TypedDict, total=False):
     fields: Required[Dict[str, str]]
 
     answer: Optional[str]
+
+
+class OriginModel(TypedDict, total=False):
+    model: Required[str]
+
+    provider: Required[str]
+
+    context_length: Optional[int]
+
+    input_price: Optional[float]
+
+    is_custom: bool
+
+    latency: Optional[float]
+
+    output_price: Optional[float]
+
+
+class TargetModel(TypedDict, total=False):
+    model: Required[str]
+
+    provider: Required[str]
+
+    context_length: Optional[int]
+
+    input_price: Optional[float]
+
+    is_custom: bool
+
+    latency: Optional[float]
+
+    output_price: Optional[float]

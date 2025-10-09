@@ -5,9 +5,7 @@ from __future__ import annotations
 from typing import Dict, Union, Iterable, Optional
 from typing_extensions import Required, TypeAlias, TypedDict
 
-from .report.request_provider_param import RequestProviderParam
-
-__all__ = ["ModelRouterSelectModelParams", "LlmProvider", "LlmProviderOpenRouterProvider"]
+__all__ = ["ModelRouterSelectModelParams", "LlmProvider", "LlmProviderRequestProvider", "LlmProviderOpenRouterProvider"]
 
 
 class ModelRouterSelectModelParams(TypedDict, total=False):
@@ -32,6 +30,22 @@ class ModelRouterSelectModelParams(TypedDict, total=False):
     tradeoff: Optional[str]
 
 
+class LlmProviderRequestProvider(TypedDict, total=False):
+    model: Required[str]
+
+    provider: Required[str]
+
+    context_length: Optional[int]
+
+    input_price: Optional[float]
+
+    is_custom: bool
+
+    latency: Optional[float]
+
+    output_price: Optional[float]
+
+
 class LlmProviderOpenRouterProvider(TypedDict, total=False):
     model: Required[str]
 
@@ -46,4 +60,4 @@ class LlmProviderOpenRouterProvider(TypedDict, total=False):
     output_price: Optional[float]
 
 
-LlmProvider: TypeAlias = Union[RequestProviderParam, LlmProviderOpenRouterProvider]
+LlmProvider: TypeAlias = Union[LlmProviderRequestProvider, LlmProviderOpenRouterProvider]
