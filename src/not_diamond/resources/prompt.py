@@ -20,7 +20,6 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.prompt_adapt_response import PromptAdaptResponse
 from ..types.adaptation_run_results import AdaptationRunResults
-from ..types.report.request_provider_param import RequestProviderParam
 from ..types.prompt_get_adapt_runs_response import PromptGetAdaptRunsResponse
 from ..types.prompt_get_adapt_status_response import PromptGetAdaptStatusResponse
 
@@ -52,9 +51,9 @@ class PromptResource(SyncAPIResource):
         *,
         fields: SequenceNotStr[str],
         goldens: Iterable[prompt_adapt_params.Golden],
-        origin_model: RequestProviderParam,
+        origin_model: prompt_adapt_params.OriginModel,
         system_prompt: str,
-        target_models: Iterable[RequestProviderParam],
+        target_models: Iterable[prompt_adapt_params.TargetModel],
         template: str,
         evaluation_config: Optional[str] | Omit = omit,
         evaluation_metric: Optional[str] | Omit = omit,
@@ -265,9 +264,9 @@ class AsyncPromptResource(AsyncAPIResource):
         *,
         fields: SequenceNotStr[str],
         goldens: Iterable[prompt_adapt_params.Golden],
-        origin_model: RequestProviderParam,
+        origin_model: prompt_adapt_params.OriginModel,
         system_prompt: str,
-        target_models: Iterable[RequestProviderParam],
+        target_models: Iterable[prompt_adapt_params.TargetModel],
         template: str,
         evaluation_config: Optional[str] | Omit = omit,
         evaluation_metric: Optional[str] | Omit = omit,
