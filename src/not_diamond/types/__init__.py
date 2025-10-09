@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from .job_status import JobStatus as JobStatus
 from .prompt_adapt_params import PromptAdaptParams as PromptAdaptParams
-from .health_check_response import HealthCheckResponse as HealthCheckResponse
 from .prompt_adapt_response import PromptAdaptResponse as PromptAdaptResponse
 from .adaptation_run_results import AdaptationRunResults as AdaptationRunResults
 from .preference_create_params import PreferenceCreateParams as PreferenceCreateParams

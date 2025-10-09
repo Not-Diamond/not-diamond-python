@@ -58,15 +58,3 @@ Methods:
 
 - <code title="post /v2/pzn/surveyResponse">client.pzn.<a href="./src/not_diamond/resources/pzn.py">create_survey_response</a>(\*\*<a href="src/not_diamond/types/pzn_create_survey_response_params.py">params</a>) -> object</code>
 - <code title="post /v2/pzn/trainCustomRouter">client.pzn.<a href="./src/not_diamond/resources/pzn.py">train_custom_router</a>(\*\*<a href="src/not_diamond/types/pzn_train_custom_router_params.py">params</a>) -> object</code>
-
-# Health
-
-Types:
-
-```python
-from not_diamond.types import HealthCheckResponse
-```
-
-Methods:
-
-- <code title="get /health">client.health.<a href="./src/not_diamond/resources/health.py">check</a>() -> <a href="./src/not_diamond/types/health_check_response.py">HealthCheckResponse</a></code>

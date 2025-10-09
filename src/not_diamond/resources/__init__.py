@@ -16,14 +16,6 @@ from .proxy import (
     ProxyResourceWithStreamingResponse,
     AsyncProxyResourceWithStreamingResponse,
 )
-from .health import (
-    HealthResource,
-    AsyncHealthResource,
-    HealthResourceWithRawResponse,
-    AsyncHealthResourceWithRawResponse,
-    HealthResourceWithStreamingResponse,
-    AsyncHealthResourceWithStreamingResponse,
-)
 from .prompt import (
     PromptResource,
     AsyncPromptResource,
@@ -80,10 +72,4 @@ __all__ = [
     "AsyncPznResourceWithRawResponse",
     "PznResourceWithStreamingResponse",
     "AsyncPznResourceWithStreamingResponse",
-    "HealthResource",
-    "AsyncHealthResource",
-    "HealthResourceWithRawResponse",
-    "AsyncHealthResourceWithRawResponse",
-    "HealthResourceWithStreamingResponse",
-    "AsyncHealthResourceWithStreamingResponse",
 ]

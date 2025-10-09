@@ -22,7 +22,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import pzn, health, prompt, preferences, model_router
+from .resources import pzn, prompt, preferences, model_router
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
@@ -50,7 +50,6 @@ class NotDiamond(SyncAPIClient):
     proxy: proxy.ProxyResource
     prompt: prompt.PromptResource
     pzn: pzn.PznResource
-    health: health.HealthResource
     with_raw_response: NotDiamondWithRawResponse
     with_streaming_response: NotDiamondWithStreamedResponse
 
@@ -109,7 +108,6 @@ class NotDiamond(SyncAPIClient):
         self.proxy = proxy.ProxyResource(self)
         self.prompt = prompt.PromptResource(self)
         self.pzn = pzn.PznResource(self)
-        self.health = health.HealthResource(self)
         self.with_raw_response = NotDiamondWithRawResponse(self)
         self.with_streaming_response = NotDiamondWithStreamedResponse(self)
 
@@ -237,7 +235,6 @@ class AsyncNotDiamond(AsyncAPIClient):
     proxy: proxy.AsyncProxyResource
     prompt: prompt.AsyncPromptResource
     pzn: pzn.AsyncPznResource
-    health: health.AsyncHealthResource
     with_raw_response: AsyncNotDiamondWithRawResponse
     with_streaming_response: AsyncNotDiamondWithStreamedResponse
 
@@ -296,7 +293,6 @@ class AsyncNotDiamond(AsyncAPIClient):
         self.proxy = proxy.AsyncProxyResource(self)
         self.prompt = prompt.AsyncPromptResource(self)
         self.pzn = pzn.AsyncPznResource(self)
-        self.health = health.AsyncHealthResource(self)
         self.with_raw_response = AsyncNotDiamondWithRawResponse(self)
         self.with_streaming_response = AsyncNotDiamondWithStreamedResponse(self)
 
@@ -425,7 +421,6 @@ class NotDiamondWithRawResponse:
         self.proxy = proxy.ProxyResourceWithRawResponse(client.proxy)
         self.prompt = prompt.PromptResourceWithRawResponse(client.prompt)
         self.pzn = pzn.PznResourceWithRawResponse(client.pzn)
-        self.health = health.HealthResourceWithRawResponse(client.health)
 
 
 class AsyncNotDiamondWithRawResponse:
@@ -435,7 +430,6 @@ class AsyncNotDiamondWithRawResponse:
         self.proxy = proxy.AsyncProxyResourceWithRawResponse(client.proxy)
         self.prompt = prompt.AsyncPromptResourceWithRawResponse(client.prompt)
         self.pzn = pzn.AsyncPznResourceWithRawResponse(client.pzn)
-        self.health = health.AsyncHealthResourceWithRawResponse(client.health)
 
 
 class NotDiamondWithStreamedResponse:
@@ -445,7 +439,6 @@ class NotDiamondWithStreamedResponse:
         self.proxy = proxy.ProxyResourceWithStreamingResponse(client.proxy)
         self.prompt = prompt.PromptResourceWithStreamingResponse(client.prompt)
         self.pzn = pzn.PznResourceWithStreamingResponse(client.pzn)
-        self.health = health.HealthResourceWithStreamingResponse(client.health)
 
 
 class AsyncNotDiamondWithStreamedResponse:
@@ -455,7 +448,6 @@ class AsyncNotDiamondWithStreamedResponse:
         self.proxy = proxy.AsyncProxyResourceWithStreamingResponse(client.proxy)
         self.prompt = prompt.AsyncPromptResourceWithStreamingResponse(client.prompt)
         self.pzn = pzn.AsyncPznResourceWithStreamingResponse(client.pzn)
-        self.health = health.AsyncHealthResourceWithStreamingResponse(client.health)
 
 
 Client = NotDiamond
