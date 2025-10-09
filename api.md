@@ -10,22 +10,6 @@ Methods:
 
 - <code title="get /">client.<a href="./src/not_diamond/_client.py">retrieve_root</a>() -> <a href="./src/not_diamond/types/retrieve_root_response.py">RetrieveRootResponse</a></code>
 
-# Optimizer
-
-Types:
-
-```python
-from not_diamond.types import FrontendHashOptimizerRequest, OpenRouterProvider, OptimizerBaseRequest
-```
-
-Methods:
-
-- <code title="post /v2/optimizer/frontendArenaModels">client.optimizer.<a href="./src/not_diamond/resources/optimizer.py">get_frontend_arena_models</a>(\*\*<a href="src/not_diamond/types/optimizer_get_frontend_arena_models_params.py">params</a>) -> object</code>
-- <code title="post /v2/optimizer/frontendHashModelSelect">client.optimizer.<a href="./src/not_diamond/resources/optimizer.py">select_frontend_hash_model</a>(\*\*<a href="src/not_diamond/types/optimizer_select_frontend_hash_model_params.py">params</a>) -> object</code>
-- <code title="post /v2/optimizer/hashModelSelect">client.optimizer.<a href="./src/not_diamond/resources/optimizer.py">select_hash_model</a>(\*\*<a href="src/not_diamond/types/optimizer_select_hash_model_params.py">params</a>) -> object</code>
-- <code title="post /v2/optimizer/modelSelect">client.optimizer.<a href="./src/not_diamond/resources/optimizer.py">select_model</a>(\*\*<a href="src/not_diamond/types/optimizer_select_model_params.py">params</a>) -> object</code>
-- <code title="post /v2/optimizer/userIDModelSelect">client.optimizer.<a href="./src/not_diamond/resources/optimizer.py">select_userid_model</a>(\*\*<a href="src/not_diamond/types/optimizer_select_userid_model_params.py">params</a>) -> object</code>
-
 # ModelRouter
 
 Methods:
