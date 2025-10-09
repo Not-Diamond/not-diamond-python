@@ -1,0 +1,37 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+from typing import Dict, Iterable, Optional
+from typing_extensions import Required, TypedDict
+
+from .._types import SequenceNotStr
+from .report.request_provider_param import RequestProviderParam
+
+__all__ = ["PromptAdaptParams", "Golden"]
+
+
+class PromptAdaptParams(TypedDict, total=False):
+    fields: Required[SequenceNotStr[str]]
+
+    goldens: Required[Iterable[Golden]]
+
+    origin_model: Required[RequestProviderParam]
+
+    system_prompt: Required[str]
+
+    target_models: Required[Iterable[RequestProviderParam]]
+
+    template: Required[str]
+
+    evaluation_config: Optional[str]
+
+    evaluation_metric: Optional[str]
+
+    origin_model_evaluation_score: Optional[float]
+
+
+class Golden(TypedDict, total=False):
+    fields: Required[Dict[str, str]]
+
+    answer: Optional[str]
