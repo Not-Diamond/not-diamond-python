@@ -28,14 +28,19 @@ pip install git+ssh://git@github.com/Not-Diamond/not-diamond-python.git
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-import os
 from not_diamond import NotDiamond
 
-client = NotDiamond(
-    api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
-)
+client = NotDiamond()
 
-response = client.retrieve_root()
+response = client.model_router.select_model(
+    llm_providers=[
+        {
+            "model": "model",
+            "provider": "provider",
+        }
+    ],
+    messages=[{"foo": "string"}],
+)
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -48,17 +53,22 @@ so that your API Key is not stored in source control.
 Simply import `AsyncNotDiamond` instead of `NotDiamond` and use `await` with each API call:
 
 ```python
-import os
 import asyncio
 from not_diamond import AsyncNotDiamond
 
-client = AsyncNotDiamond(
-    api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
-)
+client = AsyncNotDiamond()
 
 
 async def main() -> None:
-    response = await client.retrieve_root()
+    response = await client.model_router.select_model(
+        llm_providers=[
+            {
+                "model": "model",
+                "provider": "provider",
+            }
+        ],
+        messages=[{"foo": "string"}],
+    )
 
 
 asyncio.run(main())
@@ -87,10 +97,17 @@ from not_diamond import AsyncNotDiamond
 
 async def main() -> None:
     async with AsyncNotDiamond(
-        api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
-        response = await client.retrieve_root()
+        response = await client.model_router.select_model(
+            llm_providers=[
+                {
+                    "model": "model",
+                    "provider": "provider",
+                }
+            ],
+            messages=[{"foo": "string"}],
+        )
 
 
 asyncio.run(main())
@@ -114,16 +131,23 @@ from not_diamond import NotDiamond
 
 client = NotDiamond()
 
-response = client.report.evaluate_hallucination(
-    context="context",
-    prompt="prompt",
-    provider={
+response = client.prompt.adapt(
+    fields=["string"],
+    goldens=[{"fields": {"foo": "string"}}],
+    origin_model={
         "model": "model",
         "provider": "provider",
     },
-    response="response",
+    system_prompt="system_prompt",
+    target_models=[
+        {
+            "model": "model",
+            "provider": "provider",
+        }
+    ],
+    template="template",
 )
-print(response.provider)
+print(response.origin_model)
 ```
 
 ## File uploads
@@ -165,7 +189,15 @@ from not_diamond import NotDiamond
 client = NotDiamond()
 
 try:
-    client.retrieve_root()
+    client.model_router.select_model(
+        llm_providers=[
+            {
+                "model": "model",
+                "provider": "provider",
+            }
+        ],
+        messages=[{"foo": "string"}],
+    )
 except not_diamond.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -208,7 +240,15 @@ client = NotDiamond(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).retrieve_root()
+client.with_options(max_retries=5).model_router.select_model(
+    llm_providers=[
+        {
+            "model": "model",
+            "provider": "provider",
+        }
+    ],
+    messages=[{"foo": "string"}],
+)
 ```
 
 ### Timeouts
@@ -231,7 +271,15 @@ client = NotDiamond(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).retrieve_root()
+client.with_options(timeout=5.0).model_router.select_model(
+    llm_providers=[
+        {
+            "model": "model",
+            "provider": "provider",
+        }
+    ],
+    messages=[{"foo": "string"}],
+)
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -272,11 +320,19 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from not_diamond import NotDiamond
 
 client = NotDiamond()
-response = client.with_raw_response.retrieve_root()
+response = client.model_router.with_raw_response.select_model(
+    llm_providers=[{
+        "model": "model",
+        "provider": "provider",
+    }],
+    messages=[{
+        "foo": "string"
+    }],
+)
 print(response.headers.get('X-My-Header'))
 
-client = response.parse()  # get the object that `retrieve_root()` would have returned
-print(client)
+model_router = response.parse()  # get the object that `model_router.select_model()` would have returned
+print(model_router)
 ```
 
 These methods return an [`APIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/not_diamond/_response.py) object.
@@ -290,7 +346,15 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.with_streaming_response.retrieve_root() as response:
+with client.model_router.with_streaming_response.select_model(
+    llm_providers=[
+        {
+            "model": "model",
+            "provider": "provider",
+        }
+    ],
+    messages=[{"foo": "string"}],
+) as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
