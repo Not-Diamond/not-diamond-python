@@ -7,13 +7,11 @@ from typing_extensions import Required, TypedDict
 
 from .._types import SequenceNotStr
 
-__all__ = ["PromptAdaptParams", "Golden", "OriginModel", "TargetModel"]
+__all__ = ["PromptAdaptParams", "OriginModel", "TargetModel", "Golden", "TestGolden", "TrainGolden"]
 
 
 class PromptAdaptParams(TypedDict, total=False):
     fields: Required[SequenceNotStr[str]]
-
-    goldens: Required[Iterable[Golden]]
 
     origin_model: Required[OriginModel]
 
@@ -27,13 +25,13 @@ class PromptAdaptParams(TypedDict, total=False):
 
     evaluation_metric: Optional[str]
 
+    goldens: Optional[Iterable[Golden]]
+
     origin_model_evaluation_score: Optional[float]
 
+    test_goldens: Optional[Iterable[TestGolden]]
 
-class Golden(TypedDict, total=False):
-    fields: Required[Dict[str, str]]
-
-    answer: Optional[str]
+    train_goldens: Optional[Iterable[TrainGolden]]
 
 
 class OriginModel(TypedDict, total=False):
@@ -66,3 +64,21 @@ class TargetModel(TypedDict, total=False):
     latency: Optional[float]
 
     output_price: Optional[float]
+
+
+class Golden(TypedDict, total=False):
+    fields: Required[Dict[str, str]]
+
+    answer: Optional[str]
+
+
+class TestGolden(TypedDict, total=False):
+    fields: Required[Dict[str, str]]
+
+    answer: Optional[str]
+
+
+class TrainGolden(TypedDict, total=False):
+    fields: Required[Dict[str, str]]
+
+    answer: Optional[str]

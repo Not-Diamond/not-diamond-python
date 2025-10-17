@@ -27,7 +27,6 @@ class TestPrompt:
     def test_method_adapt(self, client: NotDiamond) -> None:
         prompt = client.prompt.adapt(
             fields=["string"],
-            goldens=[{"fields": {"foo": "string"}}],
             origin_model={
                 "model": "model",
                 "provider": "provider",
@@ -48,12 +47,6 @@ class TestPrompt:
     def test_method_adapt_with_all_params(self, client: NotDiamond) -> None:
         prompt = client.prompt.adapt(
             fields=["string"],
-            goldens=[
-                {
-                    "fields": {"foo": "string"},
-                    "answer": "answer",
-                }
-            ],
             origin_model={
                 "model": "model",
                 "provider": "provider",
@@ -78,7 +71,25 @@ class TestPrompt:
             template="template",
             evaluation_config="evaluation_config",
             evaluation_metric="evaluation_metric",
+            goldens=[
+                {
+                    "fields": {"foo": "string"},
+                    "answer": "answer",
+                }
+            ],
             origin_model_evaluation_score=0,
+            test_goldens=[
+                {
+                    "fields": {"foo": "string"},
+                    "answer": "answer",
+                }
+            ],
+            train_goldens=[
+                {
+                    "fields": {"foo": "string"},
+                    "answer": "answer",
+                }
+            ],
         )
         assert_matches_type(PromptAdaptResponse, prompt, path=["response"])
 
@@ -87,7 +98,6 @@ class TestPrompt:
     def test_raw_response_adapt(self, client: NotDiamond) -> None:
         response = client.prompt.with_raw_response.adapt(
             fields=["string"],
-            goldens=[{"fields": {"foo": "string"}}],
             origin_model={
                 "model": "model",
                 "provider": "provider",
@@ -112,7 +122,6 @@ class TestPrompt:
     def test_streaming_response_adapt(self, client: NotDiamond) -> None:
         with client.prompt.with_streaming_response.adapt(
             fields=["string"],
-            goldens=[{"fields": {"foo": "string"}}],
             origin_model={
                 "model": "model",
                 "provider": "provider",
@@ -332,7 +341,6 @@ class TestAsyncPrompt:
     async def test_method_adapt(self, async_client: AsyncNotDiamond) -> None:
         prompt = await async_client.prompt.adapt(
             fields=["string"],
-            goldens=[{"fields": {"foo": "string"}}],
             origin_model={
                 "model": "model",
                 "provider": "provider",
@@ -353,12 +361,6 @@ class TestAsyncPrompt:
     async def test_method_adapt_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         prompt = await async_client.prompt.adapt(
             fields=["string"],
-            goldens=[
-                {
-                    "fields": {"foo": "string"},
-                    "answer": "answer",
-                }
-            ],
             origin_model={
                 "model": "model",
                 "provider": "provider",
@@ -383,7 +385,25 @@ class TestAsyncPrompt:
             template="template",
             evaluation_config="evaluation_config",
             evaluation_metric="evaluation_metric",
+            goldens=[
+                {
+                    "fields": {"foo": "string"},
+                    "answer": "answer",
+                }
+            ],
             origin_model_evaluation_score=0,
+            test_goldens=[
+                {
+                    "fields": {"foo": "string"},
+                    "answer": "answer",
+                }
+            ],
+            train_goldens=[
+                {
+                    "fields": {"foo": "string"},
+                    "answer": "answer",
+                }
+            ],
         )
         assert_matches_type(PromptAdaptResponse, prompt, path=["response"])
 
@@ -392,7 +412,6 @@ class TestAsyncPrompt:
     async def test_raw_response_adapt(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.prompt.with_raw_response.adapt(
             fields=["string"],
-            goldens=[{"fields": {"foo": "string"}}],
             origin_model={
                 "model": "model",
                 "provider": "provider",
@@ -417,7 +436,6 @@ class TestAsyncPrompt:
     async def test_streaming_response_adapt(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.prompt.with_streaming_response.adapt(
             fields=["string"],
-            goldens=[{"fields": {"foo": "string"}}],
             origin_model={
                 "model": "model",
                 "provider": "provider",
