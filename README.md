@@ -133,7 +133,6 @@ client = NotDiamond()
 
 response = client.prompt.adapt(
     fields=["string"],
-    goldens=[{"fields": {"foo": "string"}}],
     origin_model={
         "model": "model",
         "provider": "provider",
