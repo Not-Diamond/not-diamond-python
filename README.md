@@ -32,7 +32,7 @@ from not_diamond import NotDiamond
 
 client = NotDiamond()
 
-response = client.model_router.select_model(
+response = client.optimizer.select_model(
     llm_providers=[
         {
             "model": "model",
@@ -60,7 +60,7 @@ client = AsyncNotDiamond()
 
 
 async def main() -> None:
-    response = await client.model_router.select_model(
+    response = await client.optimizer.select_model(
         llm_providers=[
             {
                 "model": "model",
@@ -99,7 +99,7 @@ async def main() -> None:
     async with AsyncNotDiamond(
         http_client=DefaultAioHttpClient(),
     ) as client:
-        response = await client.model_router.select_model(
+        response = await client.optimizer.select_model(
             llm_providers=[
                 {
                     "model": "model",
@@ -188,7 +188,7 @@ from not_diamond import NotDiamond
 client = NotDiamond()
 
 try:
-    client.model_router.select_model(
+    client.optimizer.select_model(
         llm_providers=[
             {
                 "model": "model",
@@ -239,7 +239,7 @@ client = NotDiamond(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).model_router.select_model(
+client.with_options(max_retries=5).optimizer.select_model(
     llm_providers=[
         {
             "model": "model",
@@ -270,7 +270,7 @@ client = NotDiamond(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).model_router.select_model(
+client.with_options(timeout=5.0).optimizer.select_model(
     llm_providers=[
         {
             "model": "model",
@@ -319,7 +319,7 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from not_diamond import NotDiamond
 
 client = NotDiamond()
-response = client.model_router.with_raw_response.select_model(
+response = client.optimizer.with_raw_response.select_model(
     llm_providers=[{
         "model": "model",
         "provider": "provider",
@@ -330,8 +330,8 @@ response = client.model_router.with_raw_response.select_model(
 )
 print(response.headers.get('X-My-Header'))
 
-model_router = response.parse()  # get the object that `model_router.select_model()` would have returned
-print(model_router)
+optimizer = response.parse()  # get the object that `optimizer.select_model()` would have returned
+print(optimizer)
 ```
 
 These methods return an [`APIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/not_diamond/_response.py) object.
@@ -345,7 +345,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.model_router.with_streaming_response.select_model(
+with client.optimizer.with_streaming_response.select_model(
     llm_providers=[
         {
             "model": "model",
