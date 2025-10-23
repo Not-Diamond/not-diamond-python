@@ -731,10 +731,10 @@ class TestNotDiamond:
     @mock.patch("not_diamond._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: NotDiamond) -> None:
-        respx_mock.post("/v2/optimizer/modelSelect").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            client.optimizer.with_streaming_response.select_model(
+            client.router.with_streaming_response.select_model(
                 llm_providers=[
                     {
                         "model": "model",
@@ -749,10 +749,10 @@ class TestNotDiamond:
     @mock.patch("not_diamond._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: NotDiamond) -> None:
-        respx_mock.post("/v2/optimizer/modelSelect").mock(return_value=httpx.Response(500))
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            client.optimizer.with_streaming_response.select_model(
+            client.router.with_streaming_response.select_model(
                 llm_providers=[
                     {
                         "model": "model",
@@ -787,9 +787,9 @@ class TestNotDiamond:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v2/optimizer/modelSelect").mock(side_effect=retry_handler)
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = client.optimizer.with_raw_response.select_model(
+        response = client.router.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "model",
@@ -819,9 +819,9 @@ class TestNotDiamond:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v2/optimizer/modelSelect").mock(side_effect=retry_handler)
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = client.optimizer.with_raw_response.select_model(
+        response = client.router.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "model",
@@ -851,9 +851,9 @@ class TestNotDiamond:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v2/optimizer/modelSelect").mock(side_effect=retry_handler)
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = client.optimizer.with_raw_response.select_model(
+        response = client.router.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "model",
@@ -1599,10 +1599,10 @@ class TestAsyncNotDiamond:
     async def test_retrying_timeout_errors_doesnt_leak(
         self, respx_mock: MockRouter, async_client: AsyncNotDiamond
     ) -> None:
-        respx_mock.post("/v2/optimizer/modelSelect").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await async_client.optimizer.with_streaming_response.select_model(
+            await async_client.router.with_streaming_response.select_model(
                 llm_providers=[
                     {
                         "model": "model",
@@ -1619,10 +1619,10 @@ class TestAsyncNotDiamond:
     async def test_retrying_status_errors_doesnt_leak(
         self, respx_mock: MockRouter, async_client: AsyncNotDiamond
     ) -> None:
-        respx_mock.post("/v2/optimizer/modelSelect").mock(return_value=httpx.Response(500))
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await async_client.optimizer.with_streaming_response.select_model(
+            await async_client.router.with_streaming_response.select_model(
                 llm_providers=[
                     {
                         "model": "model",
@@ -1658,9 +1658,9 @@ class TestAsyncNotDiamond:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v2/optimizer/modelSelect").mock(side_effect=retry_handler)
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = await client.optimizer.with_raw_response.select_model(
+        response = await client.router.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "model",
@@ -1691,9 +1691,9 @@ class TestAsyncNotDiamond:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v2/optimizer/modelSelect").mock(side_effect=retry_handler)
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = await client.optimizer.with_raw_response.select_model(
+        response = await client.router.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "model",
@@ -1724,9 +1724,9 @@ class TestAsyncNotDiamond:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v2/optimizer/modelSelect").mock(side_effect=retry_handler)
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = await client.optimizer.with_raw_response.select_model(
+        response = await client.router.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "model",
