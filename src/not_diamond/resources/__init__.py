@@ -1,13 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .pzn import (
-    PznResource,
-    AsyncPznResource,
-    PznResourceWithRawResponse,
-    AsyncPznResourceWithRawResponse,
-    PznResourceWithStreamingResponse,
-    AsyncPznResourceWithStreamingResponse,
-)
 from .models import (
     ModelsResource,
     AsyncModelsResource,
@@ -68,12 +60,6 @@ __all__ = [
     "AsyncPromptAdaptationResourceWithRawResponse",
     "PromptAdaptationResourceWithStreamingResponse",
     "AsyncPromptAdaptationResourceWithStreamingResponse",
-    "PznResource",
-    "AsyncPznResource",
-    "PznResourceWithRawResponse",
-    "AsyncPznResourceWithRawResponse",
-    "PznResourceWithStreamingResponse",
-    "AsyncPznResourceWithStreamingResponse",
     "ReportResource",
     "AsyncReportResource",
     "ReportResourceWithRawResponse",

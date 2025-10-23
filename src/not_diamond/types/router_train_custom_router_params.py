@@ -7,10 +7,10 @@ from typing_extensions import Required, TypedDict
 
 from .._types import FileTypes
 
-__all__ = ["PznTrainCustomRouterParams"]
+__all__ = ["RouterTrainCustomRouterParams"]
 
 
-class PznTrainCustomRouterParams(TypedDict, total=False):
+class RouterTrainCustomRouterParams(TypedDict, total=False):
     dataset_file: Required[FileTypes]
 
     language: Required[str]
