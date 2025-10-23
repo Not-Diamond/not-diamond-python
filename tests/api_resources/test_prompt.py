@@ -14,6 +14,7 @@ from not_diamond.types import (
     AdaptationRunResults,
     PromptGetAdaptRunsResponse,
     PromptGetAdaptStatusResponse,
+    PromptEstimateAdaptLlmRequestsResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -140,6 +141,85 @@ class TestPrompt:
 
             prompt = response.parse()
             assert_matches_type(PromptAdaptResponse, prompt, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_estimate_adapt_llm_requests(self, client: NotDiamond) -> None:
+        prompt = client.prompt.estimate_adapt_llm_requests(
+            target_models=[
+                {
+                    "model": "model",
+                    "provider": "provider",
+                }
+            ],
+        )
+        assert_matches_type(PromptEstimateAdaptLlmRequestsResponse, prompt, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_estimate_adapt_llm_requests_with_all_params(self, client: NotDiamond) -> None:
+        prompt = client.prompt.estimate_adapt_llm_requests(
+            target_models=[
+                {
+                    "model": "model",
+                    "provider": "provider",
+                    "context_length": 0,
+                    "input_price": 0,
+                    "is_custom": True,
+                    "latency": 0,
+                    "output_price": 0,
+                }
+            ],
+            num_goldens=1,
+            num_test_goldens=1,
+            num_train_goldens=1,
+            origin_model={
+                "model": "model",
+                "provider": "provider",
+                "context_length": 0,
+                "input_price": 0,
+                "is_custom": True,
+                "latency": 0,
+                "output_price": 0,
+            },
+        )
+        assert_matches_type(PromptEstimateAdaptLlmRequestsResponse, prompt, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_estimate_adapt_llm_requests(self, client: NotDiamond) -> None:
+        response = client.prompt.with_raw_response.estimate_adapt_llm_requests(
+            target_models=[
+                {
+                    "model": "model",
+                    "provider": "provider",
+                }
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        prompt = response.parse()
+        assert_matches_type(PromptEstimateAdaptLlmRequestsResponse, prompt, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_estimate_adapt_llm_requests(self, client: NotDiamond) -> None:
+        with client.prompt.with_streaming_response.estimate_adapt_llm_requests(
+            target_models=[
+                {
+                    "model": "model",
+                    "provider": "provider",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            prompt = response.parse()
+            assert_matches_type(PromptEstimateAdaptLlmRequestsResponse, prompt, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -454,6 +534,85 @@ class TestAsyncPrompt:
 
             prompt = await response.parse()
             assert_matches_type(PromptAdaptResponse, prompt, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_estimate_adapt_llm_requests(self, async_client: AsyncNotDiamond) -> None:
+        prompt = await async_client.prompt.estimate_adapt_llm_requests(
+            target_models=[
+                {
+                    "model": "model",
+                    "provider": "provider",
+                }
+            ],
+        )
+        assert_matches_type(PromptEstimateAdaptLlmRequestsResponse, prompt, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_estimate_adapt_llm_requests_with_all_params(self, async_client: AsyncNotDiamond) -> None:
+        prompt = await async_client.prompt.estimate_adapt_llm_requests(
+            target_models=[
+                {
+                    "model": "model",
+                    "provider": "provider",
+                    "context_length": 0,
+                    "input_price": 0,
+                    "is_custom": True,
+                    "latency": 0,
+                    "output_price": 0,
+                }
+            ],
+            num_goldens=1,
+            num_test_goldens=1,
+            num_train_goldens=1,
+            origin_model={
+                "model": "model",
+                "provider": "provider",
+                "context_length": 0,
+                "input_price": 0,
+                "is_custom": True,
+                "latency": 0,
+                "output_price": 0,
+            },
+        )
+        assert_matches_type(PromptEstimateAdaptLlmRequestsResponse, prompt, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_estimate_adapt_llm_requests(self, async_client: AsyncNotDiamond) -> None:
+        response = await async_client.prompt.with_raw_response.estimate_adapt_llm_requests(
+            target_models=[
+                {
+                    "model": "model",
+                    "provider": "provider",
+                }
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        prompt = await response.parse()
+        assert_matches_type(PromptEstimateAdaptLlmRequestsResponse, prompt, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_estimate_adapt_llm_requests(self, async_client: AsyncNotDiamond) -> None:
+        async with async_client.prompt.with_streaming_response.estimate_adapt_llm_requests(
+            target_models=[
+                {
+                    "model": "model",
+                    "provider": "provider",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            prompt = await response.parse()
+            assert_matches_type(PromptEstimateAdaptLlmRequestsResponse, prompt, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

@@ -6,7 +6,7 @@ from typing import Iterable, Optional
 
 import httpx
 
-from ..types import prompt_adapt_params
+from ..types import prompt_adapt_params, prompt_estimate_adapt_llm_requests_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -22,6 +22,7 @@ from ..types.prompt_adapt_response import PromptAdaptResponse
 from ..types.adaptation_run_results import AdaptationRunResults
 from ..types.prompt_get_adapt_runs_response import PromptGetAdaptRunsResponse
 from ..types.prompt_get_adapt_status_response import PromptGetAdaptStatusResponse
+from ..types.prompt_estimate_adapt_llm_requests_response import PromptEstimateAdaptLlmRequestsResponse
 
 __all__ = ["PromptResource", "AsyncPromptResource"]
 
@@ -101,6 +102,52 @@ class PromptResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=PromptAdaptResponse,
+        )
+
+    def estimate_adapt_llm_requests(
+        self,
+        *,
+        target_models: Iterable[prompt_estimate_adapt_llm_requests_params.TargetModel],
+        num_goldens: Optional[int] | Omit = omit,
+        num_test_goldens: Optional[int] | Omit = omit,
+        num_train_goldens: Optional[int] | Omit = omit,
+        origin_model: Optional[prompt_estimate_adapt_llm_requests_params.OriginModel] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PromptEstimateAdaptLlmRequestsResponse:
+        """
+        Estimates the number of LLM requests that will be made for a given adaptation
+        run's inputs.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/v2/prompt/estimateAdaptLLMRequests",
+            body=maybe_transform(
+                {
+                    "target_models": target_models,
+                    "num_goldens": num_goldens,
+                    "num_test_goldens": num_test_goldens,
+                    "num_train_goldens": num_train_goldens,
+                    "origin_model": origin_model,
+                },
+                prompt_estimate_adapt_llm_requests_params.PromptEstimateAdaptLlmRequestsParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=PromptEstimateAdaptLlmRequestsResponse,
         )
 
     def get_adapt_results(
@@ -320,6 +367,52 @@ class AsyncPromptResource(AsyncAPIResource):
             cast_to=PromptAdaptResponse,
         )
 
+    async def estimate_adapt_llm_requests(
+        self,
+        *,
+        target_models: Iterable[prompt_estimate_adapt_llm_requests_params.TargetModel],
+        num_goldens: Optional[int] | Omit = omit,
+        num_test_goldens: Optional[int] | Omit = omit,
+        num_train_goldens: Optional[int] | Omit = omit,
+        origin_model: Optional[prompt_estimate_adapt_llm_requests_params.OriginModel] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PromptEstimateAdaptLlmRequestsResponse:
+        """
+        Estimates the number of LLM requests that will be made for a given adaptation
+        run's inputs.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/v2/prompt/estimateAdaptLLMRequests",
+            body=await async_maybe_transform(
+                {
+                    "target_models": target_models,
+                    "num_goldens": num_goldens,
+                    "num_test_goldens": num_test_goldens,
+                    "num_train_goldens": num_train_goldens,
+                    "origin_model": origin_model,
+                },
+                prompt_estimate_adapt_llm_requests_params.PromptEstimateAdaptLlmRequestsParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=PromptEstimateAdaptLlmRequestsResponse,
+        )
+
     async def get_adapt_results(
         self,
         adaptation_run_id: str,
@@ -467,6 +560,9 @@ class PromptResourceWithRawResponse:
         self.adapt = to_raw_response_wrapper(
             prompt.adapt,
         )
+        self.estimate_adapt_llm_requests = to_raw_response_wrapper(
+            prompt.estimate_adapt_llm_requests,
+        )
         self.get_adapt_results = to_raw_response_wrapper(
             prompt.get_adapt_results,
         )
@@ -487,6 +583,9 @@ class AsyncPromptResourceWithRawResponse:
 
         self.adapt = async_to_raw_response_wrapper(
             prompt.adapt,
+        )
+        self.estimate_adapt_llm_requests = async_to_raw_response_wrapper(
+            prompt.estimate_adapt_llm_requests,
         )
         self.get_adapt_results = async_to_raw_response_wrapper(
             prompt.get_adapt_results,
@@ -509,6 +608,9 @@ class PromptResourceWithStreamingResponse:
         self.adapt = to_streamed_response_wrapper(
             prompt.adapt,
         )
+        self.estimate_adapt_llm_requests = to_streamed_response_wrapper(
+            prompt.estimate_adapt_llm_requests,
+        )
         self.get_adapt_results = to_streamed_response_wrapper(
             prompt.get_adapt_results,
         )
@@ -529,6 +631,9 @@ class AsyncPromptResourceWithStreamingResponse:
 
         self.adapt = async_to_streamed_response_wrapper(
             prompt.adapt,
+        )
+        self.estimate_adapt_llm_requests = async_to_streamed_response_wrapper(
+            prompt.estimate_adapt_llm_requests,
         )
         self.get_adapt_results = async_to_streamed_response_wrapper(
             prompt.get_adapt_results,
