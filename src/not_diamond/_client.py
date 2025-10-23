@@ -11,9 +11,7 @@ import httpx
 from . import _exceptions
 from ._qs import Querystring
 from ._types import (
-    Body,
     Omit,
-    Query,
     Headers,
     Timeout,
     NotGiven,
@@ -24,40 +22,14 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from ._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from .resources import (
-    pzn,
-    health,
-    models,
-    prompt,
-    api_keys,
-    llm_usage,
-    optimizer,
-    error_debug,
-    evaluations,
-    preferences,
-    model_router,
-    posthog_debug,
-    adaptation_runs,
-)
+from .resources import pzn, models, report, router, preferences, prompt_adaptation
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
     AsyncAPIClient,
-    make_request_options,
 )
-from .resources.chat import chat
-from .resources.admin import admin
-from .resources.proxy import proxy
-from .resources.report import report
-from .types.retrieve_root_response import RetrieveRootResponse
 
 __all__ = [
     "Timeout",
@@ -72,23 +44,12 @@ __all__ = [
 
 
 class NotDiamond(SyncAPIClient):
-    model_router: model_router.ModelRouterResource
+    router: router.RouterResource
     preferences: preferences.PreferencesResource
-    proxy: proxy.ProxyResource
-    prompt: prompt.PromptResource
+    prompt_adaptation: prompt_adaptation.PromptAdaptationResource
     pzn: pzn.PznResource
-    optimizer: optimizer.OptimizerResource
-    evaluations: evaluations.EvaluationsResource
     report: report.ReportResource
-    chat: chat.ChatResource
-    api_keys: api_keys.APIKeysResource
     models: models.ModelsResource
-    llm_usage: llm_usage.LlmUsageResource
-    adaptation_runs: adaptation_runs.AdaptationRunsResource
-    admin: admin.AdminResource
-    health: health.HealthResource
-    error_debug: error_debug.ErrorDebugResource
-    posthog_debug: posthog_debug.PosthogDebugResource
     with_raw_response: NotDiamondWithRawResponse
     with_streaming_response: NotDiamondWithStreamedResponse
 
@@ -142,23 +103,12 @@ class NotDiamond(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.model_router = model_router.ModelRouterResource(self)
+        self.router = router.RouterResource(self)
         self.preferences = preferences.PreferencesResource(self)
-        self.proxy = proxy.ProxyResource(self)
-        self.prompt = prompt.PromptResource(self)
+        self.prompt_adaptation = prompt_adaptation.PromptAdaptationResource(self)
         self.pzn = pzn.PznResource(self)
-        self.optimizer = optimizer.OptimizerResource(self)
-        self.evaluations = evaluations.EvaluationsResource(self)
         self.report = report.ReportResource(self)
-        self.chat = chat.ChatResource(self)
-        self.api_keys = api_keys.APIKeysResource(self)
         self.models = models.ModelsResource(self)
-        self.llm_usage = llm_usage.LlmUsageResource(self)
-        self.adaptation_runs = adaptation_runs.AdaptationRunsResource(self)
-        self.admin = admin.AdminResource(self)
-        self.health = health.HealthResource(self)
-        self.error_debug = error_debug.ErrorDebugResource(self)
-        self.posthog_debug = posthog_debug.PosthogDebugResource(self)
         self.with_raw_response = NotDiamondWithRawResponse(self)
         self.with_streaming_response = NotDiamondWithStreamedResponse(self)
 
@@ -246,25 +196,6 @@ class NotDiamond(SyncAPIClient):
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
 
-    def retrieve_root(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> RetrieveRootResponse:
-        """Returns welcome message."""
-        return self.get(
-            "/",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=RetrieveRootResponse,
-        )
-
     @override
     def _make_status_error(
         self,
@@ -300,23 +231,12 @@ class NotDiamond(SyncAPIClient):
 
 
 class AsyncNotDiamond(AsyncAPIClient):
-    model_router: model_router.AsyncModelRouterResource
+    router: router.AsyncRouterResource
     preferences: preferences.AsyncPreferencesResource
-    proxy: proxy.AsyncProxyResource
-    prompt: prompt.AsyncPromptResource
+    prompt_adaptation: prompt_adaptation.AsyncPromptAdaptationResource
     pzn: pzn.AsyncPznResource
-    optimizer: optimizer.AsyncOptimizerResource
-    evaluations: evaluations.AsyncEvaluationsResource
     report: report.AsyncReportResource
-    chat: chat.AsyncChatResource
-    api_keys: api_keys.AsyncAPIKeysResource
     models: models.AsyncModelsResource
-    llm_usage: llm_usage.AsyncLlmUsageResource
-    adaptation_runs: adaptation_runs.AsyncAdaptationRunsResource
-    admin: admin.AsyncAdminResource
-    health: health.AsyncHealthResource
-    error_debug: error_debug.AsyncErrorDebugResource
-    posthog_debug: posthog_debug.AsyncPosthogDebugResource
     with_raw_response: AsyncNotDiamondWithRawResponse
     with_streaming_response: AsyncNotDiamondWithStreamedResponse
 
@@ -370,23 +290,12 @@ class AsyncNotDiamond(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.model_router = model_router.AsyncModelRouterResource(self)
+        self.router = router.AsyncRouterResource(self)
         self.preferences = preferences.AsyncPreferencesResource(self)
-        self.proxy = proxy.AsyncProxyResource(self)
-        self.prompt = prompt.AsyncPromptResource(self)
+        self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResource(self)
         self.pzn = pzn.AsyncPznResource(self)
-        self.optimizer = optimizer.AsyncOptimizerResource(self)
-        self.evaluations = evaluations.AsyncEvaluationsResource(self)
         self.report = report.AsyncReportResource(self)
-        self.chat = chat.AsyncChatResource(self)
-        self.api_keys = api_keys.AsyncAPIKeysResource(self)
         self.models = models.AsyncModelsResource(self)
-        self.llm_usage = llm_usage.AsyncLlmUsageResource(self)
-        self.adaptation_runs = adaptation_runs.AsyncAdaptationRunsResource(self)
-        self.admin = admin.AsyncAdminResource(self)
-        self.health = health.AsyncHealthResource(self)
-        self.error_debug = error_debug.AsyncErrorDebugResource(self)
-        self.posthog_debug = posthog_debug.AsyncPosthogDebugResource(self)
         self.with_raw_response = AsyncNotDiamondWithRawResponse(self)
         self.with_streaming_response = AsyncNotDiamondWithStreamedResponse(self)
 
@@ -474,25 +383,6 @@ class AsyncNotDiamond(AsyncAPIClient):
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
 
-    async def retrieve_root(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> RetrieveRootResponse:
-        """Returns welcome message."""
-        return await self.get(
-            "/",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=RetrieveRootResponse,
-        )
-
     @override
     def _make_status_error(
         self,
@@ -529,102 +419,48 @@ class AsyncNotDiamond(AsyncAPIClient):
 
 class NotDiamondWithRawResponse:
     def __init__(self, client: NotDiamond) -> None:
-        self.model_router = model_router.ModelRouterResourceWithRawResponse(client.model_router)
+        self.router = router.RouterResourceWithRawResponse(client.router)
         self.preferences = preferences.PreferencesResourceWithRawResponse(client.preferences)
-        self.proxy = proxy.ProxyResourceWithRawResponse(client.proxy)
-        self.prompt = prompt.PromptResourceWithRawResponse(client.prompt)
+        self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithRawResponse(client.prompt_adaptation)
         self.pzn = pzn.PznResourceWithRawResponse(client.pzn)
-        self.optimizer = optimizer.OptimizerResourceWithRawResponse(client.optimizer)
-        self.evaluations = evaluations.EvaluationsResourceWithRawResponse(client.evaluations)
         self.report = report.ReportResourceWithRawResponse(client.report)
-        self.chat = chat.ChatResourceWithRawResponse(client.chat)
-        self.api_keys = api_keys.APIKeysResourceWithRawResponse(client.api_keys)
         self.models = models.ModelsResourceWithRawResponse(client.models)
-        self.llm_usage = llm_usage.LlmUsageResourceWithRawResponse(client.llm_usage)
-        self.adaptation_runs = adaptation_runs.AdaptationRunsResourceWithRawResponse(client.adaptation_runs)
-        self.admin = admin.AdminResourceWithRawResponse(client.admin)
-        self.health = health.HealthResourceWithRawResponse(client.health)
-        self.error_debug = error_debug.ErrorDebugResourceWithRawResponse(client.error_debug)
-        self.posthog_debug = posthog_debug.PosthogDebugResourceWithRawResponse(client.posthog_debug)
-
-        self.retrieve_root = to_raw_response_wrapper(
-            client.retrieve_root,
-        )
 
 
 class AsyncNotDiamondWithRawResponse:
     def __init__(self, client: AsyncNotDiamond) -> None:
-        self.model_router = model_router.AsyncModelRouterResourceWithRawResponse(client.model_router)
+        self.router = router.AsyncRouterResourceWithRawResponse(client.router)
         self.preferences = preferences.AsyncPreferencesResourceWithRawResponse(client.preferences)
-        self.proxy = proxy.AsyncProxyResourceWithRawResponse(client.proxy)
-        self.prompt = prompt.AsyncPromptResourceWithRawResponse(client.prompt)
-        self.pzn = pzn.AsyncPznResourceWithRawResponse(client.pzn)
-        self.optimizer = optimizer.AsyncOptimizerResourceWithRawResponse(client.optimizer)
-        self.evaluations = evaluations.AsyncEvaluationsResourceWithRawResponse(client.evaluations)
-        self.report = report.AsyncReportResourceWithRawResponse(client.report)
-        self.chat = chat.AsyncChatResourceWithRawResponse(client.chat)
-        self.api_keys = api_keys.AsyncAPIKeysResourceWithRawResponse(client.api_keys)
-        self.models = models.AsyncModelsResourceWithRawResponse(client.models)
-        self.llm_usage = llm_usage.AsyncLlmUsageResourceWithRawResponse(client.llm_usage)
-        self.adaptation_runs = adaptation_runs.AsyncAdaptationRunsResourceWithRawResponse(client.adaptation_runs)
-        self.admin = admin.AsyncAdminResourceWithRawResponse(client.admin)
-        self.health = health.AsyncHealthResourceWithRawResponse(client.health)
-        self.error_debug = error_debug.AsyncErrorDebugResourceWithRawResponse(client.error_debug)
-        self.posthog_debug = posthog_debug.AsyncPosthogDebugResourceWithRawResponse(client.posthog_debug)
-
-        self.retrieve_root = async_to_raw_response_wrapper(
-            client.retrieve_root,
+        self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithRawResponse(
+            client.prompt_adaptation
         )
+        self.pzn = pzn.AsyncPznResourceWithRawResponse(client.pzn)
+        self.report = report.AsyncReportResourceWithRawResponse(client.report)
+        self.models = models.AsyncModelsResourceWithRawResponse(client.models)
 
 
 class NotDiamondWithStreamedResponse:
     def __init__(self, client: NotDiamond) -> None:
-        self.model_router = model_router.ModelRouterResourceWithStreamingResponse(client.model_router)
+        self.router = router.RouterResourceWithStreamingResponse(client.router)
         self.preferences = preferences.PreferencesResourceWithStreamingResponse(client.preferences)
-        self.proxy = proxy.ProxyResourceWithStreamingResponse(client.proxy)
-        self.prompt = prompt.PromptResourceWithStreamingResponse(client.prompt)
-        self.pzn = pzn.PznResourceWithStreamingResponse(client.pzn)
-        self.optimizer = optimizer.OptimizerResourceWithStreamingResponse(client.optimizer)
-        self.evaluations = evaluations.EvaluationsResourceWithStreamingResponse(client.evaluations)
-        self.report = report.ReportResourceWithStreamingResponse(client.report)
-        self.chat = chat.ChatResourceWithStreamingResponse(client.chat)
-        self.api_keys = api_keys.APIKeysResourceWithStreamingResponse(client.api_keys)
-        self.models = models.ModelsResourceWithStreamingResponse(client.models)
-        self.llm_usage = llm_usage.LlmUsageResourceWithStreamingResponse(client.llm_usage)
-        self.adaptation_runs = adaptation_runs.AdaptationRunsResourceWithStreamingResponse(client.adaptation_runs)
-        self.admin = admin.AdminResourceWithStreamingResponse(client.admin)
-        self.health = health.HealthResourceWithStreamingResponse(client.health)
-        self.error_debug = error_debug.ErrorDebugResourceWithStreamingResponse(client.error_debug)
-        self.posthog_debug = posthog_debug.PosthogDebugResourceWithStreamingResponse(client.posthog_debug)
-
-        self.retrieve_root = to_streamed_response_wrapper(
-            client.retrieve_root,
+        self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithStreamingResponse(
+            client.prompt_adaptation
         )
+        self.pzn = pzn.PznResourceWithStreamingResponse(client.pzn)
+        self.report = report.ReportResourceWithStreamingResponse(client.report)
+        self.models = models.ModelsResourceWithStreamingResponse(client.models)
 
 
 class AsyncNotDiamondWithStreamedResponse:
     def __init__(self, client: AsyncNotDiamond) -> None:
-        self.model_router = model_router.AsyncModelRouterResourceWithStreamingResponse(client.model_router)
+        self.router = router.AsyncRouterResourceWithStreamingResponse(client.router)
         self.preferences = preferences.AsyncPreferencesResourceWithStreamingResponse(client.preferences)
-        self.proxy = proxy.AsyncProxyResourceWithStreamingResponse(client.proxy)
-        self.prompt = prompt.AsyncPromptResourceWithStreamingResponse(client.prompt)
-        self.pzn = pzn.AsyncPznResourceWithStreamingResponse(client.pzn)
-        self.optimizer = optimizer.AsyncOptimizerResourceWithStreamingResponse(client.optimizer)
-        self.evaluations = evaluations.AsyncEvaluationsResourceWithStreamingResponse(client.evaluations)
-        self.report = report.AsyncReportResourceWithStreamingResponse(client.report)
-        self.chat = chat.AsyncChatResourceWithStreamingResponse(client.chat)
-        self.api_keys = api_keys.AsyncAPIKeysResourceWithStreamingResponse(client.api_keys)
-        self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
-        self.llm_usage = llm_usage.AsyncLlmUsageResourceWithStreamingResponse(client.llm_usage)
-        self.adaptation_runs = adaptation_runs.AsyncAdaptationRunsResourceWithStreamingResponse(client.adaptation_runs)
-        self.admin = admin.AsyncAdminResourceWithStreamingResponse(client.admin)
-        self.health = health.AsyncHealthResourceWithStreamingResponse(client.health)
-        self.error_debug = error_debug.AsyncErrorDebugResourceWithStreamingResponse(client.error_debug)
-        self.posthog_debug = posthog_debug.AsyncPosthogDebugResourceWithStreamingResponse(client.posthog_debug)
-
-        self.retrieve_root = async_to_streamed_response_wrapper(
-            client.retrieve_root,
+        self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithStreamingResponse(
+            client.prompt_adaptation
         )
+        self.pzn = pzn.AsyncPznResourceWithStreamingResponse(client.pzn)
+        self.report = report.AsyncReportResourceWithStreamingResponse(client.report)
+        self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
 
 
 Client = NotDiamond

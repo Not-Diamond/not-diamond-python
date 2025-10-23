@@ -18,24 +18,22 @@ class TestReport:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_evaluate_hallucination(self, client: NotDiamond) -> None:
-        report = client.report.evaluate_hallucination(
-            context="context",
-            prompt="prompt",
+    def test_method_feedback(self, client: NotDiamond) -> None:
+        report = client.report.feedback(
+            feedback={"foo": "bar"},
             provider={
                 "model": "model",
                 "provider": "provider",
             },
-            response="response",
+            session_id="session_id",
         )
         assert_matches_type(object, report, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_evaluate_hallucination_with_all_params(self, client: NotDiamond) -> None:
-        report = client.report.evaluate_hallucination(
-            context="context",
-            prompt="prompt",
+    def test_method_feedback_with_all_params(self, client: NotDiamond) -> None:
+        report = client.report.feedback(
+            feedback={"foo": "bar"},
             provider={
                 "model": "model",
                 "provider": "provider",
@@ -45,23 +43,20 @@ class TestReport:
                 "latency": 0,
                 "output_price": 0,
             },
-            response="response",
-            cost=0,
-            latency=0,
+            session_id="session_id",
         )
         assert_matches_type(object, report, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_evaluate_hallucination(self, client: NotDiamond) -> None:
-        response = client.report.with_raw_response.evaluate_hallucination(
-            context="context",
-            prompt="prompt",
+    def test_raw_response_feedback(self, client: NotDiamond) -> None:
+        response = client.report.with_raw_response.feedback(
+            feedback={"foo": "bar"},
             provider={
                 "model": "model",
                 "provider": "provider",
             },
-            response="response",
+            session_id="session_id",
         )
 
         assert response.is_closed is True
@@ -71,15 +66,81 @@ class TestReport:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_evaluate_hallucination(self, client: NotDiamond) -> None:
-        with client.report.with_streaming_response.evaluate_hallucination(
-            context="context",
-            prompt="prompt",
+    def test_streaming_response_feedback(self, client: NotDiamond) -> None:
+        with client.report.with_streaming_response.feedback(
+            feedback={"foo": "bar"},
             provider={
                 "model": "model",
                 "provider": "provider",
             },
-            response="response",
+            session_id="session_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            report = response.parse()
+            assert_matches_type(object, report, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_latency(self, client: NotDiamond) -> None:
+        report = client.report.latency(
+            feedback={"foo": "bar"},
+            provider={
+                "model": "model",
+                "provider": "provider",
+            },
+            session_id="session_id",
+        )
+        assert_matches_type(object, report, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_latency_with_all_params(self, client: NotDiamond) -> None:
+        report = client.report.latency(
+            feedback={"foo": "bar"},
+            provider={
+                "model": "model",
+                "provider": "provider",
+                "context_length": 0,
+                "input_price": 0,
+                "is_custom": True,
+                "latency": 0,
+                "output_price": 0,
+            },
+            session_id="session_id",
+        )
+        assert_matches_type(object, report, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_latency(self, client: NotDiamond) -> None:
+        response = client.report.with_raw_response.latency(
+            feedback={"foo": "bar"},
+            provider={
+                "model": "model",
+                "provider": "provider",
+            },
+            session_id="session_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        report = response.parse()
+        assert_matches_type(object, report, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_latency(self, client: NotDiamond) -> None:
+        with client.report.with_streaming_response.latency(
+            feedback={"foo": "bar"},
+            provider={
+                "model": "model",
+                "provider": "provider",
+            },
+            session_id="session_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -97,24 +158,22 @@ class TestAsyncReport:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_evaluate_hallucination(self, async_client: AsyncNotDiamond) -> None:
-        report = await async_client.report.evaluate_hallucination(
-            context="context",
-            prompt="prompt",
+    async def test_method_feedback(self, async_client: AsyncNotDiamond) -> None:
+        report = await async_client.report.feedback(
+            feedback={"foo": "bar"},
             provider={
                 "model": "model",
                 "provider": "provider",
             },
-            response="response",
+            session_id="session_id",
         )
         assert_matches_type(object, report, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_evaluate_hallucination_with_all_params(self, async_client: AsyncNotDiamond) -> None:
-        report = await async_client.report.evaluate_hallucination(
-            context="context",
-            prompt="prompt",
+    async def test_method_feedback_with_all_params(self, async_client: AsyncNotDiamond) -> None:
+        report = await async_client.report.feedback(
+            feedback={"foo": "bar"},
             provider={
                 "model": "model",
                 "provider": "provider",
@@ -124,23 +183,20 @@ class TestAsyncReport:
                 "latency": 0,
                 "output_price": 0,
             },
-            response="response",
-            cost=0,
-            latency=0,
+            session_id="session_id",
         )
         assert_matches_type(object, report, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_evaluate_hallucination(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.report.with_raw_response.evaluate_hallucination(
-            context="context",
-            prompt="prompt",
+    async def test_raw_response_feedback(self, async_client: AsyncNotDiamond) -> None:
+        response = await async_client.report.with_raw_response.feedback(
+            feedback={"foo": "bar"},
             provider={
                 "model": "model",
                 "provider": "provider",
             },
-            response="response",
+            session_id="session_id",
         )
 
         assert response.is_closed is True
@@ -150,15 +206,81 @@ class TestAsyncReport:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_evaluate_hallucination(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.report.with_streaming_response.evaluate_hallucination(
-            context="context",
-            prompt="prompt",
+    async def test_streaming_response_feedback(self, async_client: AsyncNotDiamond) -> None:
+        async with async_client.report.with_streaming_response.feedback(
+            feedback={"foo": "bar"},
             provider={
                 "model": "model",
                 "provider": "provider",
             },
-            response="response",
+            session_id="session_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            report = await response.parse()
+            assert_matches_type(object, report, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_latency(self, async_client: AsyncNotDiamond) -> None:
+        report = await async_client.report.latency(
+            feedback={"foo": "bar"},
+            provider={
+                "model": "model",
+                "provider": "provider",
+            },
+            session_id="session_id",
+        )
+        assert_matches_type(object, report, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_latency_with_all_params(self, async_client: AsyncNotDiamond) -> None:
+        report = await async_client.report.latency(
+            feedback={"foo": "bar"},
+            provider={
+                "model": "model",
+                "provider": "provider",
+                "context_length": 0,
+                "input_price": 0,
+                "is_custom": True,
+                "latency": 0,
+                "output_price": 0,
+            },
+            session_id="session_id",
+        )
+        assert_matches_type(object, report, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_latency(self, async_client: AsyncNotDiamond) -> None:
+        response = await async_client.report.with_raw_response.latency(
+            feedback={"foo": "bar"},
+            provider={
+                "model": "model",
+                "provider": "provider",
+            },
+            session_id="session_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        report = await response.parse()
+        assert_matches_type(object, report, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_latency(self, async_client: AsyncNotDiamond) -> None:
+        async with async_client.report.with_streaming_response.latency(
+            feedback={"foo": "bar"},
+            provider={
+                "model": "model",
+                "provider": "provider",
+            },
+            session_id="session_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
