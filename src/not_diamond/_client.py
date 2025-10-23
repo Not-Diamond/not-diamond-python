@@ -22,7 +22,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import pzn, models, report, router, preferences, prompt_adaptation
+from .resources import models, report, router, preferences, prompt_adaptation
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
@@ -47,7 +47,6 @@ class NotDiamond(SyncAPIClient):
     router: router.RouterResource
     preferences: preferences.PreferencesResource
     prompt_adaptation: prompt_adaptation.PromptAdaptationResource
-    pzn: pzn.PznResource
     report: report.ReportResource
     models: models.ModelsResource
     with_raw_response: NotDiamondWithRawResponse
@@ -106,7 +105,6 @@ class NotDiamond(SyncAPIClient):
         self.router = router.RouterResource(self)
         self.preferences = preferences.PreferencesResource(self)
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResource(self)
-        self.pzn = pzn.PznResource(self)
         self.report = report.ReportResource(self)
         self.models = models.ModelsResource(self)
         self.with_raw_response = NotDiamondWithRawResponse(self)
@@ -234,7 +232,6 @@ class AsyncNotDiamond(AsyncAPIClient):
     router: router.AsyncRouterResource
     preferences: preferences.AsyncPreferencesResource
     prompt_adaptation: prompt_adaptation.AsyncPromptAdaptationResource
-    pzn: pzn.AsyncPznResource
     report: report.AsyncReportResource
     models: models.AsyncModelsResource
     with_raw_response: AsyncNotDiamondWithRawResponse
@@ -293,7 +290,6 @@ class AsyncNotDiamond(AsyncAPIClient):
         self.router = router.AsyncRouterResource(self)
         self.preferences = preferences.AsyncPreferencesResource(self)
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResource(self)
-        self.pzn = pzn.AsyncPznResource(self)
         self.report = report.AsyncReportResource(self)
         self.models = models.AsyncModelsResource(self)
         self.with_raw_response = AsyncNotDiamondWithRawResponse(self)
@@ -422,7 +418,6 @@ class NotDiamondWithRawResponse:
         self.router = router.RouterResourceWithRawResponse(client.router)
         self.preferences = preferences.PreferencesResourceWithRawResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithRawResponse(client.prompt_adaptation)
-        self.pzn = pzn.PznResourceWithRawResponse(client.pzn)
         self.report = report.ReportResourceWithRawResponse(client.report)
         self.models = models.ModelsResourceWithRawResponse(client.models)
 
@@ -434,7 +429,6 @@ class AsyncNotDiamondWithRawResponse:
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithRawResponse(
             client.prompt_adaptation
         )
-        self.pzn = pzn.AsyncPznResourceWithRawResponse(client.pzn)
         self.report = report.AsyncReportResourceWithRawResponse(client.report)
         self.models = models.AsyncModelsResourceWithRawResponse(client.models)
 
@@ -446,7 +440,6 @@ class NotDiamondWithStreamedResponse:
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithStreamingResponse(
             client.prompt_adaptation
         )
-        self.pzn = pzn.PznResourceWithStreamingResponse(client.pzn)
         self.report = report.ReportResourceWithStreamingResponse(client.report)
         self.models = models.ModelsResourceWithStreamingResponse(client.models)
 
@@ -458,7 +451,6 @@ class AsyncNotDiamondWithStreamedResponse:
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithStreamingResponse(
             client.prompt_adaptation
         )
-        self.pzn = pzn.AsyncPznResourceWithStreamingResponse(client.pzn)
         self.report = report.AsyncReportResourceWithStreamingResponse(client.report)
         self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
 

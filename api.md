@@ -2,7 +2,9 @@
 
 Methods:
 
+- <code title="post /v2/pzn/surveyResponse">client.router.<a href="./src/not_diamond/resources/router.py">create_survey_response</a>(\*\*<a href="src/not_diamond/types/router_create_survey_response_params.py">params</a>) -> object</code>
 - <code title="post /v2/modelRouter/modelSelect">client.router.<a href="./src/not_diamond/resources/router.py">select_model</a>(\*\*<a href="src/not_diamond/types/router_select_model_params.py">params</a>) -> object</code>
+- <code title="post /v2/pzn/trainCustomRouter">client.router.<a href="./src/not_diamond/resources/router.py">train_custom_router</a>(\*\*<a href="src/not_diamond/types/router_train_custom_router_params.py">params</a>) -> object</code>
 
 # Preferences
 
@@ -36,13 +38,6 @@ Methods:
 - <code title="get /v2/prompt/frontendAdaptRuns/{user_id}">client.prompt_adaptation.<a href="./src/not_diamond/resources/prompt_adaptation.py">get_adapt_runs</a>(user_id) -> <a href="./src/not_diamond/types/prompt_adaptation_get_adapt_runs_response.py">PromptAdaptationGetAdaptRunsResponse</a></code>
 - <code title="get /v2/prompt/adaptStatus/{adaptation_run_id}">client.prompt_adaptation.<a href="./src/not_diamond/resources/prompt_adaptation.py">get_adapt_status</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_adaptation_get_adapt_status_response.py">PromptAdaptationGetAdaptStatusResponse</a></code>
 - <code title="get /v1/adaptation-runs/{adaptation_run_id}/costs">client.prompt_adaptation.<a href="./src/not_diamond/resources/prompt_adaptation.py">retrieve_costs</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_adaptation_retrieve_costs_response.py">PromptAdaptationRetrieveCostsResponse</a></code>
-
-# Pzn
-
-Methods:
-
-- <code title="post /v2/pzn/surveyResponse">client.pzn.<a href="./src/not_diamond/resources/pzn.py">create_survey_response</a>(\*\*<a href="src/not_diamond/types/pzn_create_survey_response_params.py">params</a>) -> object</code>
-- <code title="post /v2/pzn/trainCustomRouter">client.pzn.<a href="./src/not_diamond/resources/pzn.py">train_custom_router</a>(\*\*<a href="src/not_diamond/types/pzn_train_custom_router_params.py">params</a>) -> object</code>
 
 # Report
 
