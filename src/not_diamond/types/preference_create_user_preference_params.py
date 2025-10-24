@@ -10,3 +10,4 @@ __all__ = ["PreferenceCreateUserPreferenceParams"]
 
 class PreferenceCreateUserPreferenceParams(TypedDict, total=False):
     name: Optional[str]
+    """Optional name for the preference"""

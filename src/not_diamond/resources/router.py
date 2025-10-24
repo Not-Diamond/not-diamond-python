@@ -18,6 +18,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.router_select_model_response import RouterSelectModelResponse
+from ..types.router_train_custom_router_response import RouterTrainCustomRouterResponse
 
 __all__ = ["RouterResource", "AsyncRouterResource"]
 
@@ -124,11 +126,66 @@ class RouterResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> RouterSelectModelResponse:
         """
-        Token Model Select
+        Select the optimal LLM to handle your query based on Not Diamond's routing
+        algorithm.
+
+        This endpoint analyzes your messages and returns the best-suited model from your
+        specified providers. The router considers factors like query complexity, model
+        capabilities, cost, and latency based on your preferences.
+
+        **Key Features:**
+
+        - Intelligent routing across multiple LLM providers
+        - Support for custom routers trained on your evaluation data
+        - Optional cost/latency optimization
+        - Function calling support for compatible models
+        - Privacy-preserving content hashing
+
+        **Usage:**
+
+        1. Pass your messages in OpenAI format (array of objects with 'role' and
+           'content')
+        2. Specify which LLM providers you want to route between
+        3. Optionally provide a preference_id for personalized routing
+        4. Receive a recommended model and session_id
+        5. Use the session_id to submit feedback and improve routing
+
+        **Related Endpoints:**
+
+        - `POST /v2/preferences/userPreferenceCreate` - Create a preference ID for
+          personalized routing
+        - `POST /v2/report/metrics/feedback` - Submit feedback on routing decisions
+        - `POST /v2/pzn/trainCustomRouter` - Train a custom router on your evaluation
+          data
 
         Args:
+          llm_providers: List of LLM providers to route between. Specify at least one provider in format
+              {provider, model}
+
+          messages: Array of message objects in OpenAI format (with 'role' and 'content' keys)
+
+          type: Optional format type. Use 'openrouter' to accept and return OpenRouter-format
+              model identifiers
+
+          hash_content: Whether to hash message content for privacy
+
+          max_model_depth: Maximum number of models to consider for routing. If not specified, considers
+              all provided models
+
+          metric: Optimization metric for model selection
+
+          preference_id: Preference ID for personalized routing. Create one via POST
+              /v2/preferences/userPreferenceCreate
+
+          previous_session: Previous session ID to link related requests
+
+          tools: OpenAI-format function calling tools
+
+          tradeoff: Optimization tradeoff strategy. Use 'cost' to prioritize cost savings or
+              'latency' to prioritize speed
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -160,7 +217,7 @@ class RouterResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"type": type}, router_select_model_params.RouterSelectModelParams),
             ),
-            cast_to=object,
+            cast_to=RouterSelectModelResponse,
         )
 
     def train_custom_router(
@@ -179,42 +236,86 @@ class RouterResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> RouterTrainCustomRouterResponse:
         """
-        preference_id: if specified, update the topic + topic embedding entries in db
+        Train a custom router on your evaluation data to optimize routing for your
+        specific use case.
 
-        language: either "english" or "multilingual". If "english", use
-        "embed-english-v3.0" embedding model If "multilingual", use
-        "embed-multilingual-v3.0" embedding model.
+        This endpoint allows you to train a domain-specific router that learns which
+        models perform best for different types of queries in your application. The
+        router analyzes your evaluation dataset, clusters similar queries, and learns
+        model performance patterns.
 
-        llm_providers: a JSONified string in the form '[{ "provider": "openai", "model":
-        "gpt-3.5"}, { "provider": "openai", "model": "gpt-4"}]' which you can load as
-        JSON
+        **Training Process:**
 
-        prompt_column: column in the dataset_file that corresponds to the prompt each
-        LLM is evaluated on
+        1. Upload a CSV file with your evaluation data
+        2. Specify which models to route between
+        3. Define the evaluation metric (score column)
+        4. The system trains asynchronously and returns a preference_id
+        5. Use the preference_id in model_select() calls once training completes
 
-        dataset_file: will be a csv containing:
+        **Dataset Requirements:**
 
-        1. prompt_column is the column containing the prompt used to call the LLM
-        2. A column for each <provider>/<model>/score (as passed in llm_providers param)
-           indicating the score achieved by the LLM
-        3. A column for each <provider>/<model>/response (as passed in llm_providers
-           param) indicating the response given by the LLM
+        - Format: CSV file
+        - Minimum samples: 25 (more is better for accuracy)
+        - Required columns:
+          - Prompt column (specified in prompt_column parameter)
+          - For each model: `{provider}/{model}/score` and `{provider}/{model}/response`
 
-        maximize: whether score higher is better. If False, then apply negative sign to
-        all scores as the LLMTopicMaximalMarginalRelevance class assumes higher score is
-        better
+        **Example CSV structure:**
 
-        Run BERTopic algo on Modal (run 10 times to get the best result) If
-        preference_id is specified, update existing topic + embeddings If no
-        preference_id, create a new preference and store topic + topic embeddings in db
+        ```
+        prompt,openai/gpt-4o/score,openai/gpt-4o/response,anthropic/claude-3-5-sonnet-20241022/score,anthropic/claude-3-5-sonnet-20241022/response
+        "Explain quantum computing",0.95,"Quantum computing uses...",0.87,"Quantum computers leverage..."
+        "Write a Python function",0.82,"def my_function()...",0.91,"Here's a Python function..."
+        ```
 
-        Store each prompt as an entry in the LLMPipeline table Create a result entry in
-        LLMPipelineResults for each model in llm_providers Each result entry will also
-        store the LLM response (db migration script pending)
+        **Model Selection:**
+
+        - Specify standard models: `{"provider": "openai", "model": "gpt-4o"}`
+        - Or custom models with pricing:
+          `{"provider": "custom", "model": "my-model", "is_custom": true, "input_price": 10.0, "output_price": 30.0, "context_length": 8192, "latency": 1.5}`
+
+        **Training Time:**
+
+        - Training is asynchronous and typically takes 5-15 minutes
+        - Larger datasets or more models take longer
+        - You'll receive a preference_id immediately
+        - Check training status by attempting to use the preference_id in model_select()
+
+        **Best Practices:**
+
+        1. Use diverse, representative examples from your production workload
+        2. Include at least 50-100 samples for best results
+        3. Ensure consistent evaluation metrics across all models
+        4. Use the same models you plan to route between in production
+
+        **Related Documentation:** See
+        https://docs.notdiamond.ai/docs/adapting-prompts-to-new-models for detailed
+        guide.
 
         Args:
+          dataset_file: CSV file containing evaluation data with prompt column and score/response
+              columns for each model
+
+          language: Language of the evaluation data. Use 'english' for English-only data or
+              'multilingual' for multi-language support
+
+          llm_providers:
+              JSON string array of LLM providers to train the router on. Format:
+              '[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model":
+              "claude-3-5-sonnet-20241022"}]'
+
+          maximize: Whether higher scores are better. Set to true if higher scores indicate better
+              performance, false otherwise
+
+          prompt_column: Name of the column in the CSV file that contains the prompts
+
+          override: Whether to override an existing custom router for this preference_id
+
+          preference_id: Optional preference ID to update an existing router. If not provided, a new
+              preference will be created
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -246,7 +347,7 @@ class RouterResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=RouterTrainCustomRouterResponse,
         )
 
 
@@ -354,11 +455,66 @@ class AsyncRouterResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> RouterSelectModelResponse:
         """
-        Token Model Select
+        Select the optimal LLM to handle your query based on Not Diamond's routing
+        algorithm.
+
+        This endpoint analyzes your messages and returns the best-suited model from your
+        specified providers. The router considers factors like query complexity, model
+        capabilities, cost, and latency based on your preferences.
+
+        **Key Features:**
+
+        - Intelligent routing across multiple LLM providers
+        - Support for custom routers trained on your evaluation data
+        - Optional cost/latency optimization
+        - Function calling support for compatible models
+        - Privacy-preserving content hashing
+
+        **Usage:**
+
+        1. Pass your messages in OpenAI format (array of objects with 'role' and
+           'content')
+        2. Specify which LLM providers you want to route between
+        3. Optionally provide a preference_id for personalized routing
+        4. Receive a recommended model and session_id
+        5. Use the session_id to submit feedback and improve routing
+
+        **Related Endpoints:**
+
+        - `POST /v2/preferences/userPreferenceCreate` - Create a preference ID for
+          personalized routing
+        - `POST /v2/report/metrics/feedback` - Submit feedback on routing decisions
+        - `POST /v2/pzn/trainCustomRouter` - Train a custom router on your evaluation
+          data
 
         Args:
+          llm_providers: List of LLM providers to route between. Specify at least one provider in format
+              {provider, model}
+
+          messages: Array of message objects in OpenAI format (with 'role' and 'content' keys)
+
+          type: Optional format type. Use 'openrouter' to accept and return OpenRouter-format
+              model identifiers
+
+          hash_content: Whether to hash message content for privacy
+
+          max_model_depth: Maximum number of models to consider for routing. If not specified, considers
+              all provided models
+
+          metric: Optimization metric for model selection
+
+          preference_id: Preference ID for personalized routing. Create one via POST
+              /v2/preferences/userPreferenceCreate
+
+          previous_session: Previous session ID to link related requests
+
+          tools: OpenAI-format function calling tools
+
+          tradeoff: Optimization tradeoff strategy. Use 'cost' to prioritize cost savings or
+              'latency' to prioritize speed
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -390,7 +546,7 @@ class AsyncRouterResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform({"type": type}, router_select_model_params.RouterSelectModelParams),
             ),
-            cast_to=object,
+            cast_to=RouterSelectModelResponse,
         )
 
     async def train_custom_router(
@@ -409,42 +565,86 @@ class AsyncRouterResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> RouterTrainCustomRouterResponse:
         """
-        preference_id: if specified, update the topic + topic embedding entries in db
+        Train a custom router on your evaluation data to optimize routing for your
+        specific use case.
 
-        language: either "english" or "multilingual". If "english", use
-        "embed-english-v3.0" embedding model If "multilingual", use
-        "embed-multilingual-v3.0" embedding model.
+        This endpoint allows you to train a domain-specific router that learns which
+        models perform best for different types of queries in your application. The
+        router analyzes your evaluation dataset, clusters similar queries, and learns
+        model performance patterns.
 
-        llm_providers: a JSONified string in the form '[{ "provider": "openai", "model":
-        "gpt-3.5"}, { "provider": "openai", "model": "gpt-4"}]' which you can load as
-        JSON
+        **Training Process:**
 
-        prompt_column: column in the dataset_file that corresponds to the prompt each
-        LLM is evaluated on
+        1. Upload a CSV file with your evaluation data
+        2. Specify which models to route between
+        3. Define the evaluation metric (score column)
+        4. The system trains asynchronously and returns a preference_id
+        5. Use the preference_id in model_select() calls once training completes
 
-        dataset_file: will be a csv containing:
+        **Dataset Requirements:**
 
-        1. prompt_column is the column containing the prompt used to call the LLM
-        2. A column for each <provider>/<model>/score (as passed in llm_providers param)
-           indicating the score achieved by the LLM
-        3. A column for each <provider>/<model>/response (as passed in llm_providers
-           param) indicating the response given by the LLM
+        - Format: CSV file
+        - Minimum samples: 25 (more is better for accuracy)
+        - Required columns:
+          - Prompt column (specified in prompt_column parameter)
+          - For each model: `{provider}/{model}/score` and `{provider}/{model}/response`
 
-        maximize: whether score higher is better. If False, then apply negative sign to
-        all scores as the LLMTopicMaximalMarginalRelevance class assumes higher score is
-        better
+        **Example CSV structure:**
 
-        Run BERTopic algo on Modal (run 10 times to get the best result) If
-        preference_id is specified, update existing topic + embeddings If no
-        preference_id, create a new preference and store topic + topic embeddings in db
+        ```
+        prompt,openai/gpt-4o/score,openai/gpt-4o/response,anthropic/claude-3-5-sonnet-20241022/score,anthropic/claude-3-5-sonnet-20241022/response
+        "Explain quantum computing",0.95,"Quantum computing uses...",0.87,"Quantum computers leverage..."
+        "Write a Python function",0.82,"def my_function()...",0.91,"Here's a Python function..."
+        ```
 
-        Store each prompt as an entry in the LLMPipeline table Create a result entry in
-        LLMPipelineResults for each model in llm_providers Each result entry will also
-        store the LLM response (db migration script pending)
+        **Model Selection:**
+
+        - Specify standard models: `{"provider": "openai", "model": "gpt-4o"}`
+        - Or custom models with pricing:
+          `{"provider": "custom", "model": "my-model", "is_custom": true, "input_price": 10.0, "output_price": 30.0, "context_length": 8192, "latency": 1.5}`
+
+        **Training Time:**
+
+        - Training is asynchronous and typically takes 5-15 minutes
+        - Larger datasets or more models take longer
+        - You'll receive a preference_id immediately
+        - Check training status by attempting to use the preference_id in model_select()
+
+        **Best Practices:**
+
+        1. Use diverse, representative examples from your production workload
+        2. Include at least 50-100 samples for best results
+        3. Ensure consistent evaluation metrics across all models
+        4. Use the same models you plan to route between in production
+
+        **Related Documentation:** See
+        https://docs.notdiamond.ai/docs/adapting-prompts-to-new-models for detailed
+        guide.
 
         Args:
+          dataset_file: CSV file containing evaluation data with prompt column and score/response
+              columns for each model
+
+          language: Language of the evaluation data. Use 'english' for English-only data or
+              'multilingual' for multi-language support
+
+          llm_providers:
+              JSON string array of LLM providers to train the router on. Format:
+              '[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model":
+              "claude-3-5-sonnet-20241022"}]'
+
+          maximize: Whether higher scores are better. Set to true if higher scores indicate better
+              performance, false otherwise
+
+          prompt_column: Name of the column in the CSV file that contains the prompts
+
+          override: Whether to override an existing custom router for this preference_id
+
+          preference_id: Optional preference ID to update an existing router. If not provided, a new
+              preference will be created
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -476,7 +676,7 @@ class AsyncRouterResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=RouterTrainCustomRouterResponse,
         )
 
 
