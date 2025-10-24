@@ -30,6 +30,7 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources.client import client
 
 __all__ = [
     "Timeout",
@@ -49,6 +50,7 @@ class NotDiamond(SyncAPIClient):
     prompt_adaptation: prompt_adaptation.PromptAdaptationResource
     report: report.ReportResource
     models: models.ModelsResource
+    client: client.ClientResource
     with_raw_response: NotDiamondWithRawResponse
     with_streaming_response: NotDiamondWithStreamedResponse
 
@@ -107,6 +109,7 @@ class NotDiamond(SyncAPIClient):
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResource(self)
         self.report = report.ReportResource(self)
         self.models = models.ModelsResource(self)
+        self.client = client.ClientResource(self)
         self.with_raw_response = NotDiamondWithRawResponse(self)
         self.with_streaming_response = NotDiamondWithStreamedResponse(self)
 
@@ -234,6 +237,7 @@ class AsyncNotDiamond(AsyncAPIClient):
     prompt_adaptation: prompt_adaptation.AsyncPromptAdaptationResource
     report: report.AsyncReportResource
     models: models.AsyncModelsResource
+    client: client.AsyncClientResource
     with_raw_response: AsyncNotDiamondWithRawResponse
     with_streaming_response: AsyncNotDiamondWithStreamedResponse
 
@@ -292,6 +296,7 @@ class AsyncNotDiamond(AsyncAPIClient):
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResource(self)
         self.report = report.AsyncReportResource(self)
         self.models = models.AsyncModelsResource(self)
+        self.client = client.AsyncClientResource(self)
         self.with_raw_response = AsyncNotDiamondWithRawResponse(self)
         self.with_streaming_response = AsyncNotDiamondWithStreamedResponse(self)
 
@@ -420,6 +425,7 @@ class NotDiamondWithRawResponse:
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithRawResponse(client.prompt_adaptation)
         self.report = report.ReportResourceWithRawResponse(client.report)
         self.models = models.ModelsResourceWithRawResponse(client.models)
+        self.client = client.ClientResourceWithRawResponse(client.client)
 
 
 class AsyncNotDiamondWithRawResponse:
@@ -431,6 +437,7 @@ class AsyncNotDiamondWithRawResponse:
         )
         self.report = report.AsyncReportResourceWithRawResponse(client.report)
         self.models = models.AsyncModelsResourceWithRawResponse(client.models)
+        self.client = client.AsyncClientResourceWithRawResponse(client.client)
 
 
 class NotDiamondWithStreamedResponse:
@@ -442,6 +449,7 @@ class NotDiamondWithStreamedResponse:
         )
         self.report = report.ReportResourceWithStreamingResponse(client.report)
         self.models = models.ModelsResourceWithStreamingResponse(client.models)
+        self.client = client.ClientResourceWithStreamingResponse(client.client)
 
 
 class AsyncNotDiamondWithStreamedResponse:
@@ -453,6 +461,7 @@ class AsyncNotDiamondWithStreamedResponse:
         )
         self.report = report.AsyncReportResourceWithStreamingResponse(client.report)
         self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
+        self.client = client.AsyncClientResourceWithStreamingResponse(client.client)
 
 
 Client = NotDiamond
