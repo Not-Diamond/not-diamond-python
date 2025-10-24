@@ -8,10 +8,10 @@ from typing_extensions import Required, Annotated, TypedDict
 from .._types import FileTypes
 from .._utils import PropertyInfo
 
-__all__ = ["PznCreateSurveyResponseParams"]
+__all__ = ["RouterCreateSurveyResponseParams"]
 
 
-class PznCreateSurveyResponseParams(TypedDict, total=False):
+class RouterCreateSurveyResponseParams(TypedDict, total=False):
     constraint_priorities: Required[str]
 
     email: Required[str]

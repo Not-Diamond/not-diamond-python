@@ -22,7 +22,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import pzn, health, prompt, preferences, model_router
+from .resources import models, report, router, preferences, prompt_adaptation
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
@@ -30,7 +30,7 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.proxy import proxy
+from .resources.client import client
 
 __all__ = [
     "Timeout",
@@ -45,12 +45,12 @@ __all__ = [
 
 
 class NotDiamond(SyncAPIClient):
-    model_router: model_router.ModelRouterResource
+    router: router.RouterResource
     preferences: preferences.PreferencesResource
-    proxy: proxy.ProxyResource
-    prompt: prompt.PromptResource
-    pzn: pzn.PznResource
-    health: health.HealthResource
+    prompt_adaptation: prompt_adaptation.PromptAdaptationResource
+    report: report.ReportResource
+    models: models.ModelsResource
+    client: client.ClientResource
     with_raw_response: NotDiamondWithRawResponse
     with_streaming_response: NotDiamondWithStreamedResponse
 
@@ -104,12 +104,12 @@ class NotDiamond(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.model_router = model_router.ModelRouterResource(self)
+        self.router = router.RouterResource(self)
         self.preferences = preferences.PreferencesResource(self)
-        self.proxy = proxy.ProxyResource(self)
-        self.prompt = prompt.PromptResource(self)
-        self.pzn = pzn.PznResource(self)
-        self.health = health.HealthResource(self)
+        self.prompt_adaptation = prompt_adaptation.PromptAdaptationResource(self)
+        self.report = report.ReportResource(self)
+        self.models = models.ModelsResource(self)
+        self.client = client.ClientResource(self)
         self.with_raw_response = NotDiamondWithRawResponse(self)
         self.with_streaming_response = NotDiamondWithStreamedResponse(self)
 
@@ -232,12 +232,12 @@ class NotDiamond(SyncAPIClient):
 
 
 class AsyncNotDiamond(AsyncAPIClient):
-    model_router: model_router.AsyncModelRouterResource
+    router: router.AsyncRouterResource
     preferences: preferences.AsyncPreferencesResource
-    proxy: proxy.AsyncProxyResource
-    prompt: prompt.AsyncPromptResource
-    pzn: pzn.AsyncPznResource
-    health: health.AsyncHealthResource
+    prompt_adaptation: prompt_adaptation.AsyncPromptAdaptationResource
+    report: report.AsyncReportResource
+    models: models.AsyncModelsResource
+    client: client.AsyncClientResource
     with_raw_response: AsyncNotDiamondWithRawResponse
     with_streaming_response: AsyncNotDiamondWithStreamedResponse
 
@@ -291,12 +291,12 @@ class AsyncNotDiamond(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.model_router = model_router.AsyncModelRouterResource(self)
+        self.router = router.AsyncRouterResource(self)
         self.preferences = preferences.AsyncPreferencesResource(self)
-        self.proxy = proxy.AsyncProxyResource(self)
-        self.prompt = prompt.AsyncPromptResource(self)
-        self.pzn = pzn.AsyncPznResource(self)
-        self.health = health.AsyncHealthResource(self)
+        self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResource(self)
+        self.report = report.AsyncReportResource(self)
+        self.models = models.AsyncModelsResource(self)
+        self.client = client.AsyncClientResource(self)
         self.with_raw_response = AsyncNotDiamondWithRawResponse(self)
         self.with_streaming_response = AsyncNotDiamondWithStreamedResponse(self)
 
@@ -420,42 +420,48 @@ class AsyncNotDiamond(AsyncAPIClient):
 
 class NotDiamondWithRawResponse:
     def __init__(self, client: NotDiamond) -> None:
-        self.model_router = model_router.ModelRouterResourceWithRawResponse(client.model_router)
+        self.router = router.RouterResourceWithRawResponse(client.router)
         self.preferences = preferences.PreferencesResourceWithRawResponse(client.preferences)
-        self.proxy = proxy.ProxyResourceWithRawResponse(client.proxy)
-        self.prompt = prompt.PromptResourceWithRawResponse(client.prompt)
-        self.pzn = pzn.PznResourceWithRawResponse(client.pzn)
-        self.health = health.HealthResourceWithRawResponse(client.health)
+        self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithRawResponse(client.prompt_adaptation)
+        self.report = report.ReportResourceWithRawResponse(client.report)
+        self.models = models.ModelsResourceWithRawResponse(client.models)
+        self.client = client.ClientResourceWithRawResponse(client.client)
 
 
 class AsyncNotDiamondWithRawResponse:
     def __init__(self, client: AsyncNotDiamond) -> None:
-        self.model_router = model_router.AsyncModelRouterResourceWithRawResponse(client.model_router)
+        self.router = router.AsyncRouterResourceWithRawResponse(client.router)
         self.preferences = preferences.AsyncPreferencesResourceWithRawResponse(client.preferences)
-        self.proxy = proxy.AsyncProxyResourceWithRawResponse(client.proxy)
-        self.prompt = prompt.AsyncPromptResourceWithRawResponse(client.prompt)
-        self.pzn = pzn.AsyncPznResourceWithRawResponse(client.pzn)
-        self.health = health.AsyncHealthResourceWithRawResponse(client.health)
+        self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithRawResponse(
+            client.prompt_adaptation
+        )
+        self.report = report.AsyncReportResourceWithRawResponse(client.report)
+        self.models = models.AsyncModelsResourceWithRawResponse(client.models)
+        self.client = client.AsyncClientResourceWithRawResponse(client.client)
 
 
 class NotDiamondWithStreamedResponse:
     def __init__(self, client: NotDiamond) -> None:
-        self.model_router = model_router.ModelRouterResourceWithStreamingResponse(client.model_router)
+        self.router = router.RouterResourceWithStreamingResponse(client.router)
         self.preferences = preferences.PreferencesResourceWithStreamingResponse(client.preferences)
-        self.proxy = proxy.ProxyResourceWithStreamingResponse(client.proxy)
-        self.prompt = prompt.PromptResourceWithStreamingResponse(client.prompt)
-        self.pzn = pzn.PznResourceWithStreamingResponse(client.pzn)
-        self.health = health.HealthResourceWithStreamingResponse(client.health)
+        self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithStreamingResponse(
+            client.prompt_adaptation
+        )
+        self.report = report.ReportResourceWithStreamingResponse(client.report)
+        self.models = models.ModelsResourceWithStreamingResponse(client.models)
+        self.client = client.ClientResourceWithStreamingResponse(client.client)
 
 
 class AsyncNotDiamondWithStreamedResponse:
     def __init__(self, client: AsyncNotDiamond) -> None:
-        self.model_router = model_router.AsyncModelRouterResourceWithStreamingResponse(client.model_router)
+        self.router = router.AsyncRouterResourceWithStreamingResponse(client.router)
         self.preferences = preferences.AsyncPreferencesResourceWithStreamingResponse(client.preferences)
-        self.proxy = proxy.AsyncProxyResourceWithStreamingResponse(client.proxy)
-        self.prompt = prompt.AsyncPromptResourceWithStreamingResponse(client.prompt)
-        self.pzn = pzn.AsyncPznResourceWithStreamingResponse(client.pzn)
-        self.health = health.AsyncHealthResourceWithStreamingResponse(client.health)
+        self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithStreamingResponse(
+            client.prompt_adaptation
+        )
+        self.report = report.AsyncReportResourceWithStreamingResponse(client.report)
+        self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
+        self.client = client.AsyncClientResourceWithStreamingResponse(client.client)
 
 
 Client = NotDiamond

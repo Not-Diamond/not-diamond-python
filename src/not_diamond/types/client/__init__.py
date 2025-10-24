@@ -2,4 +2,4 @@
 
 from __future__ import annotations
 
-from .secret_upsert_params import SecretUpsertParams as SecretUpsertParams
+from .report_evaluate_hallucination_params import ReportEvaluateHallucinationParams as ReportEvaluateHallucinationParams

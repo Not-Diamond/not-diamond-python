@@ -5,6 +5,6 @@ from typing_extensions import TypeAlias
 
 from .adaptation_run_results import AdaptationRunResults
 
-__all__ = ["PromptGetAdaptRunsResponse"]
+__all__ = ["PromptAdaptationGetAdaptRunsResponse"]
 
-PromptGetAdaptRunsResponse: TypeAlias = List[AdaptationRunResults]
+PromptAdaptationGetAdaptRunsResponse: TypeAlias = List[AdaptationRunResults]
