@@ -35,14 +35,33 @@ client = NotDiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
 )
 
-response = client.routing.create_survey_response(
-    constraint_priorities="constraint_priorities",
-    email="email",
-    llm_providers="llm_providers",
-    use_case_desc="use_case_desc",
-    user_id="user_id",
-    x_token="x-token",
+response = client.routing.select_model(
+    llm_providers=[
+        {
+            "model": "gpt-4o",
+            "provider": "openai",
+        },
+        {
+            "model": "claude-3-5-sonnet-20241022",
+            "provider": "anthropic",
+        },
+        {
+            "model": "gemini-1.5-pro",
+            "provider": "google",
+        },
+    ],
+    messages=[
+        {
+            "role": "system",
+            "content": "You are a helpful assistant.",
+        },
+        {
+            "role": "user",
+            "content": "Explain quantum computing in simple terms",
+        },
+    ],
 )
+print(response.providers)
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -65,14 +84,33 @@ client = AsyncNotDiamond(
 
 
 async def main() -> None:
-    response = await client.routing.create_survey_response(
-        constraint_priorities="constraint_priorities",
-        email="email",
-        llm_providers="llm_providers",
-        use_case_desc="use_case_desc",
-        user_id="user_id",
-        x_token="x-token",
+    response = await client.routing.select_model(
+        llm_providers=[
+            {
+                "model": "gpt-4o",
+                "provider": "openai",
+            },
+            {
+                "model": "claude-3-5-sonnet-20241022",
+                "provider": "anthropic",
+            },
+            {
+                "model": "gemini-1.5-pro",
+                "provider": "google",
+            },
+        ],
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a helpful assistant.",
+            },
+            {
+                "role": "user",
+                "content": "Explain quantum computing in simple terms",
+            },
+        ],
     )
+    print(response.providers)
 
 
 asyncio.run(main())
@@ -104,14 +142,33 @@ async def main() -> None:
         api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
-        response = await client.routing.create_survey_response(
-            constraint_priorities="constraint_priorities",
-            email="email",
-            llm_providers="llm_providers",
-            use_case_desc="use_case_desc",
-            user_id="user_id",
-            x_token="x-token",
+        response = await client.routing.select_model(
+            llm_providers=[
+                {
+                    "model": "gpt-4o",
+                    "provider": "openai",
+                },
+                {
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
+            ],
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant.",
+                },
+                {
+                    "role": "user",
+                    "content": "Explain quantum computing in simple terms",
+                },
+            ],
         )
+        print(response.providers)
 
 
 asyncio.run(main())
@@ -196,13 +253,31 @@ from not_diamond import NotDiamond
 client = NotDiamond()
 
 try:
-    client.routing.create_survey_response(
-        constraint_priorities="constraint_priorities",
-        email="email",
-        llm_providers="llm_providers",
-        use_case_desc="use_case_desc",
-        user_id="user_id",
-        x_token="x-token",
+    client.routing.select_model(
+        llm_providers=[
+            {
+                "model": "gpt-4o",
+                "provider": "openai",
+            },
+            {
+                "model": "claude-3-5-sonnet-20241022",
+                "provider": "anthropic",
+            },
+            {
+                "model": "gemini-1.5-pro",
+                "provider": "google",
+            },
+        ],
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a helpful assistant.",
+            },
+            {
+                "role": "user",
+                "content": "Explain quantum computing in simple terms",
+            },
+        ],
     )
 except not_diamond.APIConnectionError as e:
     print("The server could not be reached")
@@ -246,13 +321,31 @@ client = NotDiamond(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).routing.create_survey_response(
-    constraint_priorities="constraint_priorities",
-    email="email",
-    llm_providers="llm_providers",
-    use_case_desc="use_case_desc",
-    user_id="user_id",
-    x_token="x-token",
+client.with_options(max_retries=5).routing.select_model(
+    llm_providers=[
+        {
+            "model": "gpt-4o",
+            "provider": "openai",
+        },
+        {
+            "model": "claude-3-5-sonnet-20241022",
+            "provider": "anthropic",
+        },
+        {
+            "model": "gemini-1.5-pro",
+            "provider": "google",
+        },
+    ],
+    messages=[
+        {
+            "role": "system",
+            "content": "You are a helpful assistant.",
+        },
+        {
+            "role": "user",
+            "content": "Explain quantum computing in simple terms",
+        },
+    ],
 )
 ```
 
@@ -276,13 +369,31 @@ client = NotDiamond(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).routing.create_survey_response(
-    constraint_priorities="constraint_priorities",
-    email="email",
-    llm_providers="llm_providers",
-    use_case_desc="use_case_desc",
-    user_id="user_id",
-    x_token="x-token",
+client.with_options(timeout=5.0).routing.select_model(
+    llm_providers=[
+        {
+            "model": "gpt-4o",
+            "provider": "openai",
+        },
+        {
+            "model": "claude-3-5-sonnet-20241022",
+            "provider": "anthropic",
+        },
+        {
+            "model": "gemini-1.5-pro",
+            "provider": "google",
+        },
+    ],
+    messages=[
+        {
+            "role": "system",
+            "content": "You are a helpful assistant.",
+        },
+        {
+            "role": "user",
+            "content": "Explain quantum computing in simple terms",
+        },
+    ],
 )
 ```
 
@@ -324,18 +435,29 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from not_diamond import NotDiamond
 
 client = NotDiamond()
-response = client.routing.with_raw_response.create_survey_response(
-    constraint_priorities="constraint_priorities",
-    email="email",
-    llm_providers="llm_providers",
-    use_case_desc="use_case_desc",
-    user_id="user_id",
-    x_token="x-token",
+response = client.routing.with_raw_response.select_model(
+    llm_providers=[{
+        "model": "gpt-4o",
+        "provider": "openai",
+    }, {
+        "model": "claude-3-5-sonnet-20241022",
+        "provider": "anthropic",
+    }, {
+        "model": "gemini-1.5-pro",
+        "provider": "google",
+    }],
+    messages=[{
+        "role": "system",
+        "content": "You are a helpful assistant.",
+    }, {
+        "role": "user",
+        "content": "Explain quantum computing in simple terms",
+    }],
 )
 print(response.headers.get('X-My-Header'))
 
-routing = response.parse()  # get the object that `routing.create_survey_response()` would have returned
-print(routing)
+routing = response.parse()  # get the object that `routing.select_model()` would have returned
+print(routing.providers)
 ```
 
 These methods return an [`APIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/not_diamond/_response.py) object.
@@ -349,13 +471,31 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.routing.with_streaming_response.create_survey_response(
-    constraint_priorities="constraint_priorities",
-    email="email",
-    llm_providers="llm_providers",
-    use_case_desc="use_case_desc",
-    user_id="user_id",
-    x_token="x-token",
+with client.routing.with_streaming_response.select_model(
+    llm_providers=[
+        {
+            "model": "gpt-4o",
+            "provider": "openai",
+        },
+        {
+            "model": "claude-3-5-sonnet-20241022",
+            "provider": "anthropic",
+        },
+        {
+            "model": "gemini-1.5-pro",
+            "provider": "google",
+        },
+    ],
+    messages=[
+        {
+            "role": "system",
+            "content": "You are a helpful assistant.",
+        },
+        {
+            "role": "user",
+            "content": "Explain quantum computing in simple terms",
+        },
+    ],
 ) as response:
     print(response.headers.get("X-My-Header"))
 
