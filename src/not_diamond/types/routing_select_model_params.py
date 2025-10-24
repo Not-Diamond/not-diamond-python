@@ -5,10 +5,10 @@ from __future__ import annotations
 from typing import Dict, Union, Iterable, Optional
 from typing_extensions import Required, TypeAlias, TypedDict
 
-__all__ = ["RouterSelectModelParams", "LlmProvider", "LlmProviderRequestProvider", "LlmProviderOpenRouterProvider"]
+__all__ = ["RoutingSelectModelParams", "LlmProvider", "LlmProviderRequestProvider", "LlmProviderOpenRouterProvider"]
 
 
-class RouterSelectModelParams(TypedDict, total=False):
+class RoutingSelectModelParams(TypedDict, total=False):
     llm_providers: Required[Iterable[LlmProvider]]
     """List of LLM providers to route between.
 

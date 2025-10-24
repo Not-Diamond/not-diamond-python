@@ -24,13 +24,13 @@ from .report import (
     ReportResourceWithStreamingResponse,
     AsyncReportResourceWithStreamingResponse,
 )
-from .router import (
-    RouterResource,
-    AsyncRouterResource,
-    RouterResourceWithRawResponse,
-    AsyncRouterResourceWithRawResponse,
-    RouterResourceWithStreamingResponse,
-    AsyncRouterResourceWithStreamingResponse,
+from .routing import (
+    RoutingResource,
+    AsyncRoutingResource,
+    RoutingResourceWithRawResponse,
+    AsyncRoutingResourceWithRawResponse,
+    RoutingResourceWithStreamingResponse,
+    AsyncRoutingResourceWithStreamingResponse,
 )
 from .preferences import (
     PreferencesResource,
@@ -50,12 +50,12 @@ from .prompt_adaptation import (
 )
 
 __all__ = [
-    "RouterResource",
-    "AsyncRouterResource",
-    "RouterResourceWithRawResponse",
-    "AsyncRouterResourceWithRawResponse",
-    "RouterResourceWithStreamingResponse",
-    "AsyncRouterResourceWithStreamingResponse",
+    "RoutingResource",
+    "AsyncRoutingResource",
+    "RoutingResourceWithRawResponse",
+    "AsyncRoutingResourceWithRawResponse",
+    "RoutingResourceWithStreamingResponse",
+    "AsyncRoutingResourceWithStreamingResponse",
     "PreferencesResource",
     "AsyncPreferencesResource",
     "PreferencesResourceWithRawResponse",

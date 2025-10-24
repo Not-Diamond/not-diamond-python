@@ -10,20 +10,20 @@ import pytest
 from not_diamond import NotDiamond, AsyncNotDiamond
 from tests.utils import assert_matches_type
 from not_diamond.types import (
-    RouterSelectModelResponse,
-    RouterTrainCustomRouterResponse,
+    RoutingSelectModelResponse,
+    RoutingTrainCustomRouterResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
-class TestRouter:
+class TestRouting:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_survey_response(self, client: NotDiamond) -> None:
-        router = client.router.create_survey_response(
+        routing = client.routing.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -31,12 +31,12 @@ class TestRouter:
             user_id="user_id",
             x_token="x-token",
         )
-        assert_matches_type(object, router, path=["response"])
+        assert_matches_type(object, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_survey_response_with_all_params(self, client: NotDiamond) -> None:
-        router = client.router.create_survey_response(
+        routing = client.routing.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -49,12 +49,12 @@ class TestRouter:
             prompt_file=b"raw file contents",
             prompts="prompts",
         )
-        assert_matches_type(object, router, path=["response"])
+        assert_matches_type(object, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create_survey_response(self, client: NotDiamond) -> None:
-        response = client.router.with_raw_response.create_survey_response(
+        response = client.routing.with_raw_response.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -65,13 +65,13 @@ class TestRouter:
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        router = response.parse()
-        assert_matches_type(object, router, path=["response"])
+        routing = response.parse()
+        assert_matches_type(object, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create_survey_response(self, client: NotDiamond) -> None:
-        with client.router.with_streaming_response.create_survey_response(
+        with client.routing.with_streaming_response.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -82,15 +82,15 @@ class TestRouter:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            router = response.parse()
-            assert_matches_type(object, router, path=["response"])
+            routing = response.parse()
+            assert_matches_type(object, routing, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_select_model(self, client: NotDiamond) -> None:
-        router = client.router.select_model(
+        routing = client.routing.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -116,12 +116,12 @@ class TestRouter:
                 },
             ],
         )
-        assert_matches_type(RouterSelectModelResponse, router, path=["response"])
+        assert_matches_type(RoutingSelectModelResponse, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_select_model_with_all_params(self, client: NotDiamond) -> None:
-        router = client.router.select_model(
+        routing = client.routing.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -170,12 +170,12 @@ class TestRouter:
             tools=[{"foo": "bar"}],
             tradeoff="cost",
         )
-        assert_matches_type(RouterSelectModelResponse, router, path=["response"])
+        assert_matches_type(RoutingSelectModelResponse, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_select_model(self, client: NotDiamond) -> None:
-        response = client.router.with_raw_response.select_model(
+        response = client.routing.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -204,13 +204,13 @@ class TestRouter:
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        router = response.parse()
-        assert_matches_type(RouterSelectModelResponse, router, path=["response"])
+        routing = response.parse()
+        assert_matches_type(RoutingSelectModelResponse, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_select_model(self, client: NotDiamond) -> None:
-        with client.router.with_streaming_response.select_model(
+        with client.routing.with_streaming_response.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -239,27 +239,27 @@ class TestRouter:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            router = response.parse()
-            assert_matches_type(RouterSelectModelResponse, router, path=["response"])
+            routing = response.parse()
+            assert_matches_type(RoutingSelectModelResponse, routing, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_train_custom_router(self, client: NotDiamond) -> None:
-        router = client.router.train_custom_router(
+        routing = client.routing.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
             maximize=True,
             prompt_column="prompt",
         )
-        assert_matches_type(RouterTrainCustomRouterResponse, router, path=["response"])
+        assert_matches_type(RoutingTrainCustomRouterResponse, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_train_custom_router_with_all_params(self, client: NotDiamond) -> None:
-        router = client.router.train_custom_router(
+        routing = client.routing.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
@@ -268,12 +268,12 @@ class TestRouter:
             override=True,
             preference_id="preference_id",
         )
-        assert_matches_type(RouterTrainCustomRouterResponse, router, path=["response"])
+        assert_matches_type(RoutingTrainCustomRouterResponse, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_train_custom_router(self, client: NotDiamond) -> None:
-        response = client.router.with_raw_response.train_custom_router(
+        response = client.routing.with_raw_response.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
@@ -283,13 +283,13 @@ class TestRouter:
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        router = response.parse()
-        assert_matches_type(RouterTrainCustomRouterResponse, router, path=["response"])
+        routing = response.parse()
+        assert_matches_type(RoutingTrainCustomRouterResponse, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_train_custom_router(self, client: NotDiamond) -> None:
-        with client.router.with_streaming_response.train_custom_router(
+        with client.routing.with_streaming_response.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
@@ -299,13 +299,13 @@ class TestRouter:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            router = response.parse()
-            assert_matches_type(RouterTrainCustomRouterResponse, router, path=["response"])
+            routing = response.parse()
+            assert_matches_type(RoutingTrainCustomRouterResponse, routing, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
 
-class TestAsyncRouter:
+class TestAsyncRouting:
     parametrize = pytest.mark.parametrize(
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
@@ -313,7 +313,7 @@ class TestAsyncRouter:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_survey_response(self, async_client: AsyncNotDiamond) -> None:
-        router = await async_client.router.create_survey_response(
+        routing = await async_client.routing.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -321,12 +321,12 @@ class TestAsyncRouter:
             user_id="user_id",
             x_token="x-token",
         )
-        assert_matches_type(object, router, path=["response"])
+        assert_matches_type(object, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_survey_response_with_all_params(self, async_client: AsyncNotDiamond) -> None:
-        router = await async_client.router.create_survey_response(
+        routing = await async_client.routing.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -339,12 +339,12 @@ class TestAsyncRouter:
             prompt_file=b"raw file contents",
             prompts="prompts",
         )
-        assert_matches_type(object, router, path=["response"])
+        assert_matches_type(object, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create_survey_response(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.router.with_raw_response.create_survey_response(
+        response = await async_client.routing.with_raw_response.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -355,13 +355,13 @@ class TestAsyncRouter:
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        router = await response.parse()
-        assert_matches_type(object, router, path=["response"])
+        routing = await response.parse()
+        assert_matches_type(object, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create_survey_response(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.router.with_streaming_response.create_survey_response(
+        async with async_client.routing.with_streaming_response.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -372,15 +372,15 @@ class TestAsyncRouter:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            router = await response.parse()
-            assert_matches_type(object, router, path=["response"])
+            routing = await response.parse()
+            assert_matches_type(object, routing, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_select_model(self, async_client: AsyncNotDiamond) -> None:
-        router = await async_client.router.select_model(
+        routing = await async_client.routing.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -406,12 +406,12 @@ class TestAsyncRouter:
                 },
             ],
         )
-        assert_matches_type(RouterSelectModelResponse, router, path=["response"])
+        assert_matches_type(RoutingSelectModelResponse, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_select_model_with_all_params(self, async_client: AsyncNotDiamond) -> None:
-        router = await async_client.router.select_model(
+        routing = await async_client.routing.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -460,12 +460,12 @@ class TestAsyncRouter:
             tools=[{"foo": "bar"}],
             tradeoff="cost",
         )
-        assert_matches_type(RouterSelectModelResponse, router, path=["response"])
+        assert_matches_type(RoutingSelectModelResponse, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_select_model(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.router.with_raw_response.select_model(
+        response = await async_client.routing.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -494,13 +494,13 @@ class TestAsyncRouter:
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        router = await response.parse()
-        assert_matches_type(RouterSelectModelResponse, router, path=["response"])
+        routing = await response.parse()
+        assert_matches_type(RoutingSelectModelResponse, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_select_model(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.router.with_streaming_response.select_model(
+        async with async_client.routing.with_streaming_response.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -529,27 +529,27 @@ class TestAsyncRouter:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            router = await response.parse()
-            assert_matches_type(RouterSelectModelResponse, router, path=["response"])
+            routing = await response.parse()
+            assert_matches_type(RoutingSelectModelResponse, routing, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_train_custom_router(self, async_client: AsyncNotDiamond) -> None:
-        router = await async_client.router.train_custom_router(
+        routing = await async_client.routing.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
             maximize=True,
             prompt_column="prompt",
         )
-        assert_matches_type(RouterTrainCustomRouterResponse, router, path=["response"])
+        assert_matches_type(RoutingTrainCustomRouterResponse, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_train_custom_router_with_all_params(self, async_client: AsyncNotDiamond) -> None:
-        router = await async_client.router.train_custom_router(
+        routing = await async_client.routing.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
@@ -558,12 +558,12 @@ class TestAsyncRouter:
             override=True,
             preference_id="preference_id",
         )
-        assert_matches_type(RouterTrainCustomRouterResponse, router, path=["response"])
+        assert_matches_type(RoutingTrainCustomRouterResponse, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_train_custom_router(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.router.with_raw_response.train_custom_router(
+        response = await async_client.routing.with_raw_response.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
@@ -573,13 +573,13 @@ class TestAsyncRouter:
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        router = await response.parse()
-        assert_matches_type(RouterTrainCustomRouterResponse, router, path=["response"])
+        routing = await response.parse()
+        assert_matches_type(RoutingTrainCustomRouterResponse, routing, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_train_custom_router(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.router.with_streaming_response.train_custom_router(
+        async with async_client.routing.with_streaming_response.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
@@ -589,7 +589,7 @@ class TestAsyncRouter:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            router = await response.parse()
-            assert_matches_type(RouterTrainCustomRouterResponse, router, path=["response"])
+            routing = await response.parse()
+            assert_matches_type(RoutingTrainCustomRouterResponse, routing, path=["response"])
 
         assert cast(Any, response.is_closed) is True

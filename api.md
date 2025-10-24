@@ -1,16 +1,16 @@
-# Router
+# Routing
 
 Types:
 
 ```python
-from not_diamond.types import RouterSelectModelResponse, RouterTrainCustomRouterResponse
+from not_diamond.types import RoutingSelectModelResponse, RoutingTrainCustomRouterResponse
 ```
 
 Methods:
 
-- <code title="post /v2/pzn/surveyResponse">client.router.<a href="./src/not_diamond/resources/router.py">create_survey_response</a>(\*\*<a href="src/not_diamond/types/router_create_survey_response_params.py">params</a>) -> object</code>
-- <code title="post /v2/modelRouter/modelSelect">client.router.<a href="./src/not_diamond/resources/router.py">select_model</a>(\*\*<a href="src/not_diamond/types/router_select_model_params.py">params</a>) -> <a href="./src/not_diamond/types/router_select_model_response.py">RouterSelectModelResponse</a></code>
-- <code title="post /v2/pzn/trainCustomRouter">client.router.<a href="./src/not_diamond/resources/router.py">train_custom_router</a>(\*\*<a href="src/not_diamond/types/router_train_custom_router_params.py">params</a>) -> <a href="./src/not_diamond/types/router_train_custom_router_response.py">RouterTrainCustomRouterResponse</a></code>
+- <code title="post /v2/pzn/surveyResponse">client.routing.<a href="./src/not_diamond/resources/routing.py">create_survey_response</a>(\*\*<a href="src/not_diamond/types/routing_create_survey_response_params.py">params</a>) -> object</code>
+- <code title="post /v2/modelRouter/modelSelect">client.routing.<a href="./src/not_diamond/resources/routing.py">select_model</a>(\*\*<a href="src/not_diamond/types/routing_select_model_params.py">params</a>) -> <a href="./src/not_diamond/types/routing_select_model_response.py">RoutingSelectModelResponse</a></code>
+- <code title="post /v2/pzn/trainCustomRouter">client.routing.<a href="./src/not_diamond/resources/routing.py">train_custom_router</a>(\*\*<a href="src/not_diamond/types/routing_train_custom_router_params.py">params</a>) -> <a href="./src/not_diamond/types/routing_train_custom_router_response.py">RoutingTrainCustomRouterResponse</a></code>
 
 # Preferences
 

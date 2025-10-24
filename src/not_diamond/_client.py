@@ -22,7 +22,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import models, report, router, preferences, prompt_adaptation
+from .resources import models, report, routing, preferences, prompt_adaptation
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
@@ -45,7 +45,7 @@ __all__ = [
 
 
 class NotDiamond(SyncAPIClient):
-    router: router.RouterResource
+    routing: routing.RoutingResource
     preferences: preferences.PreferencesResource
     prompt_adaptation: prompt_adaptation.PromptAdaptationResource
     report: report.ReportResource
@@ -104,7 +104,7 @@ class NotDiamond(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.router = router.RouterResource(self)
+        self.routing = routing.RoutingResource(self)
         self.preferences = preferences.PreferencesResource(self)
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResource(self)
         self.report = report.ReportResource(self)
@@ -232,7 +232,7 @@ class NotDiamond(SyncAPIClient):
 
 
 class AsyncNotDiamond(AsyncAPIClient):
-    router: router.AsyncRouterResource
+    routing: routing.AsyncRoutingResource
     preferences: preferences.AsyncPreferencesResource
     prompt_adaptation: prompt_adaptation.AsyncPromptAdaptationResource
     report: report.AsyncReportResource
@@ -291,7 +291,7 @@ class AsyncNotDiamond(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.router = router.AsyncRouterResource(self)
+        self.routing = routing.AsyncRoutingResource(self)
         self.preferences = preferences.AsyncPreferencesResource(self)
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResource(self)
         self.report = report.AsyncReportResource(self)
@@ -420,7 +420,7 @@ class AsyncNotDiamond(AsyncAPIClient):
 
 class NotDiamondWithRawResponse:
     def __init__(self, client: NotDiamond) -> None:
-        self.router = router.RouterResourceWithRawResponse(client.router)
+        self.routing = routing.RoutingResourceWithRawResponse(client.routing)
         self.preferences = preferences.PreferencesResourceWithRawResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithRawResponse(client.prompt_adaptation)
         self.report = report.ReportResourceWithRawResponse(client.report)
@@ -430,7 +430,7 @@ class NotDiamondWithRawResponse:
 
 class AsyncNotDiamondWithRawResponse:
     def __init__(self, client: AsyncNotDiamond) -> None:
-        self.router = router.AsyncRouterResourceWithRawResponse(client.router)
+        self.routing = routing.AsyncRoutingResourceWithRawResponse(client.routing)
         self.preferences = preferences.AsyncPreferencesResourceWithRawResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithRawResponse(
             client.prompt_adaptation
@@ -442,7 +442,7 @@ class AsyncNotDiamondWithRawResponse:
 
 class NotDiamondWithStreamedResponse:
     def __init__(self, client: NotDiamond) -> None:
-        self.router = router.RouterResourceWithStreamingResponse(client.router)
+        self.routing = routing.RoutingResourceWithStreamingResponse(client.routing)
         self.preferences = preferences.PreferencesResourceWithStreamingResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithStreamingResponse(
             client.prompt_adaptation
@@ -454,7 +454,7 @@ class NotDiamondWithStreamedResponse:
 
 class AsyncNotDiamondWithStreamedResponse:
     def __init__(self, client: AsyncNotDiamond) -> None:
-        self.router = router.AsyncRouterResourceWithStreamingResponse(client.router)
+        self.routing = routing.AsyncRoutingResourceWithStreamingResponse(client.routing)
         self.preferences = preferences.AsyncPreferencesResourceWithStreamingResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithStreamingResponse(
             client.prompt_adaptation
