@@ -731,16 +731,34 @@ class TestNotDiamond:
     @mock.patch("not_diamond._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: NotDiamond) -> None:
-        respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            client.routing.with_streaming_response.create_survey_response(
-                constraint_priorities="constraint_priorities",
-                email="email",
-                llm_providers="llm_providers",
-                use_case_desc="use_case_desc",
-                user_id="user_id",
-                x_token="x-token",
+            client.routing.with_streaming_response.select_model(
+                llm_providers=[
+                    {
+                        "model": "gpt-4o",
+                        "provider": "openai",
+                    },
+                    {
+                        "model": "claude-3-5-sonnet-20241022",
+                        "provider": "anthropic",
+                    },
+                    {
+                        "model": "gemini-1.5-pro",
+                        "provider": "google",
+                    },
+                ],
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are a helpful assistant.",
+                    },
+                    {
+                        "role": "user",
+                        "content": "Explain quantum computing in simple terms",
+                    },
+                ],
             ).__enter__()
 
         assert _get_open_connections(self.client) == 0
@@ -748,16 +766,34 @@ class TestNotDiamond:
     @mock.patch("not_diamond._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: NotDiamond) -> None:
-        respx_mock.post("/v2/pzn/surveyResponse").mock(return_value=httpx.Response(500))
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            client.routing.with_streaming_response.create_survey_response(
-                constraint_priorities="constraint_priorities",
-                email="email",
-                llm_providers="llm_providers",
-                use_case_desc="use_case_desc",
-                user_id="user_id",
-                x_token="x-token",
+            client.routing.with_streaming_response.select_model(
+                llm_providers=[
+                    {
+                        "model": "gpt-4o",
+                        "provider": "openai",
+                    },
+                    {
+                        "model": "claude-3-5-sonnet-20241022",
+                        "provider": "anthropic",
+                    },
+                    {
+                        "model": "gemini-1.5-pro",
+                        "provider": "google",
+                    },
+                ],
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are a helpful assistant.",
+                    },
+                    {
+                        "role": "user",
+                        "content": "Explain quantum computing in simple terms",
+                    },
+                ],
             ).__enter__()
         assert _get_open_connections(self.client) == 0
 
@@ -785,15 +821,33 @@ class TestNotDiamond:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=retry_handler)
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = client.routing.with_raw_response.create_survey_response(
-            constraint_priorities="constraint_priorities",
-            email="email",
-            llm_providers="llm_providers",
-            use_case_desc="use_case_desc",
-            user_id="user_id",
-            x_token="x-token",
+        response = client.routing.with_raw_response.select_model(
+            llm_providers=[
+                {
+                    "model": "gpt-4o",
+                    "provider": "openai",
+                },
+                {
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
+            ],
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant.",
+                },
+                {
+                    "role": "user",
+                    "content": "Explain quantum computing in simple terms",
+                },
+            ],
         )
 
         assert response.retries_taken == failures_before_success
@@ -816,15 +870,33 @@ class TestNotDiamond:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=retry_handler)
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = client.routing.with_raw_response.create_survey_response(
-            constraint_priorities="constraint_priorities",
-            email="email",
-            llm_providers="llm_providers",
-            use_case_desc="use_case_desc",
-            user_id="user_id",
-            x_token="x-token",
+        response = client.routing.with_raw_response.select_model(
+            llm_providers=[
+                {
+                    "model": "gpt-4o",
+                    "provider": "openai",
+                },
+                {
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
+            ],
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant.",
+                },
+                {
+                    "role": "user",
+                    "content": "Explain quantum computing in simple terms",
+                },
+            ],
             extra_headers={"x-stainless-retry-count": Omit()},
         )
 
@@ -847,15 +919,33 @@ class TestNotDiamond:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=retry_handler)
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = client.routing.with_raw_response.create_survey_response(
-            constraint_priorities="constraint_priorities",
-            email="email",
-            llm_providers="llm_providers",
-            use_case_desc="use_case_desc",
-            user_id="user_id",
-            x_token="x-token",
+        response = client.routing.with_raw_response.select_model(
+            llm_providers=[
+                {
+                    "model": "gpt-4o",
+                    "provider": "openai",
+                },
+                {
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
+            ],
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant.",
+                },
+                {
+                    "role": "user",
+                    "content": "Explain quantum computing in simple terms",
+                },
+            ],
             extra_headers={"x-stainless-retry-count": "42"},
         )
 
@@ -1594,16 +1684,34 @@ class TestAsyncNotDiamond:
     async def test_retrying_timeout_errors_doesnt_leak(
         self, respx_mock: MockRouter, async_client: AsyncNotDiamond
     ) -> None:
-        respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await async_client.routing.with_streaming_response.create_survey_response(
-                constraint_priorities="constraint_priorities",
-                email="email",
-                llm_providers="llm_providers",
-                use_case_desc="use_case_desc",
-                user_id="user_id",
-                x_token="x-token",
+            await async_client.routing.with_streaming_response.select_model(
+                llm_providers=[
+                    {
+                        "model": "gpt-4o",
+                        "provider": "openai",
+                    },
+                    {
+                        "model": "claude-3-5-sonnet-20241022",
+                        "provider": "anthropic",
+                    },
+                    {
+                        "model": "gemini-1.5-pro",
+                        "provider": "google",
+                    },
+                ],
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are a helpful assistant.",
+                    },
+                    {
+                        "role": "user",
+                        "content": "Explain quantum computing in simple terms",
+                    },
+                ],
             ).__aenter__()
 
         assert _get_open_connections(self.client) == 0
@@ -1613,16 +1721,34 @@ class TestAsyncNotDiamond:
     async def test_retrying_status_errors_doesnt_leak(
         self, respx_mock: MockRouter, async_client: AsyncNotDiamond
     ) -> None:
-        respx_mock.post("/v2/pzn/surveyResponse").mock(return_value=httpx.Response(500))
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await async_client.routing.with_streaming_response.create_survey_response(
-                constraint_priorities="constraint_priorities",
-                email="email",
-                llm_providers="llm_providers",
-                use_case_desc="use_case_desc",
-                user_id="user_id",
-                x_token="x-token",
+            await async_client.routing.with_streaming_response.select_model(
+                llm_providers=[
+                    {
+                        "model": "gpt-4o",
+                        "provider": "openai",
+                    },
+                    {
+                        "model": "claude-3-5-sonnet-20241022",
+                        "provider": "anthropic",
+                    },
+                    {
+                        "model": "gemini-1.5-pro",
+                        "provider": "google",
+                    },
+                ],
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are a helpful assistant.",
+                    },
+                    {
+                        "role": "user",
+                        "content": "Explain quantum computing in simple terms",
+                    },
+                ],
             ).__aenter__()
         assert _get_open_connections(self.client) == 0
 
@@ -1651,15 +1777,33 @@ class TestAsyncNotDiamond:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=retry_handler)
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = await client.routing.with_raw_response.create_survey_response(
-            constraint_priorities="constraint_priorities",
-            email="email",
-            llm_providers="llm_providers",
-            use_case_desc="use_case_desc",
-            user_id="user_id",
-            x_token="x-token",
+        response = await client.routing.with_raw_response.select_model(
+            llm_providers=[
+                {
+                    "model": "gpt-4o",
+                    "provider": "openai",
+                },
+                {
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
+            ],
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant.",
+                },
+                {
+                    "role": "user",
+                    "content": "Explain quantum computing in simple terms",
+                },
+            ],
         )
 
         assert response.retries_taken == failures_before_success
@@ -1683,15 +1827,33 @@ class TestAsyncNotDiamond:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=retry_handler)
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = await client.routing.with_raw_response.create_survey_response(
-            constraint_priorities="constraint_priorities",
-            email="email",
-            llm_providers="llm_providers",
-            use_case_desc="use_case_desc",
-            user_id="user_id",
-            x_token="x-token",
+        response = await client.routing.with_raw_response.select_model(
+            llm_providers=[
+                {
+                    "model": "gpt-4o",
+                    "provider": "openai",
+                },
+                {
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
+            ],
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant.",
+                },
+                {
+                    "role": "user",
+                    "content": "Explain quantum computing in simple terms",
+                },
+            ],
             extra_headers={"x-stainless-retry-count": Omit()},
         )
 
@@ -1715,15 +1877,33 @@ class TestAsyncNotDiamond:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=retry_handler)
+        respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = await client.routing.with_raw_response.create_survey_response(
-            constraint_priorities="constraint_priorities",
-            email="email",
-            llm_providers="llm_providers",
-            use_case_desc="use_case_desc",
-            user_id="user_id",
-            x_token="x-token",
+        response = await client.routing.with_raw_response.select_model(
+            llm_providers=[
+                {
+                    "model": "gpt-4o",
+                    "provider": "openai",
+                },
+                {
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
+            ],
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant.",
+                },
+                {
+                    "role": "user",
+                    "content": "Explain quantum computing in simple terms",
+                },
+            ],
             extra_headers={"x-stainless-retry-count": "42"},
         )
 
