@@ -75,3 +75,11 @@ from not_diamond.types import ModelListResponse
 Methods:
 
 - <code title="get /v2/models">client.models.<a href="./src/not_diamond/resources/models.py">list</a>(\*\*<a href="src/not_diamond/types/model_list_params.py">params</a>) -> <a href="./src/not_diamond/types/model_list_response.py">ModelListResponse</a></code>
+
+# Client
+
+## Report
+
+Methods:
+
+- <code title="post /v2/report/hallucination">client.client.report.<a href="./src/not_diamond/resources/client/report.py">evaluate_hallucination</a>(\*\*<a href="src/not_diamond/types/client/report_evaluate_hallucination_params.py">params</a>) -> object</code>

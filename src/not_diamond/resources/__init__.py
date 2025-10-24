@@ -1,5 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from .client import (
+    ClientResource,
+    AsyncClientResource,
+    ClientResourceWithRawResponse,
+    AsyncClientResourceWithRawResponse,
+    ClientResourceWithStreamingResponse,
+    AsyncClientResourceWithStreamingResponse,
+)
 from .models import (
     ModelsResource,
     AsyncModelsResource,
@@ -72,4 +80,10 @@ __all__ = [
     "AsyncModelsResourceWithRawResponse",
     "ModelsResourceWithStreamingResponse",
     "AsyncModelsResourceWithStreamingResponse",
+    "ClientResource",
+    "AsyncClientResource",
+    "ClientResourceWithRawResponse",
+    "AsyncClientResourceWithRawResponse",
+    "ClientResourceWithStreamingResponse",
+    "AsyncClientResourceWithStreamingResponse",
 ]
