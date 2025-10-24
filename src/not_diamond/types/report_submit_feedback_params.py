@@ -5,10 +5,10 @@ from __future__ import annotations
 from typing import Dict, Optional
 from typing_extensions import Required, TypedDict
 
-__all__ = ["ReportFeedbackParams", "Provider"]
+__all__ = ["ReportSubmitFeedbackParams", "Provider"]
 
 
-class ReportFeedbackParams(TypedDict, total=False):
+class ReportSubmitFeedbackParams(TypedDict, total=False):
     feedback: Required[Dict[str, object]]
     """Feedback dictionary with 'accuracy' key (0 for thumbs down, 1 for thumbs up)"""
 

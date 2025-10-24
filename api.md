@@ -56,13 +56,14 @@ Methods:
 Types:
 
 ```python
-from not_diamond.types import ReportFeedbackResponse
+from not_diamond.types import ReportSubmitFeedbackResponse
 ```
 
 Methods:
 
-- <code title="post /v2/report/metrics/feedback">client.report.<a href="./src/not_diamond/resources/report.py">feedback</a>(\*\*<a href="src/not_diamond/types/report_feedback_params.py">params</a>) -> <a href="./src/not_diamond/types/report_feedback_response.py">ReportFeedbackResponse</a></code>
+- <code title="post /v2/report/hallucination">client.report.<a href="./src/not_diamond/resources/report.py">evaluate_hallucination</a>(\*\*<a href="src/not_diamond/types/report_evaluate_hallucination_params.py">params</a>) -> object</code>
 - <code title="post /v2/report/metrics/latency">client.report.<a href="./src/not_diamond/resources/report.py">latency</a>(\*\*<a href="src/not_diamond/types/report_latency_params.py">params</a>) -> object</code>
+- <code title="post /v2/report/metrics/feedback">client.report.<a href="./src/not_diamond/resources/report.py">submit_feedback</a>(\*\*<a href="src/not_diamond/types/report_submit_feedback_params.py">params</a>) -> <a href="./src/not_diamond/types/report_submit_feedback_response.py">ReportSubmitFeedbackResponse</a></code>
 
 # Models
 
@@ -75,11 +76,3 @@ from not_diamond.types import ModelListResponse
 Methods:
 
 - <code title="get /v2/models">client.models.<a href="./src/not_diamond/resources/models.py">list</a>(\*\*<a href="src/not_diamond/types/model_list_params.py">params</a>) -> <a href="./src/not_diamond/types/model_list_response.py">ModelListResponse</a></code>
-
-# Client
-
-## Report
-
-Methods:
-
-- <code title="post /v2/report/hallucination">client.client.report.<a href="./src/not_diamond/resources/client/report.py">evaluate_hallucination</a>(\*\*<a href="src/not_diamond/types/client/report_evaluate_hallucination_params.py">params</a>) -> object</code>
