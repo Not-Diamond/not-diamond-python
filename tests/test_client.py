@@ -569,6 +569,16 @@ class TestNotDiamond:
             client = NotDiamond(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
+        # explicit environment arg requires explicitness
+        with update_env(NOT_DIAMOND_BASE_URL="http://localhost:5000/from/env"):
+            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
+                NotDiamond(api_key=api_key, _strict_response_validation=True, environment="production")
+
+            client = NotDiamond(
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
+            )
+            assert str(client.base_url).startswith("https://api.notdiamond.ai")
+
     @pytest.mark.parametrize(
         "client",
         [
@@ -1515,6 +1525,16 @@ class TestAsyncNotDiamond:
         with update_env(NOT_DIAMOND_BASE_URL="http://localhost:5000/from/env"):
             client = AsyncNotDiamond(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
+
+        # explicit environment arg requires explicitness
+        with update_env(NOT_DIAMOND_BASE_URL="http://localhost:5000/from/env"):
+            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
+                AsyncNotDiamond(api_key=api_key, _strict_response_validation=True, environment="production")
+
+            client = AsyncNotDiamond(
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
+            )
+            assert str(client.base_url).startswith("https://api.notdiamond.ai")
 
     @pytest.mark.parametrize(
         "client",
