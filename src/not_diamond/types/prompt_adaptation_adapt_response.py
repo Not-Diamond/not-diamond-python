@@ -7,3 +7,7 @@ __all__ = ["PromptAdaptationAdaptResponse"]
 
 class PromptAdaptationAdaptResponse(BaseModel):
     adaptation_run_id: str
+    """Unique ID for this adaptation run.
+
+    Use this to check status and retrieve results
+    """

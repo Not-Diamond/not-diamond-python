@@ -18,6 +18,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.preference_create_user_preference_response import PreferenceCreateUserPreferenceResponse
 
 __all__ = ["PreferencesResource", "AsyncPreferencesResource"]
 
@@ -90,11 +91,36 @@ class PreferencesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> PreferenceCreateUserPreferenceResponse:
         """
-        Create Preference
+        Create a new preference ID for personalized LLM routing.
+
+        A preference ID enables personalized routing by tracking your feedback and
+        learning your preferences over time. Once created, you can:
+
+        1. Use it in model_select() calls to get personalized routing decisions
+        2. Submit feedback via the feedback endpoint to improve routing quality
+        3. Train a custom router specific to your use case
+
+        **Workflow:**
+
+        1. Create a preference ID (this endpoint)
+        2. Use the preference_id in POST /v2/modelRouter/modelSelect requests
+        3. Submit feedback on routing decisions via POST /v2/report/metrics/feedback
+        4. Optionally train a custom router via POST /v2/pzn/trainCustomRouter
+
+        **Benefits:**
+
+        - Personalized routing that learns from your feedback
+        - Improved accuracy for your specific use case
+        - Ability to train custom routers on your evaluation data
+
+        **Note:** If you don't provide a preference_id in model_select() calls, the
+        default router will be used.
 
         Args:
+          name: Optional name for the preference
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -111,7 +137,7 @@ class PreferencesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=PreferenceCreateUserPreferenceResponse,
         )
 
     def delete_user_preference(
@@ -255,11 +281,36 @@ class AsyncPreferencesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> PreferenceCreateUserPreferenceResponse:
         """
-        Create Preference
+        Create a new preference ID for personalized LLM routing.
+
+        A preference ID enables personalized routing by tracking your feedback and
+        learning your preferences over time. Once created, you can:
+
+        1. Use it in model_select() calls to get personalized routing decisions
+        2. Submit feedback via the feedback endpoint to improve routing quality
+        3. Train a custom router specific to your use case
+
+        **Workflow:**
+
+        1. Create a preference ID (this endpoint)
+        2. Use the preference_id in POST /v2/modelRouter/modelSelect requests
+        3. Submit feedback on routing decisions via POST /v2/report/metrics/feedback
+        4. Optionally train a custom router via POST /v2/pzn/trainCustomRouter
+
+        **Benefits:**
+
+        - Personalized routing that learns from your feedback
+        - Improved accuracy for your specific use case
+        - Ability to train custom routers on your evaluation data
+
+        **Note:** If you don't provide a preference_id in model_select() calls, the
+        default router will be used.
 
         Args:
+          name: Optional name for the preference
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -276,7 +327,7 @@ class AsyncPreferencesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=PreferenceCreateUserPreferenceResponse,
         )
 
     async def delete_user_preference(

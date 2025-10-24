@@ -69,9 +69,94 @@ class PromptAdaptationResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PromptAdaptationAdaptResponse:
         """
-        Adapt Prompt
+        Adapt your prompt from one LLM to work optimally across different target LLMs.
+
+        This endpoint automatically optimizes your prompt (system prompt + user message
+        template) to achieve better performance when switching between different
+        language models. Each model has unique characteristics, and what works well for
+        GPT-4 might not work as well for Claude or Gemini.
+
+        **How Prompt Adaptation Works:**
+
+        1. You provide your current prompt optimized for an origin model
+        2. You specify target models you want to adapt to
+        3. You provide evaluation examples (golden records) with expected answers
+        4. The system runs optimization to find the best prompt for each target model
+        5. You receive adapted prompts that perform well on your target models
+
+        **Evaluation Metrics:** Choose either a standard metric or provide custom
+        evaluation:
+
+        - **Standard metrics**: LLMaaJ:SQL, LLMaaJ:Sem_Sim_1/3/10 (semantic similarity),
+          JSON_Match
+        - **Custom evaluation**: Provide evaluation_config with your own LLM judge,
+          prompt, and cutoff
+
+        **Dataset Requirements:**
+
+        - Minimum 5 examples in train_goldens (more examples = better adaptation)
+        - Each example must have fields matching your template placeholders
+        - Supervised evaluation requires 'answer' field in each golden record
+        - Unsupervised evaluation can work without answers
+
+        **Training Time:**
+
+        - Processing is asynchronous and typically takes 10-30 minutes
+        - Time depends on: number of target models, dataset size, model availability
+        - Use the returned adaptation_run_id to check status and retrieve results
+
+        **Subscription Tiers:**
+
+        - Free: 1 target model
+        - Starter: 3 target models
+        - Startup: 5 target models
+        - Enterprise: 10 target models
+
+        **Best Practices:**
+
+        1. Use diverse, representative examples from your production workload
+        2. Include 10-20 examples for best results (5 minimum)
+        3. Ensure consistent evaluation across all examples
+        4. Test both train_goldens and test_goldens split for validation
+        5. Use the same model versions you'll use in production
+
+        **Example Workflow:**
+
+        ```
+        1. POST /v2/prompt/adapt - Submit adaptation request
+        2. GET /v2/prompt/adaptStatus/{id} - Poll status until completed
+        3. GET /v2/prompt/adaptResults/{id} - Retrieve optimized prompts
+        4. Use optimized prompts in production with target models
+        ```
+
+        **Related Documentation:** See
+        https://docs.notdiamond.ai/docs/adapting-prompts-to-new-models for detailed
+        guide.
 
         Args:
+          fields: List of field names that will be substituted into the template. Must match keys
+              in golden records
+
+          origin_model: The model your current prompt is optimized for
+
+          system_prompt: System prompt to use with the origin model. This sets the context and role for
+              the LLM
+
+          target_models: List of models to adapt the prompt for. Maximum count depends on your
+              subscription tier
+
+          template: User message template with placeholders for fields. Use curly braces for field
+              substitution
+
+          goldens: Training examples (legacy parameter). Use train_goldens and test_goldens for
+              better control
+
+          origin_model_evaluation_score: Optional baseline score for the origin model
+
+          test_goldens: Test examples for evaluation. Required if train_goldens is provided
+
+          train_goldens: Training examples for prompt optimization. Minimum 5 examples required
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -116,7 +201,62 @@ class PromptAdaptationResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AdaptationRunResults:
         """
-        Get Adapt Results
+        Retrieve the complete results of a prompt adaptation run, including optimized
+        prompts for all target models.
+
+        This endpoint returns the adapted prompts and evaluation metrics for each target
+        model in your adaptation request. Call this endpoint after the adaptation status
+        is 'completed' to get your optimized prompts.
+
+        **Response Structure:**
+
+        - **origin_model**: Baseline performance of your original prompt on the origin
+          model
+          - Includes: system_prompt, user_message_template, score, evaluation metrics,
+            cost
+        - **target_models**: Array of results for each target model
+          - Includes: optimized system_prompt, user_message_template, template_fields
+          - pre_optimization_score: Performance before adaptation
+          - post_optimization_score: Performance after adaptation
+          - Evaluation metrics and cost information
+
+        **Using Adapted Prompts:**
+
+        1. Extract the `system_prompt` and `user_message_template` from each target
+           model result
+        2. Use `user_message_template_fields` to know which fields to substitute
+        3. Apply the optimized prompts when calling the respective target models
+        4. Compare pre/post optimization scores to see improvement
+
+        **Evaluation Scores:**
+
+        - Scores range from 0-10 (higher is better)
+        - Compare origin_model score with target_models pre_optimization_score for
+          baseline
+        - Compare pre_optimization_score with post_optimization_score to see improvement
+          from adaptation
+        - Typical improvements range from 5-30% on evaluation metrics
+
+        **Status Handling:**
+
+        - If adaptation is still processing, target model results will have
+          `result_status: "processing"`
+        - Only completed target models will have system_prompt and template values
+        - Failed target models will have `result_status: "failed"` with null values
+
+        **Cost Information:**
+
+        - Each model result includes cost in USD for the adaptation process
+        - Costs vary based on model pricing and number of evaluation examples
+        - Typical range: $0.10 - $2.00 per target model
+
+        **Best Practices:**
+
+        1. Wait for status 'completed' before calling this endpoint
+        2. Check result_status for each target model
+        3. Validate that post_optimization_score > pre_optimization_score
+        4. Save optimized prompts for production use
+        5. A/B test adapted prompts against originals in production
 
         Args:
           extra_headers: Send extra headers
@@ -222,7 +362,36 @@ class PromptAdaptationResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PromptAdaptationGetAdaptStatusResponse:
         """
-        Get Adapt Status
+        Check the status of a prompt adaptation run.
+
+        Use this endpoint to poll the status of your adaptation request. Processing is
+        asynchronous, so you'll need to check periodically until the status indicates
+        completion.
+
+        **Status Values:**
+
+        - `created`: Initial state, not yet processing
+        - `queued`: Waiting for processing capacity (check queue_position)
+        - `processing`: Currently optimizing prompts
+        - `completed`: All target models have been processed successfully
+        - `failed`: One or more target models failed to process
+
+        **Polling Recommendations:**
+
+        - Poll every 30-60 seconds during processing
+        - Check queue_position if status is 'queued' to estimate wait time
+        - Stop polling once status is 'completed' or 'failed'
+        - Use GET /v2/prompt/adaptResults to retrieve results after completion
+
+        **Queue Position:**
+
+        - Only present when status is 'queued'
+        - Lower numbers mean earlier processing (position 1 is next)
+        - Typical wait time: 1-5 minutes per position
+
+        **Note:** This endpoint only returns status information. To get the actual
+        adapted prompts and evaluation results, use GET /v2/prompt/adaptResults once
+        status is 'completed'.
 
         Args:
           extra_headers: Send extra headers
@@ -319,9 +488,94 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PromptAdaptationAdaptResponse:
         """
-        Adapt Prompt
+        Adapt your prompt from one LLM to work optimally across different target LLMs.
+
+        This endpoint automatically optimizes your prompt (system prompt + user message
+        template) to achieve better performance when switching between different
+        language models. Each model has unique characteristics, and what works well for
+        GPT-4 might not work as well for Claude or Gemini.
+
+        **How Prompt Adaptation Works:**
+
+        1. You provide your current prompt optimized for an origin model
+        2. You specify target models you want to adapt to
+        3. You provide evaluation examples (golden records) with expected answers
+        4. The system runs optimization to find the best prompt for each target model
+        5. You receive adapted prompts that perform well on your target models
+
+        **Evaluation Metrics:** Choose either a standard metric or provide custom
+        evaluation:
+
+        - **Standard metrics**: LLMaaJ:SQL, LLMaaJ:Sem_Sim_1/3/10 (semantic similarity),
+          JSON_Match
+        - **Custom evaluation**: Provide evaluation_config with your own LLM judge,
+          prompt, and cutoff
+
+        **Dataset Requirements:**
+
+        - Minimum 5 examples in train_goldens (more examples = better adaptation)
+        - Each example must have fields matching your template placeholders
+        - Supervised evaluation requires 'answer' field in each golden record
+        - Unsupervised evaluation can work without answers
+
+        **Training Time:**
+
+        - Processing is asynchronous and typically takes 10-30 minutes
+        - Time depends on: number of target models, dataset size, model availability
+        - Use the returned adaptation_run_id to check status and retrieve results
+
+        **Subscription Tiers:**
+
+        - Free: 1 target model
+        - Starter: 3 target models
+        - Startup: 5 target models
+        - Enterprise: 10 target models
+
+        **Best Practices:**
+
+        1. Use diverse, representative examples from your production workload
+        2. Include 10-20 examples for best results (5 minimum)
+        3. Ensure consistent evaluation across all examples
+        4. Test both train_goldens and test_goldens split for validation
+        5. Use the same model versions you'll use in production
+
+        **Example Workflow:**
+
+        ```
+        1. POST /v2/prompt/adapt - Submit adaptation request
+        2. GET /v2/prompt/adaptStatus/{id} - Poll status until completed
+        3. GET /v2/prompt/adaptResults/{id} - Retrieve optimized prompts
+        4. Use optimized prompts in production with target models
+        ```
+
+        **Related Documentation:** See
+        https://docs.notdiamond.ai/docs/adapting-prompts-to-new-models for detailed
+        guide.
 
         Args:
+          fields: List of field names that will be substituted into the template. Must match keys
+              in golden records
+
+          origin_model: The model your current prompt is optimized for
+
+          system_prompt: System prompt to use with the origin model. This sets the context and role for
+              the LLM
+
+          target_models: List of models to adapt the prompt for. Maximum count depends on your
+              subscription tier
+
+          template: User message template with placeholders for fields. Use curly braces for field
+              substitution
+
+          goldens: Training examples (legacy parameter). Use train_goldens and test_goldens for
+              better control
+
+          origin_model_evaluation_score: Optional baseline score for the origin model
+
+          test_goldens: Test examples for evaluation. Required if train_goldens is provided
+
+          train_goldens: Training examples for prompt optimization. Minimum 5 examples required
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -366,7 +620,62 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AdaptationRunResults:
         """
-        Get Adapt Results
+        Retrieve the complete results of a prompt adaptation run, including optimized
+        prompts for all target models.
+
+        This endpoint returns the adapted prompts and evaluation metrics for each target
+        model in your adaptation request. Call this endpoint after the adaptation status
+        is 'completed' to get your optimized prompts.
+
+        **Response Structure:**
+
+        - **origin_model**: Baseline performance of your original prompt on the origin
+          model
+          - Includes: system_prompt, user_message_template, score, evaluation metrics,
+            cost
+        - **target_models**: Array of results for each target model
+          - Includes: optimized system_prompt, user_message_template, template_fields
+          - pre_optimization_score: Performance before adaptation
+          - post_optimization_score: Performance after adaptation
+          - Evaluation metrics and cost information
+
+        **Using Adapted Prompts:**
+
+        1. Extract the `system_prompt` and `user_message_template` from each target
+           model result
+        2. Use `user_message_template_fields` to know which fields to substitute
+        3. Apply the optimized prompts when calling the respective target models
+        4. Compare pre/post optimization scores to see improvement
+
+        **Evaluation Scores:**
+
+        - Scores range from 0-10 (higher is better)
+        - Compare origin_model score with target_models pre_optimization_score for
+          baseline
+        - Compare pre_optimization_score with post_optimization_score to see improvement
+          from adaptation
+        - Typical improvements range from 5-30% on evaluation metrics
+
+        **Status Handling:**
+
+        - If adaptation is still processing, target model results will have
+          `result_status: "processing"`
+        - Only completed target models will have system_prompt and template values
+        - Failed target models will have `result_status: "failed"` with null values
+
+        **Cost Information:**
+
+        - Each model result includes cost in USD for the adaptation process
+        - Costs vary based on model pricing and number of evaluation examples
+        - Typical range: $0.10 - $2.00 per target model
+
+        **Best Practices:**
+
+        1. Wait for status 'completed' before calling this endpoint
+        2. Check result_status for each target model
+        3. Validate that post_optimization_score > pre_optimization_score
+        4. Save optimized prompts for production use
+        5. A/B test adapted prompts against originals in production
 
         Args:
           extra_headers: Send extra headers
@@ -472,7 +781,36 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PromptAdaptationGetAdaptStatusResponse:
         """
-        Get Adapt Status
+        Check the status of a prompt adaptation run.
+
+        Use this endpoint to poll the status of your adaptation request. Processing is
+        asynchronous, so you'll need to check periodically until the status indicates
+        completion.
+
+        **Status Values:**
+
+        - `created`: Initial state, not yet processing
+        - `queued`: Waiting for processing capacity (check queue_position)
+        - `processing`: Currently optimizing prompts
+        - `completed`: All target models have been processed successfully
+        - `failed`: One or more target models failed to process
+
+        **Polling Recommendations:**
+
+        - Poll every 30-60 seconds during processing
+        - Check queue_position if status is 'queued' to estimate wait time
+        - Stop polling once status is 'completed' or 'failed'
+        - Use GET /v2/prompt/adaptResults to retrieve results after completion
+
+        **Queue Position:**
+
+        - Only present when status is 'queued'
+        - Lower numbers mean earlier processing (position 1 is next)
+        - Typical wait time: 1-5 minutes per position
+
+        **Note:** This endpoint only returns status information. To get the actual
+        adapted prompts and evaluation results, use GET /v2/prompt/adaptResults once
+        status is 'completed'.
 
         Args:
           extra_headers: Send extra headers

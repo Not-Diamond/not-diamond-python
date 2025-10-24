@@ -8,10 +8,13 @@ from .model_list_response import ModelListResponse as ModelListResponse
 from .report_latency_params import ReportLatencyParams as ReportLatencyParams
 from .adaptation_run_results import AdaptationRunResults as AdaptationRunResults
 from .report_feedback_params import ReportFeedbackParams as ReportFeedbackParams
+from .report_feedback_response import ReportFeedbackResponse as ReportFeedbackResponse
 from .router_select_model_params import RouterSelectModelParams as RouterSelectModelParams
+from .router_select_model_response import RouterSelectModelResponse as RouterSelectModelResponse
 from .prompt_adaptation_adapt_params import PromptAdaptationAdaptParams as PromptAdaptationAdaptParams
 from .prompt_adaptation_adapt_response import PromptAdaptationAdaptResponse as PromptAdaptationAdaptResponse
 from .router_train_custom_router_params import RouterTrainCustomRouterParams as RouterTrainCustomRouterParams
+from .router_train_custom_router_response import RouterTrainCustomRouterResponse as RouterTrainCustomRouterResponse
 from .router_create_survey_response_params import RouterCreateSurveyResponseParams as RouterCreateSurveyResponseParams
 from .preference_create_user_preference_params import (
     PreferenceCreateUserPreferenceParams as PreferenceCreateUserPreferenceParams,
@@ -24,6 +27,9 @@ from .prompt_adaptation_get_adapt_runs_response import (
 )
 from .prompt_adaptation_retrieve_costs_response import (
     PromptAdaptationRetrieveCostsResponse as PromptAdaptationRetrieveCostsResponse,
+)
+from .preference_create_user_preference_response import (
+    PreferenceCreateUserPreferenceResponse as PreferenceCreateUserPreferenceResponse,
 )
 from .prompt_adaptation_get_adapt_status_response import (
     PromptAdaptationGetAdaptStatusResponse as PromptAdaptationGetAdaptStatusResponse,

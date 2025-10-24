@@ -136,19 +136,23 @@ from not_diamond import NotDiamond
 client = NotDiamond()
 
 response = client.prompt_adaptation.adapt(
-    fields=["string"],
+    fields=["question"],
     origin_model={
-        "model": "model",
-        "provider": "provider",
+        "model": "gpt-4o",
+        "provider": "openai",
     },
-    system_prompt="system_prompt",
+    system_prompt="You are a helpful assistant that answers questions accurately.",
     target_models=[
         {
-            "model": "model",
-            "provider": "provider",
-        }
+            "model": "claude-3-5-sonnet-20241022",
+            "provider": "anthropic",
+        },
+        {
+            "model": "gemini-1.5-pro",
+            "provider": "google",
+        },
     ],
-    template="template",
+    template="Question: {question}\nAnswer:",
 )
 print(response.origin_model)
 ```

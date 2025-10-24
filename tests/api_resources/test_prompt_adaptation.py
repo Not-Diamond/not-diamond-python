@@ -27,19 +27,23 @@ class TestPromptAdaptation:
     @parametrize
     def test_method_adapt(self, client: NotDiamond) -> None:
         prompt_adaptation = client.prompt_adaptation.adapt(
-            fields=["string"],
+            fields=["question"],
             origin_model={
-                "model": "model",
-                "provider": "provider",
+                "model": "gpt-4o",
+                "provider": "openai",
             },
-            system_prompt="system_prompt",
+            system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "model",
-                    "provider": "provider",
-                }
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
             ],
-            template="template",
+            template="Question: {question}\nAnswer:",
         )
         assert_matches_type(PromptAdaptationAdaptResponse, prompt_adaptation, path=["response"])
 
@@ -47,49 +51,81 @@ class TestPromptAdaptation:
     @parametrize
     def test_method_adapt_with_all_params(self, client: NotDiamond) -> None:
         prompt_adaptation = client.prompt_adaptation.adapt(
-            fields=["string"],
+            fields=["question"],
             origin_model={
-                "model": "model",
-                "provider": "provider",
+                "model": "gpt-4o",
+                "provider": "openai",
                 "context_length": 0,
                 "input_price": 0,
                 "is_custom": True,
                 "latency": 0,
                 "output_price": 0,
             },
-            system_prompt="system_prompt",
+            system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "model",
-                    "provider": "provider",
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
                     "context_length": 0,
                     "input_price": 0,
                     "is_custom": True,
                     "latency": 0,
                     "output_price": 0,
-                }
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                    "context_length": 0,
+                    "input_price": 0,
+                    "is_custom": True,
+                    "latency": 0,
+                    "output_price": 0,
+                },
             ],
-            template="template",
+            template="Question: {question}\nAnswer:",
             evaluation_config="evaluation_config",
-            evaluation_metric="evaluation_metric",
+            evaluation_metric="LLMaaJ:Sem_Sim_3",
             goldens=[
                 {
-                    "fields": {"foo": "string"},
-                    "answer": "answer",
+                    "fields": {
+                        "context": "Basic arithmetic",
+                        "question": "What is 2+2?",
+                    },
+                    "answer": "4",
                 }
             ],
             origin_model_evaluation_score=0,
             test_goldens=[
                 {
-                    "fields": {"foo": "string"},
-                    "answer": "answer",
-                }
+                    "fields": {"question": "What is 3*3?"},
+                    "answer": "9",
+                },
+                {
+                    "fields": {"question": "What is the largest ocean?"},
+                    "answer": "Pacific Ocean",
+                },
             ],
             train_goldens=[
                 {
-                    "fields": {"foo": "string"},
-                    "answer": "answer",
-                }
+                    "fields": {"question": "What is 2+2?"},
+                    "answer": "4",
+                },
+                {
+                    "fields": {"question": "What is the capital of France?"},
+                    "answer": "Paris",
+                },
+                {
+                    "fields": {"question": "Who wrote Romeo and Juliet?"},
+                    "answer": "William Shakespeare",
+                },
+                {
+                    "fields": {"question": "What is H2O?"},
+                    "answer": "Water",
+                },
+                {
+                    "fields": {"question": "How many continents are there?"},
+                    "answer": "7",
+                },
             ],
         )
         assert_matches_type(PromptAdaptationAdaptResponse, prompt_adaptation, path=["response"])
@@ -98,19 +134,23 @@ class TestPromptAdaptation:
     @parametrize
     def test_raw_response_adapt(self, client: NotDiamond) -> None:
         response = client.prompt_adaptation.with_raw_response.adapt(
-            fields=["string"],
+            fields=["question"],
             origin_model={
-                "model": "model",
-                "provider": "provider",
+                "model": "gpt-4o",
+                "provider": "openai",
             },
-            system_prompt="system_prompt",
+            system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "model",
-                    "provider": "provider",
-                }
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
             ],
-            template="template",
+            template="Question: {question}\nAnswer:",
         )
 
         assert response.is_closed is True
@@ -122,19 +162,23 @@ class TestPromptAdaptation:
     @parametrize
     def test_streaming_response_adapt(self, client: NotDiamond) -> None:
         with client.prompt_adaptation.with_streaming_response.adapt(
-            fields=["string"],
+            fields=["question"],
             origin_model={
-                "model": "model",
-                "provider": "provider",
+                "model": "gpt-4o",
+                "provider": "openai",
             },
-            system_prompt="system_prompt",
+            system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "model",
-                    "provider": "provider",
-                }
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
             ],
-            template="template",
+            template="Question: {question}\nAnswer:",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -383,19 +427,23 @@ class TestAsyncPromptAdaptation:
     @parametrize
     async def test_method_adapt(self, async_client: AsyncNotDiamond) -> None:
         prompt_adaptation = await async_client.prompt_adaptation.adapt(
-            fields=["string"],
+            fields=["question"],
             origin_model={
-                "model": "model",
-                "provider": "provider",
+                "model": "gpt-4o",
+                "provider": "openai",
             },
-            system_prompt="system_prompt",
+            system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "model",
-                    "provider": "provider",
-                }
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
             ],
-            template="template",
+            template="Question: {question}\nAnswer:",
         )
         assert_matches_type(PromptAdaptationAdaptResponse, prompt_adaptation, path=["response"])
 
@@ -403,49 +451,81 @@ class TestAsyncPromptAdaptation:
     @parametrize
     async def test_method_adapt_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         prompt_adaptation = await async_client.prompt_adaptation.adapt(
-            fields=["string"],
+            fields=["question"],
             origin_model={
-                "model": "model",
-                "provider": "provider",
+                "model": "gpt-4o",
+                "provider": "openai",
                 "context_length": 0,
                 "input_price": 0,
                 "is_custom": True,
                 "latency": 0,
                 "output_price": 0,
             },
-            system_prompt="system_prompt",
+            system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "model",
-                    "provider": "provider",
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
                     "context_length": 0,
                     "input_price": 0,
                     "is_custom": True,
                     "latency": 0,
                     "output_price": 0,
-                }
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                    "context_length": 0,
+                    "input_price": 0,
+                    "is_custom": True,
+                    "latency": 0,
+                    "output_price": 0,
+                },
             ],
-            template="template",
+            template="Question: {question}\nAnswer:",
             evaluation_config="evaluation_config",
-            evaluation_metric="evaluation_metric",
+            evaluation_metric="LLMaaJ:Sem_Sim_3",
             goldens=[
                 {
-                    "fields": {"foo": "string"},
-                    "answer": "answer",
+                    "fields": {
+                        "context": "Basic arithmetic",
+                        "question": "What is 2+2?",
+                    },
+                    "answer": "4",
                 }
             ],
             origin_model_evaluation_score=0,
             test_goldens=[
                 {
-                    "fields": {"foo": "string"},
-                    "answer": "answer",
-                }
+                    "fields": {"question": "What is 3*3?"},
+                    "answer": "9",
+                },
+                {
+                    "fields": {"question": "What is the largest ocean?"},
+                    "answer": "Pacific Ocean",
+                },
             ],
             train_goldens=[
                 {
-                    "fields": {"foo": "string"},
-                    "answer": "answer",
-                }
+                    "fields": {"question": "What is 2+2?"},
+                    "answer": "4",
+                },
+                {
+                    "fields": {"question": "What is the capital of France?"},
+                    "answer": "Paris",
+                },
+                {
+                    "fields": {"question": "Who wrote Romeo and Juliet?"},
+                    "answer": "William Shakespeare",
+                },
+                {
+                    "fields": {"question": "What is H2O?"},
+                    "answer": "Water",
+                },
+                {
+                    "fields": {"question": "How many continents are there?"},
+                    "answer": "7",
+                },
             ],
         )
         assert_matches_type(PromptAdaptationAdaptResponse, prompt_adaptation, path=["response"])
@@ -454,19 +534,23 @@ class TestAsyncPromptAdaptation:
     @parametrize
     async def test_raw_response_adapt(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.prompt_adaptation.with_raw_response.adapt(
-            fields=["string"],
+            fields=["question"],
             origin_model={
-                "model": "model",
-                "provider": "provider",
+                "model": "gpt-4o",
+                "provider": "openai",
             },
-            system_prompt="system_prompt",
+            system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "model",
-                    "provider": "provider",
-                }
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
             ],
-            template="template",
+            template="Question: {question}\nAnswer:",
         )
 
         assert response.is_closed is True
@@ -478,19 +562,23 @@ class TestAsyncPromptAdaptation:
     @parametrize
     async def test_streaming_response_adapt(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.prompt_adaptation.with_streaming_response.adapt(
-            fields=["string"],
+            fields=["question"],
             origin_model={
-                "model": "model",
-                "provider": "provider",
+                "model": "gpt-4o",
+                "provider": "openai",
             },
-            system_prompt="system_prompt",
+            system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "model",
-                    "provider": "provider",
-                }
+                    "model": "claude-3-5-sonnet-20241022",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
             ],
-            template="template",
+            template="Question: {question}\nAnswer:",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

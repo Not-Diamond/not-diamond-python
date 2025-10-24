@@ -9,6 +9,9 @@ import pytest
 
 from not_diamond import NotDiamond, AsyncNotDiamond
 from tests.utils import assert_matches_type
+from not_diamond.types import (
+    PreferenceCreateUserPreferenceResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -77,7 +80,7 @@ class TestPreferences:
     @parametrize
     def test_method_create_user_preference(self, client: NotDiamond) -> None:
         preference = client.preferences.create_user_preference()
-        assert_matches_type(object, preference, path=["response"])
+        assert_matches_type(PreferenceCreateUserPreferenceResponse, preference, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -85,7 +88,7 @@ class TestPreferences:
         preference = client.preferences.create_user_preference(
             name="name",
         )
-        assert_matches_type(object, preference, path=["response"])
+        assert_matches_type(PreferenceCreateUserPreferenceResponse, preference, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -95,7 +98,7 @@ class TestPreferences:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         preference = response.parse()
-        assert_matches_type(object, preference, path=["response"])
+        assert_matches_type(PreferenceCreateUserPreferenceResponse, preference, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -105,7 +108,7 @@ class TestPreferences:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             preference = response.parse()
-            assert_matches_type(object, preference, path=["response"])
+            assert_matches_type(PreferenceCreateUserPreferenceResponse, preference, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -261,7 +264,7 @@ class TestAsyncPreferences:
     @parametrize
     async def test_method_create_user_preference(self, async_client: AsyncNotDiamond) -> None:
         preference = await async_client.preferences.create_user_preference()
-        assert_matches_type(object, preference, path=["response"])
+        assert_matches_type(PreferenceCreateUserPreferenceResponse, preference, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -269,7 +272,7 @@ class TestAsyncPreferences:
         preference = await async_client.preferences.create_user_preference(
             name="name",
         )
-        assert_matches_type(object, preference, path=["response"])
+        assert_matches_type(PreferenceCreateUserPreferenceResponse, preference, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -279,7 +282,7 @@ class TestAsyncPreferences:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         preference = await response.parse()
-        assert_matches_type(object, preference, path=["response"])
+        assert_matches_type(PreferenceCreateUserPreferenceResponse, preference, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -289,7 +292,7 @@ class TestAsyncPreferences:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             preference = await response.parse()
-            assert_matches_type(object, preference, path=["response"])
+            assert_matches_type(PreferenceCreateUserPreferenceResponse, preference, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

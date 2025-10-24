@@ -18,6 +18,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.report_feedback_response import ReportFeedbackResponse
 
 __all__ = ["ReportResource", "AsyncReportResource"]
 
@@ -54,11 +55,48 @@ class ReportResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> ReportFeedbackResponse:
         """
-        Report Feedback
+        Submit feedback on a routing decision to improve future recommendations.
+
+        This endpoint allows you to provide feedback on whether the router selected the
+        right model for your query. Your feedback is used to:
+
+        1. Personalize routing decisions for your preference_id
+        2. Improve the overall routing quality
+        3. Train and refine custom routers
+
+        **Feedback Format:**
+
+        - `accuracy: 1` - Thumbs up (the model performed well)
+        - `accuracy: 0` - Thumbs down (the model did not perform well)
+
+        **Requirements:**
+
+        - You must have used a preference_id in the original model_select() call
+        - The session_id must be valid and belong to your account
+        - The provider must match one of the providers returned by model_select()
+
+        **How Feedback Works:** When you submit thumbs down, the router will:
+
+        - Decrease the ranking of the selected model for similar queries
+        - Consider alternative models more favorably
+
+        When you submit thumbs up, the router will:
+
+        - Increase the ranking of the selected model for similar queries
+        - Prioritize this model for similar future requests
+
+        **Note:** Feedback requires a valid preference_id. Create one via POST
+        /v2/preferences/userPreferenceCreate
 
         Args:
+          feedback: Feedback dictionary with 'accuracy' key (0 for thumbs down, 1 for thumbs up)
+
+          provider: The provider that was selected by the router
+
+          session_id: Session ID returned from POST /v2/modelRouter/modelSelect
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -80,7 +118,7 @@ class ReportResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=ReportFeedbackResponse,
         )
 
     def latency(
@@ -100,6 +138,12 @@ class ReportResource(SyncAPIResource):
         Report Latency
 
         Args:
+          feedback: Feedback dictionary with 'accuracy' key (0 for thumbs down, 1 for thumbs up)
+
+          provider: The provider that was selected by the router
+
+          session_id: Session ID returned from POST /v2/modelRouter/modelSelect
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -157,11 +201,48 @@ class AsyncReportResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> ReportFeedbackResponse:
         """
-        Report Feedback
+        Submit feedback on a routing decision to improve future recommendations.
+
+        This endpoint allows you to provide feedback on whether the router selected the
+        right model for your query. Your feedback is used to:
+
+        1. Personalize routing decisions for your preference_id
+        2. Improve the overall routing quality
+        3. Train and refine custom routers
+
+        **Feedback Format:**
+
+        - `accuracy: 1` - Thumbs up (the model performed well)
+        - `accuracy: 0` - Thumbs down (the model did not perform well)
+
+        **Requirements:**
+
+        - You must have used a preference_id in the original model_select() call
+        - The session_id must be valid and belong to your account
+        - The provider must match one of the providers returned by model_select()
+
+        **How Feedback Works:** When you submit thumbs down, the router will:
+
+        - Decrease the ranking of the selected model for similar queries
+        - Consider alternative models more favorably
+
+        When you submit thumbs up, the router will:
+
+        - Increase the ranking of the selected model for similar queries
+        - Prioritize this model for similar future requests
+
+        **Note:** Feedback requires a valid preference_id. Create one via POST
+        /v2/preferences/userPreferenceCreate
 
         Args:
+          feedback: Feedback dictionary with 'accuracy' key (0 for thumbs down, 1 for thumbs up)
+
+          provider: The provider that was selected by the router
+
+          session_id: Session ID returned from POST /v2/modelRouter/modelSelect
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -183,7 +264,7 @@ class AsyncReportResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=ReportFeedbackResponse,
         )
 
     async def latency(
@@ -203,6 +284,12 @@ class AsyncReportResource(AsyncAPIResource):
         Report Latency
 
         Args:
+          feedback: Feedback dictionary with 'accuracy' key (0 for thumbs down, 1 for thumbs up)
+
+          provider: The provider that was selected by the router
+
+          session_id: Session ID returned from POST /v2/modelRouter/modelSelect
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
