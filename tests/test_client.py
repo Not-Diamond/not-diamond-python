@@ -734,7 +734,7 @@ class TestNotDiamond:
         respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            client.router.with_streaming_response.create_survey_response(
+            client.routing.with_streaming_response.create_survey_response(
                 constraint_priorities="constraint_priorities",
                 email="email",
                 llm_providers="llm_providers",
@@ -751,7 +751,7 @@ class TestNotDiamond:
         respx_mock.post("/v2/pzn/surveyResponse").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            client.router.with_streaming_response.create_survey_response(
+            client.routing.with_streaming_response.create_survey_response(
                 constraint_priorities="constraint_priorities",
                 email="email",
                 llm_providers="llm_providers",
@@ -787,7 +787,7 @@ class TestNotDiamond:
 
         respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=retry_handler)
 
-        response = client.router.with_raw_response.create_survey_response(
+        response = client.routing.with_raw_response.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -818,7 +818,7 @@ class TestNotDiamond:
 
         respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=retry_handler)
 
-        response = client.router.with_raw_response.create_survey_response(
+        response = client.routing.with_raw_response.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -849,7 +849,7 @@ class TestNotDiamond:
 
         respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=retry_handler)
 
-        response = client.router.with_raw_response.create_survey_response(
+        response = client.routing.with_raw_response.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -1597,7 +1597,7 @@ class TestAsyncNotDiamond:
         respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await async_client.router.with_streaming_response.create_survey_response(
+            await async_client.routing.with_streaming_response.create_survey_response(
                 constraint_priorities="constraint_priorities",
                 email="email",
                 llm_providers="llm_providers",
@@ -1616,7 +1616,7 @@ class TestAsyncNotDiamond:
         respx_mock.post("/v2/pzn/surveyResponse").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await async_client.router.with_streaming_response.create_survey_response(
+            await async_client.routing.with_streaming_response.create_survey_response(
                 constraint_priorities="constraint_priorities",
                 email="email",
                 llm_providers="llm_providers",
@@ -1653,7 +1653,7 @@ class TestAsyncNotDiamond:
 
         respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=retry_handler)
 
-        response = await client.router.with_raw_response.create_survey_response(
+        response = await client.routing.with_raw_response.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -1685,7 +1685,7 @@ class TestAsyncNotDiamond:
 
         respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=retry_handler)
 
-        response = await client.router.with_raw_response.create_survey_response(
+        response = await client.routing.with_raw_response.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",
@@ -1717,7 +1717,7 @@ class TestAsyncNotDiamond:
 
         respx_mock.post("/v2/pzn/surveyResponse").mock(side_effect=retry_handler)
 
-        response = await client.router.with_raw_response.create_survey_response(
+        response = await client.routing.with_raw_response.create_survey_response(
             constraint_priorities="constraint_priorities",
             email="email",
             llm_providers="llm_providers",

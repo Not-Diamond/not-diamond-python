@@ -7,10 +7,10 @@ from typing_extensions import Required, TypedDict
 
 from .._types import FileTypes
 
-__all__ = ["RouterTrainCustomRouterParams"]
+__all__ = ["RoutingTrainCustomRouterParams"]
 
 
-class RouterTrainCustomRouterParams(TypedDict, total=False):
+class RoutingTrainCustomRouterParams(TypedDict, total=False):
     dataset_file: Required[FileTypes]
     """
     CSV file containing evaluation data with prompt column and score/response

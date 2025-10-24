@@ -2,10 +2,10 @@
 
 from .._models import BaseModel
 
-__all__ = ["RouterTrainCustomRouterResponse"]
+__all__ = ["RoutingTrainCustomRouterResponse"]
 
 
-class RouterTrainCustomRouterResponse(BaseModel):
+class RoutingTrainCustomRouterResponse(BaseModel):
     preference_id: str
     """The preference ID for the custom router.
 
