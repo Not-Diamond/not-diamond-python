@@ -4,7 +4,7 @@ from typing import List
 
 from .._models import BaseModel
 
-__all__ = ["RouterSelectModelResponse", "Provider"]
+__all__ = ["RoutingSelectModelResponse", "Provider"]
 
 
 class Provider(BaseModel):
@@ -15,7 +15,7 @@ class Provider(BaseModel):
     """Provider name"""
 
 
-class RouterSelectModelResponse(BaseModel):
+class RoutingSelectModelResponse(BaseModel):
     providers: List[Provider]
     """List containing the selected provider"""
 

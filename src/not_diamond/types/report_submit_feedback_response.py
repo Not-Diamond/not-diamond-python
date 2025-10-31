@@ -4,10 +4,10 @@ from typing import Dict
 
 from .._models import BaseModel
 
-__all__ = ["ReportFeedbackResponse"]
+__all__ = ["ReportSubmitFeedbackResponse"]
 
 
-class ReportFeedbackResponse(BaseModel):
+class ReportSubmitFeedbackResponse(BaseModel):
     feedback: Dict[str, object]
     """The processed feedback"""
 

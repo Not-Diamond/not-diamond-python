@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Mapping
-from typing_extensions import Self, override
+from typing import Any, Dict, Mapping, cast
+from typing_extensions import Self, Literal, override
 
 import httpx
 
@@ -22,7 +22,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import models, report, router, preferences, prompt_adaptation
+from .resources import models, report, routing, preferences, prompt_adaptation
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
@@ -30,9 +30,9 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.client import client
 
 __all__ = [
+    "ENVIRONMENTS",
     "Timeout",
     "Transport",
     "ProxiesTypes",
@@ -43,25 +43,32 @@ __all__ = [
     "AsyncClient",
 ]
 
+ENVIRONMENTS: Dict[str, str] = {
+    "production": "https://api.notdiamond.ai",
+    "staging": "https://staging-api.notdiamond.ai",
+}
+
 
 class NotDiamond(SyncAPIClient):
-    router: router.RouterResource
+    routing: routing.RoutingResource
     preferences: preferences.PreferencesResource
     prompt_adaptation: prompt_adaptation.PromptAdaptationResource
     report: report.ReportResource
     models: models.ModelsResource
-    client: client.ClientResource
     with_raw_response: NotDiamondWithRawResponse
     with_streaming_response: NotDiamondWithStreamedResponse
 
     # client options
     api_key: str | None
 
+    _environment: Literal["production", "staging"] | NotGiven
+
     def __init__(
         self,
         *,
         api_key: str | None = None,
-        base_url: str | httpx.URL | None = None,
+        environment: Literal["production", "staging"] | NotGiven = not_given,
+        base_url: str | httpx.URL | None | NotGiven = not_given,
         timeout: float | Timeout | None | NotGiven = not_given,
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
@@ -88,10 +95,31 @@ class NotDiamond(SyncAPIClient):
             api_key = os.environ.get("NOT_DIAMOND_API_KEY")
         self.api_key = api_key
 
-        if base_url is None:
-            base_url = os.environ.get("NOT_DIAMOND_BASE_URL")
-        if base_url is None:
-            base_url = f"https://api.example.com"
+        self._environment = environment
+
+        base_url_env = os.environ.get("NOT_DIAMOND_BASE_URL")
+        if is_given(base_url) and base_url is not None:
+            # cast required because mypy doesn't understand the type narrowing
+            base_url = cast("str | httpx.URL", base_url)  # pyright: ignore[reportUnnecessaryCast]
+        elif is_given(environment):
+            if base_url_env and base_url is not None:
+                raise ValueError(
+                    "Ambiguous URL; The `NOT_DIAMOND_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
+                )
+
+            try:
+                base_url = ENVIRONMENTS[environment]
+            except KeyError as exc:
+                raise ValueError(f"Unknown environment: {environment}") from exc
+        elif base_url_env is not None:
+            base_url = base_url_env
+        else:
+            self._environment = environment = "production"
+
+            try:
+                base_url = ENVIRONMENTS[environment]
+            except KeyError as exc:
+                raise ValueError(f"Unknown environment: {environment}") from exc
 
         super().__init__(
             version=__version__,
@@ -104,12 +132,11 @@ class NotDiamond(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.router = router.RouterResource(self)
+        self.routing = routing.RoutingResource(self)
         self.preferences = preferences.PreferencesResource(self)
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResource(self)
         self.report = report.ReportResource(self)
         self.models = models.ModelsResource(self)
-        self.client = client.ClientResource(self)
         self.with_raw_response = NotDiamondWithRawResponse(self)
         self.with_streaming_response = NotDiamondWithStreamedResponse(self)
 
@@ -150,6 +177,7 @@ class NotDiamond(SyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        environment: Literal["production", "staging"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
         http_client: httpx.Client | None = None,
@@ -185,6 +213,7 @@ class NotDiamond(SyncAPIClient):
         return self.__class__(
             api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
+            environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
@@ -232,23 +261,25 @@ class NotDiamond(SyncAPIClient):
 
 
 class AsyncNotDiamond(AsyncAPIClient):
-    router: router.AsyncRouterResource
+    routing: routing.AsyncRoutingResource
     preferences: preferences.AsyncPreferencesResource
     prompt_adaptation: prompt_adaptation.AsyncPromptAdaptationResource
     report: report.AsyncReportResource
     models: models.AsyncModelsResource
-    client: client.AsyncClientResource
     with_raw_response: AsyncNotDiamondWithRawResponse
     with_streaming_response: AsyncNotDiamondWithStreamedResponse
 
     # client options
     api_key: str | None
 
+    _environment: Literal["production", "staging"] | NotGiven
+
     def __init__(
         self,
         *,
         api_key: str | None = None,
-        base_url: str | httpx.URL | None = None,
+        environment: Literal["production", "staging"] | NotGiven = not_given,
+        base_url: str | httpx.URL | None | NotGiven = not_given,
         timeout: float | Timeout | None | NotGiven = not_given,
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
@@ -275,10 +306,31 @@ class AsyncNotDiamond(AsyncAPIClient):
             api_key = os.environ.get("NOT_DIAMOND_API_KEY")
         self.api_key = api_key
 
-        if base_url is None:
-            base_url = os.environ.get("NOT_DIAMOND_BASE_URL")
-        if base_url is None:
-            base_url = f"https://api.example.com"
+        self._environment = environment
+
+        base_url_env = os.environ.get("NOT_DIAMOND_BASE_URL")
+        if is_given(base_url) and base_url is not None:
+            # cast required because mypy doesn't understand the type narrowing
+            base_url = cast("str | httpx.URL", base_url)  # pyright: ignore[reportUnnecessaryCast]
+        elif is_given(environment):
+            if base_url_env and base_url is not None:
+                raise ValueError(
+                    "Ambiguous URL; The `NOT_DIAMOND_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
+                )
+
+            try:
+                base_url = ENVIRONMENTS[environment]
+            except KeyError as exc:
+                raise ValueError(f"Unknown environment: {environment}") from exc
+        elif base_url_env is not None:
+            base_url = base_url_env
+        else:
+            self._environment = environment = "production"
+
+            try:
+                base_url = ENVIRONMENTS[environment]
+            except KeyError as exc:
+                raise ValueError(f"Unknown environment: {environment}") from exc
 
         super().__init__(
             version=__version__,
@@ -291,12 +343,11 @@ class AsyncNotDiamond(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.router = router.AsyncRouterResource(self)
+        self.routing = routing.AsyncRoutingResource(self)
         self.preferences = preferences.AsyncPreferencesResource(self)
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResource(self)
         self.report = report.AsyncReportResource(self)
         self.models = models.AsyncModelsResource(self)
-        self.client = client.AsyncClientResource(self)
         self.with_raw_response = AsyncNotDiamondWithRawResponse(self)
         self.with_streaming_response = AsyncNotDiamondWithStreamedResponse(self)
 
@@ -337,6 +388,7 @@ class AsyncNotDiamond(AsyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        environment: Literal["production", "staging"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
         http_client: httpx.AsyncClient | None = None,
@@ -372,6 +424,7 @@ class AsyncNotDiamond(AsyncAPIClient):
         return self.__class__(
             api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
+            environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
@@ -420,48 +473,44 @@ class AsyncNotDiamond(AsyncAPIClient):
 
 class NotDiamondWithRawResponse:
     def __init__(self, client: NotDiamond) -> None:
-        self.router = router.RouterResourceWithRawResponse(client.router)
+        self.routing = routing.RoutingResourceWithRawResponse(client.routing)
         self.preferences = preferences.PreferencesResourceWithRawResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithRawResponse(client.prompt_adaptation)
         self.report = report.ReportResourceWithRawResponse(client.report)
         self.models = models.ModelsResourceWithRawResponse(client.models)
-        self.client = client.ClientResourceWithRawResponse(client.client)
 
 
 class AsyncNotDiamondWithRawResponse:
     def __init__(self, client: AsyncNotDiamond) -> None:
-        self.router = router.AsyncRouterResourceWithRawResponse(client.router)
+        self.routing = routing.AsyncRoutingResourceWithRawResponse(client.routing)
         self.preferences = preferences.AsyncPreferencesResourceWithRawResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithRawResponse(
             client.prompt_adaptation
         )
         self.report = report.AsyncReportResourceWithRawResponse(client.report)
         self.models = models.AsyncModelsResourceWithRawResponse(client.models)
-        self.client = client.AsyncClientResourceWithRawResponse(client.client)
 
 
 class NotDiamondWithStreamedResponse:
     def __init__(self, client: NotDiamond) -> None:
-        self.router = router.RouterResourceWithStreamingResponse(client.router)
+        self.routing = routing.RoutingResourceWithStreamingResponse(client.routing)
         self.preferences = preferences.PreferencesResourceWithStreamingResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithStreamingResponse(
             client.prompt_adaptation
         )
         self.report = report.ReportResourceWithStreamingResponse(client.report)
         self.models = models.ModelsResourceWithStreamingResponse(client.models)
-        self.client = client.ClientResourceWithStreamingResponse(client.client)
 
 
 class AsyncNotDiamondWithStreamedResponse:
     def __init__(self, client: AsyncNotDiamond) -> None:
-        self.router = router.AsyncRouterResourceWithStreamingResponse(client.router)
+        self.routing = routing.AsyncRoutingResourceWithStreamingResponse(client.routing)
         self.preferences = preferences.AsyncPreferencesResourceWithStreamingResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithStreamingResponse(
             client.prompt_adaptation
         )
         self.report = report.AsyncReportResourceWithStreamingResponse(client.report)
         self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
-        self.client = client.AsyncClientResourceWithStreamingResponse(client.client)
 
 
 Client = NotDiamond

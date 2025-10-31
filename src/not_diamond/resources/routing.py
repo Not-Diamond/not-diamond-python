@@ -6,7 +6,11 @@ from typing import Dict, Union, Mapping, Iterable, Optional, cast
 
 import httpx
 
-from ..types import router_select_model_params, router_train_custom_router_params, router_create_survey_response_params
+from ..types import (
+    routing_select_model_params,
+    routing_train_custom_router_params,
+    routing_create_survey_response_params,
+)
 from .._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
 from .._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .._compat import cached_property
@@ -18,31 +22,31 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.router_select_model_response import RouterSelectModelResponse
-from ..types.router_train_custom_router_response import RouterTrainCustomRouterResponse
+from ..types.routing_select_model_response import RoutingSelectModelResponse
+from ..types.routing_train_custom_router_response import RoutingTrainCustomRouterResponse
 
-__all__ = ["RouterResource", "AsyncRouterResource"]
+__all__ = ["RoutingResource", "AsyncRoutingResource"]
 
 
-class RouterResource(SyncAPIResource):
+class RoutingResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> RouterResourceWithRawResponse:
+    def with_raw_response(self) -> RoutingResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#accessing-raw-response-data-eg-headers
         """
-        return RouterResourceWithRawResponse(self)
+        return RoutingResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> RouterResourceWithStreamingResponse:
+    def with_streaming_response(self) -> RoutingResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
         """
-        return RouterResourceWithStreamingResponse(self)
+        return RoutingResourceWithStreamingResponse(self)
 
     def create_survey_response(
         self,
@@ -99,7 +103,7 @@ class RouterResource(SyncAPIResource):
         extra_headers["Content-Type"] = "multipart/form-data"
         return self._post(
             "/v2/pzn/surveyResponse",
-            body=maybe_transform(body, router_create_survey_response_params.RouterCreateSurveyResponseParams),
+            body=maybe_transform(body, routing_create_survey_response_params.RoutingCreateSurveyResponseParams),
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -110,7 +114,7 @@ class RouterResource(SyncAPIResource):
     def select_model(
         self,
         *,
-        llm_providers: Iterable[router_select_model_params.LlmProvider],
+        llm_providers: Iterable[routing_select_model_params.LlmProvider],
         messages: Union[Iterable[Dict[str, Union[str, Iterable[object]]]], str],
         type: Optional[str] | Omit = omit,
         hash_content: bool | Omit = omit,
@@ -126,7 +130,7 @@ class RouterResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> RouterSelectModelResponse:
+    ) -> RoutingSelectModelResponse:
         """
         Select the optimal LLM to handle your query based on Not Diamond's routing
         algorithm.
@@ -208,16 +212,16 @@ class RouterResource(SyncAPIResource):
                     "tools": tools,
                     "tradeoff": tradeoff,
                 },
-                router_select_model_params.RouterSelectModelParams,
+                routing_select_model_params.RoutingSelectModelParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"type": type}, router_select_model_params.RouterSelectModelParams),
+                query=maybe_transform({"type": type}, routing_select_model_params.RoutingSelectModelParams),
             ),
-            cast_to=RouterSelectModelResponse,
+            cast_to=RoutingSelectModelResponse,
         )
 
     def train_custom_router(
@@ -236,7 +240,7 @@ class RouterResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> RouterTrainCustomRouterResponse:
+    ) -> RoutingTrainCustomRouterResponse:
         """
         Train a custom router on your evaluation data to optimize routing for your
         specific use case.
@@ -342,34 +346,34 @@ class RouterResource(SyncAPIResource):
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/v2/pzn/trainCustomRouter",
-            body=maybe_transform(body, router_train_custom_router_params.RouterTrainCustomRouterParams),
+            body=maybe_transform(body, routing_train_custom_router_params.RoutingTrainCustomRouterParams),
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=RouterTrainCustomRouterResponse,
+            cast_to=RoutingTrainCustomRouterResponse,
         )
 
 
-class AsyncRouterResource(AsyncAPIResource):
+class AsyncRoutingResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncRouterResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncRoutingResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncRouterResourceWithRawResponse(self)
+        return AsyncRoutingResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncRouterResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncRoutingResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
         """
-        return AsyncRouterResourceWithStreamingResponse(self)
+        return AsyncRoutingResourceWithStreamingResponse(self)
 
     async def create_survey_response(
         self,
@@ -427,7 +431,7 @@ class AsyncRouterResource(AsyncAPIResource):
         return await self._post(
             "/v2/pzn/surveyResponse",
             body=await async_maybe_transform(
-                body, router_create_survey_response_params.RouterCreateSurveyResponseParams
+                body, routing_create_survey_response_params.RoutingCreateSurveyResponseParams
             ),
             files=files,
             options=make_request_options(
@@ -439,7 +443,7 @@ class AsyncRouterResource(AsyncAPIResource):
     async def select_model(
         self,
         *,
-        llm_providers: Iterable[router_select_model_params.LlmProvider],
+        llm_providers: Iterable[routing_select_model_params.LlmProvider],
         messages: Union[Iterable[Dict[str, Union[str, Iterable[object]]]], str],
         type: Optional[str] | Omit = omit,
         hash_content: bool | Omit = omit,
@@ -455,7 +459,7 @@ class AsyncRouterResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> RouterSelectModelResponse:
+    ) -> RoutingSelectModelResponse:
         """
         Select the optimal LLM to handle your query based on Not Diamond's routing
         algorithm.
@@ -537,16 +541,16 @@ class AsyncRouterResource(AsyncAPIResource):
                     "tools": tools,
                     "tradeoff": tradeoff,
                 },
-                router_select_model_params.RouterSelectModelParams,
+                routing_select_model_params.RoutingSelectModelParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"type": type}, router_select_model_params.RouterSelectModelParams),
+                query=await async_maybe_transform({"type": type}, routing_select_model_params.RoutingSelectModelParams),
             ),
-            cast_to=RouterSelectModelResponse,
+            cast_to=RoutingSelectModelResponse,
         )
 
     async def train_custom_router(
@@ -565,7 +569,7 @@ class AsyncRouterResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> RouterTrainCustomRouterResponse:
+    ) -> RoutingTrainCustomRouterResponse:
         """
         Train a custom router on your evaluation data to optimize routing for your
         specific use case.
@@ -671,70 +675,70 @@ class AsyncRouterResource(AsyncAPIResource):
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/v2/pzn/trainCustomRouter",
-            body=await async_maybe_transform(body, router_train_custom_router_params.RouterTrainCustomRouterParams),
+            body=await async_maybe_transform(body, routing_train_custom_router_params.RoutingTrainCustomRouterParams),
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=RouterTrainCustomRouterResponse,
+            cast_to=RoutingTrainCustomRouterResponse,
         )
 
 
-class RouterResourceWithRawResponse:
-    def __init__(self, router: RouterResource) -> None:
-        self._router = router
+class RoutingResourceWithRawResponse:
+    def __init__(self, routing: RoutingResource) -> None:
+        self._routing = routing
 
         self.create_survey_response = to_raw_response_wrapper(
-            router.create_survey_response,
+            routing.create_survey_response,
         )
         self.select_model = to_raw_response_wrapper(
-            router.select_model,
+            routing.select_model,
         )
         self.train_custom_router = to_raw_response_wrapper(
-            router.train_custom_router,
+            routing.train_custom_router,
         )
 
 
-class AsyncRouterResourceWithRawResponse:
-    def __init__(self, router: AsyncRouterResource) -> None:
-        self._router = router
+class AsyncRoutingResourceWithRawResponse:
+    def __init__(self, routing: AsyncRoutingResource) -> None:
+        self._routing = routing
 
         self.create_survey_response = async_to_raw_response_wrapper(
-            router.create_survey_response,
+            routing.create_survey_response,
         )
         self.select_model = async_to_raw_response_wrapper(
-            router.select_model,
+            routing.select_model,
         )
         self.train_custom_router = async_to_raw_response_wrapper(
-            router.train_custom_router,
+            routing.train_custom_router,
         )
 
 
-class RouterResourceWithStreamingResponse:
-    def __init__(self, router: RouterResource) -> None:
-        self._router = router
+class RoutingResourceWithStreamingResponse:
+    def __init__(self, routing: RoutingResource) -> None:
+        self._routing = routing
 
         self.create_survey_response = to_streamed_response_wrapper(
-            router.create_survey_response,
+            routing.create_survey_response,
         )
         self.select_model = to_streamed_response_wrapper(
-            router.select_model,
+            routing.select_model,
         )
         self.train_custom_router = to_streamed_response_wrapper(
-            router.train_custom_router,
+            routing.train_custom_router,
         )
 
 
-class AsyncRouterResourceWithStreamingResponse:
-    def __init__(self, router: AsyncRouterResource) -> None:
-        self._router = router
+class AsyncRoutingResourceWithStreamingResponse:
+    def __init__(self, routing: AsyncRoutingResource) -> None:
+        self._routing = routing
 
         self.create_survey_response = async_to_streamed_response_wrapper(
-            router.create_survey_response,
+            routing.create_survey_response,
         )
         self.select_model = async_to_streamed_response_wrapper(
-            router.select_model,
+            routing.select_model,
         )
         self.train_custom_router = async_to_streamed_response_wrapper(
-            router.train_custom_router,
+            routing.train_custom_router,
         )

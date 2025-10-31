@@ -1,16 +1,16 @@
-# Router
+# Routing
 
 Types:
 
 ```python
-from not_diamond.types import RouterSelectModelResponse, RouterTrainCustomRouterResponse
+from not_diamond.types import RoutingSelectModelResponse, RoutingTrainCustomRouterResponse
 ```
 
 Methods:
 
-- <code title="post /v2/pzn/surveyResponse">client.router.<a href="./src/not_diamond/resources/router.py">create_survey_response</a>(\*\*<a href="src/not_diamond/types/router_create_survey_response_params.py">params</a>) -> object</code>
-- <code title="post /v2/modelRouter/modelSelect">client.router.<a href="./src/not_diamond/resources/router.py">select_model</a>(\*\*<a href="src/not_diamond/types/router_select_model_params.py">params</a>) -> <a href="./src/not_diamond/types/router_select_model_response.py">RouterSelectModelResponse</a></code>
-- <code title="post /v2/pzn/trainCustomRouter">client.router.<a href="./src/not_diamond/resources/router.py">train_custom_router</a>(\*\*<a href="src/not_diamond/types/router_train_custom_router_params.py">params</a>) -> <a href="./src/not_diamond/types/router_train_custom_router_response.py">RouterTrainCustomRouterResponse</a></code>
+- <code title="post /v2/pzn/surveyResponse">client.routing.<a href="./src/not_diamond/resources/routing.py">create_survey_response</a>(\*\*<a href="src/not_diamond/types/routing_create_survey_response_params.py">params</a>) -> object</code>
+- <code title="post /v2/modelRouter/modelSelect">client.routing.<a href="./src/not_diamond/resources/routing.py">select_model</a>(\*\*<a href="src/not_diamond/types/routing_select_model_params.py">params</a>) -> <a href="./src/not_diamond/types/routing_select_model_response.py">RoutingSelectModelResponse</a></code>
+- <code title="post /v2/pzn/trainCustomRouter">client.routing.<a href="./src/not_diamond/resources/routing.py">train_custom_router</a>(\*\*<a href="src/not_diamond/types/routing_train_custom_router_params.py">params</a>) -> <a href="./src/not_diamond/types/routing_train_custom_router_response.py">RoutingTrainCustomRouterResponse</a></code>
 
 # Preferences
 
@@ -56,13 +56,14 @@ Methods:
 Types:
 
 ```python
-from not_diamond.types import ReportFeedbackResponse
+from not_diamond.types import ReportSubmitFeedbackResponse
 ```
 
 Methods:
 
-- <code title="post /v2/report/metrics/feedback">client.report.<a href="./src/not_diamond/resources/report.py">feedback</a>(\*\*<a href="src/not_diamond/types/report_feedback_params.py">params</a>) -> <a href="./src/not_diamond/types/report_feedback_response.py">ReportFeedbackResponse</a></code>
+- <code title="post /v2/report/hallucination">client.report.<a href="./src/not_diamond/resources/report.py">evaluate_hallucination</a>(\*\*<a href="src/not_diamond/types/report_evaluate_hallucination_params.py">params</a>) -> object</code>
 - <code title="post /v2/report/metrics/latency">client.report.<a href="./src/not_diamond/resources/report.py">latency</a>(\*\*<a href="src/not_diamond/types/report_latency_params.py">params</a>) -> object</code>
+- <code title="post /v2/report/metrics/feedback">client.report.<a href="./src/not_diamond/resources/report.py">submit_feedback</a>(\*\*<a href="src/not_diamond/types/report_submit_feedback_params.py">params</a>) -> <a href="./src/not_diamond/types/report_submit_feedback_response.py">ReportSubmitFeedbackResponse</a></code>
 
 # Models
 
@@ -75,11 +76,3 @@ from not_diamond.types import ModelListResponse
 Methods:
 
 - <code title="get /v2/models">client.models.<a href="./src/not_diamond/resources/models.py">list</a>(\*\*<a href="src/not_diamond/types/model_list_params.py">params</a>) -> <a href="./src/not_diamond/types/model_list_response.py">ModelListResponse</a></code>
-
-# Client
-
-## Report
-
-Methods:
-
-- <code title="post /v2/report/hallucination">client.client.report.<a href="./src/not_diamond/resources/client/report.py">evaluate_hallucination</a>(\*\*<a href="src/not_diamond/types/client/report_evaluate_hallucination_params.py">params</a>) -> object</code>
