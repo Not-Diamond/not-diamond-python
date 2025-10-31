@@ -51,13 +51,13 @@ class PromptAdaptationResource(SyncAPIResource):
         self,
         *,
         fields: SequenceNotStr[str],
-        origin_model: prompt_adaptation_adapt_params.OriginModel,
         system_prompt: str,
         target_models: Iterable[prompt_adaptation_adapt_params.TargetModel],
         template: str,
         evaluation_config: Optional[str] | Omit = omit,
         evaluation_metric: Optional[str] | Omit = omit,
         goldens: Optional[Iterable[prompt_adaptation_adapt_params.Golden]] | Omit = omit,
+        origin_model: Optional[prompt_adaptation_adapt_params.OriginModel] | Omit = omit,
         origin_model_evaluation_score: Optional[float] | Omit = omit,
         test_goldens: Optional[Iterable[prompt_adaptation_adapt_params.TestGolden]] | Omit = omit,
         train_goldens: Optional[Iterable[prompt_adaptation_adapt_params.TrainGolden]] | Omit = omit,
@@ -137,8 +137,6 @@ class PromptAdaptationResource(SyncAPIResource):
           fields: List of field names that will be substituted into the template. Must match keys
               in golden records
 
-          origin_model: The model your current prompt is optimized for
-
           system_prompt: System prompt to use with the origin model. This sets the context and role for
               the LLM
 
@@ -150,6 +148,8 @@ class PromptAdaptationResource(SyncAPIResource):
 
           goldens: Training examples (legacy parameter). Use train_goldens and test_goldens for
               better control
+
+          origin_model: Model for specifying an LLM provider in API requests.
 
           origin_model_evaluation_score: Optional baseline score for the origin model
 
@@ -170,13 +170,13 @@ class PromptAdaptationResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "fields": fields,
-                    "origin_model": origin_model,
                     "system_prompt": system_prompt,
                     "target_models": target_models,
                     "template": template,
                     "evaluation_config": evaluation_config,
                     "evaluation_metric": evaluation_metric,
                     "goldens": goldens,
+                    "origin_model": origin_model,
                     "origin_model_evaluation_score": origin_model_evaluation_score,
                     "test_goldens": test_goldens,
                     "train_goldens": train_goldens,
@@ -470,13 +470,13 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         self,
         *,
         fields: SequenceNotStr[str],
-        origin_model: prompt_adaptation_adapt_params.OriginModel,
         system_prompt: str,
         target_models: Iterable[prompt_adaptation_adapt_params.TargetModel],
         template: str,
         evaluation_config: Optional[str] | Omit = omit,
         evaluation_metric: Optional[str] | Omit = omit,
         goldens: Optional[Iterable[prompt_adaptation_adapt_params.Golden]] | Omit = omit,
+        origin_model: Optional[prompt_adaptation_adapt_params.OriginModel] | Omit = omit,
         origin_model_evaluation_score: Optional[float] | Omit = omit,
         test_goldens: Optional[Iterable[prompt_adaptation_adapt_params.TestGolden]] | Omit = omit,
         train_goldens: Optional[Iterable[prompt_adaptation_adapt_params.TrainGolden]] | Omit = omit,
@@ -556,8 +556,6 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
           fields: List of field names that will be substituted into the template. Must match keys
               in golden records
 
-          origin_model: The model your current prompt is optimized for
-
           system_prompt: System prompt to use with the origin model. This sets the context and role for
               the LLM
 
@@ -569,6 +567,8 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
 
           goldens: Training examples (legacy parameter). Use train_goldens and test_goldens for
               better control
+
+          origin_model: Model for specifying an LLM provider in API requests.
 
           origin_model_evaluation_score: Optional baseline score for the origin model
 
@@ -589,13 +589,13 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "fields": fields,
-                    "origin_model": origin_model,
                     "system_prompt": system_prompt,
                     "target_models": target_models,
                     "template": template,
                     "evaluation_config": evaluation_config,
                     "evaluation_metric": evaluation_metric,
                     "goldens": goldens,
+                    "origin_model": origin_model,
                     "origin_model_evaluation_score": origin_model_evaluation_score,
                     "test_goldens": test_goldens,
                     "train_goldens": train_goldens,

@@ -8,23 +8,7 @@ from pydantic import Field as FieldInfo
 from .._models import BaseModel
 from .job_status import JobStatus
 
-__all__ = ["AdaptationRunResults", "OriginModel", "TargetModel"]
-
-
-class OriginModel(BaseModel):
-    cost: Optional[float] = None
-
-    evals: Optional[Dict[str, object]] = None
-
-    api_model_name: str = FieldInfo(alias="model_name")
-
-    result_status: Optional[JobStatus] = None
-
-    score: Optional[float] = None
-
-    system_prompt: Optional[str] = None
-
-    user_message_template: Optional[str] = None
+__all__ = ["AdaptationRunResults", "TargetModel", "OriginModel"]
 
 
 class TargetModel(BaseModel):
@@ -46,11 +30,29 @@ class TargetModel(BaseModel):
     system_prompt: Optional[str] = None
     """Optimized system prompt for this target model"""
 
+    task_type: Optional[str] = None
+
     user_message_template: Optional[str] = None
     """Optimized user message template for this target model"""
 
     user_message_template_fields: Optional[List[str]] = None
     """Field names used in the optimized template"""
+
+
+class OriginModel(BaseModel):
+    cost: Optional[float] = None
+
+    evals: Optional[Dict[str, object]] = None
+
+    api_model_name: Optional[str] = FieldInfo(alias="model_name", default=None)
+
+    result_status: Optional[JobStatus] = None
+
+    score: Optional[float] = None
+
+    system_prompt: Optional[str] = None
+
+    user_message_template: Optional[str] = None
 
 
 class AdaptationRunResults(BaseModel):
@@ -63,9 +65,6 @@ class AdaptationRunResults(BaseModel):
     job_status: JobStatus
     """Overall status of the adaptation run"""
 
-    origin_model: OriginModel
-    """Results for the origin model (baseline performance)"""
-
     target_models: List[TargetModel]
     """Results for each target model with optimized prompts"""
 
@@ -75,3 +74,9 @@ class AdaptationRunResults(BaseModel):
     evaluation_config: Optional[str] = None
 
     evaluation_metric: Optional[str] = None
+
+    llm_request_metrics: Optional[Dict[str, float]] = None
+    """Metrics for the LLM requests made during the adaptation run"""
+
+    origin_model: Optional[OriginModel] = None
+    """Results for the origin model (baseline performance)"""

@@ -28,14 +28,10 @@ class TestPromptAdaptation:
     def test_method_adapt(self, client: NotDiamond) -> None:
         prompt_adaptation = client.prompt_adaptation.adapt(
             fields=["question"],
-            origin_model={
-                "model": "gpt-4o",
-                "provider": "openai",
-            },
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {
@@ -52,19 +48,10 @@ class TestPromptAdaptation:
     def test_method_adapt_with_all_params(self, client: NotDiamond) -> None:
         prompt_adaptation = client.prompt_adaptation.adapt(
             fields=["question"],
-            origin_model={
-                "model": "gpt-4o",
-                "provider": "openai",
-                "context_length": 0,
-                "input_price": 0,
-                "is_custom": True,
-                "latency": 0,
-                "output_price": 0,
-            },
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                     "context_length": 0,
                     "input_price": 0,
@@ -94,6 +81,15 @@ class TestPromptAdaptation:
                     "answer": "4",
                 }
             ],
+            origin_model={
+                "model": "gpt-4o",
+                "provider": "openai",
+                "context_length": 0,
+                "input_price": 0,
+                "is_custom": True,
+                "latency": 0,
+                "output_price": 0,
+            },
             origin_model_evaluation_score=0,
             test_goldens=[
                 {
@@ -135,14 +131,10 @@ class TestPromptAdaptation:
     def test_raw_response_adapt(self, client: NotDiamond) -> None:
         response = client.prompt_adaptation.with_raw_response.adapt(
             fields=["question"],
-            origin_model={
-                "model": "gpt-4o",
-                "provider": "openai",
-            },
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {
@@ -163,14 +155,10 @@ class TestPromptAdaptation:
     def test_streaming_response_adapt(self, client: NotDiamond) -> None:
         with client.prompt_adaptation.with_streaming_response.adapt(
             fields=["question"],
-            origin_model={
-                "model": "gpt-4o",
-                "provider": "openai",
-            },
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {
@@ -428,14 +416,10 @@ class TestAsyncPromptAdaptation:
     async def test_method_adapt(self, async_client: AsyncNotDiamond) -> None:
         prompt_adaptation = await async_client.prompt_adaptation.adapt(
             fields=["question"],
-            origin_model={
-                "model": "gpt-4o",
-                "provider": "openai",
-            },
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {
@@ -452,19 +436,10 @@ class TestAsyncPromptAdaptation:
     async def test_method_adapt_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         prompt_adaptation = await async_client.prompt_adaptation.adapt(
             fields=["question"],
-            origin_model={
-                "model": "gpt-4o",
-                "provider": "openai",
-                "context_length": 0,
-                "input_price": 0,
-                "is_custom": True,
-                "latency": 0,
-                "output_price": 0,
-            },
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                     "context_length": 0,
                     "input_price": 0,
@@ -494,6 +469,15 @@ class TestAsyncPromptAdaptation:
                     "answer": "4",
                 }
             ],
+            origin_model={
+                "model": "gpt-4o",
+                "provider": "openai",
+                "context_length": 0,
+                "input_price": 0,
+                "is_custom": True,
+                "latency": 0,
+                "output_price": 0,
+            },
             origin_model_evaluation_score=0,
             test_goldens=[
                 {
@@ -535,14 +519,10 @@ class TestAsyncPromptAdaptation:
     async def test_raw_response_adapt(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.prompt_adaptation.with_raw_response.adapt(
             fields=["question"],
-            origin_model={
-                "model": "gpt-4o",
-                "provider": "openai",
-            },
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {
@@ -563,14 +543,10 @@ class TestAsyncPromptAdaptation:
     async def test_streaming_response_adapt(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.prompt_adaptation.with_streaming_response.adapt(
             fields=["question"],
-            origin_model={
-                "model": "gpt-4o",
-                "provider": "openai",
-            },
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {

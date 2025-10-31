@@ -41,7 +41,7 @@ response = client.routing.select_model(
             "provider": "openai",
         },
         {
-            "model": "claude-3-5-sonnet-20241022",
+            "model": "claude-sonnet-4-5-20250929",
             "provider": "anthropic",
         },
         {
@@ -92,7 +92,7 @@ async def main() -> None:
                 "provider": "openai",
             },
             {
-                "model": "claude-3-5-sonnet-20241022",
+                "model": "claude-sonnet-4-5-20250929",
                 "provider": "anthropic",
             },
             {
@@ -150,7 +150,7 @@ async def main() -> None:
                     "provider": "openai",
                 },
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {
@@ -195,14 +195,10 @@ client = NotDiamond()
 
 response = client.prompt_adaptation.adapt(
     fields=["question"],
-    origin_model={
-        "model": "gpt-4o",
-        "provider": "openai",
-    },
     system_prompt="You are a helpful assistant that answers questions accurately.",
     target_models=[
         {
-            "model": "claude-3-5-sonnet-20241022",
+            "model": "claude-sonnet-4-5-20250929",
             "provider": "anthropic",
         },
         {
@@ -211,6 +207,10 @@ response = client.prompt_adaptation.adapt(
         },
     ],
     template="Question: {question}\nAnswer:",
+    origin_model={
+        "model": "gpt-4o",
+        "provider": "openai",
+    },
 )
 print(response.origin_model)
 ```
@@ -261,7 +261,7 @@ try:
                 "provider": "openai",
             },
             {
-                "model": "claude-3-5-sonnet-20241022",
+                "model": "claude-sonnet-4-5-20250929",
                 "provider": "anthropic",
             },
             {
@@ -329,7 +329,7 @@ client.with_options(max_retries=5).routing.select_model(
             "provider": "openai",
         },
         {
-            "model": "claude-3-5-sonnet-20241022",
+            "model": "claude-sonnet-4-5-20250929",
             "provider": "anthropic",
         },
         {
@@ -377,7 +377,7 @@ client.with_options(timeout=5.0).routing.select_model(
             "provider": "openai",
         },
         {
-            "model": "claude-3-5-sonnet-20241022",
+            "model": "claude-sonnet-4-5-20250929",
             "provider": "anthropic",
         },
         {
@@ -441,7 +441,7 @@ response = client.routing.with_raw_response.select_model(
         "model": "gpt-4o",
         "provider": "openai",
     }, {
-        "model": "claude-3-5-sonnet-20241022",
+        "model": "claude-sonnet-4-5-20250929",
         "provider": "anthropic",
     }, {
         "model": "gemini-1.5-pro",
@@ -479,7 +479,7 @@ with client.routing.with_streaming_response.select_model(
             "provider": "openai",
         },
         {
-            "model": "claude-3-5-sonnet-20241022",
+            "model": "claude-sonnet-4-5-20250929",
             "provider": "anthropic",
         },
         {
