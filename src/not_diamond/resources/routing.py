@@ -269,7 +269,7 @@ class RoutingResource(SyncAPIResource):
         **Example CSV structure:**
 
         ```
-        prompt,openai/gpt-4o/score,openai/gpt-4o/response,anthropic/claude-3-5-sonnet-20241022/score,anthropic/claude-3-5-sonnet-20241022/response
+        prompt,openai/gpt-4o/score,openai/gpt-4o/response,anthropic/claude-sonnet-4-5-20250929/score,anthropic/claude-sonnet-4-5-20250929/response
         "Explain quantum computing",0.95,"Quantum computing uses...",0.87,"Quantum computers leverage..."
         "Write a Python function",0.82,"def my_function()...",0.91,"Here's a Python function..."
         ```
@@ -308,7 +308,7 @@ class RoutingResource(SyncAPIResource):
           llm_providers:
               JSON string array of LLM providers to train the router on. Format:
               '[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model":
-              "claude-3-5-sonnet-20241022"}]'
+              "claude-sonnet-4-5-20250929"}]'
 
           maximize: Whether higher scores are better. Set to true if higher scores indicate better
               performance, false otherwise
@@ -598,7 +598,7 @@ class AsyncRoutingResource(AsyncAPIResource):
         **Example CSV structure:**
 
         ```
-        prompt,openai/gpt-4o/score,openai/gpt-4o/response,anthropic/claude-3-5-sonnet-20241022/score,anthropic/claude-3-5-sonnet-20241022/response
+        prompt,openai/gpt-4o/score,openai/gpt-4o/response,anthropic/claude-sonnet-4-5-20250929/score,anthropic/claude-sonnet-4-5-20250929/response
         "Explain quantum computing",0.95,"Quantum computing uses...",0.87,"Quantum computers leverage..."
         "Write a Python function",0.82,"def my_function()...",0.91,"Here's a Python function..."
         ```
@@ -637,7 +637,7 @@ class AsyncRoutingResource(AsyncAPIResource):
           llm_providers:
               JSON string array of LLM providers to train the router on. Format:
               '[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model":
-              "claude-3-5-sonnet-20241022"}]'
+              "claude-sonnet-4-5-20250929"}]'
 
           maximize: Whether higher scores are better. Set to true if higher scores indicate better
               performance, false otherwise

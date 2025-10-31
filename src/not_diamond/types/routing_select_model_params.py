@@ -57,7 +57,7 @@ class RoutingSelectModelParams(TypedDict, total=False):
 
 class LlmProviderRequestProvider(TypedDict, total=False):
     model: Required[str]
-    """Model name (e.g., 'gpt-4o', 'claude-3-5-sonnet-20241022')"""
+    """Model name (e.g., 'gpt-4o', 'claude-sonnet-4-5-20250929')"""
 
     provider: Required[str]
     """Provider name (e.g., 'openai', 'anthropic', 'google')"""

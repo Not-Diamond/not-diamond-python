@@ -97,7 +97,7 @@ class TestRouting:
                     "provider": "openai",
                 },
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {
@@ -133,7 +133,7 @@ class TestRouting:
                     "output_price": 0,
                 },
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                     "context_length": 0,
                     "input_price": 0,
@@ -182,7 +182,7 @@ class TestRouting:
                     "provider": "openai",
                 },
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {
@@ -217,7 +217,7 @@ class TestRouting:
                     "provider": "openai",
                 },
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {
@@ -250,7 +250,7 @@ class TestRouting:
         routing = client.routing.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
-            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
+            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
             prompt_column="prompt",
         )
@@ -262,7 +262,7 @@ class TestRouting:
         routing = client.routing.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
-            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
+            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
             prompt_column="prompt",
             override=True,
@@ -276,7 +276,7 @@ class TestRouting:
         response = client.routing.with_raw_response.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
-            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
+            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
             prompt_column="prompt",
         )
@@ -292,7 +292,7 @@ class TestRouting:
         with client.routing.with_streaming_response.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
-            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
+            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
             prompt_column="prompt",
         ) as response:
@@ -387,7 +387,7 @@ class TestAsyncRouting:
                     "provider": "openai",
                 },
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {
@@ -423,7 +423,7 @@ class TestAsyncRouting:
                     "output_price": 0,
                 },
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                     "context_length": 0,
                     "input_price": 0,
@@ -472,7 +472,7 @@ class TestAsyncRouting:
                     "provider": "openai",
                 },
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {
@@ -507,7 +507,7 @@ class TestAsyncRouting:
                     "provider": "openai",
                 },
                 {
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
                 },
                 {
@@ -540,7 +540,7 @@ class TestAsyncRouting:
         routing = await async_client.routing.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
-            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
+            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
             prompt_column="prompt",
         )
@@ -552,7 +552,7 @@ class TestAsyncRouting:
         routing = await async_client.routing.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
-            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
+            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
             prompt_column="prompt",
             override=True,
@@ -566,7 +566,7 @@ class TestAsyncRouting:
         response = await async_client.routing.with_raw_response.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
-            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
+            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
             prompt_column="prompt",
         )
@@ -582,7 +582,7 @@ class TestAsyncRouting:
         async with async_client.routing.with_streaming_response.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
-            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-3-5-sonnet-20241022"}]',
+            llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
             prompt_column="prompt",
         ) as response:

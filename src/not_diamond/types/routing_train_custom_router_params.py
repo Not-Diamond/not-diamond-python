@@ -27,7 +27,7 @@ class RoutingTrainCustomRouterParams(TypedDict, total=False):
     """JSON string array of LLM providers to train the router on.
 
     Format: '[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic",
-    "model": "claude-3-5-sonnet-20241022"}]'
+    "model": "claude-sonnet-4-5-20250929"}]'
     """
 
     maximize: Required[bool]
