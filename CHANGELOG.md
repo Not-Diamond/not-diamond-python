@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.0.0-rc1 (2025-10-31)
+
+Full Changelog: [v0.3.0...v1.0.0-rc1](https://github.com/Not-Diamond/not-diamond-python/compare/v0.3.0...v1.0.0-rc1)
+
+### Features
+
+* **api:** fix modelSelect error ([eb29990](https://github.com/Not-Diamond/not-diamond-python/commit/eb29990fab14468f39368f7f5b0e4ebf019d0841))
+* **api:** manual updates ([b905d72](https://github.com/Not-Diamond/not-diamond-python/commit/b905d72ebec4d42373de62865a85f62d4a87c477))
+* **api:** manual updates ([d664d8d](https://github.com/Not-Diamond/not-diamond-python/commit/d664d8d20ab802a9aa0150519a3900d386f7b1d9))
+
+
+### Bug Fixes
+
+* **client:** close streams without requiring full consumption ([c9f7310](https://github.com/Not-Diamond/not-diamond-python/commit/c9f73103e1747f06da439c77b7d5e322c4d09a4e))
+
+
+### Chores
+
+* **internal/tests:** avoid race condition with implicit client cleanup ([14e720b](https://github.com/Not-Diamond/not-diamond-python/commit/14e720b4d735b9a52d634b1ec24db5bff9c3aa24))
+* update SDK settings ([26ae314](https://github.com/Not-Diamond/not-diamond-python/commit/26ae3141eaa1df28dd8b1d1e5d322fb135bee6b9))
+
 ## 0.3.0 (2025-10-24)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/Not-Diamond/not-diamond-python/compare/v0.2.0...v0.3.0)

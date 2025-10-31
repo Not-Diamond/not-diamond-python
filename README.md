@@ -17,7 +17,7 @@ The REST API documentation can be found on [docs.notdiamond.ai](https://docs.not
 
 ```sh
 # install from PyPI
-pip install notdiamond
+pip install --pre notdiamond
 ```
 
 ## Usage
@@ -127,7 +127,7 @@ You can enable this by installing `aiohttp`:
 
 ```sh
 # install from PyPI
-pip install notdiamond[aiohttp]
+pip install --pre notdiamond[aiohttp]
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
