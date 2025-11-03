@@ -94,7 +94,7 @@ class PromptAdaptationResource(SyncAPIResource):
 
         **Dataset Requirements:**
 
-        - Minimum 5 examples in train_goldens (more examples = better adaptation)
+        - Minimum 25 examples in train_goldens (more examples = better adaptation)
         - Each example must have fields matching your template placeholders
         - Supervised evaluation requires 'answer' field in each golden record
         - Unsupervised evaluation can work without answers
@@ -115,7 +115,7 @@ class PromptAdaptationResource(SyncAPIResource):
         **Best Practices:**
 
         1. Use diverse, representative examples from your production workload
-        2. Include 10-20 examples for best results (5 minimum)
+        2. Include examples for best results (25 minimum)
         3. Ensure consistent evaluation across all examples
         4. Test both train_goldens and test_goldens split for validation
         5. Use the same model versions you'll use in production
@@ -155,7 +155,7 @@ class PromptAdaptationResource(SyncAPIResource):
 
           test_goldens: Test examples for evaluation. Required if train_goldens is provided
 
-          train_goldens: Training examples for prompt optimization. Minimum 5 examples required
+          train_goldens: Training examples for prompt optimization. Minimum 25 examples required
 
           extra_headers: Send extra headers
 
@@ -513,7 +513,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
 
         **Dataset Requirements:**
 
-        - Minimum 5 examples in train_goldens (more examples = better adaptation)
+        - Minimum 25 examples in train_goldens (more examples = better adaptation)
         - Each example must have fields matching your template placeholders
         - Supervised evaluation requires 'answer' field in each golden record
         - Unsupervised evaluation can work without answers
@@ -534,7 +534,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         **Best Practices:**
 
         1. Use diverse, representative examples from your production workload
-        2. Include 10-20 examples for best results (5 minimum)
+        2. Include examples for best results (25 minimum)
         3. Ensure consistent evaluation across all examples
         4. Test both train_goldens and test_goldens split for validation
         5. Use the same model versions you'll use in production
@@ -574,7 +574,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
 
           test_goldens: Test examples for evaluation. Required if train_goldens is provided
 
-          train_goldens: Training examples for prompt optimization. Minimum 5 examples required
+          train_goldens: Training examples for prompt optimization. Minimum 25 examples required
 
           extra_headers: Send extra headers
 
