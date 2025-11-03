@@ -7,7 +7,7 @@ from typing_extensions import Required, TypedDict
 
 from .._types import SequenceNotStr
 
-__all__ = ["PromptAdaptationAdaptParams", "OriginModel", "TargetModel", "Golden", "TestGolden", "TrainGolden"]
+__all__ = ["PromptAdaptationAdaptParams", "TargetModel", "Golden", "OriginModel", "TestGolden", "TrainGolden"]
 
 
 class PromptAdaptationAdaptParams(TypedDict, total=False):
@@ -16,9 +16,6 @@ class PromptAdaptationAdaptParams(TypedDict, total=False):
 
     Must match keys in golden records
     """
-
-    origin_model: Required[OriginModel]
-    """The model your current prompt is optimized for"""
 
     system_prompt: Required[str]
     """System prompt to use with the origin model.
@@ -48,6 +45,9 @@ class PromptAdaptationAdaptParams(TypedDict, total=False):
     Use train_goldens and test_goldens for better control
     """
 
+    origin_model: Optional[OriginModel]
+    """Model for specifying an LLM provider in API requests."""
+
     origin_model_evaluation_score: Optional[float]
     """Optional baseline score for the origin model"""
 
@@ -58,32 +58,9 @@ class PromptAdaptationAdaptParams(TypedDict, total=False):
     """Training examples for prompt optimization. Minimum 5 examples required"""
 
 
-class OriginModel(TypedDict, total=False):
-    model: Required[str]
-    """Model name (e.g., 'gpt-4o', 'claude-3-5-sonnet-20241022')"""
-
-    provider: Required[str]
-    """Provider name (e.g., 'openai', 'anthropic', 'google')"""
-
-    context_length: Optional[int]
-    """Maximum context length for the model (required for custom models)"""
-
-    input_price: Optional[float]
-    """Input token price per million tokens in USD (required for custom models)"""
-
-    is_custom: bool
-    """Whether this is a custom model not in Not Diamond's supported model list"""
-
-    latency: Optional[float]
-    """Average latency in seconds (required for custom models)"""
-
-    output_price: Optional[float]
-    """Output token price per million tokens in USD (required for custom models)"""
-
-
 class TargetModel(TypedDict, total=False):
     model: Required[str]
-    """Model name (e.g., 'gpt-4o', 'claude-3-5-sonnet-20241022')"""
+    """Model name (e.g., 'gpt-4o', 'claude-sonnet-4-5-20250929')"""
 
     provider: Required[str]
     """Provider name (e.g., 'openai', 'anthropic', 'google')"""
@@ -116,6 +93,29 @@ class Golden(TypedDict, total=False):
 
     Required for supervised metrics, optional for unsupervised
     """
+
+
+class OriginModel(TypedDict, total=False):
+    model: Required[str]
+    """Model name (e.g., 'gpt-4o', 'claude-sonnet-4-5-20250929')"""
+
+    provider: Required[str]
+    """Provider name (e.g., 'openai', 'anthropic', 'google')"""
+
+    context_length: Optional[int]
+    """Maximum context length for the model (required for custom models)"""
+
+    input_price: Optional[float]
+    """Input token price per million tokens in USD (required for custom models)"""
+
+    is_custom: bool
+    """Whether this is a custom model not in Not Diamond's supported model list"""
+
+    latency: Optional[float]
+    """Average latency in seconds (required for custom models)"""
+
+    output_price: Optional[float]
+    """Output token price per million tokens in USD (required for custom models)"""
 
 
 class TestGolden(TypedDict, total=False):
