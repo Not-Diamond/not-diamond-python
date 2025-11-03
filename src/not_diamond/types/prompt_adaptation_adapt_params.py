@@ -55,7 +55,7 @@ class PromptAdaptationAdaptParams(TypedDict, total=False):
     """Test examples for evaluation. Required if train_goldens is provided"""
 
     train_goldens: Optional[Iterable[TrainGolden]]
-    """Training examples for prompt optimization. Minimum 5 examples required"""
+    """Training examples for prompt optimization. Minimum 25 examples required"""
 
 
 class TargetModel(TypedDict, total=False):
