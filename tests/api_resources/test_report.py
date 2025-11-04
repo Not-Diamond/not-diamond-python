@@ -19,7 +19,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestReport:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_evaluate_hallucination(self, client: NotDiamond) -> None:
         report = client.report.evaluate_hallucination(
@@ -33,7 +32,6 @@ class TestReport:
         )
         assert_matches_type(object, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_evaluate_hallucination_with_all_params(self, client: NotDiamond) -> None:
         report = client.report.evaluate_hallucination(
@@ -54,7 +52,6 @@ class TestReport:
         )
         assert_matches_type(object, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_evaluate_hallucination(self, client: NotDiamond) -> None:
         response = client.report.with_raw_response.evaluate_hallucination(
@@ -72,7 +69,6 @@ class TestReport:
         report = response.parse()
         assert_matches_type(object, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_evaluate_hallucination(self, client: NotDiamond) -> None:
         with client.report.with_streaming_response.evaluate_hallucination(
@@ -92,7 +88,6 @@ class TestReport:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_latency(self, client: NotDiamond) -> None:
         report = client.report.latency(
@@ -105,7 +100,6 @@ class TestReport:
         )
         assert_matches_type(object, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_latency_with_all_params(self, client: NotDiamond) -> None:
         report = client.report.latency(
@@ -123,7 +117,6 @@ class TestReport:
         )
         assert_matches_type(object, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_latency(self, client: NotDiamond) -> None:
         response = client.report.with_raw_response.latency(
@@ -140,7 +133,6 @@ class TestReport:
         report = response.parse()
         assert_matches_type(object, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_latency(self, client: NotDiamond) -> None:
         with client.report.with_streaming_response.latency(
@@ -159,7 +151,6 @@ class TestReport:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_submit_feedback(self, client: NotDiamond) -> None:
         report = client.report.submit_feedback(
@@ -172,7 +163,6 @@ class TestReport:
         )
         assert_matches_type(ReportSubmitFeedbackResponse, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_submit_feedback_with_all_params(self, client: NotDiamond) -> None:
         report = client.report.submit_feedback(
@@ -190,7 +180,6 @@ class TestReport:
         )
         assert_matches_type(ReportSubmitFeedbackResponse, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_submit_feedback(self, client: NotDiamond) -> None:
         response = client.report.with_raw_response.submit_feedback(
@@ -207,7 +196,6 @@ class TestReport:
         report = response.parse()
         assert_matches_type(ReportSubmitFeedbackResponse, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_submit_feedback(self, client: NotDiamond) -> None:
         with client.report.with_streaming_response.submit_feedback(
@@ -232,7 +220,6 @@ class TestAsyncReport:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_evaluate_hallucination(self, async_client: AsyncNotDiamond) -> None:
         report = await async_client.report.evaluate_hallucination(
@@ -246,7 +233,6 @@ class TestAsyncReport:
         )
         assert_matches_type(object, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_evaluate_hallucination_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         report = await async_client.report.evaluate_hallucination(
@@ -267,7 +253,6 @@ class TestAsyncReport:
         )
         assert_matches_type(object, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_evaluate_hallucination(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.report.with_raw_response.evaluate_hallucination(
@@ -285,7 +270,6 @@ class TestAsyncReport:
         report = await response.parse()
         assert_matches_type(object, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_evaluate_hallucination(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.report.with_streaming_response.evaluate_hallucination(
@@ -305,7 +289,6 @@ class TestAsyncReport:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_latency(self, async_client: AsyncNotDiamond) -> None:
         report = await async_client.report.latency(
@@ -318,7 +301,6 @@ class TestAsyncReport:
         )
         assert_matches_type(object, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_latency_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         report = await async_client.report.latency(
@@ -336,7 +318,6 @@ class TestAsyncReport:
         )
         assert_matches_type(object, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_latency(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.report.with_raw_response.latency(
@@ -353,7 +334,6 @@ class TestAsyncReport:
         report = await response.parse()
         assert_matches_type(object, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_latency(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.report.with_streaming_response.latency(
@@ -372,7 +352,6 @@ class TestAsyncReport:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_submit_feedback(self, async_client: AsyncNotDiamond) -> None:
         report = await async_client.report.submit_feedback(
@@ -385,7 +364,6 @@ class TestAsyncReport:
         )
         assert_matches_type(ReportSubmitFeedbackResponse, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_submit_feedback_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         report = await async_client.report.submit_feedback(
@@ -403,7 +381,6 @@ class TestAsyncReport:
         )
         assert_matches_type(ReportSubmitFeedbackResponse, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_submit_feedback(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.report.with_raw_response.submit_feedback(
@@ -420,7 +397,6 @@ class TestAsyncReport:
         report = await response.parse()
         assert_matches_type(ReportSubmitFeedbackResponse, report, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_submit_feedback(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.report.with_streaming_response.submit_feedback(
