@@ -1,7 +1,7 @@
 # Not Diamond Python API library
 
 <!-- prettier-ignore -->
-[![PyPI version](https://img.shields.io/pypi/v/not_diamond.svg?label=pypi%20(stable))](https://pypi.org/project/not_diamond/)
+[![PyPI version](https://img.shields.io/pypi/v/notdiamond.svg?label=pypi%20(stable))](https://pypi.org/project/notdiamond/)
 
 The Not Diamond Python library provides convenient access to the Not Diamond REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
@@ -11,13 +11,13 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.notdiamond.ai](https://docs.notdiamond.ai). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
 ```sh
 # install from PyPI
-pip install --pre not_diamond
+pip install --pre notdiamond
 ```
 
 ## Usage
@@ -123,7 +123,7 @@ You can enable this by installing `aiohttp`:
 
 ```sh
 # install from PyPI
-pip install --pre not_diamond[aiohttp]
+pip install --pre notdiamond[aiohttp]
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
