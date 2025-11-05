@@ -1,5 +1,5 @@
 [project]
-name = "not_diamond"
+name = "notdiamond"
 version = "1.0.0-rc4"
 description = "The official Python library for the not-diamond API"
 dynamic = ["readme"]
