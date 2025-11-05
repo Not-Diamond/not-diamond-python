@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.0-rc3 (2025-11-05)
+
+Full Changelog: [v1.0.0-rc2...v1.0.0-rc3](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc2...v1.0.0-rc3)
+
+### Features
+
+* **api:** api update ([f717b91](https://github.com/Not-Diamond/not-diamond-python/commit/f717b91a37cd48a63e9ef9458cef6dd899383f2c))
+* **api:** api update ([24340ab](https://github.com/Not-Diamond/not-diamond-python/commit/24340ab121937a85e9c4bbc8b644c62b15f75d89))
+* **api:** verify mock tests enabled ([638d79b](https://github.com/Not-Diamond/not-diamond-python/commit/638d79bdd90097d9823d02e3dac8b12ab2849d03))
+
+
+### Chores
+
+* **internal:** grammar fix (it's -&gt; its) ([6d37a12](https://github.com/Not-Diamond/not-diamond-python/commit/6d37a125457223046183bcc8ee7159ed96b80424))
+
 ## 1.0.0-rc2 (2025-10-31)
 
 Full Changelog: [v1.0.0-rc1...v1.0.0-rc2](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc1...v1.0.0-rc2)
