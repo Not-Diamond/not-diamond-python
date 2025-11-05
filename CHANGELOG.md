@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.0-rc5 (2025-11-05)
+
+Full Changelog: [v1.0.0-rc4...v1.0.0-rc5](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc4...v1.0.0-rc5)
+
+### Features
+
+* **api:** manual updates ([0a7ac49](https://github.com/Not-Diamond/not-diamond-python/commit/0a7ac4986879837b1b93bb31c5b7e6d211a55077))
+
+
+### Chores
+
+* update SDK settings ([227346c](https://github.com/Not-Diamond/not-diamond-python/commit/227346c8e801e2ee7f0f7c376fb55e5aea606232))
+
 ## 1.0.0-rc4 (2025-11-05)
 
 Full Changelog: [v1.0.0-rc3...v1.0.0-rc4](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc3...v1.0.0-rc4)
