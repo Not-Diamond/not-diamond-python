@@ -7,8 +7,8 @@ __all__ = ["RoutingTrainCustomRouterResponse"]
 
 class RoutingTrainCustomRouterResponse(BaseModel):
     preference_id: str
-    """The preference ID for the custom router.
+    """Unique identifier for the custom router.
 
-    Training happens asynchronously - use this ID to check status and make routing
-    calls once training is complete
+    Use this in model_select() calls to enable routing with your custom-trained
+    router
     """

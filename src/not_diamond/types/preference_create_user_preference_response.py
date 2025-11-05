@@ -7,7 +7,8 @@ __all__ = ["PreferenceCreateUserPreferenceResponse"]
 
 class PreferenceCreateUserPreferenceResponse(BaseModel):
     preference_id: str
-    """The newly created preference ID.
+    """Unique identifier for the newly created preference.
 
-    Use this in model_select() calls for personalized routing
+    Use this in the 'preference_id' parameter of model_select() calls to enable
+    personalized routing
     """

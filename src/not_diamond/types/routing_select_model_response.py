@@ -9,10 +9,13 @@ __all__ = ["RoutingSelectModelResponse", "Provider"]
 
 class Provider(BaseModel):
     model: str
-    """Model name"""
+    """
+    Model identifier for the selected model (e.g., 'gpt-4o',
+    'claude-3-opus-20240229')
+    """
 
     provider: str
-    """Provider name"""
+    """Provider name for the selected model (e.g., 'openai', 'anthropic', 'google')"""
 
 
 class RoutingSelectModelResponse(BaseModel):

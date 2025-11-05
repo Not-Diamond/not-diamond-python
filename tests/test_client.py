@@ -767,30 +767,32 @@ class TestNotDiamond:
 
         with pytest.raises(APITimeoutError):
             client.routing.with_streaming_response.select_model(
-                llm_providers=[
-                    {
-                        "model": "gpt-4o",
-                        "provider": "openai",
-                    },
-                    {
-                        "model": "claude-sonnet-4-5-20250929",
-                        "provider": "anthropic",
-                    },
-                    {
-                        "model": "gemini-1.5-pro",
-                        "provider": "google",
-                    },
-                ],
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are a helpful assistant.",
-                    },
-                    {
-                        "role": "user",
-                        "content": "Explain quantum computing in simple terms",
-                    },
-                ],
+                body={
+                    "messages": [
+                        {
+                            "role": "system",
+                            "content": "You are a helpful assistant.",
+                        },
+                        {
+                            "role": "user",
+                            "content": "Explain quantum computing in simple terms",
+                        },
+                    ],
+                    "llm_providers": [
+                        {
+                            "provider": "openai",
+                            "model": "gpt-4o",
+                        },
+                        {
+                            "provider": "anthropic",
+                            "model": "claude-sonnet-4-5-20250929",
+                        },
+                        {
+                            "provider": "google",
+                            "model": "gemini-1.5-pro",
+                        },
+                    ],
+                }
             ).__enter__()
 
         assert _get_open_connections(client) == 0
@@ -802,30 +804,32 @@ class TestNotDiamond:
 
         with pytest.raises(APIStatusError):
             client.routing.with_streaming_response.select_model(
-                llm_providers=[
-                    {
-                        "model": "gpt-4o",
-                        "provider": "openai",
-                    },
-                    {
-                        "model": "claude-sonnet-4-5-20250929",
-                        "provider": "anthropic",
-                    },
-                    {
-                        "model": "gemini-1.5-pro",
-                        "provider": "google",
-                    },
-                ],
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are a helpful assistant.",
-                    },
-                    {
-                        "role": "user",
-                        "content": "Explain quantum computing in simple terms",
-                    },
-                ],
+                body={
+                    "messages": [
+                        {
+                            "role": "system",
+                            "content": "You are a helpful assistant.",
+                        },
+                        {
+                            "role": "user",
+                            "content": "Explain quantum computing in simple terms",
+                        },
+                    ],
+                    "llm_providers": [
+                        {
+                            "provider": "openai",
+                            "model": "gpt-4o",
+                        },
+                        {
+                            "provider": "anthropic",
+                            "model": "claude-sonnet-4-5-20250929",
+                        },
+                        {
+                            "provider": "google",
+                            "model": "gemini-1.5-pro",
+                        },
+                    ],
+                }
             ).__enter__()
         assert _get_open_connections(client) == 0
 
@@ -856,30 +860,32 @@ class TestNotDiamond:
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
         response = client.routing.with_raw_response.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                },
-            ],
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant.",
-                },
-                {
-                    "role": "user",
-                    "content": "Explain quantum computing in simple terms",
-                },
-            ],
+            body={
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are a helpful assistant.",
+                    },
+                    {
+                        "role": "user",
+                        "content": "Explain quantum computing in simple terms",
+                    },
+                ],
+                "llm_providers": [
+                    {
+                        "provider": "openai",
+                        "model": "gpt-4o",
+                    },
+                    {
+                        "provider": "anthropic",
+                        "model": "claude-sonnet-4-5-20250929",
+                    },
+                    {
+                        "provider": "google",
+                        "model": "gemini-1.5-pro",
+                    },
+                ],
+            }
         )
 
         assert response.retries_taken == failures_before_success
@@ -905,30 +911,32 @@ class TestNotDiamond:
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
         response = client.routing.with_raw_response.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                },
-            ],
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant.",
-                },
-                {
-                    "role": "user",
-                    "content": "Explain quantum computing in simple terms",
-                },
-            ],
+            body={
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are a helpful assistant.",
+                    },
+                    {
+                        "role": "user",
+                        "content": "Explain quantum computing in simple terms",
+                    },
+                ],
+                "llm_providers": [
+                    {
+                        "provider": "openai",
+                        "model": "gpt-4o",
+                    },
+                    {
+                        "provider": "anthropic",
+                        "model": "claude-sonnet-4-5-20250929",
+                    },
+                    {
+                        "provider": "google",
+                        "model": "gemini-1.5-pro",
+                    },
+                ],
+            },
             extra_headers={"x-stainless-retry-count": Omit()},
         )
 
@@ -954,30 +962,32 @@ class TestNotDiamond:
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
         response = client.routing.with_raw_response.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                },
-            ],
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant.",
-                },
-                {
-                    "role": "user",
-                    "content": "Explain quantum computing in simple terms",
-                },
-            ],
+            body={
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are a helpful assistant.",
+                    },
+                    {
+                        "role": "user",
+                        "content": "Explain quantum computing in simple terms",
+                    },
+                ],
+                "llm_providers": [
+                    {
+                        "provider": "openai",
+                        "model": "gpt-4o",
+                    },
+                    {
+                        "provider": "anthropic",
+                        "model": "claude-sonnet-4-5-20250929",
+                    },
+                    {
+                        "provider": "google",
+                        "model": "gemini-1.5-pro",
+                    },
+                ],
+            },
             extra_headers={"x-stainless-retry-count": "42"},
         )
 
@@ -1751,30 +1761,32 @@ class TestAsyncNotDiamond:
 
         with pytest.raises(APITimeoutError):
             await async_client.routing.with_streaming_response.select_model(
-                llm_providers=[
-                    {
-                        "model": "gpt-4o",
-                        "provider": "openai",
-                    },
-                    {
-                        "model": "claude-sonnet-4-5-20250929",
-                        "provider": "anthropic",
-                    },
-                    {
-                        "model": "gemini-1.5-pro",
-                        "provider": "google",
-                    },
-                ],
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are a helpful assistant.",
-                    },
-                    {
-                        "role": "user",
-                        "content": "Explain quantum computing in simple terms",
-                    },
-                ],
+                body={
+                    "messages": [
+                        {
+                            "role": "system",
+                            "content": "You are a helpful assistant.",
+                        },
+                        {
+                            "role": "user",
+                            "content": "Explain quantum computing in simple terms",
+                        },
+                    ],
+                    "llm_providers": [
+                        {
+                            "provider": "openai",
+                            "model": "gpt-4o",
+                        },
+                        {
+                            "provider": "anthropic",
+                            "model": "claude-sonnet-4-5-20250929",
+                        },
+                        {
+                            "provider": "google",
+                            "model": "gemini-1.5-pro",
+                        },
+                    ],
+                }
             ).__aenter__()
 
         assert _get_open_connections(async_client) == 0
@@ -1788,30 +1800,32 @@ class TestAsyncNotDiamond:
 
         with pytest.raises(APIStatusError):
             await async_client.routing.with_streaming_response.select_model(
-                llm_providers=[
-                    {
-                        "model": "gpt-4o",
-                        "provider": "openai",
-                    },
-                    {
-                        "model": "claude-sonnet-4-5-20250929",
-                        "provider": "anthropic",
-                    },
-                    {
-                        "model": "gemini-1.5-pro",
-                        "provider": "google",
-                    },
-                ],
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are a helpful assistant.",
-                    },
-                    {
-                        "role": "user",
-                        "content": "Explain quantum computing in simple terms",
-                    },
-                ],
+                body={
+                    "messages": [
+                        {
+                            "role": "system",
+                            "content": "You are a helpful assistant.",
+                        },
+                        {
+                            "role": "user",
+                            "content": "Explain quantum computing in simple terms",
+                        },
+                    ],
+                    "llm_providers": [
+                        {
+                            "provider": "openai",
+                            "model": "gpt-4o",
+                        },
+                        {
+                            "provider": "anthropic",
+                            "model": "claude-sonnet-4-5-20250929",
+                        },
+                        {
+                            "provider": "google",
+                            "model": "gemini-1.5-pro",
+                        },
+                    ],
+                }
             ).__aenter__()
         assert _get_open_connections(async_client) == 0
 
@@ -1842,30 +1856,32 @@ class TestAsyncNotDiamond:
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
         response = await client.routing.with_raw_response.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                },
-            ],
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant.",
-                },
-                {
-                    "role": "user",
-                    "content": "Explain quantum computing in simple terms",
-                },
-            ],
+            body={
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are a helpful assistant.",
+                    },
+                    {
+                        "role": "user",
+                        "content": "Explain quantum computing in simple terms",
+                    },
+                ],
+                "llm_providers": [
+                    {
+                        "provider": "openai",
+                        "model": "gpt-4o",
+                    },
+                    {
+                        "provider": "anthropic",
+                        "model": "claude-sonnet-4-5-20250929",
+                    },
+                    {
+                        "provider": "google",
+                        "model": "gemini-1.5-pro",
+                    },
+                ],
+            }
         )
 
         assert response.retries_taken == failures_before_success
@@ -1891,30 +1907,32 @@ class TestAsyncNotDiamond:
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
         response = await client.routing.with_raw_response.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                },
-            ],
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant.",
-                },
-                {
-                    "role": "user",
-                    "content": "Explain quantum computing in simple terms",
-                },
-            ],
+            body={
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are a helpful assistant.",
+                    },
+                    {
+                        "role": "user",
+                        "content": "Explain quantum computing in simple terms",
+                    },
+                ],
+                "llm_providers": [
+                    {
+                        "provider": "openai",
+                        "model": "gpt-4o",
+                    },
+                    {
+                        "provider": "anthropic",
+                        "model": "claude-sonnet-4-5-20250929",
+                    },
+                    {
+                        "provider": "google",
+                        "model": "gemini-1.5-pro",
+                    },
+                ],
+            },
             extra_headers={"x-stainless-retry-count": Omit()},
         )
 
@@ -1940,30 +1958,32 @@ class TestAsyncNotDiamond:
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
         response = await client.routing.with_raw_response.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                },
-            ],
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant.",
-                },
-                {
-                    "role": "user",
-                    "content": "Explain quantum computing in simple terms",
-                },
-            ],
+            body={
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are a helpful assistant.",
+                    },
+                    {
+                        "role": "user",
+                        "content": "Explain quantum computing in simple terms",
+                    },
+                ],
+                "llm_providers": [
+                    {
+                        "provider": "openai",
+                        "model": "gpt-4o",
+                    },
+                    {
+                        "provider": "anthropic",
+                        "model": "claude-sonnet-4-5-20250929",
+                    },
+                    {
+                        "provider": "google",
+                        "model": "gemini-1.5-pro",
+                    },
+                ],
+            },
             extra_headers={"x-stainless-retry-count": "42"},
         )
 

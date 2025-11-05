@@ -12,8 +12,6 @@ from tests.utils import assert_matches_type
 from not_diamond.types import (
     AdaptationRunResults,
     PromptAdaptationAdaptResponse,
-    PromptAdaptationGetAdaptRunsResponse,
-    PromptAdaptationRetrieveCostsResponse,
     PromptAdaptationGetAdaptStatusResponse,
 )
 
@@ -211,101 +209,6 @@ class TestPromptAdaptation:
             )
 
     @parametrize
-    def test_method_get_adapt_run_results(self, client: NotDiamond) -> None:
-        prompt_adaptation = client.prompt_adaptation.get_adapt_run_results(
-            adaptation_run_id="adaptation_run_id",
-            user_id="user_id",
-            x_token="x-token",
-        )
-        assert_matches_type(AdaptationRunResults, prompt_adaptation, path=["response"])
-
-    @parametrize
-    def test_raw_response_get_adapt_run_results(self, client: NotDiamond) -> None:
-        response = client.prompt_adaptation.with_raw_response.get_adapt_run_results(
-            adaptation_run_id="adaptation_run_id",
-            user_id="user_id",
-            x_token="x-token",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = response.parse()
-        assert_matches_type(AdaptationRunResults, prompt_adaptation, path=["response"])
-
-    @parametrize
-    def test_streaming_response_get_adapt_run_results(self, client: NotDiamond) -> None:
-        with client.prompt_adaptation.with_streaming_response.get_adapt_run_results(
-            adaptation_run_id="adaptation_run_id",
-            user_id="user_id",
-            x_token="x-token",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            prompt_adaptation = response.parse()
-            assert_matches_type(AdaptationRunResults, prompt_adaptation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_get_adapt_run_results(self, client: NotDiamond) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `user_id` but received ''"):
-            client.prompt_adaptation.with_raw_response.get_adapt_run_results(
-                adaptation_run_id="adaptation_run_id",
-                user_id="",
-                x_token="x-token",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `adaptation_run_id` but received ''"):
-            client.prompt_adaptation.with_raw_response.get_adapt_run_results(
-                adaptation_run_id="",
-                user_id="user_id",
-                x_token="x-token",
-            )
-
-    @parametrize
-    def test_method_get_adapt_runs(self, client: NotDiamond) -> None:
-        prompt_adaptation = client.prompt_adaptation.get_adapt_runs(
-            user_id="user_id",
-            x_token="x-token",
-        )
-        assert_matches_type(PromptAdaptationGetAdaptRunsResponse, prompt_adaptation, path=["response"])
-
-    @parametrize
-    def test_raw_response_get_adapt_runs(self, client: NotDiamond) -> None:
-        response = client.prompt_adaptation.with_raw_response.get_adapt_runs(
-            user_id="user_id",
-            x_token="x-token",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = response.parse()
-        assert_matches_type(PromptAdaptationGetAdaptRunsResponse, prompt_adaptation, path=["response"])
-
-    @parametrize
-    def test_streaming_response_get_adapt_runs(self, client: NotDiamond) -> None:
-        with client.prompt_adaptation.with_streaming_response.get_adapt_runs(
-            user_id="user_id",
-            x_token="x-token",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            prompt_adaptation = response.parse()
-            assert_matches_type(PromptAdaptationGetAdaptRunsResponse, prompt_adaptation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_get_adapt_runs(self, client: NotDiamond) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `user_id` but received ''"):
-            client.prompt_adaptation.with_raw_response.get_adapt_runs(
-                user_id="",
-                x_token="x-token",
-            )
-
-    @parametrize
     def test_method_get_adapt_status(self, client: NotDiamond) -> None:
         prompt_adaptation = client.prompt_adaptation.get_adapt_status(
             "adaptation_run_id",
@@ -340,44 +243,6 @@ class TestPromptAdaptation:
     def test_path_params_get_adapt_status(self, client: NotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `adaptation_run_id` but received ''"):
             client.prompt_adaptation.with_raw_response.get_adapt_status(
-                "",
-            )
-
-    @parametrize
-    def test_method_retrieve_costs(self, client: NotDiamond) -> None:
-        prompt_adaptation = client.prompt_adaptation.retrieve_costs(
-            "adaptation_run_id",
-        )
-        assert_matches_type(PromptAdaptationRetrieveCostsResponse, prompt_adaptation, path=["response"])
-
-    @parametrize
-    def test_raw_response_retrieve_costs(self, client: NotDiamond) -> None:
-        response = client.prompt_adaptation.with_raw_response.retrieve_costs(
-            "adaptation_run_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = response.parse()
-        assert_matches_type(PromptAdaptationRetrieveCostsResponse, prompt_adaptation, path=["response"])
-
-    @parametrize
-    def test_streaming_response_retrieve_costs(self, client: NotDiamond) -> None:
-        with client.prompt_adaptation.with_streaming_response.retrieve_costs(
-            "adaptation_run_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            prompt_adaptation = response.parse()
-            assert_matches_type(PromptAdaptationRetrieveCostsResponse, prompt_adaptation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_retrieve_costs(self, client: NotDiamond) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `adaptation_run_id` but received ''"):
-            client.prompt_adaptation.with_raw_response.retrieve_costs(
                 "",
             )
 
@@ -575,101 +440,6 @@ class TestAsyncPromptAdaptation:
             )
 
     @parametrize
-    async def test_method_get_adapt_run_results(self, async_client: AsyncNotDiamond) -> None:
-        prompt_adaptation = await async_client.prompt_adaptation.get_adapt_run_results(
-            adaptation_run_id="adaptation_run_id",
-            user_id="user_id",
-            x_token="x-token",
-        )
-        assert_matches_type(AdaptationRunResults, prompt_adaptation, path=["response"])
-
-    @parametrize
-    async def test_raw_response_get_adapt_run_results(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.prompt_adaptation.with_raw_response.get_adapt_run_results(
-            adaptation_run_id="adaptation_run_id",
-            user_id="user_id",
-            x_token="x-token",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = await response.parse()
-        assert_matches_type(AdaptationRunResults, prompt_adaptation, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_get_adapt_run_results(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.prompt_adaptation.with_streaming_response.get_adapt_run_results(
-            adaptation_run_id="adaptation_run_id",
-            user_id="user_id",
-            x_token="x-token",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            prompt_adaptation = await response.parse()
-            assert_matches_type(AdaptationRunResults, prompt_adaptation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_get_adapt_run_results(self, async_client: AsyncNotDiamond) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `user_id` but received ''"):
-            await async_client.prompt_adaptation.with_raw_response.get_adapt_run_results(
-                adaptation_run_id="adaptation_run_id",
-                user_id="",
-                x_token="x-token",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `adaptation_run_id` but received ''"):
-            await async_client.prompt_adaptation.with_raw_response.get_adapt_run_results(
-                adaptation_run_id="",
-                user_id="user_id",
-                x_token="x-token",
-            )
-
-    @parametrize
-    async def test_method_get_adapt_runs(self, async_client: AsyncNotDiamond) -> None:
-        prompt_adaptation = await async_client.prompt_adaptation.get_adapt_runs(
-            user_id="user_id",
-            x_token="x-token",
-        )
-        assert_matches_type(PromptAdaptationGetAdaptRunsResponse, prompt_adaptation, path=["response"])
-
-    @parametrize
-    async def test_raw_response_get_adapt_runs(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.prompt_adaptation.with_raw_response.get_adapt_runs(
-            user_id="user_id",
-            x_token="x-token",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = await response.parse()
-        assert_matches_type(PromptAdaptationGetAdaptRunsResponse, prompt_adaptation, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_get_adapt_runs(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.prompt_adaptation.with_streaming_response.get_adapt_runs(
-            user_id="user_id",
-            x_token="x-token",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            prompt_adaptation = await response.parse()
-            assert_matches_type(PromptAdaptationGetAdaptRunsResponse, prompt_adaptation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_get_adapt_runs(self, async_client: AsyncNotDiamond) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `user_id` but received ''"):
-            await async_client.prompt_adaptation.with_raw_response.get_adapt_runs(
-                user_id="",
-                x_token="x-token",
-            )
-
-    @parametrize
     async def test_method_get_adapt_status(self, async_client: AsyncNotDiamond) -> None:
         prompt_adaptation = await async_client.prompt_adaptation.get_adapt_status(
             "adaptation_run_id",
@@ -704,43 +474,5 @@ class TestAsyncPromptAdaptation:
     async def test_path_params_get_adapt_status(self, async_client: AsyncNotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `adaptation_run_id` but received ''"):
             await async_client.prompt_adaptation.with_raw_response.get_adapt_status(
-                "",
-            )
-
-    @parametrize
-    async def test_method_retrieve_costs(self, async_client: AsyncNotDiamond) -> None:
-        prompt_adaptation = await async_client.prompt_adaptation.retrieve_costs(
-            "adaptation_run_id",
-        )
-        assert_matches_type(PromptAdaptationRetrieveCostsResponse, prompt_adaptation, path=["response"])
-
-    @parametrize
-    async def test_raw_response_retrieve_costs(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.prompt_adaptation.with_raw_response.retrieve_costs(
-            "adaptation_run_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = await response.parse()
-        assert_matches_type(PromptAdaptationRetrieveCostsResponse, prompt_adaptation, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_retrieve_costs(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.prompt_adaptation.with_streaming_response.retrieve_costs(
-            "adaptation_run_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            prompt_adaptation = await response.parse()
-            assert_matches_type(PromptAdaptationRetrieveCostsResponse, prompt_adaptation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_retrieve_costs(self, async_client: AsyncNotDiamond) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `adaptation_run_id` but received ''"):
-            await async_client.prompt_adaptation.with_raw_response.retrieve_costs(
                 "",
             )

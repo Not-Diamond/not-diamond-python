@@ -26,7 +26,8 @@ class PromptAdaptationAdaptParams(TypedDict, total=False):
     target_models: Required[Iterable[TargetModel]]
     """List of models to adapt the prompt for.
 
-    Maximum count depends on your subscription tier
+    Maximum count depends on your subscription tier (Free: 1, Starter: 3, Startup:
+    5, Enterprise: 10)
     """
 
     template: Required[str]
@@ -42,20 +43,30 @@ class PromptAdaptationAdaptParams(TypedDict, total=False):
     goldens: Optional[Iterable[Golden]]
     """Training examples (legacy parameter).
 
-    Use train_goldens and test_goldens for better control
+    Use train_goldens and test_goldens for better control. Minimum 25 examples
     """
 
     origin_model: Optional[OriginModel]
     """Model for specifying an LLM provider in API requests."""
 
     origin_model_evaluation_score: Optional[float]
-    """Optional baseline score for the origin model"""
+    """Optional baseline score for the origin model.
+
+    If provided, can skip origin model evaluation
+    """
 
     test_goldens: Optional[Iterable[TestGolden]]
-    """Test examples for evaluation. Required if train_goldens is provided"""
+    """Test examples for evaluation.
+
+    Required if train_goldens is provided. Used to measure final performance on
+    held-out data
+    """
 
     train_goldens: Optional[Iterable[TrainGolden]]
-    """Training examples for prompt optimization. Minimum 25 examples required"""
+    """Training examples for prompt optimization.
+
+    Minimum 25 examples required. Cannot be used with 'goldens' parameter
+    """
 
 
 class TargetModel(TypedDict, total=False):

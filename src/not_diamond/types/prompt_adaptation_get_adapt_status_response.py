@@ -10,16 +10,19 @@ __all__ = ["PromptAdaptationGetAdaptStatusResponse"]
 
 class PromptAdaptationGetAdaptStatusResponse(BaseModel):
     adaptation_run_id: str
-    """Unique ID for this adaptation run.
+    """Unique identifier for this adaptation run.
 
-    Use this to check status and retrieve results
+    Use this to poll status and retrieve optimized prompts when complete
     """
 
     status: JobStatus
-    """
-    Current status of the adaptation run (created, queued, processing, completed, or
-    failed)
+    """Current status of the adaptation run.
+
+    Poll until this is 'completed' or 'failed'
     """
 
     queue_position: Optional[int] = None
-    """Position in queue if status is 'queued'. Lower numbers mean earlier processing"""
+    """Position in queue when status is 'queued'.
+
+    Lower numbers process sooner. Null when not queued
+    """
