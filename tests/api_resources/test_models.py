@@ -26,7 +26,7 @@ class TestModels:
     def test_method_list_with_all_params(self, client: NotDiamond) -> None:
         model = client.models.list(
             openrouter_only=True,
-            provider=["string"],
+            provider=["openai", "anthropic"],
         )
         assert_matches_type(ModelListResponse, model, path=["response"])
 
@@ -65,7 +65,7 @@ class TestAsyncModels:
     async def test_method_list_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         model = await async_client.models.list(
             openrouter_only=True,
-            provider=["string"],
+            provider=["openai", "anthropic"],
         )
         assert_matches_type(ModelListResponse, model, path=["response"])
 
