@@ -17,13 +17,11 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestPreferences:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create(self, client: NotDiamond) -> None:
         preference = client.preferences.create()
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: NotDiamond) -> None:
         preference = client.preferences.create(
@@ -31,7 +29,6 @@ class TestPreferences:
         )
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: NotDiamond) -> None:
         response = client.preferences.with_raw_response.create()
@@ -41,7 +38,6 @@ class TestPreferences:
         preference = response.parse()
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: NotDiamond) -> None:
         with client.preferences.with_streaming_response.create() as response:
@@ -53,7 +49,6 @@ class TestPreferences:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: NotDiamond) -> None:
         preference = client.preferences.retrieve(
@@ -62,7 +57,6 @@ class TestPreferences:
         )
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: NotDiamond) -> None:
         response = client.preferences.with_raw_response.retrieve(
@@ -75,7 +69,6 @@ class TestPreferences:
         preference = response.parse()
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: NotDiamond) -> None:
         with client.preferences.with_streaming_response.retrieve(
@@ -90,7 +83,6 @@ class TestPreferences:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: NotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `user_id` but received ''"):
@@ -99,7 +91,6 @@ class TestPreferences:
                 x_token="x-token",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update(self, client: NotDiamond) -> None:
         preference = client.preferences.update(
@@ -107,7 +98,6 @@ class TestPreferences:
         )
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: NotDiamond) -> None:
         preference = client.preferences.update(
@@ -116,7 +106,6 @@ class TestPreferences:
         )
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: NotDiamond) -> None:
         response = client.preferences.with_raw_response.update(
@@ -128,7 +117,6 @@ class TestPreferences:
         preference = response.parse()
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: NotDiamond) -> None:
         with client.preferences.with_streaming_response.update(
@@ -142,7 +130,6 @@ class TestPreferences:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_delete(self, client: NotDiamond) -> None:
         preference = client.preferences.delete(
@@ -150,7 +137,6 @@ class TestPreferences:
         )
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: NotDiamond) -> None:
         response = client.preferences.with_raw_response.delete(
@@ -162,7 +148,6 @@ class TestPreferences:
         preference = response.parse()
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: NotDiamond) -> None:
         with client.preferences.with_streaming_response.delete(
@@ -176,7 +161,6 @@ class TestPreferences:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: NotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `preference_id` but received ''"):
@@ -190,13 +174,11 @@ class TestAsyncPreferences:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncNotDiamond) -> None:
         preference = await async_client.preferences.create()
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         preference = await async_client.preferences.create(
@@ -204,7 +186,6 @@ class TestAsyncPreferences:
         )
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.preferences.with_raw_response.create()
@@ -214,7 +195,6 @@ class TestAsyncPreferences:
         preference = await response.parse()
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.preferences.with_streaming_response.create() as response:
@@ -226,7 +206,6 @@ class TestAsyncPreferences:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncNotDiamond) -> None:
         preference = await async_client.preferences.retrieve(
@@ -235,7 +214,6 @@ class TestAsyncPreferences:
         )
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.preferences.with_raw_response.retrieve(
@@ -248,7 +226,6 @@ class TestAsyncPreferences:
         preference = await response.parse()
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.preferences.with_streaming_response.retrieve(
@@ -263,7 +240,6 @@ class TestAsyncPreferences:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncNotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `user_id` but received ''"):
@@ -272,7 +248,6 @@ class TestAsyncPreferences:
                 x_token="x-token",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncNotDiamond) -> None:
         preference = await async_client.preferences.update(
@@ -280,7 +255,6 @@ class TestAsyncPreferences:
         )
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         preference = await async_client.preferences.update(
@@ -289,7 +263,6 @@ class TestAsyncPreferences:
         )
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.preferences.with_raw_response.update(
@@ -301,7 +274,6 @@ class TestAsyncPreferences:
         preference = await response.parse()
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.preferences.with_streaming_response.update(
@@ -315,7 +287,6 @@ class TestAsyncPreferences:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncNotDiamond) -> None:
         preference = await async_client.preferences.delete(
@@ -323,7 +294,6 @@ class TestAsyncPreferences:
         )
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.preferences.with_raw_response.delete(
@@ -335,7 +305,6 @@ class TestAsyncPreferences:
         preference = await response.parse()
         assert_matches_type(object, preference, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.preferences.with_streaming_response.delete(
@@ -349,7 +318,6 @@ class TestAsyncPreferences:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncNotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `preference_id` but received ''"):

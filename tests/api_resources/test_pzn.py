@@ -19,7 +19,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestPzn:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_submit_survey_response(self, client: NotDiamond) -> None:
         pzn = client.pzn.submit_survey_response(
@@ -32,7 +31,6 @@ class TestPzn:
         )
         assert_matches_type(object, pzn, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_submit_survey_response_with_all_params(self, client: NotDiamond) -> None:
         pzn = client.pzn.submit_survey_response(
@@ -50,7 +48,6 @@ class TestPzn:
         )
         assert_matches_type(object, pzn, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_submit_survey_response(self, client: NotDiamond) -> None:
         response = client.pzn.with_raw_response.submit_survey_response(
@@ -67,7 +64,6 @@ class TestPzn:
         pzn = response.parse()
         assert_matches_type(object, pzn, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_submit_survey_response(self, client: NotDiamond) -> None:
         with client.pzn.with_streaming_response.submit_survey_response(
@@ -86,7 +82,6 @@ class TestPzn:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_train_custom_router(self, client: NotDiamond) -> None:
         pzn = client.pzn.train_custom_router(
@@ -98,7 +93,6 @@ class TestPzn:
         )
         assert_matches_type(PznTrainCustomRouterResponse, pzn, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_train_custom_router_with_all_params(self, client: NotDiamond) -> None:
         pzn = client.pzn.train_custom_router(
@@ -112,7 +106,6 @@ class TestPzn:
         )
         assert_matches_type(PznTrainCustomRouterResponse, pzn, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_train_custom_router(self, client: NotDiamond) -> None:
         response = client.pzn.with_raw_response.train_custom_router(
@@ -128,7 +121,6 @@ class TestPzn:
         pzn = response.parse()
         assert_matches_type(PznTrainCustomRouterResponse, pzn, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_train_custom_router(self, client: NotDiamond) -> None:
         with client.pzn.with_streaming_response.train_custom_router(
@@ -152,7 +144,6 @@ class TestAsyncPzn:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_submit_survey_response(self, async_client: AsyncNotDiamond) -> None:
         pzn = await async_client.pzn.submit_survey_response(
@@ -165,7 +156,6 @@ class TestAsyncPzn:
         )
         assert_matches_type(object, pzn, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_submit_survey_response_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         pzn = await async_client.pzn.submit_survey_response(
@@ -183,7 +173,6 @@ class TestAsyncPzn:
         )
         assert_matches_type(object, pzn, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_submit_survey_response(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.pzn.with_raw_response.submit_survey_response(
@@ -200,7 +189,6 @@ class TestAsyncPzn:
         pzn = await response.parse()
         assert_matches_type(object, pzn, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_submit_survey_response(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.pzn.with_streaming_response.submit_survey_response(
@@ -219,7 +207,6 @@ class TestAsyncPzn:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_train_custom_router(self, async_client: AsyncNotDiamond) -> None:
         pzn = await async_client.pzn.train_custom_router(
@@ -231,7 +218,6 @@ class TestAsyncPzn:
         )
         assert_matches_type(PznTrainCustomRouterResponse, pzn, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_train_custom_router_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         pzn = await async_client.pzn.train_custom_router(
@@ -245,7 +231,6 @@ class TestAsyncPzn:
         )
         assert_matches_type(PznTrainCustomRouterResponse, pzn, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_train_custom_router(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.pzn.with_raw_response.train_custom_router(
@@ -261,7 +246,6 @@ class TestAsyncPzn:
         pzn = await response.parse()
         assert_matches_type(PznTrainCustomRouterResponse, pzn, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_train_custom_router(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.pzn.with_streaming_response.train_custom_router(

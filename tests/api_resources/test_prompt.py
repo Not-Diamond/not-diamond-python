@@ -17,7 +17,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestPrompt:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_get_adapt_results(self, client: NotDiamond) -> None:
         prompt = client.prompt.get_adapt_results(
@@ -25,7 +24,6 @@ class TestPrompt:
         )
         assert_matches_type(PromptGetAdaptResultsResponse, prompt, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_get_adapt_results(self, client: NotDiamond) -> None:
         response = client.prompt.with_raw_response.get_adapt_results(
@@ -37,7 +35,6 @@ class TestPrompt:
         prompt = response.parse()
         assert_matches_type(PromptGetAdaptResultsResponse, prompt, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_get_adapt_results(self, client: NotDiamond) -> None:
         with client.prompt.with_streaming_response.get_adapt_results(
@@ -51,7 +48,6 @@ class TestPrompt:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_get_adapt_results(self, client: NotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `adaptation_run_id` but received ''"):
@@ -59,7 +55,6 @@ class TestPrompt:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_get_adapt_status(self, client: NotDiamond) -> None:
         prompt = client.prompt.get_adapt_status(
@@ -67,7 +62,6 @@ class TestPrompt:
         )
         assert_matches_type(PromptGetAdaptStatusResponse, prompt, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_get_adapt_status(self, client: NotDiamond) -> None:
         response = client.prompt.with_raw_response.get_adapt_status(
@@ -79,7 +73,6 @@ class TestPrompt:
         prompt = response.parse()
         assert_matches_type(PromptGetAdaptStatusResponse, prompt, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_get_adapt_status(self, client: NotDiamond) -> None:
         with client.prompt.with_streaming_response.get_adapt_status(
@@ -93,7 +86,6 @@ class TestPrompt:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_get_adapt_status(self, client: NotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `adaptation_run_id` but received ''"):
@@ -107,7 +99,6 @@ class TestAsyncPrompt:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_get_adapt_results(self, async_client: AsyncNotDiamond) -> None:
         prompt = await async_client.prompt.get_adapt_results(
@@ -115,7 +106,6 @@ class TestAsyncPrompt:
         )
         assert_matches_type(PromptGetAdaptResultsResponse, prompt, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_get_adapt_results(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.prompt.with_raw_response.get_adapt_results(
@@ -127,7 +117,6 @@ class TestAsyncPrompt:
         prompt = await response.parse()
         assert_matches_type(PromptGetAdaptResultsResponse, prompt, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_get_adapt_results(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.prompt.with_streaming_response.get_adapt_results(
@@ -141,7 +130,6 @@ class TestAsyncPrompt:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_get_adapt_results(self, async_client: AsyncNotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `adaptation_run_id` but received ''"):
@@ -149,7 +137,6 @@ class TestAsyncPrompt:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_get_adapt_status(self, async_client: AsyncNotDiamond) -> None:
         prompt = await async_client.prompt.get_adapt_status(
@@ -157,7 +144,6 @@ class TestAsyncPrompt:
         )
         assert_matches_type(PromptGetAdaptStatusResponse, prompt, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_get_adapt_status(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.prompt.with_raw_response.get_adapt_status(
@@ -169,7 +155,6 @@ class TestAsyncPrompt:
         prompt = await response.parse()
         assert_matches_type(PromptGetAdaptStatusResponse, prompt, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_get_adapt_status(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.prompt.with_streaming_response.get_adapt_status(
@@ -183,7 +168,6 @@ class TestAsyncPrompt:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_get_adapt_status(self, async_client: AsyncNotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `adaptation_run_id` but received ''"):
