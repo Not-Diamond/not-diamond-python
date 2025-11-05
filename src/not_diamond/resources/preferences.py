@@ -6,7 +6,7 @@ from typing import Optional
 
 import httpx
 
-from ..types import preference_create_user_preference_params, preference_update_user_preference_params
+from ..types import preference_create_params, preference_update_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -18,7 +18,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.preference_create_user_preference_response import PreferenceCreateUserPreferenceResponse
+from ..types.preference_create_response import PreferenceCreateResponse
 
 __all__ = ["PreferencesResource", "AsyncPreferencesResource"]
 
@@ -43,45 +43,7 @@ class PreferencesResource(SyncAPIResource):
         """
         return PreferencesResourceWithStreamingResponse(self)
 
-    def retrieve(
-        self,
-        preference_id: str,
-        *,
-        user_id: str,
-        x_token: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        Get User Preference By Id
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not user_id:
-            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
-        if not preference_id:
-            raise ValueError(f"Expected a non-empty value for `preference_id` but received {preference_id!r}")
-        extra_headers = {"x-token": x_token, **(extra_headers or {})}
-        return self._get(
-            f"/v2/preferences/{user_id}/{preference_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
-    def create_user_preference(
+    def create(
         self,
         *,
         name: Optional[str] | Omit = omit,
@@ -91,7 +53,7 @@ class PreferencesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PreferenceCreateUserPreferenceResponse:
+    ) -> PreferenceCreateResponse:
         """
         Create a new preference ID for personalized LLM routing.
 
@@ -119,7 +81,9 @@ class PreferencesResource(SyncAPIResource):
         default router will be used.
 
         Args:
-          name: Optional name for the preference
+          name: Optional name for the preference. If not provided, an auto-generated timestamp
+              will be used. Use descriptive names like 'Production API' or 'Customer Support
+              Bot' for easy identification
 
           extra_headers: Send extra headers
 
@@ -131,16 +95,88 @@ class PreferencesResource(SyncAPIResource):
         """
         return self._post(
             "/v2/preferences/userPreferenceCreate",
+            body=maybe_transform({"name": name}, preference_create_params.PreferenceCreateParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=PreferenceCreateResponse,
+        )
+
+    def retrieve(
+        self,
+        user_id: str,
+        *,
+        x_token: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> object:
+        """
+        Get User Preference
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not user_id:
+            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
+        extra_headers = {"x-token": x_token, **(extra_headers or {})}
+        return self._get(
+            f"/v2/preferences/{user_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
+
+    def update(
+        self,
+        *,
+        preference_id: str,
+        name: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> object:
+        """
+        Update User Preference
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._put(
+            "/v2/preferences/userPreferenceUpdate",
             body=maybe_transform(
-                {"name": name}, preference_create_user_preference_params.PreferenceCreateUserPreferenceParams
+                {
+                    "preference_id": preference_id,
+                    "name": name,
+                },
+                preference_update_params.PreferenceUpdateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PreferenceCreateUserPreferenceResponse,
+            cast_to=object,
         )
 
-    def delete_user_preference(
+    def delete(
         self,
         preference_id: str,
         *,
@@ -173,45 +209,6 @@ class PreferencesResource(SyncAPIResource):
             cast_to=object,
         )
 
-    def update_user_preference(
-        self,
-        *,
-        preference_id: str,
-        name: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        Update User Preference
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._put(
-            "/v2/preferences/userPreferenceUpdate",
-            body=maybe_transform(
-                {
-                    "preference_id": preference_id,
-                    "name": name,
-                },
-                preference_update_user_preference_params.PreferenceUpdateUserPreferenceParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
 
 class AsyncPreferencesResource(AsyncAPIResource):
     @cached_property
@@ -233,45 +230,7 @@ class AsyncPreferencesResource(AsyncAPIResource):
         """
         return AsyncPreferencesResourceWithStreamingResponse(self)
 
-    async def retrieve(
-        self,
-        preference_id: str,
-        *,
-        user_id: str,
-        x_token: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        Get User Preference By Id
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not user_id:
-            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
-        if not preference_id:
-            raise ValueError(f"Expected a non-empty value for `preference_id` but received {preference_id!r}")
-        extra_headers = {"x-token": x_token, **(extra_headers or {})}
-        return await self._get(
-            f"/v2/preferences/{user_id}/{preference_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
-    async def create_user_preference(
+    async def create(
         self,
         *,
         name: Optional[str] | Omit = omit,
@@ -281,7 +240,7 @@ class AsyncPreferencesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PreferenceCreateUserPreferenceResponse:
+    ) -> PreferenceCreateResponse:
         """
         Create a new preference ID for personalized LLM routing.
 
@@ -309,7 +268,9 @@ class AsyncPreferencesResource(AsyncAPIResource):
         default router will be used.
 
         Args:
-          name: Optional name for the preference
+          name: Optional name for the preference. If not provided, an auto-generated timestamp
+              will be used. Use descriptive names like 'Production API' or 'Customer Support
+              Bot' for easy identification
 
           extra_headers: Send extra headers
 
@@ -321,16 +282,88 @@ class AsyncPreferencesResource(AsyncAPIResource):
         """
         return await self._post(
             "/v2/preferences/userPreferenceCreate",
+            body=await async_maybe_transform({"name": name}, preference_create_params.PreferenceCreateParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=PreferenceCreateResponse,
+        )
+
+    async def retrieve(
+        self,
+        user_id: str,
+        *,
+        x_token: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> object:
+        """
+        Get User Preference
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not user_id:
+            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
+        extra_headers = {"x-token": x_token, **(extra_headers or {})}
+        return await self._get(
+            f"/v2/preferences/{user_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
+
+    async def update(
+        self,
+        *,
+        preference_id: str,
+        name: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> object:
+        """
+        Update User Preference
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._put(
+            "/v2/preferences/userPreferenceUpdate",
             body=await async_maybe_transform(
-                {"name": name}, preference_create_user_preference_params.PreferenceCreateUserPreferenceParams
+                {
+                    "preference_id": preference_id,
+                    "name": name,
+                },
+                preference_update_params.PreferenceUpdateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PreferenceCreateUserPreferenceResponse,
+            cast_to=object,
         )
 
-    async def delete_user_preference(
+    async def delete(
         self,
         preference_id: str,
         *,
@@ -363,61 +396,22 @@ class AsyncPreferencesResource(AsyncAPIResource):
             cast_to=object,
         )
 
-    async def update_user_preference(
-        self,
-        *,
-        preference_id: str,
-        name: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        Update User Preference
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._put(
-            "/v2/preferences/userPreferenceUpdate",
-            body=await async_maybe_transform(
-                {
-                    "preference_id": preference_id,
-                    "name": name,
-                },
-                preference_update_user_preference_params.PreferenceUpdateUserPreferenceParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
 
 class PreferencesResourceWithRawResponse:
     def __init__(self, preferences: PreferencesResource) -> None:
         self._preferences = preferences
 
+        self.create = to_raw_response_wrapper(
+            preferences.create,
+        )
         self.retrieve = to_raw_response_wrapper(
             preferences.retrieve,
         )
-        self.create_user_preference = to_raw_response_wrapper(
-            preferences.create_user_preference,
+        self.update = to_raw_response_wrapper(
+            preferences.update,
         )
-        self.delete_user_preference = to_raw_response_wrapper(
-            preferences.delete_user_preference,
-        )
-        self.update_user_preference = to_raw_response_wrapper(
-            preferences.update_user_preference,
+        self.delete = to_raw_response_wrapper(
+            preferences.delete,
         )
 
 
@@ -425,17 +419,17 @@ class AsyncPreferencesResourceWithRawResponse:
     def __init__(self, preferences: AsyncPreferencesResource) -> None:
         self._preferences = preferences
 
+        self.create = async_to_raw_response_wrapper(
+            preferences.create,
+        )
         self.retrieve = async_to_raw_response_wrapper(
             preferences.retrieve,
         )
-        self.create_user_preference = async_to_raw_response_wrapper(
-            preferences.create_user_preference,
+        self.update = async_to_raw_response_wrapper(
+            preferences.update,
         )
-        self.delete_user_preference = async_to_raw_response_wrapper(
-            preferences.delete_user_preference,
-        )
-        self.update_user_preference = async_to_raw_response_wrapper(
-            preferences.update_user_preference,
+        self.delete = async_to_raw_response_wrapper(
+            preferences.delete,
         )
 
 
@@ -443,17 +437,17 @@ class PreferencesResourceWithStreamingResponse:
     def __init__(self, preferences: PreferencesResource) -> None:
         self._preferences = preferences
 
+        self.create = to_streamed_response_wrapper(
+            preferences.create,
+        )
         self.retrieve = to_streamed_response_wrapper(
             preferences.retrieve,
         )
-        self.create_user_preference = to_streamed_response_wrapper(
-            preferences.create_user_preference,
+        self.update = to_streamed_response_wrapper(
+            preferences.update,
         )
-        self.delete_user_preference = to_streamed_response_wrapper(
-            preferences.delete_user_preference,
-        )
-        self.update_user_preference = to_streamed_response_wrapper(
-            preferences.update_user_preference,
+        self.delete = to_streamed_response_wrapper(
+            preferences.delete,
         )
 
 
@@ -461,15 +455,15 @@ class AsyncPreferencesResourceWithStreamingResponse:
     def __init__(self, preferences: AsyncPreferencesResource) -> None:
         self._preferences = preferences
 
+        self.create = async_to_streamed_response_wrapper(
+            preferences.create,
+        )
         self.retrieve = async_to_streamed_response_wrapper(
             preferences.retrieve,
         )
-        self.create_user_preference = async_to_streamed_response_wrapper(
-            preferences.create_user_preference,
+        self.update = async_to_streamed_response_wrapper(
+            preferences.update,
         )
-        self.delete_user_preference = async_to_streamed_response_wrapper(
-            preferences.delete_user_preference,
-        )
-        self.update_user_preference = async_to_streamed_response_wrapper(
-            preferences.update_user_preference,
+        self.delete = async_to_streamed_response_wrapper(
+            preferences.delete,
         )

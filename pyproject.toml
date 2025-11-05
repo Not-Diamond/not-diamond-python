@@ -1,11 +1,11 @@
 [project]
-name = "notdiamond"
-version = "1.0.0-rc2"
+name = "not_diamond"
+version = "1.0.0-rc3"
 description = "The official Python library for the not-diamond API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Not Diamond", email = "d6@notdiamond.ai" },
+{ name = "Not Diamond", email = "" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",

@@ -1,7 +1,7 @@
 # Not Diamond Python API library
 
 <!-- prettier-ignore -->
-[![PyPI version](https://img.shields.io/pypi/v/notdiamond.svg?label=pypi%20(stable))](https://pypi.org/project/notdiamond/)
+[![PyPI version](https://img.shields.io/pypi/v/not_diamond.svg?label=pypi%20(stable))](https://pypi.org/project/not_diamond/)
 
 The Not Diamond Python library provides convenient access to the Not Diamond REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
@@ -11,14 +11,17 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The REST API documentation can be found on [docs.notdiamond.ai](https://docs.notdiamond.ai). The full API of this library can be found in [api.md](api.md).
+The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
 ```sh
-# install from PyPI
-pip install --pre notdiamond
+# install from the production repo
+pip install git+ssh://git@github.com/Not-Diamond/not-diamond-python.git
 ```
+
+> [!NOTE]
+> Once this package is [published to PyPI](https://www.stainless.com/docs/guides/publish), this will become: `pip install --pre not_diamond`
 
 ## Usage
 
@@ -30,11 +33,9 @@ from not_diamond import NotDiamond
 
 client = NotDiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
-    # defaults to "production".
-    environment="staging",
 )
 
-response = client.routing.select_model(
+response = client.model_router.select_model(
     llm_providers=[
         {
             "model": "gpt-4o",
@@ -79,13 +80,11 @@ from not_diamond import AsyncNotDiamond
 
 client = AsyncNotDiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
-    # defaults to "production".
-    environment="staging",
 )
 
 
 async def main() -> None:
-    response = await client.routing.select_model(
+    response = await client.model_router.select_model(
         llm_providers=[
             {
                 "model": "gpt-4o",
@@ -126,8 +125,8 @@ By default, the async client uses `httpx` for HTTP requests. However, for improv
 You can enable this by installing `aiohttp`:
 
 ```sh
-# install from PyPI
-pip install --pre notdiamond[aiohttp]
+# install from the production repo
+pip install 'not_diamond[aiohttp] @ git+ssh://git@github.com/Not-Diamond/not-diamond-python.git'
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
@@ -143,7 +142,7 @@ async def main() -> None:
         api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
-        response = await client.routing.select_model(
+        response = await client.model_router.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -193,26 +192,15 @@ from not_diamond import NotDiamond
 
 client = NotDiamond()
 
-response = client.prompt_adaptation.adapt(
-    fields=["question"],
-    system_prompt="You are a helpful assistant that answers questions accurately.",
-    target_models=[
-        {
-            "model": "claude-sonnet-4-5-20250929",
-            "provider": "anthropic",
-        },
-        {
-            "model": "gemini-1.5-pro",
-            "provider": "google",
-        },
-    ],
-    template="Question: {question}\nAnswer:",
-    origin_model={
+response = client.report.metrics.submit_feedback(
+    feedback={"accuracy": "bar"},
+    provider={
         "model": "gpt-4o",
         "provider": "openai",
     },
+    session_id="550e8400-e29b-41d4-a716-446655440000",
 )
-print(response.origin_model)
+print(response.provider)
 ```
 
 ## File uploads
@@ -225,7 +213,7 @@ from not_diamond import NotDiamond
 
 client = NotDiamond()
 
-client.routing.create_survey_response(
+client.pzn.submit_survey_response(
     constraint_priorities="constraint_priorities",
     email="email",
     llm_providers="llm_providers",
@@ -254,7 +242,7 @@ from not_diamond import NotDiamond
 client = NotDiamond()
 
 try:
-    client.routing.select_model(
+    client.model_router.select_model(
         llm_providers=[
             {
                 "model": "gpt-4o",
@@ -322,7 +310,7 @@ client = NotDiamond(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).routing.select_model(
+client.with_options(max_retries=5).model_router.select_model(
     llm_providers=[
         {
             "model": "gpt-4o",
@@ -370,7 +358,7 @@ client = NotDiamond(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).routing.select_model(
+client.with_options(timeout=5.0).model_router.select_model(
     llm_providers=[
         {
             "model": "gpt-4o",
@@ -436,7 +424,7 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from not_diamond import NotDiamond
 
 client = NotDiamond()
-response = client.routing.with_raw_response.select_model(
+response = client.model_router.with_raw_response.select_model(
     llm_providers=[{
         "model": "gpt-4o",
         "provider": "openai",
@@ -457,8 +445,8 @@ response = client.routing.with_raw_response.select_model(
 )
 print(response.headers.get('X-My-Header'))
 
-routing = response.parse()  # get the object that `routing.select_model()` would have returned
-print(routing.providers)
+model_router = response.parse()  # get the object that `model_router.select_model()` would have returned
+print(model_router.providers)
 ```
 
 These methods return an [`APIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/not_diamond/_response.py) object.
@@ -472,7 +460,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.routing.with_streaming_response.select_model(
+with client.model_router.with_streaming_response.select_model(
     llm_providers=[
         {
             "model": "gpt-4o",

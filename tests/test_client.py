@@ -22,7 +22,7 @@ from not_diamond import NotDiamond, AsyncNotDiamond, APIResponseValidationError
 from not_diamond._types import Omit
 from not_diamond._utils import asyncify
 from not_diamond._models import BaseModel, FinalRequestOptions
-from not_diamond._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
+from not_diamond._exceptions import APIStatusError, APITimeoutError, NotDiamondError, APIResponseValidationError
 from not_diamond._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
@@ -351,19 +351,10 @@ class TestNotDiamond:
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
-        with update_env(**{"NOT_DIAMOND_API_KEY": Omit()}):
-            client2 = NotDiamond(base_url=base_url, api_key=None, _strict_response_validation=True)
-
-        with pytest.raises(
-            TypeError,
-            match="Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted",
-        ):
-            client2._build_request(FinalRequestOptions(method="get", url="/foo"))
-
-        request2 = client2._build_request(
-            FinalRequestOptions(method="get", url="/foo", headers={"Authorization": Omit()})
-        )
-        assert request2.headers.get("Authorization") is None
+        with pytest.raises(NotDiamondError):
+            with update_env(**{"NOT_DIAMOND_API_KEY": Omit()}):
+                client2 = NotDiamond(base_url=base_url, api_key=None, _strict_response_validation=True)
+            _ = client2
 
     def test_default_query_option(self) -> None:
         client = NotDiamond(
@@ -583,18 +574,6 @@ class TestNotDiamond:
             client = NotDiamond(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
-        # explicit environment arg requires explicitness
-        with update_env(NOT_DIAMOND_BASE_URL="http://localhost:5000/from/env"):
-            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                NotDiamond(api_key=api_key, _strict_response_validation=True, environment="production")
-
-            client = NotDiamond(
-                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
-            )
-            assert str(client.base_url).startswith("https://api.notdiamond.ai")
-
-            client.close()
-
     @pytest.mark.parametrize(
         "client",
         [
@@ -766,7 +745,7 @@ class TestNotDiamond:
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            client.routing.with_streaming_response.select_model(
+            client.model_router.with_streaming_response.select_model(
                 llm_providers=[
                     {
                         "model": "gpt-4o",
@@ -801,7 +780,7 @@ class TestNotDiamond:
         respx_mock.post("/v2/modelRouter/modelSelect").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            client.routing.with_streaming_response.select_model(
+            client.model_router.with_streaming_response.select_model(
                 llm_providers=[
                     {
                         "model": "gpt-4o",
@@ -855,7 +834,7 @@ class TestNotDiamond:
 
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = client.routing.with_raw_response.select_model(
+        response = client.model_router.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -904,7 +883,7 @@ class TestNotDiamond:
 
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = client.routing.with_raw_response.select_model(
+        response = client.model_router.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -953,7 +932,7 @@ class TestNotDiamond:
 
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = client.routing.with_raw_response.select_model(
+        response = client.model_router.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -1326,19 +1305,10 @@ class TestAsyncNotDiamond:
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
-        with update_env(**{"NOT_DIAMOND_API_KEY": Omit()}):
-            client2 = AsyncNotDiamond(base_url=base_url, api_key=None, _strict_response_validation=True)
-
-        with pytest.raises(
-            TypeError,
-            match="Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted",
-        ):
-            client2._build_request(FinalRequestOptions(method="get", url="/foo"))
-
-        request2 = client2._build_request(
-            FinalRequestOptions(method="get", url="/foo", headers={"Authorization": Omit()})
-        )
-        assert request2.headers.get("Authorization") is None
+        with pytest.raises(NotDiamondError):
+            with update_env(**{"NOT_DIAMOND_API_KEY": Omit()}):
+                client2 = AsyncNotDiamond(base_url=base_url, api_key=None, _strict_response_validation=True)
+            _ = client2
 
     async def test_default_query_option(self) -> None:
         client = AsyncNotDiamond(
@@ -1562,18 +1532,6 @@ class TestAsyncNotDiamond:
             client = AsyncNotDiamond(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
-        # explicit environment arg requires explicitness
-        with update_env(NOT_DIAMOND_BASE_URL="http://localhost:5000/from/env"):
-            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                AsyncNotDiamond(api_key=api_key, _strict_response_validation=True, environment="production")
-
-            client = AsyncNotDiamond(
-                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
-            )
-            assert str(client.base_url).startswith("https://api.notdiamond.ai")
-
-            await client.close()
-
     @pytest.mark.parametrize(
         "client",
         [
@@ -1750,7 +1708,7 @@ class TestAsyncNotDiamond:
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await async_client.routing.with_streaming_response.select_model(
+            await async_client.model_router.with_streaming_response.select_model(
                 llm_providers=[
                     {
                         "model": "gpt-4o",
@@ -1787,7 +1745,7 @@ class TestAsyncNotDiamond:
         respx_mock.post("/v2/modelRouter/modelSelect").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await async_client.routing.with_streaming_response.select_model(
+            await async_client.model_router.with_streaming_response.select_model(
                 llm_providers=[
                     {
                         "model": "gpt-4o",
@@ -1841,7 +1799,7 @@ class TestAsyncNotDiamond:
 
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = await client.routing.with_raw_response.select_model(
+        response = await client.model_router.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -1890,7 +1848,7 @@ class TestAsyncNotDiamond:
 
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = await client.routing.with_raw_response.select_model(
+        response = await client.model_router.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
@@ -1939,7 +1897,7 @@ class TestAsyncNotDiamond:
 
         respx_mock.post("/v2/modelRouter/modelSelect").mock(side_effect=retry_handler)
 
-        response = await client.routing.with_raw_response.select_model(
+        response = await client.model_router.with_raw_response.select_model(
             llm_providers=[
                 {
                     "model": "gpt-4o",
