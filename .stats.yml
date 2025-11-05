@@ -1,4 +1,4 @@
-configured_endpoints: 11
+configured_endpoints: 14
 openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/not-diamond-dragos199993%2Fnot-diamond-7aebac2285f82fa226fe4ca10876bc2cc7daf8ec8ab3725040c2645f7368dfa1.yml
 openapi_spec_hash: b8f602df5906e74496ff5b2657748baf
-config_hash: 62437ae0e5415b8758d415da100b3595
+config_hash: a18d2e99b6f56f93a3d065f642464e65
