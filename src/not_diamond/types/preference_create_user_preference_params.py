@@ -10,4 +10,8 @@ __all__ = ["PreferenceCreateUserPreferenceParams"]
 
 class PreferenceCreateUserPreferenceParams(TypedDict, total=False):
     name: Optional[str]
-    """Optional name for the preference"""
+    """Optional name for the preference.
+
+    If not provided, an auto-generated timestamp will be used. Use descriptive names
+    like 'Production API' or 'Customer Support Bot' for easy identification
+    """

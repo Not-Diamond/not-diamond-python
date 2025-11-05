@@ -20,8 +20,6 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.adaptation_run_results import AdaptationRunResults
 from ..types.prompt_adaptation_adapt_response import PromptAdaptationAdaptResponse
-from ..types.prompt_adaptation_get_adapt_runs_response import PromptAdaptationGetAdaptRunsResponse
-from ..types.prompt_adaptation_retrieve_costs_response import PromptAdaptationRetrieveCostsResponse
 from ..types.prompt_adaptation_get_adapt_status_response import PromptAdaptationGetAdaptStatusResponse
 
 __all__ = ["PromptAdaptationResource", "AsyncPromptAdaptationResource"]
@@ -141,21 +139,24 @@ class PromptAdaptationResource(SyncAPIResource):
               the LLM
 
           target_models: List of models to adapt the prompt for. Maximum count depends on your
-              subscription tier
+              subscription tier (Free: 1, Starter: 3, Startup: 5, Enterprise: 10)
 
           template: User message template with placeholders for fields. Use curly braces for field
               substitution
 
           goldens: Training examples (legacy parameter). Use train_goldens and test_goldens for
-              better control
+              better control. Minimum 25 examples
 
           origin_model: Model for specifying an LLM provider in API requests.
 
-          origin_model_evaluation_score: Optional baseline score for the origin model
+          origin_model_evaluation_score: Optional baseline score for the origin model. If provided, can skip origin model
+              evaluation
 
-          test_goldens: Test examples for evaluation. Required if train_goldens is provided
+          test_goldens: Test examples for evaluation. Required if train_goldens is provided. Used to
+              measure final performance on held-out data
 
-          train_goldens: Training examples for prompt optimization. Minimum 25 examples required
+          train_goldens: Training examples for prompt optimization. Minimum 25 examples required. Cannot
+              be used with 'goldens' parameter
 
           extra_headers: Send extra headers
 
@@ -277,79 +278,6 @@ class PromptAdaptationResource(SyncAPIResource):
             cast_to=AdaptationRunResults,
         )
 
-    def get_adapt_run_results(
-        self,
-        adaptation_run_id: str,
-        *,
-        user_id: str,
-        x_token: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AdaptationRunResults:
-        """
-        Get Adapt Run Results
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not user_id:
-            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
-        if not adaptation_run_id:
-            raise ValueError(f"Expected a non-empty value for `adaptation_run_id` but received {adaptation_run_id!r}")
-        extra_headers = {"x-token": x_token, **(extra_headers or {})}
-        return self._get(
-            f"/v2/prompt/frontendAdaptRunResults/{user_id}/{adaptation_run_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=AdaptationRunResults,
-        )
-
-    def get_adapt_runs(
-        self,
-        user_id: str,
-        *,
-        x_token: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetAdaptRunsResponse:
-        """
-        Get Adapt Runs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not user_id:
-            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
-        extra_headers = {"x-token": x_token, **(extra_headers or {})}
-        return self._get(
-            f"/v2/prompt/frontendAdaptRuns/{user_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PromptAdaptationGetAdaptRunsResponse,
-        )
-
     def get_adapt_status(
         self,
         adaptation_run_id: str,
@@ -410,39 +338,6 @@ class PromptAdaptationResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=PromptAdaptationGetAdaptStatusResponse,
-        )
-
-    def retrieve_costs(
-        self,
-        adaptation_run_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationRetrieveCostsResponse:
-        """
-        Get LLM costs for a specific adaptation run
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not adaptation_run_id:
-            raise ValueError(f"Expected a non-empty value for `adaptation_run_id` but received {adaptation_run_id!r}")
-        return self._get(
-            f"/v1/adaptation-runs/{adaptation_run_id}/costs",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PromptAdaptationRetrieveCostsResponse,
         )
 
 
@@ -560,21 +455,24 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
               the LLM
 
           target_models: List of models to adapt the prompt for. Maximum count depends on your
-              subscription tier
+              subscription tier (Free: 1, Starter: 3, Startup: 5, Enterprise: 10)
 
           template: User message template with placeholders for fields. Use curly braces for field
               substitution
 
           goldens: Training examples (legacy parameter). Use train_goldens and test_goldens for
-              better control
+              better control. Minimum 25 examples
 
           origin_model: Model for specifying an LLM provider in API requests.
 
-          origin_model_evaluation_score: Optional baseline score for the origin model
+          origin_model_evaluation_score: Optional baseline score for the origin model. If provided, can skip origin model
+              evaluation
 
-          test_goldens: Test examples for evaluation. Required if train_goldens is provided
+          test_goldens: Test examples for evaluation. Required if train_goldens is provided. Used to
+              measure final performance on held-out data
 
-          train_goldens: Training examples for prompt optimization. Minimum 25 examples required
+          train_goldens: Training examples for prompt optimization. Minimum 25 examples required. Cannot
+              be used with 'goldens' parameter
 
           extra_headers: Send extra headers
 
@@ -696,79 +594,6 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
             cast_to=AdaptationRunResults,
         )
 
-    async def get_adapt_run_results(
-        self,
-        adaptation_run_id: str,
-        *,
-        user_id: str,
-        x_token: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AdaptationRunResults:
-        """
-        Get Adapt Run Results
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not user_id:
-            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
-        if not adaptation_run_id:
-            raise ValueError(f"Expected a non-empty value for `adaptation_run_id` but received {adaptation_run_id!r}")
-        extra_headers = {"x-token": x_token, **(extra_headers or {})}
-        return await self._get(
-            f"/v2/prompt/frontendAdaptRunResults/{user_id}/{adaptation_run_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=AdaptationRunResults,
-        )
-
-    async def get_adapt_runs(
-        self,
-        user_id: str,
-        *,
-        x_token: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetAdaptRunsResponse:
-        """
-        Get Adapt Runs
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not user_id:
-            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
-        extra_headers = {"x-token": x_token, **(extra_headers or {})}
-        return await self._get(
-            f"/v2/prompt/frontendAdaptRuns/{user_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PromptAdaptationGetAdaptRunsResponse,
-        )
-
     async def get_adapt_status(
         self,
         adaptation_run_id: str,
@@ -831,39 +656,6 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
             cast_to=PromptAdaptationGetAdaptStatusResponse,
         )
 
-    async def retrieve_costs(
-        self,
-        adaptation_run_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationRetrieveCostsResponse:
-        """
-        Get LLM costs for a specific adaptation run
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not adaptation_run_id:
-            raise ValueError(f"Expected a non-empty value for `adaptation_run_id` but received {adaptation_run_id!r}")
-        return await self._get(
-            f"/v1/adaptation-runs/{adaptation_run_id}/costs",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PromptAdaptationRetrieveCostsResponse,
-        )
-
 
 class PromptAdaptationResourceWithRawResponse:
     def __init__(self, prompt_adaptation: PromptAdaptationResource) -> None:
@@ -875,17 +667,8 @@ class PromptAdaptationResourceWithRawResponse:
         self.get_adapt_results = to_raw_response_wrapper(
             prompt_adaptation.get_adapt_results,
         )
-        self.get_adapt_run_results = to_raw_response_wrapper(
-            prompt_adaptation.get_adapt_run_results,
-        )
-        self.get_adapt_runs = to_raw_response_wrapper(
-            prompt_adaptation.get_adapt_runs,
-        )
         self.get_adapt_status = to_raw_response_wrapper(
             prompt_adaptation.get_adapt_status,
-        )
-        self.retrieve_costs = to_raw_response_wrapper(
-            prompt_adaptation.retrieve_costs,
         )
 
 
@@ -899,17 +682,8 @@ class AsyncPromptAdaptationResourceWithRawResponse:
         self.get_adapt_results = async_to_raw_response_wrapper(
             prompt_adaptation.get_adapt_results,
         )
-        self.get_adapt_run_results = async_to_raw_response_wrapper(
-            prompt_adaptation.get_adapt_run_results,
-        )
-        self.get_adapt_runs = async_to_raw_response_wrapper(
-            prompt_adaptation.get_adapt_runs,
-        )
         self.get_adapt_status = async_to_raw_response_wrapper(
             prompt_adaptation.get_adapt_status,
-        )
-        self.retrieve_costs = async_to_raw_response_wrapper(
-            prompt_adaptation.retrieve_costs,
         )
 
 
@@ -923,17 +697,8 @@ class PromptAdaptationResourceWithStreamingResponse:
         self.get_adapt_results = to_streamed_response_wrapper(
             prompt_adaptation.get_adapt_results,
         )
-        self.get_adapt_run_results = to_streamed_response_wrapper(
-            prompt_adaptation.get_adapt_run_results,
-        )
-        self.get_adapt_runs = to_streamed_response_wrapper(
-            prompt_adaptation.get_adapt_runs,
-        )
         self.get_adapt_status = to_streamed_response_wrapper(
             prompt_adaptation.get_adapt_status,
-        )
-        self.retrieve_costs = to_streamed_response_wrapper(
-            prompt_adaptation.retrieve_costs,
         )
 
 
@@ -947,15 +712,6 @@ class AsyncPromptAdaptationResourceWithStreamingResponse:
         self.get_adapt_results = async_to_streamed_response_wrapper(
             prompt_adaptation.get_adapt_results,
         )
-        self.get_adapt_run_results = async_to_streamed_response_wrapper(
-            prompt_adaptation.get_adapt_run_results,
-        )
-        self.get_adapt_runs = async_to_streamed_response_wrapper(
-            prompt_adaptation.get_adapt_runs,
-        )
         self.get_adapt_status = async_to_streamed_response_wrapper(
             prompt_adaptation.get_adapt_status,
-        )
-        self.retrieve_costs = async_to_streamed_response_wrapper(
-            prompt_adaptation.retrieve_costs,
         )

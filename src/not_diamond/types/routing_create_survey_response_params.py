@@ -13,23 +13,33 @@ __all__ = ["RoutingCreateSurveyResponseParams"]
 
 class RoutingCreateSurveyResponseParams(TypedDict, total=False):
     constraint_priorities: Required[str]
+    """JSON string of constraint priorities object"""
 
     email: Required[str]
+    """User email address"""
 
     llm_providers: Required[str]
+    """JSON string of LLM providers array"""
 
     use_case_desc: Required[str]
+    """Description of the user's use case"""
 
     user_id: Required[str]
+    """User ID from Supabase"""
 
     x_token: Required[Annotated[str, PropertyInfo(alias="x-token")]]
 
     additional_preferences: Optional[str]
+    """Optional additional preferences text"""
 
     dataset_file: Optional[FileTypes]
+    """Optional CSV file with evaluation dataset"""
 
     name: Optional[str]
+    """Optional preference name"""
 
     prompt_file: Optional[FileTypes]
+    """Optional CSV file with prompts"""
 
     prompts: Optional[str]
+    """Optional JSON string of prompts array"""

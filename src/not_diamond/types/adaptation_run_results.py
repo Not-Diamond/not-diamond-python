@@ -24,19 +24,39 @@ class TargetModel(BaseModel):
 
     pre_optimization_score: Optional[float] = None
 
-    result_status: Optional[JobStatus] = None
-    """Status of this specific target model adaptation"""
-
-    system_prompt: Optional[str] = None
-    """Optimized system prompt for this target model"""
-
     task_type: Optional[str] = None
 
+    result_status: Optional[JobStatus] = None
+    """
+    Status enum for asynchronous jobs (prompt adaptation, custom router training,
+    etc.).
+
+    Represents the current state of a long-running operation:
+
+    - **created**: Job has been initialized but not yet queued
+    - **queued**: Job is waiting in the queue to be processed
+    - **processing**: Job is currently being executed
+    - **completed**: Job finished successfully and results are available
+    - **failed**: Job encountered an error and did not complete
+    """
+
+    system_prompt: Optional[str] = None
+    """Optimized system prompt for this target model.
+
+    Use this as the system message in your LLM calls
+    """
+
     user_message_template: Optional[str] = None
-    """Optimized user message template for this target model"""
+    """Optimized user message template with placeholders.
+
+    Substitute fields using your data before calling the LLM
+    """
 
     user_message_template_fields: Optional[List[str]] = None
-    """Field names used in the optimized template"""
+    """
+    List of field names to substitute in the template (e.g., ['question',
+    'context']). These match the curly-brace placeholders in user_message_template
+    """
 
 
 class OriginModel(BaseModel):
@@ -46,13 +66,27 @@ class OriginModel(BaseModel):
 
     api_model_name: Optional[str] = FieldInfo(alias="model_name", default=None)
 
-    result_status: Optional[JobStatus] = None
-
     score: Optional[float] = None
 
+    result_status: Optional[JobStatus] = None
+    """
+    Status enum for asynchronous jobs (prompt adaptation, custom router training,
+    etc.).
+
+    Represents the current state of a long-running operation:
+
+    - **created**: Job has been initialized but not yet queued
+    - **queued**: Job is waiting in the queue to be processed
+    - **processing**: Job is currently being executed
+    - **completed**: Job finished successfully and results are available
+    - **failed**: Job encountered an error and did not complete
+    """
+
     system_prompt: Optional[str] = None
+    """Original system prompt used for the origin model"""
 
     user_message_template: Optional[str] = None
+    """Original user message template used for the origin model"""
 
 
 class AdaptationRunResults(BaseModel):
@@ -63,10 +97,10 @@ class AdaptationRunResults(BaseModel):
     """Timestamp when this adaptation run was created"""
 
     job_status: JobStatus
-    """Overall status of the adaptation run"""
+    """Overall status of the adaptation run (queued, running, completed, failed)"""
 
     target_models: List[TargetModel]
-    """Results for each target model with optimized prompts"""
+    """Results for each target model with optimized prompts and improvement scores"""
 
     updated_at: Optional[datetime] = None
     """Timestamp of last update to this adaptation run"""
@@ -76,7 +110,22 @@ class AdaptationRunResults(BaseModel):
     evaluation_metric: Optional[str] = None
 
     llm_request_metrics: Optional[Dict[str, float]] = None
-    """Metrics for the LLM requests made during the adaptation run"""
+    """
+    Metrics for the LLM requests made during the adaptation run (e.g.,
+    total_requests, avg_latency)
+    """
 
     origin_model: Optional[OriginModel] = None
-    """Results for the origin model (baseline performance)"""
+    """Baseline results for the origin model in prompt adaptation.
+
+    Part of AdaptationRunResultsResponse. Contains the performance metrics and
+    prompt configuration for your original prompt on the origin model. This serves
+    as the baseline to compare against optimized prompts for target models.
+
+    **Fields include:**
+
+    - Original system prompt and user message template
+    - Baseline performance score and evaluation metrics
+    - Cost of running the baseline evaluation
+    - Job status for the origin model evaluation
+    """

@@ -43,44 +43,6 @@ class PreferencesResource(SyncAPIResource):
         """
         return PreferencesResourceWithStreamingResponse(self)
 
-    def retrieve(
-        self,
-        preference_id: str,
-        *,
-        user_id: str,
-        x_token: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        Get User Preference By Id
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not user_id:
-            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
-        if not preference_id:
-            raise ValueError(f"Expected a non-empty value for `preference_id` but received {preference_id!r}")
-        extra_headers = {"x-token": x_token, **(extra_headers or {})}
-        return self._get(
-            f"/v2/preferences/{user_id}/{preference_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
     def create_user_preference(
         self,
         *,
@@ -119,7 +81,9 @@ class PreferencesResource(SyncAPIResource):
         default router will be used.
 
         Args:
-          name: Optional name for the preference
+          name: Optional name for the preference. If not provided, an auto-generated timestamp
+              will be used. Use descriptive names like 'Production API' or 'Customer Support
+              Bot' for easy identification
 
           extra_headers: Send extra headers
 
@@ -233,44 +197,6 @@ class AsyncPreferencesResource(AsyncAPIResource):
         """
         return AsyncPreferencesResourceWithStreamingResponse(self)
 
-    async def retrieve(
-        self,
-        preference_id: str,
-        *,
-        user_id: str,
-        x_token: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        Get User Preference By Id
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not user_id:
-            raise ValueError(f"Expected a non-empty value for `user_id` but received {user_id!r}")
-        if not preference_id:
-            raise ValueError(f"Expected a non-empty value for `preference_id` but received {preference_id!r}")
-        extra_headers = {"x-token": x_token, **(extra_headers or {})}
-        return await self._get(
-            f"/v2/preferences/{user_id}/{preference_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
     async def create_user_preference(
         self,
         *,
@@ -309,7 +235,9 @@ class AsyncPreferencesResource(AsyncAPIResource):
         default router will be used.
 
         Args:
-          name: Optional name for the preference
+          name: Optional name for the preference. If not provided, an auto-generated timestamp
+              will be used. Use descriptive names like 'Production API' or 'Customer Support
+              Bot' for easy identification
 
           extra_headers: Send extra headers
 
@@ -407,9 +335,6 @@ class PreferencesResourceWithRawResponse:
     def __init__(self, preferences: PreferencesResource) -> None:
         self._preferences = preferences
 
-        self.retrieve = to_raw_response_wrapper(
-            preferences.retrieve,
-        )
         self.create_user_preference = to_raw_response_wrapper(
             preferences.create_user_preference,
         )
@@ -425,9 +350,6 @@ class AsyncPreferencesResourceWithRawResponse:
     def __init__(self, preferences: AsyncPreferencesResource) -> None:
         self._preferences = preferences
 
-        self.retrieve = async_to_raw_response_wrapper(
-            preferences.retrieve,
-        )
         self.create_user_preference = async_to_raw_response_wrapper(
             preferences.create_user_preference,
         )
@@ -443,9 +365,6 @@ class PreferencesResourceWithStreamingResponse:
     def __init__(self, preferences: PreferencesResource) -> None:
         self._preferences = preferences
 
-        self.retrieve = to_streamed_response_wrapper(
-            preferences.retrieve,
-        )
         self.create_user_preference = to_streamed_response_wrapper(
             preferences.create_user_preference,
         )
@@ -461,9 +380,6 @@ class AsyncPreferencesResourceWithStreamingResponse:
     def __init__(self, preferences: AsyncPreferencesResource) -> None:
         self._preferences = preferences
 
-        self.retrieve = async_to_streamed_response_wrapper(
-            preferences.retrieve,
-        )
         self.create_user_preference = async_to_streamed_response_wrapper(
             preferences.create_user_preference,
         )

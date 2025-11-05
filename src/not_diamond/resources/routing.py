@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Mapping, Iterable, Optional, cast
+from typing import Mapping, Optional, cast
 
 import httpx
 
@@ -70,9 +70,47 @@ class RoutingResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Survey Response
+        Submit a survey response for personalized routing setup.
+
+        This admin endpoint processes survey responses to set up personalized routing
+        configurations for users based on their use case, LLM preferences, and
+        constraints.
+
+        **Survey Data:**
+
+        - User information and use case description
+        - Preferred LLM providers and models
+        - Constraint priorities (quality, cost, latency)
+        - Optional prompts and evaluation datasets
+
+        **File Uploads:**
+
+        - `prompt_file`: Optional CSV file with prompts
+        - `dataset_file`: Optional CSV file with evaluation dataset
+
+        **Note:** This is an admin-only endpoint for internal use.
 
         Args:
+          constraint_priorities: JSON string of constraint priorities object
+
+          email: User email address
+
+          llm_providers: JSON string of LLM providers array
+
+          use_case_desc: Description of the user's use case
+
+          user_id: User ID from Supabase
+
+          additional_preferences: Optional additional preferences text
+
+          dataset_file: Optional CSV file with evaluation dataset
+
+          name: Optional preference name
+
+          prompt_file: Optional CSV file with prompts
+
+          prompts: Optional JSON string of prompts array
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -114,16 +152,8 @@ class RoutingResource(SyncAPIResource):
     def select_model(
         self,
         *,
-        llm_providers: Iterable[routing_select_model_params.LlmProvider],
-        messages: Union[Iterable[Dict[str, Union[str, Iterable[object]]]], str],
+        body: object,
         type: Optional[str] | Omit = omit,
-        hash_content: bool | Omit = omit,
-        max_model_depth: Optional[int] | Omit = omit,
-        metric: str | Omit = omit,
-        preference_id: Optional[str] | Omit = omit,
-        previous_session: Optional[str] | Omit = omit,
-        tools: Optional[Iterable[Dict[str, object]]] | Omit = omit,
-        tradeoff: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -165,30 +195,8 @@ class RoutingResource(SyncAPIResource):
           data
 
         Args:
-          llm_providers: List of LLM providers to route between. Specify at least one provider in format
-              {provider, model}
-
-          messages: Array of message objects in OpenAI format (with 'role' and 'content' keys)
-
           type: Optional format type. Use 'openrouter' to accept and return OpenRouter-format
               model identifiers
-
-          hash_content: Whether to hash message content for privacy
-
-          max_model_depth: Maximum number of models to consider for routing. If not specified, considers
-              all provided models
-
-          metric: Optimization metric for model selection
-
-          preference_id: Preference ID for personalized routing. Create one via POST
-              /v2/preferences/userPreferenceCreate
-
-          previous_session: Previous session ID to link related requests
-
-          tools: OpenAI-format function calling tools
-
-          tradeoff: Optimization tradeoff strategy. Use 'cost' to prioritize cost savings or
-              'latency' to prioritize speed
 
           extra_headers: Send extra headers
 
@@ -200,20 +208,7 @@ class RoutingResource(SyncAPIResource):
         """
         return self._post(
             "/v2/modelRouter/modelSelect",
-            body=maybe_transform(
-                {
-                    "llm_providers": llm_providers,
-                    "messages": messages,
-                    "hash_content": hash_content,
-                    "max_model_depth": max_model_depth,
-                    "metric": metric,
-                    "preference_id": preference_id,
-                    "previous_session": previous_session,
-                    "tools": tools,
-                    "tradeoff": tradeoff,
-                },
-                routing_select_model_params.RoutingSelectModelParams,
-            ),
+            body=maybe_transform(body, routing_select_model_params.RoutingSelectModelParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -397,9 +392,47 @@ class AsyncRoutingResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Survey Response
+        Submit a survey response for personalized routing setup.
+
+        This admin endpoint processes survey responses to set up personalized routing
+        configurations for users based on their use case, LLM preferences, and
+        constraints.
+
+        **Survey Data:**
+
+        - User information and use case description
+        - Preferred LLM providers and models
+        - Constraint priorities (quality, cost, latency)
+        - Optional prompts and evaluation datasets
+
+        **File Uploads:**
+
+        - `prompt_file`: Optional CSV file with prompts
+        - `dataset_file`: Optional CSV file with evaluation dataset
+
+        **Note:** This is an admin-only endpoint for internal use.
 
         Args:
+          constraint_priorities: JSON string of constraint priorities object
+
+          email: User email address
+
+          llm_providers: JSON string of LLM providers array
+
+          use_case_desc: Description of the user's use case
+
+          user_id: User ID from Supabase
+
+          additional_preferences: Optional additional preferences text
+
+          dataset_file: Optional CSV file with evaluation dataset
+
+          name: Optional preference name
+
+          prompt_file: Optional CSV file with prompts
+
+          prompts: Optional JSON string of prompts array
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -443,16 +476,8 @@ class AsyncRoutingResource(AsyncAPIResource):
     async def select_model(
         self,
         *,
-        llm_providers: Iterable[routing_select_model_params.LlmProvider],
-        messages: Union[Iterable[Dict[str, Union[str, Iterable[object]]]], str],
+        body: object,
         type: Optional[str] | Omit = omit,
-        hash_content: bool | Omit = omit,
-        max_model_depth: Optional[int] | Omit = omit,
-        metric: str | Omit = omit,
-        preference_id: Optional[str] | Omit = omit,
-        previous_session: Optional[str] | Omit = omit,
-        tools: Optional[Iterable[Dict[str, object]]] | Omit = omit,
-        tradeoff: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -494,30 +519,8 @@ class AsyncRoutingResource(AsyncAPIResource):
           data
 
         Args:
-          llm_providers: List of LLM providers to route between. Specify at least one provider in format
-              {provider, model}
-
-          messages: Array of message objects in OpenAI format (with 'role' and 'content' keys)
-
           type: Optional format type. Use 'openrouter' to accept and return OpenRouter-format
               model identifiers
-
-          hash_content: Whether to hash message content for privacy
-
-          max_model_depth: Maximum number of models to consider for routing. If not specified, considers
-              all provided models
-
-          metric: Optimization metric for model selection
-
-          preference_id: Preference ID for personalized routing. Create one via POST
-              /v2/preferences/userPreferenceCreate
-
-          previous_session: Previous session ID to link related requests
-
-          tools: OpenAI-format function calling tools
-
-          tradeoff: Optimization tradeoff strategy. Use 'cost' to prioritize cost savings or
-              'latency' to prioritize speed
 
           extra_headers: Send extra headers
 
@@ -529,20 +532,7 @@ class AsyncRoutingResource(AsyncAPIResource):
         """
         return await self._post(
             "/v2/modelRouter/modelSelect",
-            body=await async_maybe_transform(
-                {
-                    "llm_providers": llm_providers,
-                    "messages": messages,
-                    "hash_content": hash_content,
-                    "max_model_depth": max_model_depth,
-                    "metric": metric,
-                    "preference_id": preference_id,
-                    "previous_session": previous_session,
-                    "tools": tools,
-                    "tradeoff": tradeoff,
-                },
-                routing_select_model_params.RoutingSelectModelParams,
-            ),
+            body=await async_maybe_transform(body, routing_select_model_params.RoutingSelectModelParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
