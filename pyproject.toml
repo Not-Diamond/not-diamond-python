@@ -1,6 +1,6 @@
 [project]
 name = "not_diamond"
-version = "1.0.0-rc3"
+version = "1.0.0-rc4"
 description = "The official Python library for the not-diamond API"
 dynamic = ["readme"]
 license = "Apache-2.0"
