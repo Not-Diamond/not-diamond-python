@@ -36,32 +36,30 @@ client = NotDiamond(
 )
 
 response = client.model_router.select_model(
-    body={
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant.",
-            },
-            {
-                "role": "user",
-                "content": "Explain quantum computing in simple terms",
-            },
-        ],
-        "llm_providers": [
-            {
-                "provider": "openai",
-                "model": "gpt-4o",
-            },
-            {
-                "provider": "anthropic",
-                "model": "claude-sonnet-4-5-20250929",
-            },
-            {
-                "provider": "google",
-                "model": "gemini-1.5-pro",
-            },
-        ],
-    },
+    llm_providers=[
+        {
+            "model": "gpt-4o",
+            "provider": "openai",
+        },
+        {
+            "model": "claude-sonnet-4-5-20250929",
+            "provider": "anthropic",
+        },
+        {
+            "model": "gemini-1.5-pro",
+            "provider": "google",
+        },
+    ],
+    messages=[
+        {
+            "role": "system",
+            "content": "You are a helpful assistant.",
+        },
+        {
+            "role": "user",
+            "content": "Explain quantum computing in simple terms",
+        },
+    ],
 )
 print(response.providers)
 ```
@@ -87,32 +85,30 @@ client = AsyncNotDiamond(
 
 async def main() -> None:
     response = await client.model_router.select_model(
-        body={
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant.",
-                },
-                {
-                    "role": "user",
-                    "content": "Explain quantum computing in simple terms",
-                },
-            ],
-            "llm_providers": [
-                {
-                    "provider": "openai",
-                    "model": "gpt-4o",
-                },
-                {
-                    "provider": "anthropic",
-                    "model": "claude-sonnet-4-5-20250929",
-                },
-                {
-                    "provider": "google",
-                    "model": "gemini-1.5-pro",
-                },
-            ],
-        },
+        llm_providers=[
+            {
+                "model": "gpt-4o",
+                "provider": "openai",
+            },
+            {
+                "model": "claude-sonnet-4-5-20250929",
+                "provider": "anthropic",
+            },
+            {
+                "model": "gemini-1.5-pro",
+                "provider": "google",
+            },
+        ],
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a helpful assistant.",
+            },
+            {
+                "role": "user",
+                "content": "Explain quantum computing in simple terms",
+            },
+        ],
     )
     print(response.providers)
 
@@ -147,32 +143,30 @@ async def main() -> None:
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.model_router.select_model(
-            body={
-                "messages": [
-                    {
-                        "role": "system",
-                        "content": "You are a helpful assistant.",
-                    },
-                    {
-                        "role": "user",
-                        "content": "Explain quantum computing in simple terms",
-                    },
-                ],
-                "llm_providers": [
-                    {
-                        "provider": "openai",
-                        "model": "gpt-4o",
-                    },
-                    {
-                        "provider": "anthropic",
-                        "model": "claude-sonnet-4-5-20250929",
-                    },
-                    {
-                        "provider": "google",
-                        "model": "gemini-1.5-pro",
-                    },
-                ],
-            },
+            llm_providers=[
+                {
+                    "model": "gpt-4o",
+                    "provider": "openai",
+                },
+                {
+                    "model": "claude-sonnet-4-5-20250929",
+                    "provider": "anthropic",
+                },
+                {
+                    "model": "gemini-1.5-pro",
+                    "provider": "google",
+                },
+            ],
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant.",
+                },
+                {
+                    "role": "user",
+                    "content": "Explain quantum computing in simple terms",
+                },
+            ],
         )
         print(response.providers)
 
@@ -198,26 +192,15 @@ from not_diamond import NotDiamond
 
 client = NotDiamond()
 
-adapt = client.prompt.adapt.create(
-    fields=["question"],
-    system_prompt="You are a helpful assistant that answers questions accurately.",
-    target_models=[
-        {
-            "model": "claude-sonnet-4-5-20250929",
-            "provider": "anthropic",
-        },
-        {
-            "model": "gemini-1.5-pro",
-            "provider": "google",
-        },
-    ],
-    template="Question: {question}\nAnswer:",
-    origin_model={
+response = client.report.metrics.submit_feedback(
+    feedback={"accuracy": "bar"},
+    provider={
         "model": "gpt-4o",
         "provider": "openai",
     },
+    session_id="550e8400-e29b-41d4-a716-446655440000",
 )
-print(adapt.origin_model)
+print(response.provider)
 ```
 
 ## File uploads
@@ -260,32 +243,30 @@ client = NotDiamond()
 
 try:
     client.model_router.select_model(
-        body={
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant.",
-                },
-                {
-                    "role": "user",
-                    "content": "Explain quantum computing in simple terms",
-                },
-            ],
-            "llm_providers": [
-                {
-                    "provider": "openai",
-                    "model": "gpt-4o",
-                },
-                {
-                    "provider": "anthropic",
-                    "model": "claude-sonnet-4-5-20250929",
-                },
-                {
-                    "provider": "google",
-                    "model": "gemini-1.5-pro",
-                },
-            ],
-        },
+        llm_providers=[
+            {
+                "model": "gpt-4o",
+                "provider": "openai",
+            },
+            {
+                "model": "claude-sonnet-4-5-20250929",
+                "provider": "anthropic",
+            },
+            {
+                "model": "gemini-1.5-pro",
+                "provider": "google",
+            },
+        ],
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a helpful assistant.",
+            },
+            {
+                "role": "user",
+                "content": "Explain quantum computing in simple terms",
+            },
+        ],
     )
 except not_diamond.APIConnectionError as e:
     print("The server could not be reached")
@@ -330,32 +311,30 @@ client = NotDiamond(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).model_router.select_model(
-    body={
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant.",
-            },
-            {
-                "role": "user",
-                "content": "Explain quantum computing in simple terms",
-            },
-        ],
-        "llm_providers": [
-            {
-                "provider": "openai",
-                "model": "gpt-4o",
-            },
-            {
-                "provider": "anthropic",
-                "model": "claude-sonnet-4-5-20250929",
-            },
-            {
-                "provider": "google",
-                "model": "gemini-1.5-pro",
-            },
-        ],
-    },
+    llm_providers=[
+        {
+            "model": "gpt-4o",
+            "provider": "openai",
+        },
+        {
+            "model": "claude-sonnet-4-5-20250929",
+            "provider": "anthropic",
+        },
+        {
+            "model": "gemini-1.5-pro",
+            "provider": "google",
+        },
+    ],
+    messages=[
+        {
+            "role": "system",
+            "content": "You are a helpful assistant.",
+        },
+        {
+            "role": "user",
+            "content": "Explain quantum computing in simple terms",
+        },
+    ],
 )
 ```
 
@@ -380,32 +359,30 @@ client = NotDiamond(
 
 # Override per-request:
 client.with_options(timeout=5.0).model_router.select_model(
-    body={
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant.",
-            },
-            {
-                "role": "user",
-                "content": "Explain quantum computing in simple terms",
-            },
-        ],
-        "llm_providers": [
-            {
-                "provider": "openai",
-                "model": "gpt-4o",
-            },
-            {
-                "provider": "anthropic",
-                "model": "claude-sonnet-4-5-20250929",
-            },
-            {
-                "provider": "google",
-                "model": "gemini-1.5-pro",
-            },
-        ],
-    },
+    llm_providers=[
+        {
+            "model": "gpt-4o",
+            "provider": "openai",
+        },
+        {
+            "model": "claude-sonnet-4-5-20250929",
+            "provider": "anthropic",
+        },
+        {
+            "model": "gemini-1.5-pro",
+            "provider": "google",
+        },
+    ],
+    messages=[
+        {
+            "role": "system",
+            "content": "You are a helpful assistant.",
+        },
+        {
+            "role": "user",
+            "content": "Explain quantum computing in simple terms",
+        },
+    ],
 )
 ```
 
@@ -448,25 +425,23 @@ from not_diamond import NotDiamond
 
 client = NotDiamond()
 response = client.model_router.with_raw_response.select_model(
-    body={
-        "messages": [{
-            "role": "system",
-            "content": "You are a helpful assistant.",
-        }, {
-            "role": "user",
-            "content": "Explain quantum computing in simple terms",
-        }],
-        "llm_providers": [{
-            "provider": "openai",
-            "model": "gpt-4o",
-        }, {
-            "provider": "anthropic",
-            "model": "claude-sonnet-4-5-20250929",
-        }, {
-            "provider": "google",
-            "model": "gemini-1.5-pro",
-        }],
-    },
+    llm_providers=[{
+        "model": "gpt-4o",
+        "provider": "openai",
+    }, {
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": "anthropic",
+    }, {
+        "model": "gemini-1.5-pro",
+        "provider": "google",
+    }],
+    messages=[{
+        "role": "system",
+        "content": "You are a helpful assistant.",
+    }, {
+        "role": "user",
+        "content": "Explain quantum computing in simple terms",
+    }],
 )
 print(response.headers.get('X-My-Header'))
 
@@ -486,32 +461,30 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.model_router.with_streaming_response.select_model(
-    body={
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant.",
-            },
-            {
-                "role": "user",
-                "content": "Explain quantum computing in simple terms",
-            },
-        ],
-        "llm_providers": [
-            {
-                "provider": "openai",
-                "model": "gpt-4o",
-            },
-            {
-                "provider": "anthropic",
-                "model": "claude-sonnet-4-5-20250929",
-            },
-            {
-                "provider": "google",
-                "model": "gemini-1.5-pro",
-            },
-        ],
-    },
+    llm_providers=[
+        {
+            "model": "gpt-4o",
+            "provider": "openai",
+        },
+        {
+            "model": "claude-sonnet-4-5-20250929",
+            "provider": "anthropic",
+        },
+        {
+            "model": "gemini-1.5-pro",
+            "provider": "google",
+        },
+    ],
+    messages=[
+        {
+            "role": "system",
+            "content": "You are a helpful assistant.",
+        },
+        {
+            "role": "user",
+            "content": "Explain quantum computing in simple terms",
+        },
+    ],
 ) as response:
     print(response.headers.get("X-My-Header"))
 

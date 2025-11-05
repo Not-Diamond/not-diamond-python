@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Dict, Union, Iterable, Optional
 
 import httpx
 
@@ -46,7 +46,15 @@ class ModelRouterResource(SyncAPIResource):
     def open_hands_select(
         self,
         *,
-        body: object,
+        llm_providers: Iterable[model_router_open_hands_select_params.LlmProvider],
+        messages: Union[Iterable[Dict[str, Union[str, Iterable[object]]]], str],
+        hash_content: bool | Omit = omit,
+        max_model_depth: Optional[int] | Omit = omit,
+        metric: str | Omit = omit,
+        preference_id: Optional[str] | Omit = omit,
+        previous_session: Optional[str] | Omit = omit,
+        tools: Optional[Iterable[Dict[str, object]]] | Omit = omit,
+        tradeoff: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -58,6 +66,28 @@ class ModelRouterResource(SyncAPIResource):
         Openhands Model Select
 
         Args:
+          llm_providers: List of LLM providers to route between. Specify at least one provider in format
+              {provider, model}
+
+          messages: Array of message objects in OpenAI format (with 'role' and 'content' keys)
+
+          hash_content: Whether to hash message content for privacy
+
+          max_model_depth: Maximum number of models to consider for routing. If not specified, considers
+              all provided models
+
+          metric: Optimization metric for model selection
+
+          preference_id: Preference ID for personalized routing. Create one via POST
+              /v2/preferences/userPreferenceCreate
+
+          previous_session: Previous session ID to link related requests
+
+          tools: OpenAI-format function calling tools
+
+          tradeoff: Optimization tradeoff strategy. Use 'cost' to prioritize cost savings or
+              'latency' to prioritize speed
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -68,7 +98,20 @@ class ModelRouterResource(SyncAPIResource):
         """
         return self._post(
             "/v2/modelRouter/openHandsRouter",
-            body=maybe_transform(body, model_router_open_hands_select_params.ModelRouterOpenHandsSelectParams),
+            body=maybe_transform(
+                {
+                    "llm_providers": llm_providers,
+                    "messages": messages,
+                    "hash_content": hash_content,
+                    "max_model_depth": max_model_depth,
+                    "metric": metric,
+                    "preference_id": preference_id,
+                    "previous_session": previous_session,
+                    "tools": tools,
+                    "tradeoff": tradeoff,
+                },
+                model_router_open_hands_select_params.ModelRouterOpenHandsSelectParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -78,8 +121,16 @@ class ModelRouterResource(SyncAPIResource):
     def select_model(
         self,
         *,
-        body: object,
+        llm_providers: Iterable[model_router_select_model_params.LlmProvider],
+        messages: Union[Iterable[Dict[str, Union[str, Iterable[object]]]], str],
         type: Optional[str] | Omit = omit,
+        hash_content: bool | Omit = omit,
+        max_model_depth: Optional[int] | Omit = omit,
+        metric: str | Omit = omit,
+        preference_id: Optional[str] | Omit = omit,
+        previous_session: Optional[str] | Omit = omit,
+        tools: Optional[Iterable[Dict[str, object]]] | Omit = omit,
+        tradeoff: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -121,8 +172,30 @@ class ModelRouterResource(SyncAPIResource):
           data
 
         Args:
+          llm_providers: List of LLM providers to route between. Specify at least one provider in format
+              {provider, model}
+
+          messages: Array of message objects in OpenAI format (with 'role' and 'content' keys)
+
           type: Optional format type. Use 'openrouter' to accept and return OpenRouter-format
               model identifiers
+
+          hash_content: Whether to hash message content for privacy
+
+          max_model_depth: Maximum number of models to consider for routing. If not specified, considers
+              all provided models
+
+          metric: Optimization metric for model selection
+
+          preference_id: Preference ID for personalized routing. Create one via POST
+              /v2/preferences/userPreferenceCreate
+
+          previous_session: Previous session ID to link related requests
+
+          tools: OpenAI-format function calling tools
+
+          tradeoff: Optimization tradeoff strategy. Use 'cost' to prioritize cost savings or
+              'latency' to prioritize speed
 
           extra_headers: Send extra headers
 
@@ -134,7 +207,20 @@ class ModelRouterResource(SyncAPIResource):
         """
         return self._post(
             "/v2/modelRouter/modelSelect",
-            body=maybe_transform(body, model_router_select_model_params.ModelRouterSelectModelParams),
+            body=maybe_transform(
+                {
+                    "llm_providers": llm_providers,
+                    "messages": messages,
+                    "hash_content": hash_content,
+                    "max_model_depth": max_model_depth,
+                    "metric": metric,
+                    "preference_id": preference_id,
+                    "previous_session": previous_session,
+                    "tools": tools,
+                    "tradeoff": tradeoff,
+                },
+                model_router_select_model_params.ModelRouterSelectModelParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -169,7 +255,15 @@ class AsyncModelRouterResource(AsyncAPIResource):
     async def open_hands_select(
         self,
         *,
-        body: object,
+        llm_providers: Iterable[model_router_open_hands_select_params.LlmProvider],
+        messages: Union[Iterable[Dict[str, Union[str, Iterable[object]]]], str],
+        hash_content: bool | Omit = omit,
+        max_model_depth: Optional[int] | Omit = omit,
+        metric: str | Omit = omit,
+        preference_id: Optional[str] | Omit = omit,
+        previous_session: Optional[str] | Omit = omit,
+        tools: Optional[Iterable[Dict[str, object]]] | Omit = omit,
+        tradeoff: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -181,6 +275,28 @@ class AsyncModelRouterResource(AsyncAPIResource):
         Openhands Model Select
 
         Args:
+          llm_providers: List of LLM providers to route between. Specify at least one provider in format
+              {provider, model}
+
+          messages: Array of message objects in OpenAI format (with 'role' and 'content' keys)
+
+          hash_content: Whether to hash message content for privacy
+
+          max_model_depth: Maximum number of models to consider for routing. If not specified, considers
+              all provided models
+
+          metric: Optimization metric for model selection
+
+          preference_id: Preference ID for personalized routing. Create one via POST
+              /v2/preferences/userPreferenceCreate
+
+          previous_session: Previous session ID to link related requests
+
+          tools: OpenAI-format function calling tools
+
+          tradeoff: Optimization tradeoff strategy. Use 'cost' to prioritize cost savings or
+              'latency' to prioritize speed
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -192,7 +308,18 @@ class AsyncModelRouterResource(AsyncAPIResource):
         return await self._post(
             "/v2/modelRouter/openHandsRouter",
             body=await async_maybe_transform(
-                body, model_router_open_hands_select_params.ModelRouterOpenHandsSelectParams
+                {
+                    "llm_providers": llm_providers,
+                    "messages": messages,
+                    "hash_content": hash_content,
+                    "max_model_depth": max_model_depth,
+                    "metric": metric,
+                    "preference_id": preference_id,
+                    "previous_session": previous_session,
+                    "tools": tools,
+                    "tradeoff": tradeoff,
+                },
+                model_router_open_hands_select_params.ModelRouterOpenHandsSelectParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -203,8 +330,16 @@ class AsyncModelRouterResource(AsyncAPIResource):
     async def select_model(
         self,
         *,
-        body: object,
+        llm_providers: Iterable[model_router_select_model_params.LlmProvider],
+        messages: Union[Iterable[Dict[str, Union[str, Iterable[object]]]], str],
         type: Optional[str] | Omit = omit,
+        hash_content: bool | Omit = omit,
+        max_model_depth: Optional[int] | Omit = omit,
+        metric: str | Omit = omit,
+        preference_id: Optional[str] | Omit = omit,
+        previous_session: Optional[str] | Omit = omit,
+        tools: Optional[Iterable[Dict[str, object]]] | Omit = omit,
+        tradeoff: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -246,8 +381,30 @@ class AsyncModelRouterResource(AsyncAPIResource):
           data
 
         Args:
+          llm_providers: List of LLM providers to route between. Specify at least one provider in format
+              {provider, model}
+
+          messages: Array of message objects in OpenAI format (with 'role' and 'content' keys)
+
           type: Optional format type. Use 'openrouter' to accept and return OpenRouter-format
               model identifiers
+
+          hash_content: Whether to hash message content for privacy
+
+          max_model_depth: Maximum number of models to consider for routing. If not specified, considers
+              all provided models
+
+          metric: Optimization metric for model selection
+
+          preference_id: Preference ID for personalized routing. Create one via POST
+              /v2/preferences/userPreferenceCreate
+
+          previous_session: Previous session ID to link related requests
+
+          tools: OpenAI-format function calling tools
+
+          tradeoff: Optimization tradeoff strategy. Use 'cost' to prioritize cost savings or
+              'latency' to prioritize speed
 
           extra_headers: Send extra headers
 
@@ -259,7 +416,20 @@ class AsyncModelRouterResource(AsyncAPIResource):
         """
         return await self._post(
             "/v2/modelRouter/modelSelect",
-            body=await async_maybe_transform(body, model_router_select_model_params.ModelRouterSelectModelParams),
+            body=await async_maybe_transform(
+                {
+                    "llm_providers": llm_providers,
+                    "messages": messages,
+                    "hash_content": hash_content,
+                    "max_model_depth": max_model_depth,
+                    "metric": metric,
+                    "preference_id": preference_id,
+                    "previous_session": previous_session,
+                    "tools": tools,
+                    "tradeoff": tradeoff,
+                },
+                model_router_select_model_params.ModelRouterSelectModelParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

@@ -21,14 +21,30 @@ class TestMetrics:
     @parametrize
     def test_method_submit_feedback(self, client: NotDiamond) -> None:
         metric = client.report.metrics.submit_feedback(
-            body={
-                "session_id": "550e8400-e29b-41d4-a716-446655440000",
-                "provider": {
-                    "provider": "openai",
-                    "model": "gpt-4o",
-                },
-                "feedback": {"accuracy": 1},
+            feedback={"accuracy": "bar"},
+            provider={
+                "model": "gpt-4o",
+                "provider": "openai",
             },
+            session_id="550e8400-e29b-41d4-a716-446655440000",
+        )
+        assert_matches_type(MetricSubmitFeedbackResponse, metric, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_submit_feedback_with_all_params(self, client: NotDiamond) -> None:
+        metric = client.report.metrics.submit_feedback(
+            feedback={"accuracy": "bar"},
+            provider={
+                "model": "gpt-4o",
+                "provider": "openai",
+                "context_length": 0,
+                "input_price": 0,
+                "is_custom": True,
+                "latency": 0,
+                "output_price": 0,
+            },
+            session_id="550e8400-e29b-41d4-a716-446655440000",
         )
         assert_matches_type(MetricSubmitFeedbackResponse, metric, path=["response"])
 
@@ -36,14 +52,12 @@ class TestMetrics:
     @parametrize
     def test_raw_response_submit_feedback(self, client: NotDiamond) -> None:
         response = client.report.metrics.with_raw_response.submit_feedback(
-            body={
-                "session_id": "550e8400-e29b-41d4-a716-446655440000",
-                "provider": {
-                    "provider": "openai",
-                    "model": "gpt-4o",
-                },
-                "feedback": {"accuracy": 1},
+            feedback={"accuracy": "bar"},
+            provider={
+                "model": "gpt-4o",
+                "provider": "openai",
             },
+            session_id="550e8400-e29b-41d4-a716-446655440000",
         )
 
         assert response.is_closed is True
@@ -55,14 +69,12 @@ class TestMetrics:
     @parametrize
     def test_streaming_response_submit_feedback(self, client: NotDiamond) -> None:
         with client.report.metrics.with_streaming_response.submit_feedback(
-            body={
-                "session_id": "550e8400-e29b-41d4-a716-446655440000",
-                "provider": {
-                    "provider": "openai",
-                    "model": "gpt-4o",
-                },
-                "feedback": {"accuracy": 1},
+            feedback={"accuracy": "bar"},
+            provider={
+                "model": "gpt-4o",
+                "provider": "openai",
             },
+            session_id="550e8400-e29b-41d4-a716-446655440000",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -82,14 +94,30 @@ class TestAsyncMetrics:
     @parametrize
     async def test_method_submit_feedback(self, async_client: AsyncNotDiamond) -> None:
         metric = await async_client.report.metrics.submit_feedback(
-            body={
-                "session_id": "550e8400-e29b-41d4-a716-446655440000",
-                "provider": {
-                    "provider": "openai",
-                    "model": "gpt-4o",
-                },
-                "feedback": {"accuracy": 1},
+            feedback={"accuracy": "bar"},
+            provider={
+                "model": "gpt-4o",
+                "provider": "openai",
             },
+            session_id="550e8400-e29b-41d4-a716-446655440000",
+        )
+        assert_matches_type(MetricSubmitFeedbackResponse, metric, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_submit_feedback_with_all_params(self, async_client: AsyncNotDiamond) -> None:
+        metric = await async_client.report.metrics.submit_feedback(
+            feedback={"accuracy": "bar"},
+            provider={
+                "model": "gpt-4o",
+                "provider": "openai",
+                "context_length": 0,
+                "input_price": 0,
+                "is_custom": True,
+                "latency": 0,
+                "output_price": 0,
+            },
+            session_id="550e8400-e29b-41d4-a716-446655440000",
         )
         assert_matches_type(MetricSubmitFeedbackResponse, metric, path=["response"])
 
@@ -97,14 +125,12 @@ class TestAsyncMetrics:
     @parametrize
     async def test_raw_response_submit_feedback(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.report.metrics.with_raw_response.submit_feedback(
-            body={
-                "session_id": "550e8400-e29b-41d4-a716-446655440000",
-                "provider": {
-                    "provider": "openai",
-                    "model": "gpt-4o",
-                },
-                "feedback": {"accuracy": 1},
+            feedback={"accuracy": "bar"},
+            provider={
+                "model": "gpt-4o",
+                "provider": "openai",
             },
+            session_id="550e8400-e29b-41d4-a716-446655440000",
         )
 
         assert response.is_closed is True
@@ -116,14 +142,12 @@ class TestAsyncMetrics:
     @parametrize
     async def test_streaming_response_submit_feedback(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.report.metrics.with_streaming_response.submit_feedback(
-            body={
-                "session_id": "550e8400-e29b-41d4-a716-446655440000",
-                "provider": {
-                    "provider": "openai",
-                    "model": "gpt-4o",
-                },
-                "feedback": {"accuracy": 1},
+            feedback={"accuracy": "bar"},
+            provider={
+                "model": "gpt-4o",
+                "provider": "openai",
             },
+            session_id="550e8400-e29b-41d4-a716-446655440000",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
