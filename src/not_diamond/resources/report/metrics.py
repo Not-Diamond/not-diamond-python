@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Dict
+
 import httpx
 
 from ..._types import Body, Query, Headers, NotGiven, not_given
@@ -16,6 +18,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.report import metric_submit_feedback_params
+from ...types.prompt.request_provider_param import RequestProviderParam
 from ...types.report.metric_submit_feedback_response import MetricSubmitFeedbackResponse
 
 __all__ = ["MetricsResource", "AsyncMetricsResource"]
@@ -44,7 +47,9 @@ class MetricsResource(SyncAPIResource):
     def submit_feedback(
         self,
         *,
-        body: object,
+        feedback: Dict[str, object],
+        provider: RequestProviderParam,
+        session_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -87,6 +92,12 @@ class MetricsResource(SyncAPIResource):
         /v2/preferences/userPreferenceCreate
 
         Args:
+          feedback: Feedback dictionary with 'accuracy' key (0 for thumbs down, 1 for thumbs up)
+
+          provider: The provider that was selected by the router
+
+          session_id: Session ID returned from POST /v2/modelRouter/modelSelect
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -97,7 +108,14 @@ class MetricsResource(SyncAPIResource):
         """
         return self._post(
             "/v2/report/metrics/feedback",
-            body=maybe_transform(body, metric_submit_feedback_params.MetricSubmitFeedbackParams),
+            body=maybe_transform(
+                {
+                    "feedback": feedback,
+                    "provider": provider,
+                    "session_id": session_id,
+                },
+                metric_submit_feedback_params.MetricSubmitFeedbackParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -128,7 +146,9 @@ class AsyncMetricsResource(AsyncAPIResource):
     async def submit_feedback(
         self,
         *,
-        body: object,
+        feedback: Dict[str, object],
+        provider: RequestProviderParam,
+        session_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -171,6 +191,12 @@ class AsyncMetricsResource(AsyncAPIResource):
         /v2/preferences/userPreferenceCreate
 
         Args:
+          feedback: Feedback dictionary with 'accuracy' key (0 for thumbs down, 1 for thumbs up)
+
+          provider: The provider that was selected by the router
+
+          session_id: Session ID returned from POST /v2/modelRouter/modelSelect
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -181,7 +207,14 @@ class AsyncMetricsResource(AsyncAPIResource):
         """
         return await self._post(
             "/v2/report/metrics/feedback",
-            body=await async_maybe_transform(body, metric_submit_feedback_params.MetricSubmitFeedbackParams),
+            body=await async_maybe_transform(
+                {
+                    "feedback": feedback,
+                    "provider": provider,
+                    "session_id": session_id,
+                },
+                metric_submit_feedback_params.MetricSubmitFeedbackParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
