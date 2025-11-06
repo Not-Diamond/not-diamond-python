@@ -95,7 +95,7 @@ class NotDiamond(SyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("NOT_DIAMOND_BASE_URL")
         if base_url is None:
-            base_url = f"/"
+            base_url = f"https://api.notdiamond.ai"
 
         super().__init__(
             version=__version__,
@@ -273,7 +273,7 @@ class AsyncNotDiamond(AsyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("NOT_DIAMOND_BASE_URL")
         if base_url is None:
-            base_url = f"/"
+            base_url = f"https://api.notdiamond.ai"
 
         super().__init__(
             version=__version__,
