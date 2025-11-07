@@ -7,7 +7,17 @@ The Not Diamond Python library provides convenient access to the Not Diamond RES
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
-It is generated with [Stainless](https://www.stainless.com/).
+## What is Prompt Adaptation?
+
+Not Diamond specializes in **Prompt Adaptation** - automatically optimizing your prompts to work optimally across different LLMs. Each language model has unique characteristics, instruction-following patterns, and preferred prompt formats. A prompt that works perfectly for GPT-4 might perform poorly on Claude or Gemini.
+
+**The Problem**: Manually rewriting prompts for each model is time-consuming and requires deep expertise in each model's quirks.
+
+**The Solution**: Not Diamond automatically adapts your prompts through:
+- Systematic optimization using your evaluation dataset
+- Automated testing across target models
+- Performance metrics to validate improvements
+- Both system prompt and user message template optimization
 
 ## Documentation
 
@@ -22,22 +32,27 @@ pip install --pre notdiamond
 
 ## Usage
 
-The full API of this library can be found in [api.md](api.md).
+
+### Prompt Adaptation
+
+Automatically optimize your prompts to work better across different language models. Each model has unique characteristics and preferences - what works well for GPT-4 might not work as well for Claude or Gemini. Prompt Adaptation helps you get optimal performance from each model.
+
+#### Quick Start
 
 ```python
 import os
+import time
 from not_diamond import NotDiamond
 
 client = NotDiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
 )
 
-response = client.model_router.select_model(
-    llm_providers=[
-        {
-            "model": "gpt-4o",
-            "provider": "openai",
-        },
+# Step 1: Start a prompt adaptation job
+adaptation = client.prompt.adapt.create(
+    fields=["question"],
+    system_prompt="You are a helpful assistant that answers questions accurately.",
+    target_models=[
         {
             "model": "claude-sonnet-4-5-20250929",
             "provider": "anthropic",
@@ -47,15 +62,94 @@ response = client.model_router.select_model(
             "provider": "google",
         },
     ],
+    template="Question: {question}\nAnswer:",
+    train_goldens=[
+        {"fields": {"question": "What is 2+2?"}, "answer": "4"},
+        {"fields": {"question": "What is the capital of France?"}, "answer": "Paris"},
+        {"fields": {"question": "Who wrote Romeo and Juliet?"}, "answer": "William Shakespeare"},
+        # Add at least 25 training examples for best results
+        # More examples = better adaptation quality
+    ],
+    test_goldens=[
+        {"fields": {"question": "What is 3*3?"}, "answer": "9"},
+        {"fields": {"question": "What is the largest ocean?"}, "answer": "Pacific Ocean"},
+        # Add test examples to validate performance
+    ],
+    evaluation_metric="LLMaaJ:Sem_Sim_1",  # Or use custom evaluation
+)
+
+print(f"Adaptation started: {adaptation.adaptation_run_id}")
+
+# Step 2: Poll for completion (typically takes 10-30 minutes)
+while True:
+    status = client.prompt.get_adapt_status(adaptation.adaptation_run_id)
+    print(f"Status: {status.status}")
+    
+    if status.status == "queued":
+        print(f"Queue position: {status.queue_position}")
+    
+    if status.status in ["completed", "failed"]:
+        break
+    
+    time.sleep(30)  # Poll every 30 seconds
+
+# Step 3: Get the optimized prompts
+if status.status == "completed":
+    results = client.prompt.get_adapt_results(adaptation.adaptation_run_id)
+    
+    print(f"\nOrigin model baseline: {results.origin_model.score:.2f}")
+    
+    for target in results.target_models:
+        print(f"\n{'='*50}")
+        print(f"Model: {target.model.model} ({target.model.provider})")
+        print(f"Optimized System Prompt:\n{target.system_prompt}")
+        print(f"Optimized Template:\n{target.user_message_template}")
+        print(f"Pre-optimization score: {target.pre_optimization_score:.2f}")
+        print(f"Post-optimization score: {target.post_optimization_score:.2f}")
+        print(f"Improvement: {((target.post_optimization_score / target.pre_optimization_score - 1) * 100):.1f}%")
+        print(f"Cost: ${target.cost:.4f}")
+```
+
+#### Key Features
+
+- **Automatic Optimization**: Adapts both system prompts and user message templates
+- **Evaluation Metrics**: Choose from standard metrics (semantic similarity, JSON matching, SQL) or provide custom evaluation
+- **Dataset Requirements**: Minimum 25 training examples (more examples = better results)
+- **Processing Time**: Typically 10-30 minutes depending on dataset size and number of target models
+- **Subscription Tiers**: Support for 1-10 target models depending on your plan
+
+#### Evaluation Metrics
+
+Choose from standard metrics:
+- `LLMaaJ:Sem_Sim_1`, `LLMaaJ:Sem_Sim_3`, `LLMaaJ:Sem_Sim_10` - Semantic similarity
+- `LLMaaJ:SQL` - SQL query validation
+- `JSON_Match` - JSON structure matching
+
+Or provide custom evaluation configuration with your own LLM judge.
+
+#### Best Practices
+
+1. **Use Representative Examples**: Include diverse examples from your production workload
+2. **Sufficient Dataset Size**: Use at least 25 training examples (50+ recommended)
+3. **Train/Test Split**: Separate train_goldens and test_goldens for proper validation
+4. **A/B Test Results**: Validate optimized prompts in production before full deployment
+
+For more details, see the [Prompt Adaptation documentation](https://docs.notdiamond.ai/docs/adapting-prompts-to-new-models).
+
+### Model Routing
+
+Not Diamond also provides intelligent model routing to select the best model for your query:
+
+```python
+response = client.model_router.select_model(
+    llm_providers=[
+        {"model": "gpt-4o", "provider": "openai"},
+        {"model": "claude-sonnet-4-5-20250929", "provider": "anthropic"},
+        {"model": "gemini-2.5-flash", "provider": "google"},
+    ],
     messages=[
-        {
-            "role": "system",
-            "content": "You are a helpful assistant.",
-        },
-        {
-            "role": "user",
-            "content": "Explain quantum computing in simple terms",
-        },
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Explain quantum computing in simple terms"},
     ],
 )
 print(response.providers)
@@ -81,12 +175,11 @@ client = AsyncNotDiamond(
 
 
 async def main() -> None:
-    response = await client.model_router.select_model(
-        llm_providers=[
-            {
-                "model": "gpt-4o",
-                "provider": "openai",
-            },
+    # Start a prompt adaptation job
+    response = await client.prompt.adapt.create(
+        fields=["question"],
+        system_prompt="You are a helpful assistant that answers questions accurately.",
+        target_models=[
             {
                 "model": "claude-sonnet-4-5-20250929",
                 "provider": "anthropic",
@@ -96,18 +189,23 @@ async def main() -> None:
                 "provider": "google",
             },
         ],
-        messages=[
-            {
-                "role": "system",
-                "content": "You are a helpful assistant.",
-            },
-            {
-                "role": "user",
-                "content": "Explain quantum computing in simple terms",
-            },
+        template="Question: {question}\nAnswer:",
+        train_goldens=[
+            {"fields": {"question": "What is 2+2?"}, "answer": "4"},
+            {"fields": {"question": "What is the capital of France?"}, "answer": "Paris"},
+            # Add at least 25 examples for best results
+        ],
+        test_goldens=[
+            {"fields": {"question": "What is 3*3?"}, "answer": "9"},
         ],
     )
-    print(response.providers)
+    
+    adaptation_run_id = response.adaptation_run_id
+    print(f"Adaptation started: {adaptation_run_id}")
+    
+    # Check status
+    status = await client.prompt.get_adapt_status(adaptation_run_id)
+    print(f"Status: {status.job_status}")
 
 
 asyncio.run(main())
@@ -139,12 +237,10 @@ async def main() -> None:
         api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
-        response = await client.model_router.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
+        response = await client.prompt.adapt.create(
+            fields=["question"],
+            system_prompt="You are a helpful assistant that answers questions accurately.",
+            target_models=[
                 {
                     "model": "claude-sonnet-4-5-20250929",
                     "provider": "anthropic",
@@ -154,18 +250,17 @@ async def main() -> None:
                     "provider": "google",
                 },
             ],
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant.",
-                },
-                {
-                    "role": "user",
-                    "content": "Explain quantum computing in simple terms",
-                },
+            template="Question: {question}\nAnswer:",
+            train_goldens=[
+                {"fields": {"question": "What is 2+2?"}, "answer": "4"},
+                {"fields": {"question": "What is the capital of France?"}, "answer": "Paris"},
+                # Add at least 25 examples for best results
+            ],
+            test_goldens=[
+                {"fields": {"question": "What is 3*3?"}, "answer": "9"},
             ],
         )
-        print(response.providers)
+        print(f"Adaptation started: {response.adaptation_run_id}")
 
 
 asyncio.run(main())
@@ -189,15 +284,37 @@ from not_diamond import NotDiamond
 
 client = NotDiamond()
 
-response = client.report.metrics.submit_feedback(
-    feedback={"accuracy": "bar"},
-    provider={
-        "model": "gpt-4o",
-        "provider": "openai",
-    },
-    session_id="550e8400-e29b-41d4-a716-446655440000",
+response = client.prompt.adapt.create(
+    fields=["question", "context"],
+    system_prompt="You are a helpful assistant.",
+    target_models=[
+        {
+            "model": "claude-sonnet-4-5-20250929",
+            "provider": "anthropic",
+        },
+    ],
+    template="Context: {context}\nQuestion: {question}\nAnswer:",
+    train_goldens=[
+        {
+            "fields": {
+                "question": "What is 2+2?",
+                "context": "Basic arithmetic",
+            },
+            "answer": "4",
+        },
+        # Add at least 25 examples for best results
+    ],
+    test_goldens=[
+        {
+            "fields": {
+                "question": "What is 3*3?",
+                "context": "Basic arithmetic",
+            },
+            "answer": "9",
+        },
+    ],
 )
-print(response.provider)
+print(response.adaptation_run_id)
 ```
 
 ## File uploads
@@ -237,12 +354,10 @@ from not_diamond import NotDiamond
 client = NotDiamond()
 
 try:
-    client.model_router.select_model(
-        llm_providers=[
-            {
-                "model": "gpt-4o",
-                "provider": "openai",
-            },
+    client.prompt.adapt.create(
+        fields=["question"],
+        system_prompt="You are a helpful assistant.",
+        target_models=[
             {
                 "model": "claude-sonnet-4-5-20250929",
                 "provider": "anthropic",
@@ -252,15 +367,13 @@ try:
                 "provider": "google",
             },
         ],
-        messages=[
-            {
-                "role": "system",
-                "content": "You are a helpful assistant.",
-            },
-            {
-                "role": "user",
-                "content": "Explain quantum computing in simple terms",
-            },
+        template="Question: {question}\nAnswer:",
+        train_goldens=[
+            {"fields": {"question": "What is 2+2?"}, "answer": "4"},
+            # Add at least 25 examples...
+        ],
+        test_goldens=[
+            {"fields": {"question": "What is 3*3?"}, "answer": "9"},
         ],
     )
 except not_diamond.APIConnectionError as e:
@@ -305,12 +418,10 @@ client = NotDiamond(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).model_router.select_model(
-    llm_providers=[
-        {
-            "model": "gpt-4o",
-            "provider": "openai",
-        },
+client.with_options(max_retries=5).prompt.adapt.create(
+    fields=["question"],
+    system_prompt="You are a helpful assistant.",
+    target_models=[
         {
             "model": "claude-sonnet-4-5-20250929",
             "provider": "anthropic",
@@ -320,15 +431,13 @@ client.with_options(max_retries=5).model_router.select_model(
             "provider": "google",
         },
     ],
-    messages=[
-        {
-            "role": "system",
-            "content": "You are a helpful assistant.",
-        },
-        {
-            "role": "user",
-            "content": "Explain quantum computing in simple terms",
-        },
+    template="Question: {question}\nAnswer:",
+    train_goldens=[
+        {"fields": {"question": "What is 2+2?"}, "answer": "4"},
+        # Add at least 25 examples...
+    ],
+    test_goldens=[
+        {"fields": {"question": "What is 3*3?"}, "answer": "9"},
     ],
 )
 ```
@@ -352,32 +461,9 @@ client = NotDiamond(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
-# Override per-request:
-client.with_options(timeout=5.0).model_router.select_model(
-    llm_providers=[
-        {
-            "model": "gpt-4o",
-            "provider": "openai",
-        },
-        {
-            "model": "claude-sonnet-4-5-20250929",
-            "provider": "anthropic",
-        },
-        {
-            "model": "gemini-2.5-flash",
-            "provider": "google",
-        },
-    ],
-    messages=[
-        {
-            "role": "system",
-            "content": "You are a helpful assistant.",
-        },
-        {
-            "role": "user",
-            "content": "Explain quantum computing in simple terms",
-        },
-    ],
+# Override per-request (note: prompt adaptation may take 10-30 minutes, so increase timeout accordingly):
+client.with_options(timeout=120.0).prompt.get_adapt_status(
+    adaptation_run_id="your-adaptation-run-id"
 )
 ```
 
@@ -419,29 +505,32 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from not_diamond import NotDiamond
 
 client = NotDiamond()
-response = client.model_router.with_raw_response.select_model(
-    llm_providers=[{
-        "model": "gpt-4o",
-        "provider": "openai",
-    }, {
-        "model": "claude-sonnet-4-5-20250929",
-        "provider": "anthropic",
-    }, {
-        "model": "gemini-2.5-flash",
-        "provider": "google",
-    }],
-    messages=[{
-        "role": "system",
-        "content": "You are a helpful assistant.",
-    }, {
-        "role": "user",
-        "content": "Explain quantum computing in simple terms",
-    }],
+response = client.prompt.adapt.with_raw_response.create(
+    fields=["question"],
+    system_prompt="You are a helpful assistant.",
+    target_models=[
+        {
+            "model": "claude-sonnet-4-5-20250929",
+            "provider": "anthropic",
+        },
+        {
+            "model": "gemini-2.5-flash",
+            "provider": "google",
+        },
+    ],
+    template="Question: {question}\nAnswer:",
+    train_goldens=[
+        {"fields": {"question": "What is 2+2?"}, "answer": "4"},
+        # Add at least 25 examples...
+    ],
+    test_goldens=[
+        {"fields": {"question": "What is 3*3?"}, "answer": "9"},
+    ],
 )
 print(response.headers.get('X-My-Header'))
 
-model_router = response.parse()  # get the object that `model_router.select_model()` would have returned
-print(model_router.providers)
+adapt_response = response.parse()  # get the object that `prompt.adapt.create()` would have returned
+print(adapt_response.adaptation_run_id)
 ```
 
 These methods return an [`APIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/not_diamond/_response.py) object.
@@ -455,12 +544,10 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.model_router.with_streaming_response.select_model(
-    llm_providers=[
-        {
-            "model": "gpt-4o",
-            "provider": "openai",
-        },
+with client.prompt.adapt.with_streaming_response.create(
+    fields=["question"],
+    system_prompt="You are a helpful assistant.",
+    target_models=[
         {
             "model": "claude-sonnet-4-5-20250929",
             "provider": "anthropic",
@@ -470,15 +557,13 @@ with client.model_router.with_streaming_response.select_model(
             "provider": "google",
         },
     ],
-    messages=[
-        {
-            "role": "system",
-            "content": "You are a helpful assistant.",
-        },
-        {
-            "role": "user",
-            "content": "Explain quantum computing in simple terms",
-        },
+    template="Question: {question}\nAnswer:",
+    train_goldens=[
+        {"fields": {"question": "What is 2+2?"}, "answer": "4"},
+        # Add at least 25 examples...
+    ],
+    test_goldens=[
+        {"fields": {"question": "What is 3*3?"}, "answer": "9"},
     ],
 ) as response:
     print(response.headers.get("X-My-Header"))
@@ -595,3 +680,4 @@ Python 3.8 or higher.
 ## Contributing
 
 See [the contributing documentation](./CONTRIBUTING.md).
+
