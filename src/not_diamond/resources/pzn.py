@@ -6,7 +6,7 @@ from typing import Mapping, Optional, cast
 
 import httpx
 
-from ..types import pzn_train_custom_router_params, pzn_submit_survey_response_params
+from ..types import pzn_train_custom_router_params
 from .._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
 from .._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .._compat import cached_property
@@ -42,107 +42,6 @@ class PznResource(SyncAPIResource):
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
         """
         return PznResourceWithStreamingResponse(self)
-
-    def submit_survey_response(
-        self,
-        *,
-        constraint_priorities: str,
-        email: str,
-        llm_providers: str,
-        use_case_desc: str,
-        user_id: str,
-        x_token: str,
-        additional_preferences: Optional[str] | Omit = omit,
-        dataset_file: Optional[FileTypes] | Omit = omit,
-        name: Optional[str] | Omit = omit,
-        prompt_file: Optional[FileTypes] | Omit = omit,
-        prompts: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        Submit a survey response for personalized routing setup.
-
-        This admin endpoint processes survey responses to set up personalized routing
-        configurations for users based on their use case, LLM preferences, and
-        constraints.
-
-        **Survey Data:**
-
-        - User information and use case description
-        - Preferred LLM providers and models
-        - Constraint priorities (quality, cost, latency)
-        - Optional prompts and evaluation datasets
-
-        **File Uploads:**
-
-        - `prompt_file`: Optional CSV file with prompts
-        - `dataset_file`: Optional CSV file with evaluation dataset
-
-        **Note:** This is an admin-only endpoint for internal use.
-
-        Args:
-          constraint_priorities: JSON string of constraint priorities object
-
-          email: User email address
-
-          llm_providers: JSON string of LLM providers array
-
-          use_case_desc: Description of the user's use case
-
-          user_id: User ID from Supabase
-
-          additional_preferences: Optional additional preferences text
-
-          dataset_file: Optional CSV file with evaluation dataset
-
-          name: Optional preference name
-
-          prompt_file: Optional CSV file with prompts
-
-          prompts: Optional JSON string of prompts array
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"x-token": x_token, **(extra_headers or {})}
-        body = deepcopy_minimal(
-            {
-                "constraint_priorities": constraint_priorities,
-                "email": email,
-                "llm_providers": llm_providers,
-                "use_case_desc": use_case_desc,
-                "user_id": user_id,
-                "additional_preferences": additional_preferences,
-                "dataset_file": dataset_file,
-                "name": name,
-                "prompt_file": prompt_file,
-                "prompts": prompts,
-            }
-        )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["prompt_file"], ["dataset_file"]])
-        # It should be noted that the actual Content-Type header that will be
-        # sent to the server will contain a `boundary` parameter, e.g.
-        # multipart/form-data; boundary=---abc--
-        extra_headers["Content-Type"] = "multipart/form-data"
-        return self._post(
-            "/v2/pzn/surveyResponse",
-            body=maybe_transform(body, pzn_submit_survey_response_params.PznSubmitSurveyResponseParams),
-            files=files,
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
 
     def train_custom_router(
         self,
@@ -295,107 +194,6 @@ class AsyncPznResource(AsyncAPIResource):
         """
         return AsyncPznResourceWithStreamingResponse(self)
 
-    async def submit_survey_response(
-        self,
-        *,
-        constraint_priorities: str,
-        email: str,
-        llm_providers: str,
-        use_case_desc: str,
-        user_id: str,
-        x_token: str,
-        additional_preferences: Optional[str] | Omit = omit,
-        dataset_file: Optional[FileTypes] | Omit = omit,
-        name: Optional[str] | Omit = omit,
-        prompt_file: Optional[FileTypes] | Omit = omit,
-        prompts: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        Submit a survey response for personalized routing setup.
-
-        This admin endpoint processes survey responses to set up personalized routing
-        configurations for users based on their use case, LLM preferences, and
-        constraints.
-
-        **Survey Data:**
-
-        - User information and use case description
-        - Preferred LLM providers and models
-        - Constraint priorities (quality, cost, latency)
-        - Optional prompts and evaluation datasets
-
-        **File Uploads:**
-
-        - `prompt_file`: Optional CSV file with prompts
-        - `dataset_file`: Optional CSV file with evaluation dataset
-
-        **Note:** This is an admin-only endpoint for internal use.
-
-        Args:
-          constraint_priorities: JSON string of constraint priorities object
-
-          email: User email address
-
-          llm_providers: JSON string of LLM providers array
-
-          use_case_desc: Description of the user's use case
-
-          user_id: User ID from Supabase
-
-          additional_preferences: Optional additional preferences text
-
-          dataset_file: Optional CSV file with evaluation dataset
-
-          name: Optional preference name
-
-          prompt_file: Optional CSV file with prompts
-
-          prompts: Optional JSON string of prompts array
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"x-token": x_token, **(extra_headers or {})}
-        body = deepcopy_minimal(
-            {
-                "constraint_priorities": constraint_priorities,
-                "email": email,
-                "llm_providers": llm_providers,
-                "use_case_desc": use_case_desc,
-                "user_id": user_id,
-                "additional_preferences": additional_preferences,
-                "dataset_file": dataset_file,
-                "name": name,
-                "prompt_file": prompt_file,
-                "prompts": prompts,
-            }
-        )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["prompt_file"], ["dataset_file"]])
-        # It should be noted that the actual Content-Type header that will be
-        # sent to the server will contain a `boundary` parameter, e.g.
-        # multipart/form-data; boundary=---abc--
-        extra_headers["Content-Type"] = "multipart/form-data"
-        return await self._post(
-            "/v2/pzn/surveyResponse",
-            body=await async_maybe_transform(body, pzn_submit_survey_response_params.PznSubmitSurveyResponseParams),
-            files=files,
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
     async def train_custom_router(
         self,
         *,
@@ -531,9 +329,6 @@ class PznResourceWithRawResponse:
     def __init__(self, pzn: PznResource) -> None:
         self._pzn = pzn
 
-        self.submit_survey_response = to_raw_response_wrapper(
-            pzn.submit_survey_response,
-        )
         self.train_custom_router = to_raw_response_wrapper(
             pzn.train_custom_router,
         )
@@ -543,9 +338,6 @@ class AsyncPznResourceWithRawResponse:
     def __init__(self, pzn: AsyncPznResource) -> None:
         self._pzn = pzn
 
-        self.submit_survey_response = async_to_raw_response_wrapper(
-            pzn.submit_survey_response,
-        )
         self.train_custom_router = async_to_raw_response_wrapper(
             pzn.train_custom_router,
         )
@@ -555,9 +347,6 @@ class PznResourceWithStreamingResponse:
     def __init__(self, pzn: PznResource) -> None:
         self._pzn = pzn
 
-        self.submit_survey_response = to_streamed_response_wrapper(
-            pzn.submit_survey_response,
-        )
         self.train_custom_router = to_streamed_response_wrapper(
             pzn.train_custom_router,
         )
@@ -567,9 +356,6 @@ class AsyncPznResourceWithStreamingResponse:
     def __init__(self, pzn: AsyncPznResource) -> None:
         self._pzn = pzn
 
-        self.submit_survey_response = async_to_streamed_response_wrapper(
-            pzn.submit_survey_response,
-        )
         self.train_custom_router = async_to_streamed_response_wrapper(
             pzn.train_custom_router,
         )

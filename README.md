@@ -43,7 +43,7 @@ response = client.model_router.select_model(
             "provider": "anthropic",
         },
         {
-            "model": "gemini-1.5-pro",
+            "model": "gemini-2.5-flash",
             "provider": "google",
         },
     ],
@@ -92,7 +92,7 @@ async def main() -> None:
                 "provider": "anthropic",
             },
             {
-                "model": "gemini-1.5-pro",
+                "model": "gemini-2.5-flash",
                 "provider": "google",
             },
         ],
@@ -150,7 +150,7 @@ async def main() -> None:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -210,14 +210,12 @@ from not_diamond import NotDiamond
 
 client = NotDiamond()
 
-client.pzn.submit_survey_response(
-    constraint_priorities="constraint_priorities",
-    email="email",
-    llm_providers="llm_providers",
-    use_case_desc="use_case_desc",
-    user_id="user_id",
-    x_token="x-token",
+client.pzn.train_custom_router(
     dataset_file=Path("/path/to/file"),
+    language="english",
+    llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
+    maximize=True,
+    prompt_column="prompt",
 )
 ```
 
@@ -250,7 +248,7 @@ try:
                 "provider": "anthropic",
             },
             {
-                "model": "gemini-1.5-pro",
+                "model": "gemini-2.5-flash",
                 "provider": "google",
             },
         ],
@@ -318,7 +316,7 @@ client.with_options(max_retries=5).model_router.select_model(
             "provider": "anthropic",
         },
         {
-            "model": "gemini-1.5-pro",
+            "model": "gemini-2.5-flash",
             "provider": "google",
         },
     ],
@@ -366,7 +364,7 @@ client.with_options(timeout=5.0).model_router.select_model(
             "provider": "anthropic",
         },
         {
-            "model": "gemini-1.5-pro",
+            "model": "gemini-2.5-flash",
             "provider": "google",
         },
     ],
@@ -429,7 +427,7 @@ response = client.model_router.with_raw_response.select_model(
         "model": "claude-sonnet-4-5-20250929",
         "provider": "anthropic",
     }, {
-        "model": "gemini-1.5-pro",
+        "model": "gemini-2.5-flash",
         "provider": "google",
     }],
     messages=[{
@@ -468,7 +466,7 @@ with client.model_router.with_streaming_response.select_model(
             "provider": "anthropic",
         },
         {
-            "model": "gemini-1.5-pro",
+            "model": "gemini-2.5-flash",
             "provider": "google",
         },
     ],

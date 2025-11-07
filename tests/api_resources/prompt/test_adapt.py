@@ -28,7 +28,7 @@ class TestAdapt:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -52,7 +52,7 @@ class TestAdapt:
                     "output_price": 0,
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                     "context_length": 0,
                     "input_price": 0,
@@ -129,7 +129,7 @@ class TestAdapt:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -152,7 +152,7 @@ class TestAdapt:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -221,7 +221,7 @@ class TestAsyncAdapt:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -245,7 +245,7 @@ class TestAsyncAdapt:
                     "output_price": 0,
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                     "context_length": 0,
                     "input_price": 0,
@@ -322,7 +322,7 @@ class TestAsyncAdapt:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -345,7 +345,7 @@ class TestAsyncAdapt:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],

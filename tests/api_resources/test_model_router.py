@@ -9,167 +9,13 @@ import pytest
 
 from not_diamond import NotDiamond, AsyncNotDiamond
 from tests.utils import assert_matches_type
-from not_diamond.types import (
-    ModelRouterSelectModelResponse,
-)
+from not_diamond.types import ModelRouterSelectModelResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestModelRouter:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
-
-    @parametrize
-    def test_method_open_hands_select(self, client: NotDiamond) -> None:
-        model_router = client.model_router.open_hands_select(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                },
-            ],
-            messages=[
-                {
-                    "content": "You are a helpful assistant.",
-                    "role": "system",
-                },
-                {
-                    "content": "Explain quantum computing",
-                    "role": "user",
-                },
-            ],
-        )
-        assert_matches_type(object, model_router, path=["response"])
-
-    @parametrize
-    def test_method_open_hands_select_with_all_params(self, client: NotDiamond) -> None:
-        model_router = client.model_router.open_hands_select(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                    "context_length": 0,
-                    "input_price": 0,
-                    "is_custom": True,
-                    "latency": 0,
-                    "output_price": 0,
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                    "context_length": 0,
-                    "input_price": 0,
-                    "is_custom": True,
-                    "latency": 0,
-                    "output_price": 0,
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                    "context_length": 0,
-                    "input_price": 0,
-                    "is_custom": True,
-                    "latency": 0,
-                    "output_price": 0,
-                },
-            ],
-            messages=[
-                {
-                    "content": "You are a helpful assistant.",
-                    "role": "system",
-                },
-                {
-                    "content": "Explain quantum computing",
-                    "role": "user",
-                },
-            ],
-            hash_content=True,
-            max_model_depth=0,
-            metric="metric",
-            preference_id="preference_id",
-            previous_session="previous_session",
-            tools=[{"foo": "bar"}],
-            tradeoff="cost",
-        )
-        assert_matches_type(object, model_router, path=["response"])
-
-    @parametrize
-    def test_raw_response_open_hands_select(self, client: NotDiamond) -> None:
-        response = client.model_router.with_raw_response.open_hands_select(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                },
-            ],
-            messages=[
-                {
-                    "content": "You are a helpful assistant.",
-                    "role": "system",
-                },
-                {
-                    "content": "Explain quantum computing",
-                    "role": "user",
-                },
-            ],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        model_router = response.parse()
-        assert_matches_type(object, model_router, path=["response"])
-
-    @parametrize
-    def test_streaming_response_open_hands_select(self, client: NotDiamond) -> None:
-        with client.model_router.with_streaming_response.open_hands_select(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                },
-            ],
-            messages=[
-                {
-                    "content": "You are a helpful assistant.",
-                    "role": "system",
-                },
-                {
-                    "content": "Explain quantum computing",
-                    "role": "user",
-                },
-            ],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            model_router = response.parse()
-            assert_matches_type(object, model_router, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_select_model(self, client: NotDiamond) -> None:
@@ -184,7 +30,7 @@ class TestModelRouter:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -224,7 +70,7 @@ class TestModelRouter:
                     "output_price": 0,
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                     "context_length": 0,
                     "input_price": 0,
@@ -267,7 +113,7 @@ class TestModelRouter:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -301,7 +147,7 @@ class TestModelRouter:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -331,158 +177,6 @@ class TestAsyncModelRouter:
     )
 
     @parametrize
-    async def test_method_open_hands_select(self, async_client: AsyncNotDiamond) -> None:
-        model_router = await async_client.model_router.open_hands_select(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                },
-            ],
-            messages=[
-                {
-                    "content": "You are a helpful assistant.",
-                    "role": "system",
-                },
-                {
-                    "content": "Explain quantum computing",
-                    "role": "user",
-                },
-            ],
-        )
-        assert_matches_type(object, model_router, path=["response"])
-
-    @parametrize
-    async def test_method_open_hands_select_with_all_params(self, async_client: AsyncNotDiamond) -> None:
-        model_router = await async_client.model_router.open_hands_select(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                    "context_length": 0,
-                    "input_price": 0,
-                    "is_custom": True,
-                    "latency": 0,
-                    "output_price": 0,
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                    "context_length": 0,
-                    "input_price": 0,
-                    "is_custom": True,
-                    "latency": 0,
-                    "output_price": 0,
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                    "context_length": 0,
-                    "input_price": 0,
-                    "is_custom": True,
-                    "latency": 0,
-                    "output_price": 0,
-                },
-            ],
-            messages=[
-                {
-                    "content": "You are a helpful assistant.",
-                    "role": "system",
-                },
-                {
-                    "content": "Explain quantum computing",
-                    "role": "user",
-                },
-            ],
-            hash_content=True,
-            max_model_depth=0,
-            metric="metric",
-            preference_id="preference_id",
-            previous_session="previous_session",
-            tools=[{"foo": "bar"}],
-            tradeoff="cost",
-        )
-        assert_matches_type(object, model_router, path=["response"])
-
-    @parametrize
-    async def test_raw_response_open_hands_select(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.model_router.with_raw_response.open_hands_select(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                },
-            ],
-            messages=[
-                {
-                    "content": "You are a helpful assistant.",
-                    "role": "system",
-                },
-                {
-                    "content": "Explain quantum computing",
-                    "role": "user",
-                },
-            ],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        model_router = await response.parse()
-        assert_matches_type(object, model_router, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_open_hands_select(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.model_router.with_streaming_response.open_hands_select(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-1.5-pro",
-                    "provider": "google",
-                },
-            ],
-            messages=[
-                {
-                    "content": "You are a helpful assistant.",
-                    "role": "system",
-                },
-                {
-                    "content": "Explain quantum computing",
-                    "role": "user",
-                },
-            ],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            model_router = await response.parse()
-            assert_matches_type(object, model_router, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
     async def test_method_select_model(self, async_client: AsyncNotDiamond) -> None:
         model_router = await async_client.model_router.select_model(
             llm_providers=[
@@ -495,7 +189,7 @@ class TestAsyncModelRouter:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -535,7 +229,7 @@ class TestAsyncModelRouter:
                     "output_price": 0,
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                     "context_length": 0,
                     "input_price": 0,
@@ -578,7 +272,7 @@ class TestAsyncModelRouter:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -612,7 +306,7 @@ class TestAsyncModelRouter:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
