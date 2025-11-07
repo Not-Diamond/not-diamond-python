@@ -756,7 +756,7 @@ class TestNotDiamond:
                         "provider": "anthropic",
                     },
                     {
-                        "model": "gemini-1.5-pro",
+                        "model": "gemini-2.5-flash",
                         "provider": "google",
                     },
                 ],
@@ -791,7 +791,7 @@ class TestNotDiamond:
                         "provider": "anthropic",
                     },
                     {
-                        "model": "gemini-1.5-pro",
+                        "model": "gemini-2.5-flash",
                         "provider": "google",
                     },
                 ],
@@ -845,7 +845,7 @@ class TestNotDiamond:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -894,7 +894,7 @@ class TestNotDiamond:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -943,7 +943,7 @@ class TestNotDiamond:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -1719,7 +1719,7 @@ class TestAsyncNotDiamond:
                         "provider": "anthropic",
                     },
                     {
-                        "model": "gemini-1.5-pro",
+                        "model": "gemini-2.5-flash",
                         "provider": "google",
                     },
                 ],
@@ -1756,7 +1756,7 @@ class TestAsyncNotDiamond:
                         "provider": "anthropic",
                     },
                     {
-                        "model": "gemini-1.5-pro",
+                        "model": "gemini-2.5-flash",
                         "provider": "google",
                     },
                 ],
@@ -1810,7 +1810,7 @@ class TestAsyncNotDiamond:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -1859,7 +1859,7 @@ class TestAsyncNotDiamond:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
@@ -1908,7 +1908,7 @@ class TestAsyncNotDiamond:
                     "provider": "anthropic",
                 },
                 {
-                    "model": "gemini-1.5-pro",
+                    "model": "gemini-2.5-flash",
                     "provider": "google",
                 },
             ],
