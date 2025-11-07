@@ -50,48 +50,6 @@ class TestPreferences:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_retrieve(self, client: NotDiamond) -> None:
-        preference = client.preferences.retrieve(
-            user_id="user_id",
-            x_token="x-token",
-        )
-        assert_matches_type(object, preference, path=["response"])
-
-    @parametrize
-    def test_raw_response_retrieve(self, client: NotDiamond) -> None:
-        response = client.preferences.with_raw_response.retrieve(
-            user_id="user_id",
-            x_token="x-token",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        preference = response.parse()
-        assert_matches_type(object, preference, path=["response"])
-
-    @parametrize
-    def test_streaming_response_retrieve(self, client: NotDiamond) -> None:
-        with client.preferences.with_streaming_response.retrieve(
-            user_id="user_id",
-            x_token="x-token",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            preference = response.parse()
-            assert_matches_type(object, preference, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_retrieve(self, client: NotDiamond) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `user_id` but received ''"):
-            client.preferences.with_raw_response.retrieve(
-                user_id="",
-                x_token="x-token",
-            )
-
-    @parametrize
     def test_method_update(self, client: NotDiamond) -> None:
         preference = client.preferences.update(
             preference_id="preference_id",
@@ -205,48 +163,6 @@ class TestAsyncPreferences:
             assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
         assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_method_retrieve(self, async_client: AsyncNotDiamond) -> None:
-        preference = await async_client.preferences.retrieve(
-            user_id="user_id",
-            x_token="x-token",
-        )
-        assert_matches_type(object, preference, path=["response"])
-
-    @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.preferences.with_raw_response.retrieve(
-            user_id="user_id",
-            x_token="x-token",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        preference = await response.parse()
-        assert_matches_type(object, preference, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.preferences.with_streaming_response.retrieve(
-            user_id="user_id",
-            x_token="x-token",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            preference = await response.parse()
-            assert_matches_type(object, preference, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncNotDiamond) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `user_id` but received ''"):
-            await async_client.preferences.with_raw_response.retrieve(
-                user_id="",
-                x_token="x-token",
-            )
 
     @parametrize
     async def test_method_update(self, async_client: AsyncNotDiamond) -> None:

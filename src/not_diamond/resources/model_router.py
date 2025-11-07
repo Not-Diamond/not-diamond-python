@@ -6,7 +6,7 @@ from typing import Dict, Union, Iterable, Optional
 
 import httpx
 
-from ..types import model_router_select_model_params, model_router_open_hands_select_params
+from ..types import model_router_select_model_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -42,81 +42,6 @@ class ModelRouterResource(SyncAPIResource):
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
         """
         return ModelRouterResourceWithStreamingResponse(self)
-
-    def open_hands_select(
-        self,
-        *,
-        llm_providers: Iterable[model_router_open_hands_select_params.LlmProvider],
-        messages: Union[Iterable[Dict[str, Union[str, Iterable[object]]]], str],
-        hash_content: bool | Omit = omit,
-        max_model_depth: Optional[int] | Omit = omit,
-        metric: str | Omit = omit,
-        preference_id: Optional[str] | Omit = omit,
-        previous_session: Optional[str] | Omit = omit,
-        tools: Optional[Iterable[Dict[str, object]]] | Omit = omit,
-        tradeoff: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        Openhands Model Select
-
-        Args:
-          llm_providers: List of LLM providers to route between. Specify at least one provider in format
-              {provider, model}
-
-          messages: Array of message objects in OpenAI format (with 'role' and 'content' keys)
-
-          hash_content: Whether to hash message content for privacy
-
-          max_model_depth: Maximum number of models to consider for routing. If not specified, considers
-              all provided models
-
-          metric: Optimization metric for model selection
-
-          preference_id: Preference ID for personalized routing. Create one via POST
-              /v2/preferences/userPreferenceCreate
-
-          previous_session: Previous session ID to link related requests
-
-          tools: OpenAI-format function calling tools
-
-          tradeoff: Optimization tradeoff strategy. Use 'cost' to prioritize cost savings or
-              'latency' to prioritize speed
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._post(
-            "/v2/modelRouter/openHandsRouter",
-            body=maybe_transform(
-                {
-                    "llm_providers": llm_providers,
-                    "messages": messages,
-                    "hash_content": hash_content,
-                    "max_model_depth": max_model_depth,
-                    "metric": metric,
-                    "preference_id": preference_id,
-                    "previous_session": previous_session,
-                    "tools": tools,
-                    "tradeoff": tradeoff,
-                },
-                model_router_open_hands_select_params.ModelRouterOpenHandsSelectParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
 
     def select_model(
         self,
@@ -252,81 +177,6 @@ class AsyncModelRouterResource(AsyncAPIResource):
         """
         return AsyncModelRouterResourceWithStreamingResponse(self)
 
-    async def open_hands_select(
-        self,
-        *,
-        llm_providers: Iterable[model_router_open_hands_select_params.LlmProvider],
-        messages: Union[Iterable[Dict[str, Union[str, Iterable[object]]]], str],
-        hash_content: bool | Omit = omit,
-        max_model_depth: Optional[int] | Omit = omit,
-        metric: str | Omit = omit,
-        preference_id: Optional[str] | Omit = omit,
-        previous_session: Optional[str] | Omit = omit,
-        tools: Optional[Iterable[Dict[str, object]]] | Omit = omit,
-        tradeoff: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        Openhands Model Select
-
-        Args:
-          llm_providers: List of LLM providers to route between. Specify at least one provider in format
-              {provider, model}
-
-          messages: Array of message objects in OpenAI format (with 'role' and 'content' keys)
-
-          hash_content: Whether to hash message content for privacy
-
-          max_model_depth: Maximum number of models to consider for routing. If not specified, considers
-              all provided models
-
-          metric: Optimization metric for model selection
-
-          preference_id: Preference ID for personalized routing. Create one via POST
-              /v2/preferences/userPreferenceCreate
-
-          previous_session: Previous session ID to link related requests
-
-          tools: OpenAI-format function calling tools
-
-          tradeoff: Optimization tradeoff strategy. Use 'cost' to prioritize cost savings or
-              'latency' to prioritize speed
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._post(
-            "/v2/modelRouter/openHandsRouter",
-            body=await async_maybe_transform(
-                {
-                    "llm_providers": llm_providers,
-                    "messages": messages,
-                    "hash_content": hash_content,
-                    "max_model_depth": max_model_depth,
-                    "metric": metric,
-                    "preference_id": preference_id,
-                    "previous_session": previous_session,
-                    "tools": tools,
-                    "tradeoff": tradeoff,
-                },
-                model_router_open_hands_select_params.ModelRouterOpenHandsSelectParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
     async def select_model(
         self,
         *,
@@ -447,9 +297,6 @@ class ModelRouterResourceWithRawResponse:
     def __init__(self, model_router: ModelRouterResource) -> None:
         self._model_router = model_router
 
-        self.open_hands_select = to_raw_response_wrapper(
-            model_router.open_hands_select,
-        )
         self.select_model = to_raw_response_wrapper(
             model_router.select_model,
         )
@@ -459,9 +306,6 @@ class AsyncModelRouterResourceWithRawResponse:
     def __init__(self, model_router: AsyncModelRouterResource) -> None:
         self._model_router = model_router
 
-        self.open_hands_select = async_to_raw_response_wrapper(
-            model_router.open_hands_select,
-        )
         self.select_model = async_to_raw_response_wrapper(
             model_router.select_model,
         )
@@ -471,9 +315,6 @@ class ModelRouterResourceWithStreamingResponse:
     def __init__(self, model_router: ModelRouterResource) -> None:
         self._model_router = model_router
 
-        self.open_hands_select = to_streamed_response_wrapper(
-            model_router.open_hands_select,
-        )
         self.select_model = to_streamed_response_wrapper(
             model_router.select_model,
         )
@@ -483,9 +324,6 @@ class AsyncModelRouterResourceWithStreamingResponse:
     def __init__(self, model_router: AsyncModelRouterResource) -> None:
         self._model_router = model_router
 
-        self.open_hands_select = async_to_streamed_response_wrapper(
-            model_router.open_hands_select,
-        )
         self.select_model = async_to_streamed_response_wrapper(
             model_router.select_model,
         )
