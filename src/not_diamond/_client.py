@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import pzn, models, preferences, model_router
+from .resources import models, prompt, preferences, model_router, custom_router
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, NotDiamondError
 from ._base_client import (
@@ -29,7 +29,6 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.prompt import prompt
 from .resources.report import report
 
 __all__ = [
@@ -49,7 +48,7 @@ class NotDiamond(SyncAPIClient):
     report: report.ReportResource
     preferences: preferences.PreferencesResource
     prompt: prompt.PromptResource
-    pzn: pzn.PznResource
+    custom_router: custom_router.CustomRouterResource
     models: models.ModelsResource
     with_raw_response: NotDiamondWithRawResponse
     with_streaming_response: NotDiamondWithStreamedResponse
@@ -112,7 +111,7 @@ class NotDiamond(SyncAPIClient):
         self.report = report.ReportResource(self)
         self.preferences = preferences.PreferencesResource(self)
         self.prompt = prompt.PromptResource(self)
-        self.pzn = pzn.PznResource(self)
+        self.custom_router = custom_router.CustomRouterResource(self)
         self.models = models.ModelsResource(self)
         self.with_raw_response = NotDiamondWithRawResponse(self)
         self.with_streaming_response = NotDiamondWithStreamedResponse(self)
@@ -227,7 +226,7 @@ class AsyncNotDiamond(AsyncAPIClient):
     report: report.AsyncReportResource
     preferences: preferences.AsyncPreferencesResource
     prompt: prompt.AsyncPromptResource
-    pzn: pzn.AsyncPznResource
+    custom_router: custom_router.AsyncCustomRouterResource
     models: models.AsyncModelsResource
     with_raw_response: AsyncNotDiamondWithRawResponse
     with_streaming_response: AsyncNotDiamondWithStreamedResponse
@@ -290,7 +289,7 @@ class AsyncNotDiamond(AsyncAPIClient):
         self.report = report.AsyncReportResource(self)
         self.preferences = preferences.AsyncPreferencesResource(self)
         self.prompt = prompt.AsyncPromptResource(self)
-        self.pzn = pzn.AsyncPznResource(self)
+        self.custom_router = custom_router.AsyncCustomRouterResource(self)
         self.models = models.AsyncModelsResource(self)
         self.with_raw_response = AsyncNotDiamondWithRawResponse(self)
         self.with_streaming_response = AsyncNotDiamondWithStreamedResponse(self)
@@ -406,7 +405,7 @@ class NotDiamondWithRawResponse:
         self.report = report.ReportResourceWithRawResponse(client.report)
         self.preferences = preferences.PreferencesResourceWithRawResponse(client.preferences)
         self.prompt = prompt.PromptResourceWithRawResponse(client.prompt)
-        self.pzn = pzn.PznResourceWithRawResponse(client.pzn)
+        self.custom_router = custom_router.CustomRouterResourceWithRawResponse(client.custom_router)
         self.models = models.ModelsResourceWithRawResponse(client.models)
 
 
@@ -416,7 +415,7 @@ class AsyncNotDiamondWithRawResponse:
         self.report = report.AsyncReportResourceWithRawResponse(client.report)
         self.preferences = preferences.AsyncPreferencesResourceWithRawResponse(client.preferences)
         self.prompt = prompt.AsyncPromptResourceWithRawResponse(client.prompt)
-        self.pzn = pzn.AsyncPznResourceWithRawResponse(client.pzn)
+        self.custom_router = custom_router.AsyncCustomRouterResourceWithRawResponse(client.custom_router)
         self.models = models.AsyncModelsResourceWithRawResponse(client.models)
 
 
@@ -426,7 +425,7 @@ class NotDiamondWithStreamedResponse:
         self.report = report.ReportResourceWithStreamingResponse(client.report)
         self.preferences = preferences.PreferencesResourceWithStreamingResponse(client.preferences)
         self.prompt = prompt.PromptResourceWithStreamingResponse(client.prompt)
-        self.pzn = pzn.PznResourceWithStreamingResponse(client.pzn)
+        self.custom_router = custom_router.CustomRouterResourceWithStreamingResponse(client.custom_router)
         self.models = models.ModelsResourceWithStreamingResponse(client.models)
 
 
@@ -436,7 +435,7 @@ class AsyncNotDiamondWithStreamedResponse:
         self.report = report.AsyncReportResourceWithStreamingResponse(client.report)
         self.preferences = preferences.AsyncPreferencesResourceWithStreamingResponse(client.preferences)
         self.prompt = prompt.AsyncPromptResourceWithStreamingResponse(client.prompt)
-        self.pzn = pzn.AsyncPznResourceWithStreamingResponse(client.pzn)
+        self.custom_router = custom_router.AsyncCustomRouterResourceWithStreamingResponse(client.custom_router)
         self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
 
 

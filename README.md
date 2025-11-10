@@ -210,7 +210,7 @@ from not_diamond import NotDiamond
 
 client = NotDiamond()
 
-client.pzn.train_custom_router(
+client.custom_router.train_custom_router(
     dataset_file=Path("/path/to/file"),
     language="english",
     llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',

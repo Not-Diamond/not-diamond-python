@@ -18,7 +18,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.report import metric_submit_feedback_params
-from ...types.prompt.request_provider_param import RequestProviderParam
+from ...types.request_provider_param import RequestProviderParam
 from ...types.report.metric_submit_feedback_response import MetricSubmitFeedbackResponse
 
 __all__ = ["MetricsResource", "AsyncMetricsResource"]
