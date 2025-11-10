@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Dict
 from typing_extensions import Required, TypedDict
 
-from ..prompt.request_provider_param import RequestProviderParam
+from ..request_provider_param import RequestProviderParam
 
 __all__ = ["MetricSubmitFeedbackParams"]
 

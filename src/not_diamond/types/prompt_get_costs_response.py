@@ -2,9 +2,9 @@
 
 from typing import List
 
-from ..._models import BaseModel
+from .._models import BaseModel
 
-__all__ = ["AdaptGetCostsResponse", "UsageRecord"]
+__all__ = ["PromptGetCostsResponse", "UsageRecord"]
 
 
 class UsageRecord(BaseModel):
@@ -48,7 +48,7 @@ class UsageRecord(BaseModel):
     """User ID who made the request"""
 
 
-class AdaptGetCostsResponse(BaseModel):
+class PromptGetCostsResponse(BaseModel):
     adaptation_run_id: str
     """Unique identifier for the adaptation run"""
 

@@ -1,13 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .pzn import (
-    PznResource,
-    AsyncPznResource,
-    PznResourceWithRawResponse,
-    AsyncPznResourceWithRawResponse,
-    PznResourceWithStreamingResponse,
-    AsyncPznResourceWithStreamingResponse,
-)
 from .models import (
     ModelsResource,
     AsyncModelsResource,
@@ -48,6 +40,14 @@ from .model_router import (
     ModelRouterResourceWithStreamingResponse,
     AsyncModelRouterResourceWithStreamingResponse,
 )
+from .custom_router import (
+    CustomRouterResource,
+    AsyncCustomRouterResource,
+    CustomRouterResourceWithRawResponse,
+    AsyncCustomRouterResourceWithRawResponse,
+    CustomRouterResourceWithStreamingResponse,
+    AsyncCustomRouterResourceWithStreamingResponse,
+)
 
 __all__ = [
     "ModelRouterResource",
@@ -74,12 +74,12 @@ __all__ = [
     "AsyncPromptResourceWithRawResponse",
     "PromptResourceWithStreamingResponse",
     "AsyncPromptResourceWithStreamingResponse",
-    "PznResource",
-    "AsyncPznResource",
-    "PznResourceWithRawResponse",
-    "AsyncPznResourceWithRawResponse",
-    "PznResourceWithStreamingResponse",
-    "AsyncPznResourceWithStreamingResponse",
+    "CustomRouterResource",
+    "AsyncCustomRouterResource",
+    "CustomRouterResourceWithRawResponse",
+    "AsyncCustomRouterResourceWithRawResponse",
+    "CustomRouterResourceWithStreamingResponse",
+    "AsyncCustomRouterResourceWithStreamingResponse",
     "ModelsResource",
     "AsyncModelsResource",
     "ModelsResourceWithRawResponse",

@@ -1,11 +1,11 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from ..._models import BaseModel
+from .._models import BaseModel
 
-__all__ = ["AdaptCreateResponse"]
+__all__ = ["PromptCreateResponse"]
 
 
-class AdaptCreateResponse(BaseModel):
+class PromptCreateResponse(BaseModel):
     adaptation_run_id: str
     """Unique identifier for this adaptation run.
 
