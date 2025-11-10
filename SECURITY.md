@@ -20,7 +20,7 @@ or products provided by Not Diamond, please follow the respective company's secu
 
 ### Not Diamond Terms and Policies
 
-Please contact contact@notdiamond.ai for any questions or concerns regarding the security of our services.
+Please contact test@notdiamond.ai for any questions or concerns regarding the security of our services.
 
 ---
 
