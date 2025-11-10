@@ -38,7 +38,7 @@ Methods:
 - <code title="put /v2/preferences/userPreferenceUpdate">client.preferences.<a href="./src/not_diamond/resources/preferences.py">update</a>(\*\*<a href="src/not_diamond/types/preference_update_params.py">params</a>) -> object</code>
 - <code title="delete /v2/preferences/userPreferenceDelete/{preference_id}">client.preferences.<a href="./src/not_diamond/resources/preferences.py">delete</a>(preference_id) -> object</code>
 
-# Prompt
+# PromptAdaptation
 
 Types:
 
@@ -47,19 +47,19 @@ from not_diamond.types import (
     GoldenRecord,
     JobStatus,
     RequestProvider,
-    PromptCreateResponse,
-    PromptGetAdaptResultsResponse,
-    PromptGetAdaptStatusResponse,
-    PromptGetCostsResponse,
+    PromptAdaptationCreateResponse,
+    PromptAdaptationGetAdaptResultsResponse,
+    PromptAdaptationGetAdaptStatusResponse,
+    PromptAdaptationGetCostsResponse,
 )
 ```
 
 Methods:
 
-- <code title="post /v2/prompt/adapt">client.prompt.<a href="./src/not_diamond/resources/prompt.py">create</a>(\*\*<a href="src/not_diamond/types/prompt_create_params.py">params</a>) -> <a href="./src/not_diamond/types/prompt_create_response.py">PromptCreateResponse</a></code>
-- <code title="get /v2/prompt/adaptResults/{adaptation_run_id}">client.prompt.<a href="./src/not_diamond/resources/prompt.py">get_adapt_results</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_get_adapt_results_response.py">PromptGetAdaptResultsResponse</a></code>
-- <code title="get /v2/prompt/adaptStatus/{adaptation_run_id}">client.prompt.<a href="./src/not_diamond/resources/prompt.py">get_adapt_status</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_get_adapt_status_response.py">PromptGetAdaptStatusResponse</a></code>
-- <code title="get /v2/prompt/adapt/{adaptation_run_id}/costs">client.prompt.<a href="./src/not_diamond/resources/prompt.py">get_costs</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_get_costs_response.py">PromptGetCostsResponse</a></code>
+- <code title="post /v2/prompt/adapt">client.prompt_adaptation.<a href="./src/not_diamond/resources/prompt_adaptation.py">create</a>(\*\*<a href="src/not_diamond/types/prompt_adaptation_create_params.py">params</a>) -> <a href="./src/not_diamond/types/prompt_adaptation_create_response.py">PromptAdaptationCreateResponse</a></code>
+- <code title="get /v2/prompt/adaptResults/{adaptation_run_id}">client.prompt_adaptation.<a href="./src/not_diamond/resources/prompt_adaptation.py">get_adapt_results</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_adaptation_get_adapt_results_response.py">PromptAdaptationGetAdaptResultsResponse</a></code>
+- <code title="get /v2/prompt/adaptStatus/{adaptation_run_id}">client.prompt_adaptation.<a href="./src/not_diamond/resources/prompt_adaptation.py">get_adapt_status</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_adaptation_get_adapt_status_response.py">PromptAdaptationGetAdaptStatusResponse</a></code>
+- <code title="get /v2/prompt/adapt/{adaptation_run_id}/costs">client.prompt_adaptation.<a href="./src/not_diamond/resources/prompt_adaptation.py">get_costs</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_adaptation_get_costs_response.py">PromptAdaptationGetCostsResponse</a></code>
 
 # CustomRouter
 
