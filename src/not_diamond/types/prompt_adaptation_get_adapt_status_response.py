@@ -5,10 +5,10 @@ from typing import Optional
 from .._models import BaseModel
 from .job_status import JobStatus
 
-__all__ = ["PromptGetAdaptStatusResponse"]
+__all__ = ["PromptAdaptationGetAdaptStatusResponse"]
 
 
-class PromptGetAdaptStatusResponse(BaseModel):
+class PromptAdaptationGetAdaptStatusResponse(BaseModel):
     adaptation_run_id: str
     """Unique identifier for this adaptation run.
 
