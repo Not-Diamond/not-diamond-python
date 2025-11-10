@@ -8,14 +8,6 @@ from .models import (
     ModelsResourceWithStreamingResponse,
     AsyncModelsResourceWithStreamingResponse,
 )
-from .prompt import (
-    PromptResource,
-    AsyncPromptResource,
-    PromptResourceWithRawResponse,
-    AsyncPromptResourceWithRawResponse,
-    PromptResourceWithStreamingResponse,
-    AsyncPromptResourceWithStreamingResponse,
-)
 from .report import (
     ReportResource,
     AsyncReportResource,
@@ -48,6 +40,14 @@ from .custom_router import (
     CustomRouterResourceWithStreamingResponse,
     AsyncCustomRouterResourceWithStreamingResponse,
 )
+from .prompt_adaptation import (
+    PromptAdaptationResource,
+    AsyncPromptAdaptationResource,
+    PromptAdaptationResourceWithRawResponse,
+    AsyncPromptAdaptationResourceWithRawResponse,
+    PromptAdaptationResourceWithStreamingResponse,
+    AsyncPromptAdaptationResourceWithStreamingResponse,
+)
 
 __all__ = [
     "ModelRouterResource",
@@ -68,12 +68,12 @@ __all__ = [
     "AsyncPreferencesResourceWithRawResponse",
     "PreferencesResourceWithStreamingResponse",
     "AsyncPreferencesResourceWithStreamingResponse",
-    "PromptResource",
-    "AsyncPromptResource",
-    "PromptResourceWithRawResponse",
-    "AsyncPromptResourceWithRawResponse",
-    "PromptResourceWithStreamingResponse",
-    "AsyncPromptResourceWithStreamingResponse",
+    "PromptAdaptationResource",
+    "AsyncPromptAdaptationResource",
+    "PromptAdaptationResourceWithRawResponse",
+    "AsyncPromptAdaptationResourceWithRawResponse",
+    "PromptAdaptationResourceWithStreamingResponse",
+    "AsyncPromptAdaptationResourceWithStreamingResponse",
     "CustomRouterResource",
     "AsyncCustomRouterResource",
     "CustomRouterResourceWithRawResponse",

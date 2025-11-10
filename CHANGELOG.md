@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.0-rc9 (2025-11-10)
+
+Full Changelog: [v1.0.0-rc8...v1.0.0-rc9](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc8...v1.0.0-rc9)
+
+### Features
+
+* **api:** manual updates ([50911a0](https://github.com/Not-Diamond/not-diamond-python/commit/50911a023f29a7017ec810e55ee55209c5dbdacc))
+
 ## 1.0.0-rc8 (2025-11-10)
 
 Full Changelog: [v1.0.0-rc7...v1.0.0-rc8](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc7...v1.0.0-rc8)
