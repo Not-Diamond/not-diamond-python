@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Dict, Union, Iterable, Optional
 from typing_extensions import Required, TypeAlias, TypedDict
 
-from .prompt.request_provider_param import RequestProviderParam
+from .request_provider_param import RequestProviderParam
 
 __all__ = ["ModelRouterSelectModelParams", "LlmProvider", "LlmProviderOpenRouterProvider"]
 

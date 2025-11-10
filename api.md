@@ -43,43 +43,35 @@ Methods:
 Types:
 
 ```python
-from not_diamond.types import JobStatus, PromptGetAdaptResultsResponse, PromptGetAdaptStatusResponse
-```
-
-Methods:
-
-- <code title="get /v2/prompt/adaptResults/{adaptation_run_id}">client.prompt.<a href="./src/not_diamond/resources/prompt/prompt.py">get_adapt_results</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_get_adapt_results_response.py">PromptGetAdaptResultsResponse</a></code>
-- <code title="get /v2/prompt/adaptStatus/{adaptation_run_id}">client.prompt.<a href="./src/not_diamond/resources/prompt/prompt.py">get_adapt_status</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_get_adapt_status_response.py">PromptGetAdaptStatusResponse</a></code>
-
-## Adapt
-
-Types:
-
-```python
-from not_diamond.types.prompt import (
+from not_diamond.types import (
     GoldenRecord,
+    JobStatus,
     RequestProvider,
-    AdaptCreateResponse,
-    AdaptGetCostsResponse,
+    PromptCreateResponse,
+    PromptGetAdaptResultsResponse,
+    PromptGetAdaptStatusResponse,
+    PromptGetCostsResponse,
 )
 ```
 
 Methods:
 
-- <code title="post /v2/prompt/adapt">client.prompt.adapt.<a href="./src/not_diamond/resources/prompt/adapt.py">create</a>(\*\*<a href="src/not_diamond/types/prompt/adapt_create_params.py">params</a>) -> <a href="./src/not_diamond/types/prompt/adapt_create_response.py">AdaptCreateResponse</a></code>
-- <code title="get /v2/prompt/adapt/{adaptation_run_id}/costs">client.prompt.adapt.<a href="./src/not_diamond/resources/prompt/adapt.py">get_costs</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt/adapt_get_costs_response.py">AdaptGetCostsResponse</a></code>
+- <code title="post /v2/prompt/adapt">client.prompt.<a href="./src/not_diamond/resources/prompt.py">create</a>(\*\*<a href="src/not_diamond/types/prompt_create_params.py">params</a>) -> <a href="./src/not_diamond/types/prompt_create_response.py">PromptCreateResponse</a></code>
+- <code title="get /v2/prompt/adaptResults/{adaptation_run_id}">client.prompt.<a href="./src/not_diamond/resources/prompt.py">get_adapt_results</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_get_adapt_results_response.py">PromptGetAdaptResultsResponse</a></code>
+- <code title="get /v2/prompt/adaptStatus/{adaptation_run_id}">client.prompt.<a href="./src/not_diamond/resources/prompt.py">get_adapt_status</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_get_adapt_status_response.py">PromptGetAdaptStatusResponse</a></code>
+- <code title="get /v2/prompt/adapt/{adaptation_run_id}/costs">client.prompt.<a href="./src/not_diamond/resources/prompt.py">get_costs</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_get_costs_response.py">PromptGetCostsResponse</a></code>
 
-# Pzn
+# CustomRouter
 
 Types:
 
 ```python
-from not_diamond.types import PznTrainCustomRouterResponse
+from not_diamond.types import CustomRouterTrainCustomRouterResponse
 ```
 
 Methods:
 
-- <code title="post /v2/pzn/trainCustomRouter">client.pzn.<a href="./src/not_diamond/resources/pzn.py">train_custom_router</a>(\*\*<a href="src/not_diamond/types/pzn_train_custom_router_params.py">params</a>) -> <a href="./src/not_diamond/types/pzn_train_custom_router_response.py">PznTrainCustomRouterResponse</a></code>
+- <code title="post /v2/pzn/trainCustomRouter">client.custom_router.<a href="./src/not_diamond/resources/custom_router.py">train_custom_router</a>(\*\*<a href="src/not_diamond/types/custom_router_train_custom_router_params.py">params</a>) -> <a href="./src/not_diamond/types/custom_router_train_custom_router_response.py">CustomRouterTrainCustomRouterResponse</a></code>
 
 # Models
 
