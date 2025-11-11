@@ -1,9 +1,9 @@
-# Not Diamond Python API library
+# Notdiamond Python API library
 
 <!-- prettier-ignore -->
 [![PyPI version](https://img.shields.io/pypi/v/notdiamond.svg?label=pypi%20(stable))](https://pypi.org/project/notdiamond/)
 
-The Not Diamond Python library provides convenient access to the Not Diamond REST API from any Python 3.9+
+The Notdiamond Python library provides convenient access to the Notdiamond REST API from any Python 3.9+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -42,9 +42,9 @@ Automatically optimize your prompts to work better across different language mod
 ```python
 import os
 import time
-from not_diamond import NotDiamond
+from not_diamond import Notdiamond
 
-client = NotDiamond(
+client = Notdiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
 )
 
@@ -162,14 +162,14 @@ so that your API Key is not stored in source control.
 
 ## Async usage
 
-Simply import `AsyncNotDiamond` instead of `NotDiamond` and use `await` with each API call:
+Simply import `AsyncNotdiamond` instead of `Notdiamond` and use `await` with each API call:
 
 ```python
 import os
 import asyncio
-from not_diamond import AsyncNotDiamond
+from not_diamond import AsyncNotdiamond
 
-client = AsyncNotDiamond(
+client = AsyncNotdiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
 )
 
@@ -229,11 +229,11 @@ Then you can enable it by instantiating the client with `http_client=DefaultAioH
 ```python
 import asyncio
 from not_diamond import DefaultAioHttpClient
-from not_diamond import AsyncNotDiamond
+from not_diamond import AsyncNotdiamond
 
 
 async def main() -> None:
-    async with AsyncNotDiamond(
+    async with AsyncNotdiamond(
         api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
@@ -280,9 +280,9 @@ Typed requests and responses provide autocomplete and documentation within your 
 Nested parameters are dictionaries, typed using `TypedDict`, for example:
 
 ```python
-from not_diamond import NotDiamond
+from not_diamond import Notdiamond
 
-client = NotDiamond()
+client = Notdiamond()
 
 response = client.prompt.adapt.create(
     fields=["question", "context"],
@@ -323,9 +323,9 @@ Request parameters that correspond to file uploads can be passed as `bytes`, or 
 
 ```python
 from pathlib import Path
-from not_diamond import NotDiamond
+from not_diamond import Notdiamond
 
-client = NotDiamond()
+client = Notdiamond()
 
 client.custom_router.train_custom_router(
     dataset_file=Path("/path/to/file"),
@@ -349,9 +349,9 @@ All errors inherit from `not_diamond.APIError`.
 
 ```python
 import not_diamond
-from not_diamond import NotDiamond
+from not_diamond import Notdiamond
 
-client = NotDiamond()
+client = Notdiamond()
 
 try:
     client.prompt.adapt.create(
@@ -409,10 +409,10 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from not_diamond import NotDiamond
+from not_diamond import Notdiamond
 
 # Configure the default for all requests:
-client = NotDiamond(
+client = Notdiamond(
     # default is 2
     max_retries=0,
 )
@@ -448,16 +448,16 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
-from not_diamond import NotDiamond
+from not_diamond import Notdiamond
 
 # Configure the default for all requests:
-client = NotDiamond(
+client = Notdiamond(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = NotDiamond(
+client = Notdiamond(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
@@ -477,10 +477,10 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `NOT_DIAMOND_LOG` to `info`.
+You can enable logging by setting the environment variable `NOTDIAMOND_LOG` to `info`.
 
 ```shell
-$ export NOT_DIAMOND_LOG=info
+$ export NOTDIAMOND_LOG=info
 ```
 
 Or to `debug` for more verbose logging.
@@ -502,9 +502,9 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from not_diamond import NotDiamond
+from not_diamond import Notdiamond
 
-client = NotDiamond()
+client = Notdiamond()
 response = client.prompt.adapt.with_raw_response.create(
     fields=["question"],
     system_prompt="You are a helpful assistant.",
@@ -618,10 +618,10 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from not_diamond import NotDiamond, DefaultHttpxClient
+from not_diamond import Notdiamond, DefaultHttpxClient
 
-client = NotDiamond(
-    # Or use the `NOT_DIAMOND_BASE_URL` env var
+client = Notdiamond(
+    # Or use the `NOTDIAMOND_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
         proxy="http://my.test.proxy.example.com",
@@ -641,9 +641,9 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from not_diamond import NotDiamond
+from not_diamond import Notdiamond
 
-with NotDiamond() as client:
+with Notdiamond() as client:
   # make requests here
   ...
 
