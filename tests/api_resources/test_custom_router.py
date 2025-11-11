@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from not_diamond import NotDiamond, AsyncNotDiamond
+from not_diamond import Notdiamond, AsyncNotdiamond
 from tests.utils import assert_matches_type
 from not_diamond.types import CustomRouterTrainCustomRouterResponse
 
@@ -18,7 +18,7 @@ class TestCustomRouter:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_train_custom_router(self, client: NotDiamond) -> None:
+    def test_method_train_custom_router(self, client: Notdiamond) -> None:
         custom_router = client.custom_router.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
@@ -29,7 +29,7 @@ class TestCustomRouter:
         assert_matches_type(CustomRouterTrainCustomRouterResponse, custom_router, path=["response"])
 
     @parametrize
-    def test_method_train_custom_router_with_all_params(self, client: NotDiamond) -> None:
+    def test_method_train_custom_router_with_all_params(self, client: Notdiamond) -> None:
         custom_router = client.custom_router.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
@@ -42,7 +42,7 @@ class TestCustomRouter:
         assert_matches_type(CustomRouterTrainCustomRouterResponse, custom_router, path=["response"])
 
     @parametrize
-    def test_raw_response_train_custom_router(self, client: NotDiamond) -> None:
+    def test_raw_response_train_custom_router(self, client: Notdiamond) -> None:
         response = client.custom_router.with_raw_response.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
@@ -57,7 +57,7 @@ class TestCustomRouter:
         assert_matches_type(CustomRouterTrainCustomRouterResponse, custom_router, path=["response"])
 
     @parametrize
-    def test_streaming_response_train_custom_router(self, client: NotDiamond) -> None:
+    def test_streaming_response_train_custom_router(self, client: Notdiamond) -> None:
         with client.custom_router.with_streaming_response.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
@@ -80,7 +80,7 @@ class TestAsyncCustomRouter:
     )
 
     @parametrize
-    async def test_method_train_custom_router(self, async_client: AsyncNotDiamond) -> None:
+    async def test_method_train_custom_router(self, async_client: AsyncNotdiamond) -> None:
         custom_router = await async_client.custom_router.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
@@ -91,7 +91,7 @@ class TestAsyncCustomRouter:
         assert_matches_type(CustomRouterTrainCustomRouterResponse, custom_router, path=["response"])
 
     @parametrize
-    async def test_method_train_custom_router_with_all_params(self, async_client: AsyncNotDiamond) -> None:
+    async def test_method_train_custom_router_with_all_params(self, async_client: AsyncNotdiamond) -> None:
         custom_router = await async_client.custom_router.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
@@ -104,7 +104,7 @@ class TestAsyncCustomRouter:
         assert_matches_type(CustomRouterTrainCustomRouterResponse, custom_router, path=["response"])
 
     @parametrize
-    async def test_raw_response_train_custom_router(self, async_client: AsyncNotDiamond) -> None:
+    async def test_raw_response_train_custom_router(self, async_client: AsyncNotdiamond) -> None:
         response = await async_client.custom_router.with_raw_response.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
@@ -119,7 +119,7 @@ class TestAsyncCustomRouter:
         assert_matches_type(CustomRouterTrainCustomRouterResponse, custom_router, path=["response"])
 
     @parametrize
-    async def test_streaming_response_train_custom_router(self, async_client: AsyncNotDiamond) -> None:
+    async def test_streaming_response_train_custom_router(self, async_client: AsyncNotdiamond) -> None:
         async with async_client.custom_router.with_streaming_response.train_custom_router(
             dataset_file=b"raw file contents",
             language="english",
