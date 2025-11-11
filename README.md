@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 [![PyPI version](https://img.shields.io/pypi/v/notdiamond.svg?label=pypi%20(stable))](https://pypi.org/project/notdiamond/)
 
-The Not Diamond Python library provides convenient access to the Not Diamond REST API from any Python 3.8+
+The Not Diamond Python library provides convenient access to the Not Diamond REST API from any Python 3.9+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -675,7 +675,7 @@ print(not_diamond.__version__)
 
 ## Requirements
 
-Python 3.8 or higher.
+Python 3.9 or higher.
 
 ## Contributing
 
