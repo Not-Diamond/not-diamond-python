@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.0.0-rc11 (2025-11-11)
+
+Full Changelog: [v1.0.0-rc10...v1.0.0-rc11](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc10...v1.0.0-rc11)
+
+### Features
+
+* **api:** changed name ([a5fbbc6](https://github.com/Not-Diamond/not-diamond-python/commit/a5fbbc6174cd362389bd1e3848f2b870bdf37837))
+
+
+### Bug Fixes
+
+* compat with Python 3.14 ([566b7bf](https://github.com/Not-Diamond/not-diamond-python/commit/566b7bf3583a41330dc9ada230e343fc852dd7ad))
+
+
+### Chores
+
+* **package:** drop Python 3.8 support ([8f6e2eb](https://github.com/Not-Diamond/not-diamond-python/commit/8f6e2eb71d0523fa1d7b6bb39c30ffbbc95363cf))
+
 ## 1.0.0-rc10 (2025-11-10)
 
 Full Changelog: [v1.0.0-rc9...v1.0.0-rc10](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc9...v1.0.0-rc10)
