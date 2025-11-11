@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from not_diamond import NotDiamond, AsyncNotDiamond
+from not_diamond import Notdiamond, AsyncNotdiamond
 from tests.utils import assert_matches_type
 from not_diamond.types import PreferenceCreateResponse
 
@@ -18,19 +18,19 @@ class TestPreferences:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_create(self, client: NotDiamond) -> None:
+    def test_method_create(self, client: Notdiamond) -> None:
         preference = client.preferences.create()
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
     @parametrize
-    def test_method_create_with_all_params(self, client: NotDiamond) -> None:
+    def test_method_create_with_all_params(self, client: Notdiamond) -> None:
         preference = client.preferences.create(
             name="name",
         )
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
     @parametrize
-    def test_raw_response_create(self, client: NotDiamond) -> None:
+    def test_raw_response_create(self, client: Notdiamond) -> None:
         response = client.preferences.with_raw_response.create()
 
         assert response.is_closed is True
@@ -39,7 +39,7 @@ class TestPreferences:
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
     @parametrize
-    def test_streaming_response_create(self, client: NotDiamond) -> None:
+    def test_streaming_response_create(self, client: Notdiamond) -> None:
         with client.preferences.with_streaming_response.create() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -50,14 +50,14 @@ class TestPreferences:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_update(self, client: NotDiamond) -> None:
+    def test_method_update(self, client: Notdiamond) -> None:
         preference = client.preferences.update(
             preference_id="preference_id",
         )
         assert_matches_type(object, preference, path=["response"])
 
     @parametrize
-    def test_method_update_with_all_params(self, client: NotDiamond) -> None:
+    def test_method_update_with_all_params(self, client: Notdiamond) -> None:
         preference = client.preferences.update(
             preference_id="preference_id",
             name="name",
@@ -65,7 +65,7 @@ class TestPreferences:
         assert_matches_type(object, preference, path=["response"])
 
     @parametrize
-    def test_raw_response_update(self, client: NotDiamond) -> None:
+    def test_raw_response_update(self, client: Notdiamond) -> None:
         response = client.preferences.with_raw_response.update(
             preference_id="preference_id",
         )
@@ -76,7 +76,7 @@ class TestPreferences:
         assert_matches_type(object, preference, path=["response"])
 
     @parametrize
-    def test_streaming_response_update(self, client: NotDiamond) -> None:
+    def test_streaming_response_update(self, client: Notdiamond) -> None:
         with client.preferences.with_streaming_response.update(
             preference_id="preference_id",
         ) as response:
@@ -89,14 +89,14 @@ class TestPreferences:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_delete(self, client: NotDiamond) -> None:
+    def test_method_delete(self, client: Notdiamond) -> None:
         preference = client.preferences.delete(
             "preference_id",
         )
         assert_matches_type(object, preference, path=["response"])
 
     @parametrize
-    def test_raw_response_delete(self, client: NotDiamond) -> None:
+    def test_raw_response_delete(self, client: Notdiamond) -> None:
         response = client.preferences.with_raw_response.delete(
             "preference_id",
         )
@@ -107,7 +107,7 @@ class TestPreferences:
         assert_matches_type(object, preference, path=["response"])
 
     @parametrize
-    def test_streaming_response_delete(self, client: NotDiamond) -> None:
+    def test_streaming_response_delete(self, client: Notdiamond) -> None:
         with client.preferences.with_streaming_response.delete(
             "preference_id",
         ) as response:
@@ -120,7 +120,7 @@ class TestPreferences:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_delete(self, client: NotDiamond) -> None:
+    def test_path_params_delete(self, client: Notdiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `preference_id` but received ''"):
             client.preferences.with_raw_response.delete(
                 "",
@@ -133,19 +133,19 @@ class TestAsyncPreferences:
     )
 
     @parametrize
-    async def test_method_create(self, async_client: AsyncNotDiamond) -> None:
+    async def test_method_create(self, async_client: AsyncNotdiamond) -> None:
         preference = await async_client.preferences.create()
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncNotDiamond) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncNotdiamond) -> None:
         preference = await async_client.preferences.create(
             name="name",
         )
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncNotDiamond) -> None:
+    async def test_raw_response_create(self, async_client: AsyncNotdiamond) -> None:
         response = await async_client.preferences.with_raw_response.create()
 
         assert response.is_closed is True
@@ -154,7 +154,7 @@ class TestAsyncPreferences:
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncNotDiamond) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncNotdiamond) -> None:
         async with async_client.preferences.with_streaming_response.create() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -165,14 +165,14 @@ class TestAsyncPreferences:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_update(self, async_client: AsyncNotDiamond) -> None:
+    async def test_method_update(self, async_client: AsyncNotdiamond) -> None:
         preference = await async_client.preferences.update(
             preference_id="preference_id",
         )
         assert_matches_type(object, preference, path=["response"])
 
     @parametrize
-    async def test_method_update_with_all_params(self, async_client: AsyncNotDiamond) -> None:
+    async def test_method_update_with_all_params(self, async_client: AsyncNotdiamond) -> None:
         preference = await async_client.preferences.update(
             preference_id="preference_id",
             name="name",
@@ -180,7 +180,7 @@ class TestAsyncPreferences:
         assert_matches_type(object, preference, path=["response"])
 
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncNotDiamond) -> None:
+    async def test_raw_response_update(self, async_client: AsyncNotdiamond) -> None:
         response = await async_client.preferences.with_raw_response.update(
             preference_id="preference_id",
         )
@@ -191,7 +191,7 @@ class TestAsyncPreferences:
         assert_matches_type(object, preference, path=["response"])
 
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncNotDiamond) -> None:
+    async def test_streaming_response_update(self, async_client: AsyncNotdiamond) -> None:
         async with async_client.preferences.with_streaming_response.update(
             preference_id="preference_id",
         ) as response:
@@ -204,14 +204,14 @@ class TestAsyncPreferences:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_delete(self, async_client: AsyncNotDiamond) -> None:
+    async def test_method_delete(self, async_client: AsyncNotdiamond) -> None:
         preference = await async_client.preferences.delete(
             "preference_id",
         )
         assert_matches_type(object, preference, path=["response"])
 
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncNotDiamond) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncNotdiamond) -> None:
         response = await async_client.preferences.with_raw_response.delete(
             "preference_id",
         )
@@ -222,7 +222,7 @@ class TestAsyncPreferences:
         assert_matches_type(object, preference, path=["response"])
 
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncNotDiamond) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncNotdiamond) -> None:
         async with async_client.preferences.with_streaming_response.delete(
             "preference_id",
         ) as response:
@@ -235,7 +235,7 @@ class TestAsyncPreferences:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_delete(self, async_client: AsyncNotDiamond) -> None:
+    async def test_path_params_delete(self, async_client: AsyncNotdiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `preference_id` but received ''"):
             await async_client.preferences.with_raw_response.delete(
                 "",

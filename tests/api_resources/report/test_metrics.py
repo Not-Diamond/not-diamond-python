@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from not_diamond import NotDiamond, AsyncNotDiamond
+from not_diamond import Notdiamond, AsyncNotdiamond
 from tests.utils import assert_matches_type
 from not_diamond.types.report import MetricSubmitFeedbackResponse
 
@@ -18,7 +18,7 @@ class TestMetrics:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_submit_feedback(self, client: NotDiamond) -> None:
+    def test_method_submit_feedback(self, client: Notdiamond) -> None:
         metric = client.report.metrics.submit_feedback(
             feedback={"accuracy": "bar"},
             provider={
@@ -30,7 +30,7 @@ class TestMetrics:
         assert_matches_type(MetricSubmitFeedbackResponse, metric, path=["response"])
 
     @parametrize
-    def test_method_submit_feedback_with_all_params(self, client: NotDiamond) -> None:
+    def test_method_submit_feedback_with_all_params(self, client: Notdiamond) -> None:
         metric = client.report.metrics.submit_feedback(
             feedback={"accuracy": "bar"},
             provider={
@@ -47,7 +47,7 @@ class TestMetrics:
         assert_matches_type(MetricSubmitFeedbackResponse, metric, path=["response"])
 
     @parametrize
-    def test_raw_response_submit_feedback(self, client: NotDiamond) -> None:
+    def test_raw_response_submit_feedback(self, client: Notdiamond) -> None:
         response = client.report.metrics.with_raw_response.submit_feedback(
             feedback={"accuracy": "bar"},
             provider={
@@ -63,7 +63,7 @@ class TestMetrics:
         assert_matches_type(MetricSubmitFeedbackResponse, metric, path=["response"])
 
     @parametrize
-    def test_streaming_response_submit_feedback(self, client: NotDiamond) -> None:
+    def test_streaming_response_submit_feedback(self, client: Notdiamond) -> None:
         with client.report.metrics.with_streaming_response.submit_feedback(
             feedback={"accuracy": "bar"},
             provider={
@@ -87,7 +87,7 @@ class TestAsyncMetrics:
     )
 
     @parametrize
-    async def test_method_submit_feedback(self, async_client: AsyncNotDiamond) -> None:
+    async def test_method_submit_feedback(self, async_client: AsyncNotdiamond) -> None:
         metric = await async_client.report.metrics.submit_feedback(
             feedback={"accuracy": "bar"},
             provider={
@@ -99,7 +99,7 @@ class TestAsyncMetrics:
         assert_matches_type(MetricSubmitFeedbackResponse, metric, path=["response"])
 
     @parametrize
-    async def test_method_submit_feedback_with_all_params(self, async_client: AsyncNotDiamond) -> None:
+    async def test_method_submit_feedback_with_all_params(self, async_client: AsyncNotdiamond) -> None:
         metric = await async_client.report.metrics.submit_feedback(
             feedback={"accuracy": "bar"},
             provider={
@@ -116,7 +116,7 @@ class TestAsyncMetrics:
         assert_matches_type(MetricSubmitFeedbackResponse, metric, path=["response"])
 
     @parametrize
-    async def test_raw_response_submit_feedback(self, async_client: AsyncNotDiamond) -> None:
+    async def test_raw_response_submit_feedback(self, async_client: AsyncNotdiamond) -> None:
         response = await async_client.report.metrics.with_raw_response.submit_feedback(
             feedback={"accuracy": "bar"},
             provider={
@@ -132,7 +132,7 @@ class TestAsyncMetrics:
         assert_matches_type(MetricSubmitFeedbackResponse, metric, path=["response"])
 
     @parametrize
-    async def test_streaming_response_submit_feedback(self, async_client: AsyncNotDiamond) -> None:
+    async def test_streaming_response_submit_feedback(self, async_client: AsyncNotdiamond) -> None:
         async with async_client.report.metrics.with_streaming_response.submit_feedback(
             feedback={"accuracy": "bar"},
             provider={
