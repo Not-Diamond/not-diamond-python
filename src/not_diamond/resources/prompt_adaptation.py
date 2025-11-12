@@ -6,7 +6,7 @@ from typing import Iterable, Optional
 
 import httpx
 
-from ..types import prompt_adaptation_create_params
+from ..types import prompt_adaptation_adapt_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -20,7 +20,7 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.golden_record_param import GoldenRecordParam
 from ..types.request_provider_param import RequestProviderParam
-from ..types.prompt_adaptation_create_response import PromptAdaptationCreateResponse
+from ..types.prompt_adaptation_adapt_response import PromptAdaptationAdaptResponse
 from ..types.prompt_adaptation_get_costs_response import PromptAdaptationGetCostsResponse
 from ..types.prompt_adaptation_get_adapt_status_response import PromptAdaptationGetAdaptStatusResponse
 from ..types.prompt_adaptation_get_adapt_results_response import PromptAdaptationGetAdaptResultsResponse
@@ -48,7 +48,7 @@ class PromptAdaptationResource(SyncAPIResource):
         """
         return PromptAdaptationResourceWithStreamingResponse(self)
 
-    def create(
+    def adapt(
         self,
         *,
         fields: SequenceNotStr[str],
@@ -68,7 +68,7 @@ class PromptAdaptationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationCreateResponse:
+    ) -> PromptAdaptationAdaptResponse:
         """
         Adapt your prompt from one LLM to work optimally across different target LLMs.
 
@@ -185,12 +185,12 @@ class PromptAdaptationResource(SyncAPIResource):
                     "test_goldens": test_goldens,
                     "train_goldens": train_goldens,
                 },
-                prompt_adaptation_create_params.PromptAdaptationCreateParams,
+                prompt_adaptation_adapt_params.PromptAdaptationAdaptParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationCreateResponse,
+            cast_to=PromptAdaptationAdaptResponse,
         )
 
     def get_adapt_results(
@@ -413,7 +413,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         """
         return AsyncPromptAdaptationResourceWithStreamingResponse(self)
 
-    async def create(
+    async def adapt(
         self,
         *,
         fields: SequenceNotStr[str],
@@ -433,7 +433,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationCreateResponse:
+    ) -> PromptAdaptationAdaptResponse:
         """
         Adapt your prompt from one LLM to work optimally across different target LLMs.
 
@@ -550,12 +550,12 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
                     "test_goldens": test_goldens,
                     "train_goldens": train_goldens,
                 },
-                prompt_adaptation_create_params.PromptAdaptationCreateParams,
+                prompt_adaptation_adapt_params.PromptAdaptationAdaptParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationCreateResponse,
+            cast_to=PromptAdaptationAdaptResponse,
         )
 
     async def get_adapt_results(
@@ -762,8 +762,8 @@ class PromptAdaptationResourceWithRawResponse:
     def __init__(self, prompt_adaptation: PromptAdaptationResource) -> None:
         self._prompt_adaptation = prompt_adaptation
 
-        self.create = to_raw_response_wrapper(
-            prompt_adaptation.create,
+        self.adapt = to_raw_response_wrapper(
+            prompt_adaptation.adapt,
         )
         self.get_adapt_results = to_raw_response_wrapper(
             prompt_adaptation.get_adapt_results,
@@ -780,8 +780,8 @@ class AsyncPromptAdaptationResourceWithRawResponse:
     def __init__(self, prompt_adaptation: AsyncPromptAdaptationResource) -> None:
         self._prompt_adaptation = prompt_adaptation
 
-        self.create = async_to_raw_response_wrapper(
-            prompt_adaptation.create,
+        self.adapt = async_to_raw_response_wrapper(
+            prompt_adaptation.adapt,
         )
         self.get_adapt_results = async_to_raw_response_wrapper(
             prompt_adaptation.get_adapt_results,
@@ -798,8 +798,8 @@ class PromptAdaptationResourceWithStreamingResponse:
     def __init__(self, prompt_adaptation: PromptAdaptationResource) -> None:
         self._prompt_adaptation = prompt_adaptation
 
-        self.create = to_streamed_response_wrapper(
-            prompt_adaptation.create,
+        self.adapt = to_streamed_response_wrapper(
+            prompt_adaptation.adapt,
         )
         self.get_adapt_results = to_streamed_response_wrapper(
             prompt_adaptation.get_adapt_results,
@@ -816,8 +816,8 @@ class AsyncPromptAdaptationResourceWithStreamingResponse:
     def __init__(self, prompt_adaptation: AsyncPromptAdaptationResource) -> None:
         self._prompt_adaptation = prompt_adaptation
 
-        self.create = async_to_streamed_response_wrapper(
-            prompt_adaptation.create,
+        self.adapt = async_to_streamed_response_wrapper(
+            prompt_adaptation.adapt,
         )
         self.get_adapt_results = async_to_streamed_response_wrapper(
             prompt_adaptation.get_adapt_results,
