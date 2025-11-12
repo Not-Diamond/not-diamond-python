@@ -6,7 +6,7 @@ from typing import Mapping, Optional, cast
 
 import httpx
 
-from ..types import pzn_train_custom_router_params
+from ..types import custom_router_train_custom_router_params
 from .._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
 from .._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .._compat import cached_property
@@ -18,30 +18,30 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.pzn_train_custom_router_response import PznTrainCustomRouterResponse
+from ..types.custom_router_train_custom_router_response import CustomRouterTrainCustomRouterResponse
 
-__all__ = ["PznResource", "AsyncPznResource"]
+__all__ = ["CustomRouterResource", "AsyncCustomRouterResource"]
 
 
-class PznResource(SyncAPIResource):
+class CustomRouterResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> PznResourceWithRawResponse:
+    def with_raw_response(self) -> CustomRouterResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#accessing-raw-response-data-eg-headers
         """
-        return PznResourceWithRawResponse(self)
+        return CustomRouterResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> PznResourceWithStreamingResponse:
+    def with_streaming_response(self) -> CustomRouterResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
         """
-        return PznResourceWithStreamingResponse(self)
+        return CustomRouterResourceWithStreamingResponse(self)
 
     def train_custom_router(
         self,
@@ -59,7 +59,7 @@ class PznResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PznTrainCustomRouterResponse:
+    ) -> CustomRouterTrainCustomRouterResponse:
         """
         Train a custom router on your evaluation data to optimize routing for your
         specific use case.
@@ -165,34 +165,34 @@ class PznResource(SyncAPIResource):
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/v2/pzn/trainCustomRouter",
-            body=maybe_transform(body, pzn_train_custom_router_params.PznTrainCustomRouterParams),
+            body=maybe_transform(body, custom_router_train_custom_router_params.CustomRouterTrainCustomRouterParams),
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PznTrainCustomRouterResponse,
+            cast_to=CustomRouterTrainCustomRouterResponse,
         )
 
 
-class AsyncPznResource(AsyncAPIResource):
+class AsyncCustomRouterResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncPznResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncCustomRouterResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncPznResourceWithRawResponse(self)
+        return AsyncCustomRouterResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncPznResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncCustomRouterResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
         """
-        return AsyncPznResourceWithStreamingResponse(self)
+        return AsyncCustomRouterResourceWithStreamingResponse(self)
 
     async def train_custom_router(
         self,
@@ -210,7 +210,7 @@ class AsyncPznResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PznTrainCustomRouterResponse:
+    ) -> CustomRouterTrainCustomRouterResponse:
         """
         Train a custom router on your evaluation data to optimize routing for your
         specific use case.
@@ -316,46 +316,48 @@ class AsyncPznResource(AsyncAPIResource):
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/v2/pzn/trainCustomRouter",
-            body=await async_maybe_transform(body, pzn_train_custom_router_params.PznTrainCustomRouterParams),
+            body=await async_maybe_transform(
+                body, custom_router_train_custom_router_params.CustomRouterTrainCustomRouterParams
+            ),
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PznTrainCustomRouterResponse,
+            cast_to=CustomRouterTrainCustomRouterResponse,
         )
 
 
-class PznResourceWithRawResponse:
-    def __init__(self, pzn: PznResource) -> None:
-        self._pzn = pzn
+class CustomRouterResourceWithRawResponse:
+    def __init__(self, custom_router: CustomRouterResource) -> None:
+        self._custom_router = custom_router
 
         self.train_custom_router = to_raw_response_wrapper(
-            pzn.train_custom_router,
+            custom_router.train_custom_router,
         )
 
 
-class AsyncPznResourceWithRawResponse:
-    def __init__(self, pzn: AsyncPznResource) -> None:
-        self._pzn = pzn
+class AsyncCustomRouterResourceWithRawResponse:
+    def __init__(self, custom_router: AsyncCustomRouterResource) -> None:
+        self._custom_router = custom_router
 
         self.train_custom_router = async_to_raw_response_wrapper(
-            pzn.train_custom_router,
+            custom_router.train_custom_router,
         )
 
 
-class PznResourceWithStreamingResponse:
-    def __init__(self, pzn: PznResource) -> None:
-        self._pzn = pzn
+class CustomRouterResourceWithStreamingResponse:
+    def __init__(self, custom_router: CustomRouterResource) -> None:
+        self._custom_router = custom_router
 
         self.train_custom_router = to_streamed_response_wrapper(
-            pzn.train_custom_router,
+            custom_router.train_custom_router,
         )
 
 
-class AsyncPznResourceWithStreamingResponse:
-    def __init__(self, pzn: AsyncPznResource) -> None:
-        self._pzn = pzn
+class AsyncCustomRouterResourceWithStreamingResponse:
+    def __init__(self, custom_router: AsyncCustomRouterResource) -> None:
+        self._custom_router = custom_router
 
         self.train_custom_router = async_to_streamed_response_wrapper(
-            pzn.train_custom_router,
+            custom_router.train_custom_router,
         )

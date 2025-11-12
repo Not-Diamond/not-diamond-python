@@ -5,14 +5,14 @@ from __future__ import annotations
 from typing import Iterable, Optional
 from typing_extensions import Required, TypedDict
 
-from ..._types import SequenceNotStr
+from .._types import SequenceNotStr
 from .golden_record_param import GoldenRecordParam
 from .request_provider_param import RequestProviderParam
 
-__all__ = ["AdaptCreateParams"]
+__all__ = ["PromptAdaptationCreateParams"]
 
 
-class AdaptCreateParams(TypedDict, total=False):
+class PromptAdaptationCreateParams(TypedDict, total=False):
     fields: Required[SequenceNotStr[str]]
     """List of field names that will be substituted into the template.
 

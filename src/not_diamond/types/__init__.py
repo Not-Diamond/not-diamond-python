@@ -5,13 +5,26 @@ from __future__ import annotations
 from .model import Model as Model
 from .job_status import JobStatus as JobStatus
 from .model_list_params import ModelListParams as ModelListParams
+from .golden_record_param import GoldenRecordParam as GoldenRecordParam
 from .model_list_response import ModelListResponse as ModelListResponse
+from .request_provider_param import RequestProviderParam as RequestProviderParam
 from .preference_create_params import PreferenceCreateParams as PreferenceCreateParams
 from .preference_update_params import PreferenceUpdateParams as PreferenceUpdateParams
 from .preference_create_response import PreferenceCreateResponse as PreferenceCreateResponse
-from .pzn_train_custom_router_params import PznTrainCustomRouterParams as PznTrainCustomRouterParams
+from .prompt_adaptation_create_params import PromptAdaptationCreateParams as PromptAdaptationCreateParams
 from .model_router_select_model_params import ModelRouterSelectModelParams as ModelRouterSelectModelParams
-from .prompt_get_adapt_status_response import PromptGetAdaptStatusResponse as PromptGetAdaptStatusResponse
-from .pzn_train_custom_router_response import PznTrainCustomRouterResponse as PznTrainCustomRouterResponse
-from .prompt_get_adapt_results_response import PromptGetAdaptResultsResponse as PromptGetAdaptResultsResponse
+from .prompt_adaptation_create_response import PromptAdaptationCreateResponse as PromptAdaptationCreateResponse
 from .model_router_select_model_response import ModelRouterSelectModelResponse as ModelRouterSelectModelResponse
+from .prompt_adaptation_get_costs_response import PromptAdaptationGetCostsResponse as PromptAdaptationGetCostsResponse
+from .custom_router_train_custom_router_params import (
+    CustomRouterTrainCustomRouterParams as CustomRouterTrainCustomRouterParams,
+)
+from .custom_router_train_custom_router_response import (
+    CustomRouterTrainCustomRouterResponse as CustomRouterTrainCustomRouterResponse,
+)
+from .prompt_adaptation_get_adapt_status_response import (
+    PromptAdaptationGetAdaptStatusResponse as PromptAdaptationGetAdaptStatusResponse,
+)
+from .prompt_adaptation_get_adapt_results_response import (
+    PromptAdaptationGetAdaptResultsResponse as PromptAdaptationGetAdaptResultsResponse,
+)

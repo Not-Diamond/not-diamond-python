@@ -18,11 +18,11 @@ __all__ = [
 ]
 
 
-class NotDiamondError(Exception):
+class NotdiamondError(Exception):
     pass
 
 
-class APIError(NotDiamondError):
+class APIError(NotdiamondError):
     message: str
     request: httpx.Request
 

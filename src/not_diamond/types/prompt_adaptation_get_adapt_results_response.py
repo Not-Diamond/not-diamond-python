@@ -8,7 +8,7 @@ from pydantic import Field as FieldInfo
 from .._models import BaseModel
 from .job_status import JobStatus
 
-__all__ = ["PromptGetAdaptResultsResponse", "TargetModel", "OriginModel"]
+__all__ = ["PromptAdaptationGetAdaptResultsResponse", "TargetModel", "OriginModel"]
 
 
 class TargetModel(BaseModel):
@@ -89,7 +89,7 @@ class OriginModel(BaseModel):
     """Original user message template used for the origin model"""
 
 
-class PromptGetAdaptResultsResponse(BaseModel):
+class PromptAdaptationGetAdaptResultsResponse(BaseModel):
     id: str
     """Unique ID for this adaptation run"""
 

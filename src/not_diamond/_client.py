@@ -21,15 +21,14 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import pzn, models, preferences, model_router
+from .resources import models, preferences, model_router, custom_router, prompt_adaptation
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import APIStatusError, NotDiamondError
+from ._exceptions import APIStatusError, NotdiamondError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.prompt import prompt
 from .resources.report import report
 
 __all__ = [
@@ -37,22 +36,22 @@ __all__ = [
     "Transport",
     "ProxiesTypes",
     "RequestOptions",
-    "NotDiamond",
-    "AsyncNotDiamond",
+    "Notdiamond",
+    "AsyncNotdiamond",
     "Client",
     "AsyncClient",
 ]
 
 
-class NotDiamond(SyncAPIClient):
+class Notdiamond(SyncAPIClient):
     model_router: model_router.ModelRouterResource
     report: report.ReportResource
     preferences: preferences.PreferencesResource
-    prompt: prompt.PromptResource
-    pzn: pzn.PznResource
+    prompt_adaptation: prompt_adaptation.PromptAdaptationResource
+    custom_router: custom_router.CustomRouterResource
     models: models.ModelsResource
-    with_raw_response: NotDiamondWithRawResponse
-    with_streaming_response: NotDiamondWithStreamedResponse
+    with_raw_response: NotdiamondWithRawResponse
+    with_streaming_response: NotdiamondWithStreamedResponse
 
     # client options
     api_key: str
@@ -80,20 +79,20 @@ class NotDiamond(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous NotDiamond client instance.
+        """Construct a new synchronous Notdiamond client instance.
 
         This automatically infers the `api_key` argument from the `NOT_DIAMOND_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
             api_key = os.environ.get("NOT_DIAMOND_API_KEY")
         if api_key is None:
-            raise NotDiamondError(
+            raise NotdiamondError(
                 "The api_key client option must be set either by passing api_key to the client or by setting the NOT_DIAMOND_API_KEY environment variable"
             )
         self.api_key = api_key
 
         if base_url is None:
-            base_url = os.environ.get("NOT_DIAMOND_BASE_URL")
+            base_url = os.environ.get("NOTDIAMOND_BASE_URL")
         if base_url is None:
             base_url = f"https://api.notdiamond.ai"
 
@@ -111,11 +110,11 @@ class NotDiamond(SyncAPIClient):
         self.model_router = model_router.ModelRouterResource(self)
         self.report = report.ReportResource(self)
         self.preferences = preferences.PreferencesResource(self)
-        self.prompt = prompt.PromptResource(self)
-        self.pzn = pzn.PznResource(self)
+        self.prompt_adaptation = prompt_adaptation.PromptAdaptationResource(self)
+        self.custom_router = custom_router.CustomRouterResource(self)
         self.models = models.ModelsResource(self)
-        self.with_raw_response = NotDiamondWithRawResponse(self)
-        self.with_streaming_response = NotDiamondWithStreamedResponse(self)
+        self.with_raw_response = NotdiamondWithRawResponse(self)
+        self.with_streaming_response = NotdiamondWithStreamedResponse(self)
 
     @property
     @override
@@ -222,15 +221,15 @@ class NotDiamond(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncNotDiamond(AsyncAPIClient):
+class AsyncNotdiamond(AsyncAPIClient):
     model_router: model_router.AsyncModelRouterResource
     report: report.AsyncReportResource
     preferences: preferences.AsyncPreferencesResource
-    prompt: prompt.AsyncPromptResource
-    pzn: pzn.AsyncPznResource
+    prompt_adaptation: prompt_adaptation.AsyncPromptAdaptationResource
+    custom_router: custom_router.AsyncCustomRouterResource
     models: models.AsyncModelsResource
-    with_raw_response: AsyncNotDiamondWithRawResponse
-    with_streaming_response: AsyncNotDiamondWithStreamedResponse
+    with_raw_response: AsyncNotdiamondWithRawResponse
+    with_streaming_response: AsyncNotdiamondWithStreamedResponse
 
     # client options
     api_key: str
@@ -258,20 +257,20 @@ class AsyncNotDiamond(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncNotDiamond client instance.
+        """Construct a new async AsyncNotdiamond client instance.
 
         This automatically infers the `api_key` argument from the `NOT_DIAMOND_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
             api_key = os.environ.get("NOT_DIAMOND_API_KEY")
         if api_key is None:
-            raise NotDiamondError(
+            raise NotdiamondError(
                 "The api_key client option must be set either by passing api_key to the client or by setting the NOT_DIAMOND_API_KEY environment variable"
             )
         self.api_key = api_key
 
         if base_url is None:
-            base_url = os.environ.get("NOT_DIAMOND_BASE_URL")
+            base_url = os.environ.get("NOTDIAMOND_BASE_URL")
         if base_url is None:
             base_url = f"https://api.notdiamond.ai"
 
@@ -289,11 +288,11 @@ class AsyncNotDiamond(AsyncAPIClient):
         self.model_router = model_router.AsyncModelRouterResource(self)
         self.report = report.AsyncReportResource(self)
         self.preferences = preferences.AsyncPreferencesResource(self)
-        self.prompt = prompt.AsyncPromptResource(self)
-        self.pzn = pzn.AsyncPznResource(self)
+        self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResource(self)
+        self.custom_router = custom_router.AsyncCustomRouterResource(self)
         self.models = models.AsyncModelsResource(self)
-        self.with_raw_response = AsyncNotDiamondWithRawResponse(self)
-        self.with_streaming_response = AsyncNotDiamondWithStreamedResponse(self)
+        self.with_raw_response = AsyncNotdiamondWithRawResponse(self)
+        self.with_streaming_response = AsyncNotdiamondWithStreamedResponse(self)
 
     @property
     @override
@@ -400,46 +399,52 @@ class AsyncNotDiamond(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class NotDiamondWithRawResponse:
-    def __init__(self, client: NotDiamond) -> None:
+class NotdiamondWithRawResponse:
+    def __init__(self, client: Notdiamond) -> None:
         self.model_router = model_router.ModelRouterResourceWithRawResponse(client.model_router)
         self.report = report.ReportResourceWithRawResponse(client.report)
         self.preferences = preferences.PreferencesResourceWithRawResponse(client.preferences)
-        self.prompt = prompt.PromptResourceWithRawResponse(client.prompt)
-        self.pzn = pzn.PznResourceWithRawResponse(client.pzn)
+        self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithRawResponse(client.prompt_adaptation)
+        self.custom_router = custom_router.CustomRouterResourceWithRawResponse(client.custom_router)
         self.models = models.ModelsResourceWithRawResponse(client.models)
 
 
-class AsyncNotDiamondWithRawResponse:
-    def __init__(self, client: AsyncNotDiamond) -> None:
+class AsyncNotdiamondWithRawResponse:
+    def __init__(self, client: AsyncNotdiamond) -> None:
         self.model_router = model_router.AsyncModelRouterResourceWithRawResponse(client.model_router)
         self.report = report.AsyncReportResourceWithRawResponse(client.report)
         self.preferences = preferences.AsyncPreferencesResourceWithRawResponse(client.preferences)
-        self.prompt = prompt.AsyncPromptResourceWithRawResponse(client.prompt)
-        self.pzn = pzn.AsyncPznResourceWithRawResponse(client.pzn)
+        self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithRawResponse(
+            client.prompt_adaptation
+        )
+        self.custom_router = custom_router.AsyncCustomRouterResourceWithRawResponse(client.custom_router)
         self.models = models.AsyncModelsResourceWithRawResponse(client.models)
 
 
-class NotDiamondWithStreamedResponse:
-    def __init__(self, client: NotDiamond) -> None:
+class NotdiamondWithStreamedResponse:
+    def __init__(self, client: Notdiamond) -> None:
         self.model_router = model_router.ModelRouterResourceWithStreamingResponse(client.model_router)
         self.report = report.ReportResourceWithStreamingResponse(client.report)
         self.preferences = preferences.PreferencesResourceWithStreamingResponse(client.preferences)
-        self.prompt = prompt.PromptResourceWithStreamingResponse(client.prompt)
-        self.pzn = pzn.PznResourceWithStreamingResponse(client.pzn)
+        self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithStreamingResponse(
+            client.prompt_adaptation
+        )
+        self.custom_router = custom_router.CustomRouterResourceWithStreamingResponse(client.custom_router)
         self.models = models.ModelsResourceWithStreamingResponse(client.models)
 
 
-class AsyncNotDiamondWithStreamedResponse:
-    def __init__(self, client: AsyncNotDiamond) -> None:
+class AsyncNotdiamondWithStreamedResponse:
+    def __init__(self, client: AsyncNotdiamond) -> None:
         self.model_router = model_router.AsyncModelRouterResourceWithStreamingResponse(client.model_router)
         self.report = report.AsyncReportResourceWithStreamingResponse(client.report)
         self.preferences = preferences.AsyncPreferencesResourceWithStreamingResponse(client.preferences)
-        self.prompt = prompt.AsyncPromptResourceWithStreamingResponse(client.prompt)
-        self.pzn = pzn.AsyncPznResourceWithStreamingResponse(client.pzn)
+        self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithStreamingResponse(
+            client.prompt_adaptation
+        )
+        self.custom_router = custom_router.AsyncCustomRouterResourceWithStreamingResponse(client.custom_router)
         self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
 
 
-Client = NotDiamond
+Client = Notdiamond
 
-AsyncClient = AsyncNotDiamond
+AsyncClient = AsyncNotdiamond

@@ -1,13 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .pzn import (
-    PznResource,
-    AsyncPznResource,
-    PznResourceWithRawResponse,
-    AsyncPznResourceWithRawResponse,
-    PznResourceWithStreamingResponse,
-    AsyncPznResourceWithStreamingResponse,
-)
 from .models import (
     ModelsResource,
     AsyncModelsResource,
@@ -15,14 +7,6 @@ from .models import (
     AsyncModelsResourceWithRawResponse,
     ModelsResourceWithStreamingResponse,
     AsyncModelsResourceWithStreamingResponse,
-)
-from .prompt import (
-    PromptResource,
-    AsyncPromptResource,
-    PromptResourceWithRawResponse,
-    AsyncPromptResourceWithRawResponse,
-    PromptResourceWithStreamingResponse,
-    AsyncPromptResourceWithStreamingResponse,
 )
 from .report import (
     ReportResource,
@@ -48,6 +32,22 @@ from .model_router import (
     ModelRouterResourceWithStreamingResponse,
     AsyncModelRouterResourceWithStreamingResponse,
 )
+from .custom_router import (
+    CustomRouterResource,
+    AsyncCustomRouterResource,
+    CustomRouterResourceWithRawResponse,
+    AsyncCustomRouterResourceWithRawResponse,
+    CustomRouterResourceWithStreamingResponse,
+    AsyncCustomRouterResourceWithStreamingResponse,
+)
+from .prompt_adaptation import (
+    PromptAdaptationResource,
+    AsyncPromptAdaptationResource,
+    PromptAdaptationResourceWithRawResponse,
+    AsyncPromptAdaptationResourceWithRawResponse,
+    PromptAdaptationResourceWithStreamingResponse,
+    AsyncPromptAdaptationResourceWithStreamingResponse,
+)
 
 __all__ = [
     "ModelRouterResource",
@@ -68,18 +68,18 @@ __all__ = [
     "AsyncPreferencesResourceWithRawResponse",
     "PreferencesResourceWithStreamingResponse",
     "AsyncPreferencesResourceWithStreamingResponse",
-    "PromptResource",
-    "AsyncPromptResource",
-    "PromptResourceWithRawResponse",
-    "AsyncPromptResourceWithRawResponse",
-    "PromptResourceWithStreamingResponse",
-    "AsyncPromptResourceWithStreamingResponse",
-    "PznResource",
-    "AsyncPznResource",
-    "PznResourceWithRawResponse",
-    "AsyncPznResourceWithRawResponse",
-    "PznResourceWithStreamingResponse",
-    "AsyncPznResourceWithStreamingResponse",
+    "PromptAdaptationResource",
+    "AsyncPromptAdaptationResource",
+    "PromptAdaptationResourceWithRawResponse",
+    "AsyncPromptAdaptationResourceWithRawResponse",
+    "PromptAdaptationResourceWithStreamingResponse",
+    "AsyncPromptAdaptationResourceWithStreamingResponse",
+    "CustomRouterResource",
+    "AsyncCustomRouterResource",
+    "CustomRouterResourceWithRawResponse",
+    "AsyncCustomRouterResourceWithRawResponse",
+    "CustomRouterResourceWithStreamingResponse",
+    "AsyncCustomRouterResourceWithStreamingResponse",
     "ModelsResource",
     "AsyncModelsResource",
     "ModelsResourceWithRawResponse",

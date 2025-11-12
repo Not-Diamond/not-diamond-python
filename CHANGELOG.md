@@ -1,5 +1,60 @@
 # Changelog
 
+## 1.0.0-rc12 (2025-11-12)
+
+Full Changelog: [v1.0.0-rc11...v1.0.0-rc12](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc11...v1.0.0-rc12)
+
+### Bug Fixes
+
+* **compat:** update signatures of `model_dump` and `model_dump_json` for Pydantic v1 ([1417077](https://github.com/Not-Diamond/not-diamond-python/commit/14170771cd8e66d2aab39bd5b866dfd081eb45f0))
+
+
+### Chores
+
+* **internal:** codegen related update ([b26fdeb](https://github.com/Not-Diamond/not-diamond-python/commit/b26fdeb30acc5c5b4e26ae1d1dd76dbee69ca09b))
+
+## 1.0.0-rc11 (2025-11-11)
+
+Full Changelog: [v1.0.0-rc10...v1.0.0-rc11](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc10...v1.0.0-rc11)
+
+### Features
+
+* **api:** changed name ([a5fbbc6](https://github.com/Not-Diamond/not-diamond-python/commit/a5fbbc6174cd362389bd1e3848f2b870bdf37837))
+
+
+### Bug Fixes
+
+* compat with Python 3.14 ([566b7bf](https://github.com/Not-Diamond/not-diamond-python/commit/566b7bf3583a41330dc9ada230e343fc852dd7ad))
+
+
+### Chores
+
+* **package:** drop Python 3.8 support ([8f6e2eb](https://github.com/Not-Diamond/not-diamond-python/commit/8f6e2eb71d0523fa1d7b6bb39c30ffbbc95363cf))
+
+## 1.0.0-rc10 (2025-11-10)
+
+Full Changelog: [v1.0.0-rc9...v1.0.0-rc10](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc9...v1.0.0-rc10)
+
+### Features
+
+* **api:** manual updates ([3b34f4f](https://github.com/Not-Diamond/not-diamond-python/commit/3b34f4fb9f5ed2281a5672179f759f7eccb41dc0))
+
+## 1.0.0-rc9 (2025-11-10)
+
+Full Changelog: [v1.0.0-rc8...v1.0.0-rc9](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc8...v1.0.0-rc9)
+
+### Features
+
+* **api:** manual updates ([50911a0](https://github.com/Not-Diamond/not-diamond-python/commit/50911a023f29a7017ec810e55ee55209c5dbdacc))
+
+## 1.0.0-rc8 (2025-11-10)
+
+Full Changelog: [v1.0.0-rc7...v1.0.0-rc8](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc7...v1.0.0-rc8)
+
+### Features
+
+* **api:** manual updates ([1d846ce](https://github.com/Not-Diamond/not-diamond-python/commit/1d846ce29e4e8688e82bd64d500d3752af77d6de))
+
 ## 1.0.0-rc7 (2025-11-07)
 
 Full Changelog: [v1.0.0-rc6...v1.0.0-rc7](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc6...v1.0.0-rc7)
