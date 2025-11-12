@@ -165,7 +165,9 @@ For even better performance, you can train a custom router on your own dataset. 
 from pathlib import Path
 from not_diamond import NotDiamond
 
-client = NotDiamond()
+client = NotDiamond(
+    api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
+)
 
 client.pzn.train_custom_router(
     dataset_file=Path("/path/to/file"),
