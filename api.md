@@ -47,7 +47,7 @@ from not_diamond.types import (
     GoldenRecord,
     JobStatus,
     RequestProvider,
-    PromptAdaptationCreateResponse,
+    PromptAdaptationAdaptResponse,
     PromptAdaptationGetAdaptResultsResponse,
     PromptAdaptationGetAdaptStatusResponse,
     PromptAdaptationGetCostsResponse,
@@ -56,7 +56,7 @@ from not_diamond.types import (
 
 Methods:
 
-- <code title="post /v2/prompt/adapt">client.prompt_adaptation.<a href="./src/not_diamond/resources/prompt_adaptation.py">create</a>(\*\*<a href="src/not_diamond/types/prompt_adaptation_create_params.py">params</a>) -> <a href="./src/not_diamond/types/prompt_adaptation_create_response.py">PromptAdaptationCreateResponse</a></code>
+- <code title="post /v2/prompt/adapt">client.prompt_adaptation.<a href="./src/not_diamond/resources/prompt_adaptation.py">adapt</a>(\*\*<a href="src/not_diamond/types/prompt_adaptation_adapt_params.py">params</a>) -> <a href="./src/not_diamond/types/prompt_adaptation_adapt_response.py">PromptAdaptationAdaptResponse</a></code>
 - <code title="get /v2/prompt/adaptResults/{adaptation_run_id}">client.prompt_adaptation.<a href="./src/not_diamond/resources/prompt_adaptation.py">get_adapt_results</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_adaptation_get_adapt_results_response.py">PromptAdaptationGetAdaptResultsResponse</a></code>
 - <code title="get /v2/prompt/adaptStatus/{adaptation_run_id}">client.prompt_adaptation.<a href="./src/not_diamond/resources/prompt_adaptation.py">get_adapt_status</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_adaptation_get_adapt_status_response.py">PromptAdaptationGetAdaptStatusResponse</a></code>
 - <code title="get /v2/prompt/adapt/{adaptation_run_id}/costs">client.prompt_adaptation.<a href="./src/not_diamond/resources/prompt_adaptation.py">get_costs</a>(adaptation_run_id) -> <a href="./src/not_diamond/types/prompt_adaptation_get_costs_response.py">PromptAdaptationGetCostsResponse</a></code>

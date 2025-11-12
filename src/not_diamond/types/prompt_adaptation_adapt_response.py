@@ -2,10 +2,10 @@
 
 from .._models import BaseModel
 
-__all__ = ["PromptAdaptationCreateResponse"]
+__all__ = ["PromptAdaptationAdaptResponse"]
 
 
-class PromptAdaptationCreateResponse(BaseModel):
+class PromptAdaptationAdaptResponse(BaseModel):
     adaptation_run_id: str
     """Unique identifier for this adaptation run.
 
