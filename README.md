@@ -32,11 +32,6 @@ pip install --pre notdiamond
 
 ## Usage
 
-
-### Prompt Adaptation
-
-Automatically optimize your prompts to work better across different language models. Each model has unique characteristics and preferences - what works well for GPT-4 might not work as well for Claude or Gemini. Prompt Adaptation helps you get optimal performance from each model.
-
 #### Quick Start
 
 ```python
@@ -141,6 +136,13 @@ For more details, see the [Prompt Adaptation documentation](https://docs.notdiam
 Not Diamond also provides intelligent model routing to select the best model for your query:
 
 ```python
+import os
+from not_diamond import NotDiamond
+
+client = NotDiamond(
+    api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
+)
+
 response = client.model_router.select_model(
     llm_providers=[
         {"model": "gpt-4o", "provider": "openai"},
@@ -153,6 +155,27 @@ response = client.model_router.select_model(
     ],
 )
 print(response.providers)
+```
+
+### Train Custom Router
+
+For even better performance, you can train a custom router on your own dataset. This allows the router to learn the specific patterns and preferences of your use case:
+
+```python
+from pathlib import Path
+from not_diamond import NotDiamond
+
+client = NotDiamond(
+    api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
+)
+
+client.pzn.train_custom_router(
+    dataset_file=Path("/path/to/file"),
+    language="english",
+    llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
+    maximize=True,
+    prompt_column="prompt",
+)
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -316,27 +339,6 @@ response = client.prompt.adapt.create(
 )
 print(response.adaptation_run_id)
 ```
-
-## File uploads
-
-Request parameters that correspond to file uploads can be passed as `bytes`, or a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance or a tuple of `(filename, contents, media type)`.
-
-```python
-from pathlib import Path
-from not_diamond import Notdiamond
-
-client = Notdiamond()
-
-client.custom_router.train_custom_router(
-    dataset_file=Path("/path/to/file"),
-    language="english",
-    llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
-    maximize=True,
-    prompt_column="prompt",
-)
-```
-
-The async client uses the exact same interface. If you pass a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance, the file contents will be read asynchronously automatically.
 
 ## Handling errors
 
