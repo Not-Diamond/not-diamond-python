@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.0-rc12 (2025-11-12)
+
+Full Changelog: [v1.0.0-rc11...v1.0.0-rc12](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc11...v1.0.0-rc12)
+
+### Bug Fixes
+
+* **compat:** update signatures of `model_dump` and `model_dump_json` for Pydantic v1 ([1417077](https://github.com/Not-Diamond/not-diamond-python/commit/14170771cd8e66d2aab39bd5b866dfd081eb45f0))
+
+
+### Chores
+
+* **internal:** codegen related update ([b26fdeb](https://github.com/Not-Diamond/not-diamond-python/commit/b26fdeb30acc5c5b4e26ae1d1dd76dbee69ca09b))
+
 ## 1.0.0-rc11 (2025-11-11)
 
 Full Changelog: [v1.0.0-rc10...v1.0.0-rc11](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc10...v1.0.0-rc11)
