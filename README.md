@@ -9,15 +9,14 @@ and offers both synchronous and asynchronous clients powered by [httpx](https://
 
 ## What is Prompt Adaptation?
 
-Not Diamond specializes in **Prompt Adaptation** - automatically optimizing your prompts to work optimally across different LLMs. Each language model has unique characteristics, instruction-following patterns, and preferred prompt formats. A prompt that works perfectly for GPT-4 might perform poorly on Claude or Gemini.
+Not Diamond specializes in **Prompt Adaptation** - automatically optimizing your prompts to work optimally across different LLMs. Each language model has unique characteristics, instruction-following patterns, and preferred prompt formats. A prompt that works perfectly for GPT-5 might perform poorly on Claude or Gemini.
+Manually rewriting prompts for each model is time-consuming and requires deep expertise in each model's quirks.
 
-**The Problem**: Manually rewriting prompts for each model is time-consuming and requires deep expertise in each model's quirks.
-
-**The Solution**: Not Diamond automatically adapts your prompts through:
-- Systematic optimization using your evaluation dataset
-- Automated testing across target models
-- Performance metrics to validate improvements
-- Both system prompt and user message template optimization
+**The Solution**: Not Diamond automatically adapts your prompts with:
+- Automatic optimization of both system and user prompts
+- Built-in evaluation metrics
+- Minimum 25 training examples recommended
+- Processing time: typically 10–30 minutes
 
 ## Documentation
 
@@ -37,7 +36,7 @@ pip install --pre notdiamond
 ```python
 import os
 import time
-from not_diamond import Notdiamond
+from notdiamond import Notdiamond
 
 client = Notdiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
@@ -105,39 +104,15 @@ if status.status == "completed":
         print(f"Cost: ${target.cost:.4f}")
 ```
 
-#### Key Features
-
-- **Automatic Optimization**: Adapts both system prompts and user message templates
-- **Evaluation Metrics**: Choose from standard metrics (semantic similarity, JSON matching, SQL) or provide custom evaluation
-- **Dataset Requirements**: Minimum 25 training examples (more examples = better results)
-- **Processing Time**: Typically 10-30 minutes depending on dataset size and number of target models
-- **Subscription Tiers**: Support for 1-10 target models depending on your plan
-
-#### Evaluation Metrics
-
-Choose from standard metrics:
-- `LLMaaJ:Sem_Sim_1`, `LLMaaJ:Sem_Sim_3`, `LLMaaJ:Sem_Sim_10` - Semantic similarity
-- `LLMaaJ:SQL` - SQL query validation
-- `JSON_Match` - JSON structure matching
-
-Or provide custom evaluation configuration with your own LLM judge.
-
-#### Best Practices
-
-1. **Use Representative Examples**: Include diverse examples from your production workload
-2. **Sufficient Dataset Size**: Use at least 25 training examples (50+ recommended)
-3. **Train/Test Split**: Separate train_goldens and test_goldens for proper validation
-4. **A/B Test Results**: Validate optimized prompts in production before full deployment
-
 For more details, see the [Prompt Adaptation documentation](https://docs.notdiamond.ai/docs/adapting-prompts-to-new-models).
 
 ### Model Routing
 
-Not Diamond also provides intelligent model routing to select the best model for your query:
+Select the best model automatically:
 
 ```python
 import os
-from not_diamond import NotDiamond
+from notdiamond import NotDiamond
 
 client = NotDiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
@@ -163,7 +138,7 @@ For even better performance, you can train a custom router on your own dataset. 
 
 ```python
 from pathlib import Path
-from not_diamond import NotDiamond
+from notdiamond import NotDiamond
 
 client = NotDiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
@@ -178,11 +153,6 @@ client.pzn.train_custom_router(
 )
 ```
 
-While you can provide an `api_key` keyword argument,
-we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `NOT_DIAMOND_API_KEY="My API Key"` to your `.env` file
-so that your API Key is not stored in source control.
-
 ## Async usage
 
 Simply import `AsyncNotdiamond` instead of `Notdiamond` and use `await` with each API call:
@@ -190,7 +160,7 @@ Simply import `AsyncNotdiamond` instead of `Notdiamond` and use `await` with eac
 ```python
 import os
 import asyncio
-from not_diamond import AsyncNotdiamond
+from notdiamond import AsyncNotdiamond
 
 client = AsyncNotdiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
@@ -251,8 +221,8 @@ Then you can enable it by instantiating the client with `http_client=DefaultAioH
 
 ```python
 import asyncio
-from not_diamond import DefaultAioHttpClient
-from not_diamond import AsyncNotdiamond
+from notdiamond import DefaultAioHttpClient
+from notdiamond import AsyncNotdiamond
 
 
 async def main() -> None:
@@ -303,7 +273,7 @@ Typed requests and responses provide autocomplete and documentation within your 
 Nested parameters are dictionaries, typed using `TypedDict`, for example:
 
 ```python
-from not_diamond import Notdiamond
+from notdiamond import Notdiamond
 
 client = Notdiamond()
 
@@ -342,16 +312,16 @@ print(response.adaptation_run_id)
 
 ## Handling errors
 
-When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `not_diamond.APIConnectionError` is raised.
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `notdiamond.APIConnectionError` is raised.
 
 When the API returns a non-success status code (that is, 4xx or 5xx
-response), a subclass of `not_diamond.APIStatusError` is raised, containing `status_code` and `response` properties.
+response), a subclass of `notdiamond.APIStatusError` is raised, containing `status_code` and `response` properties.
 
-All errors inherit from `not_diamond.APIError`.
+All errors inherit from `notdiamond.APIError`.
 
 ```python
-import not_diamond
-from not_diamond import Notdiamond
+import notdiamond
+from notdiamond import Notdiamond
 
 client = Notdiamond()
 
@@ -378,12 +348,12 @@ try:
             {"fields": {"question": "What is 3*3?"}, "answer": "9"},
         ],
     )
-except not_diamond.APIConnectionError as e:
+except notdiamond.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
-except not_diamond.RateLimitError as e:
+except notdiamond.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
-except not_diamond.APIStatusError as e:
+except notdiamond.APIStatusError as e:
     print("Another non-200-range status code was received")
     print(e.status_code)
     print(e.response)
@@ -402,55 +372,13 @@ Error codes are as follows:
 | >=500       | `InternalServerError`      |
 | N/A         | `APIConnectionError`       |
 
-### Retries
-
-Certain errors are automatically retried 2 times by default, with a short exponential backoff.
-Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,
-429 Rate Limit, and >=500 Internal errors are all retried by default.
-
-You can use the `max_retries` option to configure or disable retry settings:
-
-```python
-from not_diamond import Notdiamond
-
-# Configure the default for all requests:
-client = Notdiamond(
-    # default is 2
-    max_retries=0,
-)
-
-# Or, configure per-request:
-client.with_options(max_retries=5).prompt.adapt.create(
-    fields=["question"],
-    system_prompt="You are a helpful assistant.",
-    target_models=[
-        {
-            "model": "claude-sonnet-4-5-20250929",
-            "provider": "anthropic",
-        },
-        {
-            "model": "gemini-2.5-flash",
-            "provider": "google",
-        },
-    ],
-    template="Question: {question}\nAnswer:",
-    train_goldens=[
-        {"fields": {"question": "What is 2+2?"}, "answer": "4"},
-        # Add at least 25 examples...
-    ],
-    test_goldens=[
-        {"fields": {"question": "What is 3*3?"}, "answer": "9"},
-    ],
-)
-```
-
 ### Timeouts
 
 By default requests time out after 1 minute. You can configure this with a `timeout` option,
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
-from not_diamond import Notdiamond
+from notdiamond import Notdiamond
 
 # Configure the default for all requests:
 client = Notdiamond(
@@ -504,7 +432,7 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from not_diamond import Notdiamond
+from notdiamond import Notdiamond
 
 client = Notdiamond()
 response = client.prompt.adapt.with_raw_response.create(
@@ -620,7 +548,7 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from not_diamond import Notdiamond, DefaultHttpxClient
+from notdiamond import Notdiamond, DefaultHttpxClient
 
 client = Notdiamond(
     # Or use the `NOTDIAMOND_BASE_URL` env var
@@ -643,7 +571,7 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from not_diamond import Notdiamond
+from notdiamond import Notdiamond
 
 with Notdiamond() as client:
   # make requests here
@@ -671,8 +599,8 @@ If you've upgraded to the latest version but aren't seeing any new features you 
 You can determine the version that is being used at runtime with:
 
 ```py
-import not_diamond
-print(not_diamond.__version__)
+import notdiamond
+print(notdiamond.__version__)
 ```
 
 ## Requirements
