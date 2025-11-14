@@ -8,15 +8,15 @@ from typing_extensions import Required, Annotated, TypedDict
 
 import pytest
 
-from not_diamond._types import Base64FileInput, omit, not_given
-from not_diamond._utils import (
+from notdiamond._types import Base64FileInput, omit, not_given
+from notdiamond._utils import (
     PropertyInfo,
     transform as _transform,
     parse_datetime,
     async_transform as _async_transform,
 )
-from not_diamond._compat import PYDANTIC_V1
-from not_diamond._models import BaseModel
+from notdiamond._compat import PYDANTIC_V1
+from notdiamond._models import BaseModel
 
 _T = TypeVar("_T")
 

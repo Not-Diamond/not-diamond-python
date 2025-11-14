@@ -10,15 +10,15 @@ import httpx
 import pytest
 from pytest_asyncio import is_async_test
 
-from not_diamond import Notdiamond, AsyncNotdiamond, DefaultAioHttpClient
-from not_diamond._utils import is_dict
+from notdiamond import Notdiamond, AsyncNotdiamond, DefaultAioHttpClient
+from notdiamond._utils import is_dict
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest  # pyright: ignore[reportPrivateImportUsage]
 
 pytest.register_assert_rewrite("tests.utils")
 
-logging.getLogger("not_diamond").setLevel(logging.DEBUG)
+logging.getLogger("notdiamond").setLevel(logging.DEBUG)
 
 
 # automatically add `pytest.mark.asyncio()` to all of our async tests
