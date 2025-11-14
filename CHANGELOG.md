@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.0-rc15 (2025-11-14)
+
+Full Changelog: [v1.0.0-rc14...v1.0.0-rc15](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc14...v1.0.0-rc15)
+
+### Features
+
+* **api:** api update ([12c16a2](https://github.com/Not-Diamond/not-diamond-python/commit/12c16a218d211c47aaad82ad672f668a27715edf))
+
 ## 1.0.0-rc14 (2025-11-14)
 
 Full Changelog: [v1.0.0-rc13...v1.0.0-rc14](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc13...v1.0.0-rc14)
