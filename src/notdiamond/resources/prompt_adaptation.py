@@ -21,7 +21,7 @@ from .._base_client import make_request_options
 from ..types.golden_record_param import GoldenRecordParam
 from ..types.request_provider_param import RequestProviderParam
 from ..types.prompt_adaptation_adapt_response import PromptAdaptationAdaptResponse
-from ..types.prompt_adaptation_get_costs_response import PromptAdaptationGetCostsResponse
+from ..types.prompt_adaptation_get_cost_response import PromptAdaptationGetCostResponse
 from ..types.prompt_adaptation_get_adapt_status_response import PromptAdaptationGetAdaptStatusResponse
 from ..types.prompt_adaptation_get_adapt_results_response import PromptAdaptationGetAdaptResultsResponse
 
@@ -318,7 +318,7 @@ class PromptAdaptationResource(SyncAPIResource):
             cast_to=PromptAdaptationGetAdaptStatusResponse,
         )
 
-    def get_costs(
+    def get_cost(
         self,
         adaptation_run_id: str,
         *,
@@ -328,7 +328,7 @@ class PromptAdaptationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetCostsResponse:
+    ) -> PromptAdaptationGetCostResponse:
         """
         Get LLM usage costs for a specific prompt adaptation run.
 
@@ -363,7 +363,7 @@ class PromptAdaptationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationGetCostsResponse,
+            cast_to=PromptAdaptationGetCostResponse,
         )
 
 
@@ -657,7 +657,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
             cast_to=PromptAdaptationGetAdaptStatusResponse,
         )
 
-    async def get_costs(
+    async def get_cost(
         self,
         adaptation_run_id: str,
         *,
@@ -667,7 +667,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetCostsResponse:
+    ) -> PromptAdaptationGetCostResponse:
         """
         Get LLM usage costs for a specific prompt adaptation run.
 
@@ -702,7 +702,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationGetCostsResponse,
+            cast_to=PromptAdaptationGetCostResponse,
         )
 
 
@@ -719,8 +719,8 @@ class PromptAdaptationResourceWithRawResponse:
         self.get_adapt_status = to_raw_response_wrapper(
             prompt_adaptation.get_adapt_status,
         )
-        self.get_costs = to_raw_response_wrapper(
-            prompt_adaptation.get_costs,
+        self.get_cost = to_raw_response_wrapper(
+            prompt_adaptation.get_cost,
         )
 
 
@@ -737,8 +737,8 @@ class AsyncPromptAdaptationResourceWithRawResponse:
         self.get_adapt_status = async_to_raw_response_wrapper(
             prompt_adaptation.get_adapt_status,
         )
-        self.get_costs = async_to_raw_response_wrapper(
-            prompt_adaptation.get_costs,
+        self.get_cost = async_to_raw_response_wrapper(
+            prompt_adaptation.get_cost,
         )
 
 
@@ -755,8 +755,8 @@ class PromptAdaptationResourceWithStreamingResponse:
         self.get_adapt_status = to_streamed_response_wrapper(
             prompt_adaptation.get_adapt_status,
         )
-        self.get_costs = to_streamed_response_wrapper(
-            prompt_adaptation.get_costs,
+        self.get_cost = to_streamed_response_wrapper(
+            prompt_adaptation.get_cost,
         )
 
 
@@ -773,6 +773,6 @@ class AsyncPromptAdaptationResourceWithStreamingResponse:
         self.get_adapt_status = async_to_streamed_response_wrapper(
             prompt_adaptation.get_adapt_status,
         )
-        self.get_costs = async_to_streamed_response_wrapper(
-            prompt_adaptation.get_costs,
+        self.get_cost = async_to_streamed_response_wrapper(
+            prompt_adaptation.get_cost,
         )
