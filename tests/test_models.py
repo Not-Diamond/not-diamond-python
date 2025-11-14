@@ -7,9 +7,9 @@ import pytest
 import pydantic
 from pydantic import Field
 
-from not_diamond._utils import PropertyInfo
-from not_diamond._compat import PYDANTIC_V1, parse_obj, model_dump, model_json
-from not_diamond._models import DISCRIMINATOR_CACHE, BaseModel, construct_type
+from notdiamond._utils import PropertyInfo
+from notdiamond._compat import PYDANTIC_V1, parse_obj, model_dump, model_json
+from notdiamond._models import DISCRIMINATOR_CACHE, BaseModel, construct_type
 
 
 class BasicModel(BaseModel):

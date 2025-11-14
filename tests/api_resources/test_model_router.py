@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from not_diamond import Notdiamond, AsyncNotdiamond
+from notdiamond import Notdiamond, AsyncNotdiamond
 from tests.utils import assert_matches_type
-from not_diamond.types import ModelRouterSelectModelResponse
+from notdiamond.types import ModelRouterSelectModelResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

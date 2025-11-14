@@ -4,8 +4,8 @@ from typing import Sequence
 
 import pytest
 
-from not_diamond._types import FileTypes
-from not_diamond._utils import extract_files
+from notdiamond._types import FileTypes
+from notdiamond._utils import extract_files
 
 
 def test_removes_files_from_input() -> None:

@@ -35,7 +35,6 @@ pip install --pre notdiamond
 
 ```python
 import os
-import time
 from notdiamond import Notdiamond
 
 client = Notdiamond(
@@ -463,9 +462,9 @@ adapt_response = response.parse()  # get the object that `prompt.adapt.create()`
 print(adapt_response.adaptation_run_id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/not_diamond/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/notdiamond/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/not_diamond/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/notdiamond/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
