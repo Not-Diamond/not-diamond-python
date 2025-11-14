@@ -11,7 +11,7 @@ from notdiamond import Notdiamond, AsyncNotdiamond
 from tests.utils import assert_matches_type
 from notdiamond.types import (
     PromptAdaptationAdaptResponse,
-    PromptAdaptationGetCostsResponse,
+    PromptAdaptationGetCostResponse,
     PromptAdaptationGetAdaptStatusResponse,
     PromptAdaptationGetAdaptResultsResponse,
 )
@@ -248,40 +248,40 @@ class TestPromptAdaptation:
             )
 
     @parametrize
-    def test_method_get_costs(self, client: Notdiamond) -> None:
-        prompt_adaptation = client.prompt_adaptation.get_costs(
+    def test_method_get_cost(self, client: Notdiamond) -> None:
+        prompt_adaptation = client.prompt_adaptation.get_cost(
             "adaptation_run_id",
         )
-        assert_matches_type(PromptAdaptationGetCostsResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptAdaptationGetCostResponse, prompt_adaptation, path=["response"])
 
     @parametrize
-    def test_raw_response_get_costs(self, client: Notdiamond) -> None:
-        response = client.prompt_adaptation.with_raw_response.get_costs(
+    def test_raw_response_get_cost(self, client: Notdiamond) -> None:
+        response = client.prompt_adaptation.with_raw_response.get_cost(
             "adaptation_run_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         prompt_adaptation = response.parse()
-        assert_matches_type(PromptAdaptationGetCostsResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptAdaptationGetCostResponse, prompt_adaptation, path=["response"])
 
     @parametrize
-    def test_streaming_response_get_costs(self, client: Notdiamond) -> None:
-        with client.prompt_adaptation.with_streaming_response.get_costs(
+    def test_streaming_response_get_cost(self, client: Notdiamond) -> None:
+        with client.prompt_adaptation.with_streaming_response.get_cost(
             "adaptation_run_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             prompt_adaptation = response.parse()
-            assert_matches_type(PromptAdaptationGetCostsResponse, prompt_adaptation, path=["response"])
+            assert_matches_type(PromptAdaptationGetCostResponse, prompt_adaptation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_get_costs(self, client: Notdiamond) -> None:
+    def test_path_params_get_cost(self, client: Notdiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `adaptation_run_id` but received ''"):
-            client.prompt_adaptation.with_raw_response.get_costs(
+            client.prompt_adaptation.with_raw_response.get_cost(
                 "",
             )
 
@@ -517,39 +517,39 @@ class TestAsyncPromptAdaptation:
             )
 
     @parametrize
-    async def test_method_get_costs(self, async_client: AsyncNotdiamond) -> None:
-        prompt_adaptation = await async_client.prompt_adaptation.get_costs(
+    async def test_method_get_cost(self, async_client: AsyncNotdiamond) -> None:
+        prompt_adaptation = await async_client.prompt_adaptation.get_cost(
             "adaptation_run_id",
         )
-        assert_matches_type(PromptAdaptationGetCostsResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptAdaptationGetCostResponse, prompt_adaptation, path=["response"])
 
     @parametrize
-    async def test_raw_response_get_costs(self, async_client: AsyncNotdiamond) -> None:
-        response = await async_client.prompt_adaptation.with_raw_response.get_costs(
+    async def test_raw_response_get_cost(self, async_client: AsyncNotdiamond) -> None:
+        response = await async_client.prompt_adaptation.with_raw_response.get_cost(
             "adaptation_run_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         prompt_adaptation = await response.parse()
-        assert_matches_type(PromptAdaptationGetCostsResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptAdaptationGetCostResponse, prompt_adaptation, path=["response"])
 
     @parametrize
-    async def test_streaming_response_get_costs(self, async_client: AsyncNotdiamond) -> None:
-        async with async_client.prompt_adaptation.with_streaming_response.get_costs(
+    async def test_streaming_response_get_cost(self, async_client: AsyncNotdiamond) -> None:
+        async with async_client.prompt_adaptation.with_streaming_response.get_cost(
             "adaptation_run_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             prompt_adaptation = await response.parse()
-            assert_matches_type(PromptAdaptationGetCostsResponse, prompt_adaptation, path=["response"])
+            assert_matches_type(PromptAdaptationGetCostResponse, prompt_adaptation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_get_costs(self, async_client: AsyncNotdiamond) -> None:
+    async def test_path_params_get_cost(self, async_client: AsyncNotdiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `adaptation_run_id` but received ''"):
-            await async_client.prompt_adaptation.with_raw_response.get_costs(
+            await async_client.prompt_adaptation.with_raw_response.get_cost(
                 "",
             )

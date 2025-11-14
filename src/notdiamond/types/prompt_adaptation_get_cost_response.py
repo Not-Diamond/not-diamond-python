@@ -4,7 +4,7 @@ from typing import List
 
 from .._models import BaseModel
 
-__all__ = ["PromptAdaptationGetCostsResponse", "UsageRecord"]
+__all__ = ["PromptAdaptationGetCostResponse", "UsageRecord"]
 
 
 class UsageRecord(BaseModel):
@@ -48,7 +48,7 @@ class UsageRecord(BaseModel):
     """User ID who made the request"""
 
 
-class PromptAdaptationGetCostsResponse(BaseModel):
+class PromptAdaptationGetCostResponse(BaseModel):
     adaptation_run_id: str
     """Unique identifier for the adaptation run"""
 
