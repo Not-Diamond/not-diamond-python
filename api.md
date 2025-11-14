@@ -50,7 +50,7 @@ from notdiamond.types import (
     PromptAdaptationAdaptResponse,
     PromptAdaptationGetAdaptResultsResponse,
     PromptAdaptationGetAdaptStatusResponse,
-    PromptAdaptationGetCostsResponse,
+    PromptAdaptationGetCostResponse,
 )
 ```
 
@@ -59,7 +59,7 @@ Methods:
 - <code title="post /v2/prompt/adapt">client.prompt_adaptation.<a href="./src/notdiamond/resources/prompt_adaptation.py">adapt</a>(\*\*<a href="src/notdiamond/types/prompt_adaptation_adapt_params.py">params</a>) -> <a href="./src/notdiamond/types/prompt_adaptation_adapt_response.py">PromptAdaptationAdaptResponse</a></code>
 - <code title="get /v2/prompt/adaptResults/{adaptation_run_id}">client.prompt_adaptation.<a href="./src/notdiamond/resources/prompt_adaptation.py">get_adapt_results</a>(adaptation_run_id) -> <a href="./src/notdiamond/types/prompt_adaptation_get_adapt_results_response.py">PromptAdaptationGetAdaptResultsResponse</a></code>
 - <code title="get /v2/prompt/adaptStatus/{adaptation_run_id}">client.prompt_adaptation.<a href="./src/notdiamond/resources/prompt_adaptation.py">get_adapt_status</a>(adaptation_run_id) -> <a href="./src/notdiamond/types/prompt_adaptation_get_adapt_status_response.py">PromptAdaptationGetAdaptStatusResponse</a></code>
-- <code title="get /v2/prompt/adapt/{adaptation_run_id}/costs">client.prompt_adaptation.<a href="./src/notdiamond/resources/prompt_adaptation.py">get_costs</a>(adaptation_run_id) -> <a href="./src/notdiamond/types/prompt_adaptation_get_costs_response.py">PromptAdaptationGetCostsResponse</a></code>
+- <code title="get /v2/prompt/adapt/{adaptation_run_id}/costs">client.prompt_adaptation.<a href="./src/notdiamond/resources/prompt_adaptation.py">get_cost</a>(adaptation_run_id) -> <a href="./src/notdiamond/types/prompt_adaptation_get_cost_response.py">PromptAdaptationGetCostResponse</a></code>
 
 # CustomRouter
 
