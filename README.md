@@ -42,7 +42,7 @@ client = Notdiamond(
 )
 
 # Step 1: Start a prompt adaptation job
-adaptation = client.prompt.adapt.create(
+adaptation = client.prompt_adaptation.adapt(
     fields=["question"],
     system_prompt="You are a helpful assistant that answers questions accurately.",
     target_models=[
@@ -75,7 +75,7 @@ print(f"Adaptation started: {adaptation.adaptation_run_id}")
 
 # Step 2: Poll for completion (typically takes 10-30 minutes)
 while True:
-    status = client.prompt.get_adapt_status(adaptation.adaptation_run_id)
+    status = client.prompt_adaptation.get_adapt_status(adaptation.adaptation_run_id)
     print(f"Status: {status.status}")
     
     if status.status == "queued":
@@ -88,7 +88,7 @@ while True:
 
 # Step 3: Get the optimized prompts
 if status.status == "completed":
-    results = client.prompt.get_adapt_results(adaptation.adaptation_run_id)
+    results = client.prompt_adaptation.get_adapt_results(adaptation.adaptation_run_id)
     
     print(f"\nOrigin model baseline: {results.origin_model.score:.2f}")
     
@@ -143,119 +143,13 @@ client = NotDiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
 )
 
-client.pzn.train_custom_router(
+client.custom_router.train_custom_router(
     dataset_file=Path("/path/to/file"),
     language="english",
     llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
     maximize=True,
     prompt_column="prompt",
 )
-```
-
-## Async usage
-
-Simply import `AsyncNotdiamond` instead of `Notdiamond` and use `await` with each API call:
-
-```python
-import os
-import asyncio
-from notdiamond import AsyncNotdiamond
-
-client = AsyncNotdiamond(
-    api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
-)
-
-
-async def main() -> None:
-    # Start a prompt adaptation job
-    response = await client.prompt.adapt.create(
-        fields=["question"],
-        system_prompt="You are a helpful assistant that answers questions accurately.",
-        target_models=[
-            {
-                "model": "claude-sonnet-4-5-20250929",
-                "provider": "anthropic",
-            },
-            {
-                "model": "gemini-2.5-flash",
-                "provider": "google",
-            },
-        ],
-        template="Question: {question}\nAnswer:",
-        train_goldens=[
-            {"fields": {"question": "What is 2+2?"}, "answer": "4"},
-            {"fields": {"question": "What is the capital of France?"}, "answer": "Paris"},
-            # Add at least 25 examples for best results
-        ],
-        test_goldens=[
-            {"fields": {"question": "What is 3*3?"}, "answer": "9"},
-        ],
-    )
-    
-    adaptation_run_id = response.adaptation_run_id
-    print(f"Adaptation started: {adaptation_run_id}")
-    
-    # Check status
-    status = await client.prompt.get_adapt_status(adaptation_run_id)
-    print(f"Status: {status.job_status}")
-
-
-asyncio.run(main())
-```
-
-Functionality between the synchronous and asynchronous clients is otherwise identical.
-
-### With aiohttp
-
-By default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.
-
-You can enable this by installing `aiohttp`:
-
-```sh
-# install from PyPI
-pip install --pre notdiamond[aiohttp]
-```
-
-Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
-
-```python
-import asyncio
-from notdiamond import DefaultAioHttpClient
-from notdiamond import AsyncNotdiamond
-
-
-async def main() -> None:
-    async with AsyncNotdiamond(
-        api_key="My API Key",
-        http_client=DefaultAioHttpClient(),
-    ) as client:
-        response = await client.prompt.adapt.create(
-            fields=["question"],
-            system_prompt="You are a helpful assistant that answers questions accurately.",
-            target_models=[
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-2.5-flash",
-                    "provider": "google",
-                },
-            ],
-            template="Question: {question}\nAnswer:",
-            train_goldens=[
-                {"fields": {"question": "What is 2+2?"}, "answer": "4"},
-                {"fields": {"question": "What is the capital of France?"}, "answer": "Paris"},
-                # Add at least 25 examples for best results
-            ],
-            test_goldens=[
-                {"fields": {"question": "What is 3*3?"}, "answer": "9"},
-            ],
-        )
-        print(f"Adaptation started: {response.adaptation_run_id}")
-
-
-asyncio.run(main())
 ```
 
 ## Using types
@@ -266,48 +160,6 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 - Converting to a dictionary, `model.to_dict()`
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
-
-## Nested params
-
-Nested parameters are dictionaries, typed using `TypedDict`, for example:
-
-```python
-from notdiamond import Notdiamond
-
-client = Notdiamond()
-
-response = client.prompt.adapt.create(
-    fields=["question", "context"],
-    system_prompt="You are a helpful assistant.",
-    target_models=[
-        {
-            "model": "claude-sonnet-4-5-20250929",
-            "provider": "anthropic",
-        },
-    ],
-    template="Context: {context}\nQuestion: {question}\nAnswer:",
-    train_goldens=[
-        {
-            "fields": {
-                "question": "What is 2+2?",
-                "context": "Basic arithmetic",
-            },
-            "answer": "4",
-        },
-        # Add at least 25 examples for best results
-    ],
-    test_goldens=[
-        {
-            "fields": {
-                "question": "What is 3*3?",
-                "context": "Basic arithmetic",
-            },
-            "answer": "9",
-        },
-    ],
-)
-print(response.adaptation_run_id)
-```
 
 ## Handling errors
 
@@ -325,7 +177,7 @@ from notdiamond import Notdiamond
 client = Notdiamond()
 
 try:
-    client.prompt.adapt.create(
+    client.prompt_adaptation.adapt(
         fields=["question"],
         system_prompt="You are a helpful assistant.",
         target_models=[
@@ -402,106 +254,7 @@ Note that requests that time out are [retried twice by default](#retries).
 
 ## Advanced
 
-### Logging
-
-We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
-
-You can enable logging by setting the environment variable `NOTDIAMOND_LOG` to `info`.
-
-```shell
-$ export NOTDIAMOND_LOG=info
-```
-
-Or to `debug` for more verbose logging.
-
-### How to tell whether `None` means `null` or missing
-
-In an API response, a field may be explicitly `null`, or missing entirely; in either case, its value is `None` in this library. You can differentiate the two cases with `.model_fields_set`:
-
-```py
-if response.my_field is None:
-  if 'my_field' not in response.model_fields_set:
-    print('Got json like {}, without a "my_field" key present at all.')
-  else:
-    print('Got json like {"my_field": null}.')
-```
-
-### Accessing raw response data (e.g. headers)
-
-The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
-
-```py
-from notdiamond import Notdiamond
-
-client = Notdiamond()
-response = client.prompt.adapt.with_raw_response.create(
-    fields=["question"],
-    system_prompt="You are a helpful assistant.",
-    target_models=[
-        {
-            "model": "claude-sonnet-4-5-20250929",
-            "provider": "anthropic",
-        },
-        {
-            "model": "gemini-2.5-flash",
-            "provider": "google",
-        },
-    ],
-    template="Question: {question}\nAnswer:",
-    train_goldens=[
-        {"fields": {"question": "What is 2+2?"}, "answer": "4"},
-        # Add at least 25 examples...
-    ],
-    test_goldens=[
-        {"fields": {"question": "What is 3*3?"}, "answer": "9"},
-    ],
-)
-print(response.headers.get('X-My-Header'))
-
-adapt_response = response.parse()  # get the object that `prompt.adapt.create()` would have returned
-print(adapt_response.adaptation_run_id)
-```
-
 These methods return an [`APIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/notdiamond/_response.py) object.
-
-The async client returns an [`AsyncAPIResponse`](https://github.com/Not-Diamond/not-diamond-python/tree/main/src/notdiamond/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
-
-#### `.with_streaming_response`
-
-The above interface eagerly reads the full response body when you make the request, which may not always be what you want.
-
-To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
-
-```python
-with client.prompt.adapt.with_streaming_response.create(
-    fields=["question"],
-    system_prompt="You are a helpful assistant.",
-    target_models=[
-        {
-            "model": "claude-sonnet-4-5-20250929",
-            "provider": "anthropic",
-        },
-        {
-            "model": "gemini-2.5-flash",
-            "provider": "google",
-        },
-    ],
-    template="Question: {question}\nAnswer:",
-    train_goldens=[
-        {"fields": {"question": "What is 2+2?"}, "answer": "4"},
-        # Add at least 25 examples...
-    ],
-    test_goldens=[
-        {"fields": {"question": "What is 3*3?"}, "answer": "9"},
-    ],
-) as response:
-    print(response.headers.get("X-My-Header"))
-
-    for line in response.iter_lines():
-        print(line)
-```
-
-The context manager is required so that the response will reliably be closed.
 
 ### Making custom/undocumented requests
 
@@ -557,12 +310,6 @@ client = Notdiamond(
         transport=httpx.HTTPTransport(local_address="0.0.0.0"),
     ),
 )
-```
-
-You can also customize the client on a per-request basis by using `with_options()`:
-
-```python
-client.with_options(http_client=DefaultHttpxClient(...))
 ```
 
 ### Managing HTTP resources
