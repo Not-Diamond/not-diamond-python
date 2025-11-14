@@ -4,7 +4,7 @@ from urllib.parse import unquote
 
 import pytest
 
-from not_diamond._qs import Querystring, stringify
+from notdiamond._qs import Querystring, stringify
 
 
 def test_empty() -> None:

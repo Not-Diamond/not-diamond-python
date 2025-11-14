@@ -5,8 +5,8 @@ from typing import Iterator, AsyncIterator
 import httpx
 import pytest
 
-from not_diamond import Notdiamond, AsyncNotdiamond
-from not_diamond._streaming import Stream, AsyncStream, ServerSentEvent
+from notdiamond import Notdiamond, AsyncNotdiamond
+from notdiamond._streaming import Stream, AsyncStream, ServerSentEvent
 
 
 @pytest.mark.asyncio

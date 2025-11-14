@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from not_diamond import Notdiamond, AsyncNotdiamond
+from notdiamond import Notdiamond, AsyncNotdiamond
 from tests.utils import assert_matches_type
-from not_diamond.types import (
+from notdiamond.types import (
     PromptAdaptationAdaptResponse,
     PromptAdaptationGetCostsResponse,
     PromptAdaptationGetAdaptStatusResponse,
