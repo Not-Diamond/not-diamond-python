@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.0-rc16 (2025-11-14)
+
+Full Changelog: [v1.0.0-rc15...v1.0.0-rc16](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc15...v1.0.0-rc16)
+
+### Features
+
+* **api:** manual updates ([f10b3cf](https://github.com/Not-Diamond/not-diamond-python/commit/f10b3cf27f9ce359c020e1a2e1ac8cf66e1f8c35))
+
+
+### Documentation
+
+* update README to reflect changes in prompt adaptation method names and remove outdated async usage section ([c793b18](https://github.com/Not-Diamond/not-diamond-python/commit/c793b18630bf398ae32bcb2d5adfdf91cc65c8f9))
+
 ## 1.0.0-rc15 (2025-11-14)
 
 Full Changelog: [v1.0.0-rc14...v1.0.0-rc15](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc14...v1.0.0-rc15)
