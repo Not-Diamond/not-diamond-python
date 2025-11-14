@@ -68,7 +68,7 @@ class ModelRouterResource(SyncAPIResource):
         algorithm.
 
         This endpoint analyzes your messages and returns the best-suited model from your
-        specified providers. The router considers factors like query complexity, model
+        specified models. The router considers factors like query complexity, model
         capabilities, cost, and latency based on your preferences.
 
         **Key Features:**
@@ -77,14 +77,13 @@ class ModelRouterResource(SyncAPIResource):
         - Support for custom routers trained on your evaluation data
         - Optional cost/latency optimization
         - Function calling support for compatible models
-        - Privacy-preserving content hashing
 
         **Usage:**
 
         1. Pass your messages in OpenAI format (array of objects with 'role' and
            'content')
         2. Specify which LLM providers you want to route between
-        3. Optionally provide a preference_id for personalized routing
+        3. Optionally provide a preference_id to use a custom router that you've trained
         4. Receive a recommended model and session_id
         5. Use the session_id to submit feedback and improve routing
 
@@ -202,7 +201,7 @@ class AsyncModelRouterResource(AsyncAPIResource):
         algorithm.
 
         This endpoint analyzes your messages and returns the best-suited model from your
-        specified providers. The router considers factors like query complexity, model
+        specified models. The router considers factors like query complexity, model
         capabilities, cost, and latency based on your preferences.
 
         **Key Features:**
@@ -211,14 +210,13 @@ class AsyncModelRouterResource(AsyncAPIResource):
         - Support for custom routers trained on your evaluation data
         - Optional cost/latency optimization
         - Function calling support for compatible models
-        - Privacy-preserving content hashing
 
         **Usage:**
 
         1. Pass your messages in OpenAI format (array of objects with 'role' and
            'content')
         2. Specify which LLM providers you want to route between
-        3. Optionally provide a preference_id for personalized routing
+        3. Optionally provide a preference_id to use a custom router that you've trained
         4. Receive a recommended model and session_id
         5. Use the session_id to submit feedback and improve routing
 
