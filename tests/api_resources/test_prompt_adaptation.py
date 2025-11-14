@@ -7,10 +7,10 @@ from typing import Any, cast
 
 import pytest
 
-from not_diamond import Notdiamond, AsyncNotdiamond
+from notdiamond import Notdiamond, AsyncNotdiamond
 from tests.utils import assert_matches_type
-from not_diamond.types import (
-    PromptAdaptationCreateResponse,
+from notdiamond.types import (
+    PromptAdaptationAdaptResponse,
     PromptAdaptationGetCostsResponse,
     PromptAdaptationGetAdaptStatusResponse,
     PromptAdaptationGetAdaptResultsResponse,
@@ -23,8 +23,8 @@ class TestPromptAdaptation:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_create(self, client: Notdiamond) -> None:
-        prompt_adaptation = client.prompt_adaptation.create(
+    def test_method_adapt(self, client: Notdiamond) -> None:
+        prompt_adaptation = client.prompt_adaptation.adapt(
             fields=["question"],
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
@@ -39,11 +39,11 @@ class TestPromptAdaptation:
             ],
             template="Question: {question}\nAnswer:",
         )
-        assert_matches_type(PromptAdaptationCreateResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptAdaptationAdaptResponse, prompt_adaptation, path=["response"])
 
     @parametrize
-    def test_method_create_with_all_params(self, client: Notdiamond) -> None:
-        prompt_adaptation = client.prompt_adaptation.create(
+    def test_method_adapt_with_all_params(self, client: Notdiamond) -> None:
+        prompt_adaptation = client.prompt_adaptation.adapt(
             fields=["question"],
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
@@ -121,11 +121,11 @@ class TestPromptAdaptation:
                 },
             ],
         )
-        assert_matches_type(PromptAdaptationCreateResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptAdaptationAdaptResponse, prompt_adaptation, path=["response"])
 
     @parametrize
-    def test_raw_response_create(self, client: Notdiamond) -> None:
-        response = client.prompt_adaptation.with_raw_response.create(
+    def test_raw_response_adapt(self, client: Notdiamond) -> None:
+        response = client.prompt_adaptation.with_raw_response.adapt(
             fields=["question"],
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
@@ -144,11 +144,11 @@ class TestPromptAdaptation:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         prompt_adaptation = response.parse()
-        assert_matches_type(PromptAdaptationCreateResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptAdaptationAdaptResponse, prompt_adaptation, path=["response"])
 
     @parametrize
-    def test_streaming_response_create(self, client: Notdiamond) -> None:
-        with client.prompt_adaptation.with_streaming_response.create(
+    def test_streaming_response_adapt(self, client: Notdiamond) -> None:
+        with client.prompt_adaptation.with_streaming_response.adapt(
             fields=["question"],
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
@@ -167,7 +167,7 @@ class TestPromptAdaptation:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             prompt_adaptation = response.parse()
-            assert_matches_type(PromptAdaptationCreateResponse, prompt_adaptation, path=["response"])
+            assert_matches_type(PromptAdaptationAdaptResponse, prompt_adaptation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -292,8 +292,8 @@ class TestAsyncPromptAdaptation:
     )
 
     @parametrize
-    async def test_method_create(self, async_client: AsyncNotdiamond) -> None:
-        prompt_adaptation = await async_client.prompt_adaptation.create(
+    async def test_method_adapt(self, async_client: AsyncNotdiamond) -> None:
+        prompt_adaptation = await async_client.prompt_adaptation.adapt(
             fields=["question"],
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
@@ -308,11 +308,11 @@ class TestAsyncPromptAdaptation:
             ],
             template="Question: {question}\nAnswer:",
         )
-        assert_matches_type(PromptAdaptationCreateResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptAdaptationAdaptResponse, prompt_adaptation, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncNotdiamond) -> None:
-        prompt_adaptation = await async_client.prompt_adaptation.create(
+    async def test_method_adapt_with_all_params(self, async_client: AsyncNotdiamond) -> None:
+        prompt_adaptation = await async_client.prompt_adaptation.adapt(
             fields=["question"],
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
@@ -390,11 +390,11 @@ class TestAsyncPromptAdaptation:
                 },
             ],
         )
-        assert_matches_type(PromptAdaptationCreateResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptAdaptationAdaptResponse, prompt_adaptation, path=["response"])
 
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncNotdiamond) -> None:
-        response = await async_client.prompt_adaptation.with_raw_response.create(
+    async def test_raw_response_adapt(self, async_client: AsyncNotdiamond) -> None:
+        response = await async_client.prompt_adaptation.with_raw_response.adapt(
             fields=["question"],
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
@@ -413,11 +413,11 @@ class TestAsyncPromptAdaptation:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         prompt_adaptation = await response.parse()
-        assert_matches_type(PromptAdaptationCreateResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptAdaptationAdaptResponse, prompt_adaptation, path=["response"])
 
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncNotdiamond) -> None:
-        async with async_client.prompt_adaptation.with_streaming_response.create(
+    async def test_streaming_response_adapt(self, async_client: AsyncNotdiamond) -> None:
+        async with async_client.prompt_adaptation.with_streaming_response.adapt(
             fields=["question"],
             system_prompt="You are a helpful assistant that answers questions accurately.",
             target_models=[
@@ -436,7 +436,7 @@ class TestAsyncPromptAdaptation:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             prompt_adaptation = await response.parse()
-            assert_matches_type(PromptAdaptationCreateResponse, prompt_adaptation, path=["response"])
+            assert_matches_type(PromptAdaptationAdaptResponse, prompt_adaptation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

@@ -61,6 +61,6 @@
   ],
   "release-type": "python",
   "extra-files": [
-    "src/not_diamond/_version.py"
+    "src/notdiamond/_version.py"
   ]
 }

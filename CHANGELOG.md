@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.0.0-rc14 (2025-11-14)
+
+Full Changelog: [v1.0.0-rc13...v1.0.0-rc14](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc13...v1.0.0-rc14)
+
+### Features
+
+* **api:** manual updates ([48af7c1](https://github.com/Not-Diamond/not-diamond-python/commit/48af7c13347f7db5ef8e0063c8e5f8363d092d01))
+
+## 1.0.0-rc13 (2025-11-13)
+
+Full Changelog: [v1.0.0-rc12...v1.0.0-rc13](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc12...v1.0.0-rc13)
+
+### Features
+
+* **api:** manual updates ([ae9b855](https://github.com/Not-Diamond/not-diamond-python/commit/ae9b855e1d9ec3dccdd96bd121ac11aba1402981))
+
+
+### Documentation
+
+* update README to include example of initializing NotDiamond client with API key ([3f3a1e5](https://github.com/Not-Diamond/not-diamond-python/commit/3f3a1e5ca3911eada1a2c0abfa1c2c5d0bf75cbc))
+* update README to reflect changes in Prompt Adaptation details and streamline key features section ([71f97f8](https://github.com/Not-Diamond/not-diamond-python/commit/71f97f8348e2fb21af321ac7965d53e3fb88211f))
+* update README to remove outdated Prompt Adaptation section and add new examples for intelligent model routing and training a custom router. ([17b08b6](https://github.com/Not-Diamond/not-diamond-python/commit/17b08b65ef604d68e766c0cb16cee70d0cd4d575))
+
 ## 1.0.0-rc12 (2025-11-12)
 
 Full Changelog: [v1.0.0-rc11...v1.0.0-rc12](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc11...v1.0.0-rc12)

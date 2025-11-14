@@ -7,17 +7,17 @@ from ._proxy import LazyProxy
 
 
 class ResourcesProxy(LazyProxy[Any]):
-    """A proxy for the `not_diamond.resources` module.
+    """A proxy for the `notdiamond.resources` module.
 
-    This is used so that we can lazily import `not_diamond.resources` only when
-    needed *and* so that users can just import `not_diamond` and reference `not_diamond.resources`
+    This is used so that we can lazily import `notdiamond.resources` only when
+    needed *and* so that users can just import `notdiamond` and reference `notdiamond.resources`
     """
 
     @override
     def __load__(self) -> Any:
         import importlib
 
-        mod = importlib.import_module("not_diamond.resources")
+        mod = importlib.import_module("notdiamond.resources")
         return mod
 
 
