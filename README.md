@@ -189,15 +189,26 @@ from notdiamond import Notdiamond
 
 client = Notdiamond()
 
-response = client.report.metrics.submit_feedback(
-    feedback={"accuracy": "bar"},
-    provider={
+response = client.prompt_adaptation.adapt(
+    fields=["question"],
+    system_prompt="You are a helpful assistant that answers questions accurately.",
+    target_models=[
+        {
+            "model": "claude-sonnet-4-5-20250929",
+            "provider": "anthropic",
+        },
+        {
+            "model": "gemini-2.5-flash",
+            "provider": "google",
+        },
+    ],
+    template="Question: {question}\nAnswer:",
+    origin_model={
         "model": "gpt-4o",
         "provider": "openai",
     },
-    session_id="550e8400-e29b-41d4-a716-446655440000",
 )
-print(response.provider)
+print(response.origin_model)
 ```
 
 ## File uploads
