@@ -36,7 +36,10 @@ class UsageRecord(BaseModel):
     """LLM provider (e.g., 'openai', 'anthropic', 'google')"""
 
     task_type: str
-    """Type of task (e.g., 'optimization', 'evaluation')"""
+    """
+    Type of task: 'pre-optimization evaluation', 'optimization', or
+    'post-optimization evaluation'
+    """
 
     timestamp: float
     """Unix timestamp when the request was made"""
