@@ -88,6 +88,7 @@ class TestPromptAdaptation:
                 "output_price": 0,
             },
             origin_model_evaluation_score=0,
+            prototype_mode=True,
             test_goldens=[
                 {
                     "fields": {"question": "What is 3*3?"},
@@ -357,6 +358,7 @@ class TestAsyncPromptAdaptation:
                 "output_price": 0,
             },
             origin_model_evaluation_score=0,
+            prototype_mode=True,
             test_goldens=[
                 {
                     "fields": {"question": "What is 3*3?"},
