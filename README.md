@@ -192,7 +192,7 @@ client = Notdiamond()
 
 response = client.prompt_adaptation.adapt(
     fields=["question"],
-    system_prompt="You are a helpful assistant that answers questions accurately.",
+    system_prompt="You are a mathematical assistant that counts digits accurately.",
     target_models=[
         {
             "model": "claude-sonnet-4-5-20250929",
