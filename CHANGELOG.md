@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.0-rc18 (2025-12-08)
+
+Full Changelog: [v1.0.0-rc17...v1.0.0-rc18](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc17...v1.0.0-rc18)
+
+### Chores
+
+* **docs:** update README with new prompt adaptation examples and enable prototype mode ([bcaa9e8](https://github.com/Not-Diamond/not-diamond-python/commit/bcaa9e86cc0fe32c3a339d5bf85fed5d24246ef1))
+
 ## 1.0.0-rc17 (2025-12-08)
 
 Full Changelog: [v1.0.0-rc16...v1.0.0-rc17](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc16...v1.0.0-rc17)
