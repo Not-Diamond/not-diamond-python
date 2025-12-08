@@ -26,7 +26,7 @@ The REST API documentation can be found on [docs.notdiamond.ai](https://docs.not
 
 ```sh
 # install from PyPI
-pip install --pre notdiamond
+pip install notdiamond
 ```
 
 ## Usage
