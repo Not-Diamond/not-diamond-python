@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.0.0-rc17 (2025-12-08)
+
+Full Changelog: [v1.0.0-rc16...v1.0.0-rc17](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc16...v1.0.0-rc17)
+
+### Features
+
+* **api:** api update ([80741ad](https://github.com/Not-Diamond/not-diamond-python/commit/80741adc8c0dddc791ffc9b680385baf8beba1a0))
+* **api:** api update ([e6cc0b3](https://github.com/Not-Diamond/not-diamond-python/commit/e6cc0b3f0f5fd5a4d8ac2a0b66070a67b0986ec9))
+* **api:** api update ([9514729](https://github.com/Not-Diamond/not-diamond-python/commit/9514729f30190892396343daddbc8c6d657edbc8))
+* **api:** manual updates ([3de5719](https://github.com/Not-Diamond/not-diamond-python/commit/3de57198fad333e98cb6d32df8a1cb3cecf997dc))
+
+
+### Bug Fixes
+
+* ensure streams are always closed ([94cd458](https://github.com/Not-Diamond/not-diamond-python/commit/94cd458b5027c72a25b0ea0f9dce70f0f11c738e))
+
+
+### Chores
+
+* add Python 3.14 classifier and testing ([9acba74](https://github.com/Not-Diamond/not-diamond-python/commit/9acba7453c5da79029dc88dc074a844e8bf025b4))
+* **deps:** mypy 1.18.1 has a regression, pin to 1.17 ([578a964](https://github.com/Not-Diamond/not-diamond-python/commit/578a964fd65e2d01aaf61aeedcf1d9c471447aa1))
+* **docs:** use environment variables for authentication in code snippets ([4493c72](https://github.com/Not-Diamond/not-diamond-python/commit/4493c723b56c4f402327fca66a47f755b09a5bc3))
+* update lockfile ([8b040bc](https://github.com/Not-Diamond/not-diamond-python/commit/8b040bc315c0cf48380efb8578b7a197ef654413))
+
 ## 1.0.0-rc16 (2025-11-14)
 
 Full Changelog: [v1.0.0-rc15...v1.0.0-rc16](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc15...v1.0.0-rc16)
