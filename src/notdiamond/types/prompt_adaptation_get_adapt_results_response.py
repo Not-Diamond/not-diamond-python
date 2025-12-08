@@ -129,3 +129,10 @@ class PromptAdaptationGetAdaptResultsResponse(BaseModel):
     - Cost of running the baseline evaluation
     - Job status for the origin model evaluation
     """
+
+    prototype_mode: Optional[bool] = None
+    """
+    Whether this adaptation run was created with prototype mode (3-24 training
+    examples allowed). Prototype mode may have degraded performance compared to
+    standard mode (25+ examples)
+    """

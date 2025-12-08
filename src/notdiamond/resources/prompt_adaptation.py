@@ -60,6 +60,7 @@ class PromptAdaptationResource(SyncAPIResource):
         goldens: Optional[Iterable[GoldenRecordParam]] | Omit = omit,
         origin_model: Optional[RequestProviderParam] | Omit = omit,
         origin_model_evaluation_score: Optional[float] | Omit = omit,
+        prototype_mode: bool | Omit = omit,
         test_goldens: Optional[Iterable[GoldenRecordParam]] | Omit = omit,
         train_goldens: Optional[Iterable[GoldenRecordParam]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -95,6 +96,12 @@ class PromptAdaptationResource(SyncAPIResource):
         **Dataset Requirements:**
 
         - Minimum 25 examples in train_goldens (more examples = better adaptation)
+        - **Prototype mode**: Set `prototype_mode: true` to use as few as 3 examples for
+          prototyping
+          - Recommended when you don't have enough data yet to build a proof-of-concept
+          - Note: Performance may be degraded compared to standard mode (25+ examples)
+          - Trade-off: Faster iteration with less data vs. potentially less
+            generalizability
         - Each example must have fields matching your template placeholders
         - Supervised evaluation requires 'answer' field in each golden record
         - Unsupervised evaluation can work without answers
@@ -132,18 +139,22 @@ class PromptAdaptationResource(SyncAPIResource):
               substitution
 
           goldens: Training examples (legacy parameter). Use train_goldens and test_goldens for
-              better control. Minimum 25 examples
+              better control. Minimum 25 examples (or 3 with prototype_mode=true)
 
           origin_model: Model for specifying an LLM provider in API requests.
 
           origin_model_evaluation_score: Optional baseline score for the origin model. If provided, can skip origin model
               evaluation
 
+          prototype_mode: Enable prototype mode to use as few as 3 training examples (instead of 25).
+              Note: Performance may be degraded with fewer examples. Recommended for
+              prototyping AI applications when you don't have enough data yet
+
           test_goldens: Test examples for evaluation. Required if train_goldens is provided. Used to
               measure final performance on held-out data
 
-          train_goldens: Training examples for prompt optimization. Minimum 25 examples required. Cannot
-              be used with 'goldens' parameter
+          train_goldens: Training examples for prompt optimization. Minimum 25 examples required (or 3
+              with prototype_mode=true). Cannot be used with 'goldens' parameter
 
           extra_headers: Send extra headers
 
@@ -166,6 +177,7 @@ class PromptAdaptationResource(SyncAPIResource):
                     "goldens": goldens,
                     "origin_model": origin_model,
                     "origin_model_evaluation_score": origin_model_evaluation_score,
+                    "prototype_mode": prototype_mode,
                     "test_goldens": test_goldens,
                     "train_goldens": train_goldens,
                 },
@@ -399,6 +411,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         goldens: Optional[Iterable[GoldenRecordParam]] | Omit = omit,
         origin_model: Optional[RequestProviderParam] | Omit = omit,
         origin_model_evaluation_score: Optional[float] | Omit = omit,
+        prototype_mode: bool | Omit = omit,
         test_goldens: Optional[Iterable[GoldenRecordParam]] | Omit = omit,
         train_goldens: Optional[Iterable[GoldenRecordParam]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -434,6 +447,12 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         **Dataset Requirements:**
 
         - Minimum 25 examples in train_goldens (more examples = better adaptation)
+        - **Prototype mode**: Set `prototype_mode: true` to use as few as 3 examples for
+          prototyping
+          - Recommended when you don't have enough data yet to build a proof-of-concept
+          - Note: Performance may be degraded compared to standard mode (25+ examples)
+          - Trade-off: Faster iteration with less data vs. potentially less
+            generalizability
         - Each example must have fields matching your template placeholders
         - Supervised evaluation requires 'answer' field in each golden record
         - Unsupervised evaluation can work without answers
@@ -471,18 +490,22 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
               substitution
 
           goldens: Training examples (legacy parameter). Use train_goldens and test_goldens for
-              better control. Minimum 25 examples
+              better control. Minimum 25 examples (or 3 with prototype_mode=true)
 
           origin_model: Model for specifying an LLM provider in API requests.
 
           origin_model_evaluation_score: Optional baseline score for the origin model. If provided, can skip origin model
               evaluation
 
+          prototype_mode: Enable prototype mode to use as few as 3 training examples (instead of 25).
+              Note: Performance may be degraded with fewer examples. Recommended for
+              prototyping AI applications when you don't have enough data yet
+
           test_goldens: Test examples for evaluation. Required if train_goldens is provided. Used to
               measure final performance on held-out data
 
-          train_goldens: Training examples for prompt optimization. Minimum 25 examples required. Cannot
-              be used with 'goldens' parameter
+          train_goldens: Training examples for prompt optimization. Minimum 25 examples required (or 3
+              with prototype_mode=true). Cannot be used with 'goldens' parameter
 
           extra_headers: Send extra headers
 
@@ -505,6 +528,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
                     "goldens": goldens,
                     "origin_model": origin_model,
                     "origin_model_evaluation_score": origin_model_evaluation_score,
+                    "prototype_mode": prototype_mode,
                     "test_goldens": test_goldens,
                     "train_goldens": train_goldens,
                 },

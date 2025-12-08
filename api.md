@@ -10,20 +10,6 @@ Methods:
 
 - <code title="post /v2/modelRouter/modelSelect">client.model_router.<a href="./src/notdiamond/resources/model_router.py">select_model</a>(\*\*<a href="src/notdiamond/types/model_router_select_model_params.py">params</a>) -> <a href="./src/notdiamond/types/model_router_select_model_response.py">ModelRouterSelectModelResponse</a></code>
 
-# Report
-
-## Metrics
-
-Types:
-
-```python
-from notdiamond.types.report import MetricSubmitFeedbackResponse
-```
-
-Methods:
-
-- <code title="post /v2/report/metrics/feedback">client.report.metrics.<a href="./src/notdiamond/resources/report/metrics.py">submit_feedback</a>(\*\*<a href="src/notdiamond/types/report/metric_submit_feedback_params.py">params</a>) -> <a href="./src/notdiamond/types/report/metric_submit_feedback_response.py">MetricSubmitFeedbackResponse</a></code>
-
 # Preferences
 
 Types:

@@ -29,7 +29,6 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.report import report
 
 __all__ = [
     "Timeout",
@@ -45,7 +44,6 @@ __all__ = [
 
 class Notdiamond(SyncAPIClient):
     model_router: model_router.ModelRouterResource
-    report: report.ReportResource
     preferences: preferences.PreferencesResource
     prompt_adaptation: prompt_adaptation.PromptAdaptationResource
     custom_router: custom_router.CustomRouterResource
@@ -108,7 +106,6 @@ class Notdiamond(SyncAPIClient):
         )
 
         self.model_router = model_router.ModelRouterResource(self)
-        self.report = report.ReportResource(self)
         self.preferences = preferences.PreferencesResource(self)
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResource(self)
         self.custom_router = custom_router.CustomRouterResource(self)
@@ -223,7 +220,6 @@ class Notdiamond(SyncAPIClient):
 
 class AsyncNotdiamond(AsyncAPIClient):
     model_router: model_router.AsyncModelRouterResource
-    report: report.AsyncReportResource
     preferences: preferences.AsyncPreferencesResource
     prompt_adaptation: prompt_adaptation.AsyncPromptAdaptationResource
     custom_router: custom_router.AsyncCustomRouterResource
@@ -286,7 +282,6 @@ class AsyncNotdiamond(AsyncAPIClient):
         )
 
         self.model_router = model_router.AsyncModelRouterResource(self)
-        self.report = report.AsyncReportResource(self)
         self.preferences = preferences.AsyncPreferencesResource(self)
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResource(self)
         self.custom_router = custom_router.AsyncCustomRouterResource(self)
@@ -402,7 +397,6 @@ class AsyncNotdiamond(AsyncAPIClient):
 class NotdiamondWithRawResponse:
     def __init__(self, client: Notdiamond) -> None:
         self.model_router = model_router.ModelRouterResourceWithRawResponse(client.model_router)
-        self.report = report.ReportResourceWithRawResponse(client.report)
         self.preferences = preferences.PreferencesResourceWithRawResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithRawResponse(client.prompt_adaptation)
         self.custom_router = custom_router.CustomRouterResourceWithRawResponse(client.custom_router)
@@ -412,7 +406,6 @@ class NotdiamondWithRawResponse:
 class AsyncNotdiamondWithRawResponse:
     def __init__(self, client: AsyncNotdiamond) -> None:
         self.model_router = model_router.AsyncModelRouterResourceWithRawResponse(client.model_router)
-        self.report = report.AsyncReportResourceWithRawResponse(client.report)
         self.preferences = preferences.AsyncPreferencesResourceWithRawResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithRawResponse(
             client.prompt_adaptation
@@ -424,7 +417,6 @@ class AsyncNotdiamondWithRawResponse:
 class NotdiamondWithStreamedResponse:
     def __init__(self, client: Notdiamond) -> None:
         self.model_router = model_router.ModelRouterResourceWithStreamingResponse(client.model_router)
-        self.report = report.ReportResourceWithStreamingResponse(client.report)
         self.preferences = preferences.PreferencesResourceWithStreamingResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithStreamingResponse(
             client.prompt_adaptation
@@ -436,7 +428,6 @@ class NotdiamondWithStreamedResponse:
 class AsyncNotdiamondWithStreamedResponse:
     def __init__(self, client: AsyncNotdiamond) -> None:
         self.model_router = model_router.AsyncModelRouterResourceWithStreamingResponse(client.model_router)
-        self.report = report.AsyncReportResourceWithStreamingResponse(client.report)
         self.preferences = preferences.AsyncPreferencesResourceWithStreamingResponse(client.preferences)
         self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithStreamingResponse(
             client.prompt_adaptation

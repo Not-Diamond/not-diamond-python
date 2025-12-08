@@ -45,7 +45,8 @@ class PromptAdaptationAdaptParams(TypedDict, total=False):
     goldens: Optional[Iterable[GoldenRecordParam]]
     """Training examples (legacy parameter).
 
-    Use train_goldens and test_goldens for better control. Minimum 25 examples
+    Use train_goldens and test_goldens for better control. Minimum 25 examples (or 3
+    with prototype_mode=true)
     """
 
     origin_model: Optional[RequestProviderParam]
@@ -55,6 +56,13 @@ class PromptAdaptationAdaptParams(TypedDict, total=False):
     """Optional baseline score for the origin model.
 
     If provided, can skip origin model evaluation
+    """
+
+    prototype_mode: bool
+    """Enable prototype mode to use as few as 3 training examples (instead of 25).
+
+    Note: Performance may be degraded with fewer examples. Recommended for
+    prototyping AI applications when you don't have enough data yet
     """
 
     test_goldens: Optional[Iterable[GoldenRecordParam]]
@@ -67,5 +75,6 @@ class PromptAdaptationAdaptParams(TypedDict, total=False):
     train_goldens: Optional[Iterable[GoldenRecordParam]]
     """Training examples for prompt optimization.
 
-    Minimum 25 examples required. Cannot be used with 'goldens' parameter
+    Minimum 25 examples required (or 3 with prototype_mode=true). Cannot be used
+    with 'goldens' parameter
     """
