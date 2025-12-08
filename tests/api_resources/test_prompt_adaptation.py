@@ -26,7 +26,7 @@ class TestPromptAdaptation:
     def test_method_adapt(self, client: Notdiamond) -> None:
         prompt_adaptation = client.prompt_adaptation.adapt(
             fields=["question"],
-            system_prompt="You are a helpful assistant that answers questions accurately.",
+            system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
                 {
                     "model": "claude-sonnet-4-5-20250929",
@@ -45,7 +45,7 @@ class TestPromptAdaptation:
     def test_method_adapt_with_all_params(self, client: Notdiamond) -> None:
         prompt_adaptation = client.prompt_adaptation.adapt(
             fields=["question"],
-            system_prompt="You are a helpful assistant that answers questions accurately.",
+            system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
                 {
                     "model": "claude-sonnet-4-5-20250929",
@@ -68,7 +68,7 @@ class TestPromptAdaptation:
             ],
             template="Question: {question}\nAnswer:",
             evaluation_config="evaluation_config",
-            evaluation_metric="LLMaaJ:Sem_Sim_3",
+            evaluation_metric="LLMaaJ:Sem_Sim_1",
             goldens=[
                 {
                     "fields": {
@@ -91,34 +91,46 @@ class TestPromptAdaptation:
             prototype_mode=True,
             test_goldens=[
                 {
-                    "fields": {"question": "What is 3*3?"},
-                    "answer": "9",
+                    "fields": {"question": "How many digits are in (9876543210*123456)?"},
+                    "answer": "15",
                 },
                 {
-                    "fields": {"question": "What is the largest ocean?"},
-                    "answer": "Pacific Ocean",
+                    "fields": {"question": "How many odd digits are in (135*579*246)?"},
+                    "answer": "8",
+                },
+                {
+                    "fields": {"question": "How often does the number '42' appear in the digits of (123456789*42)?"},
+                    "answer": "1",
+                },
+                {
+                    "fields": {"question": "How many even digits are in (1111*2222*3333)?"},
+                    "answer": "10",
+                },
+                {
+                    "fields": {"question": "How many 9s are in (999999*888888)?"},
+                    "answer": "11",
                 },
             ],
             train_goldens=[
                 {
-                    "fields": {"question": "What is 2+2?"},
-                    "answer": "4",
+                    "fields": {"question": "How many digits are in (23874045494*2789392485)?"},
+                    "answer": "20",
                 },
                 {
-                    "fields": {"question": "What is the capital of France?"},
-                    "answer": "Paris",
+                    "fields": {"question": "How many odd digits are in (999*777*555*333*111)?"},
+                    "answer": "10",
                 },
                 {
-                    "fields": {"question": "Who wrote Romeo and Juliet?"},
-                    "answer": "William Shakespeare",
+                    "fields": {"question": "How often does the number '17' appear in the digits of (287558*17)?"},
+                    "answer": "0",
                 },
                 {
-                    "fields": {"question": "What is H2O?"},
-                    "answer": "Water",
+                    "fields": {"question": "How many even digits are in (222*444*666*888)?"},
+                    "answer": "16",
                 },
                 {
-                    "fields": {"question": "How many continents are there?"},
-                    "answer": "7",
+                    "fields": {"question": "How many 0s are in (1234567890*1357908642)?"},
+                    "answer": "2",
                 },
             ],
         )
@@ -128,7 +140,7 @@ class TestPromptAdaptation:
     def test_raw_response_adapt(self, client: Notdiamond) -> None:
         response = client.prompt_adaptation.with_raw_response.adapt(
             fields=["question"],
-            system_prompt="You are a helpful assistant that answers questions accurately.",
+            system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
                 {
                     "model": "claude-sonnet-4-5-20250929",
@@ -151,7 +163,7 @@ class TestPromptAdaptation:
     def test_streaming_response_adapt(self, client: Notdiamond) -> None:
         with client.prompt_adaptation.with_streaming_response.adapt(
             fields=["question"],
-            system_prompt="You are a helpful assistant that answers questions accurately.",
+            system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
                 {
                     "model": "claude-sonnet-4-5-20250929",
@@ -296,7 +308,7 @@ class TestAsyncPromptAdaptation:
     async def test_method_adapt(self, async_client: AsyncNotdiamond) -> None:
         prompt_adaptation = await async_client.prompt_adaptation.adapt(
             fields=["question"],
-            system_prompt="You are a helpful assistant that answers questions accurately.",
+            system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
                 {
                     "model": "claude-sonnet-4-5-20250929",
@@ -315,7 +327,7 @@ class TestAsyncPromptAdaptation:
     async def test_method_adapt_with_all_params(self, async_client: AsyncNotdiamond) -> None:
         prompt_adaptation = await async_client.prompt_adaptation.adapt(
             fields=["question"],
-            system_prompt="You are a helpful assistant that answers questions accurately.",
+            system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
                 {
                     "model": "claude-sonnet-4-5-20250929",
@@ -338,7 +350,7 @@ class TestAsyncPromptAdaptation:
             ],
             template="Question: {question}\nAnswer:",
             evaluation_config="evaluation_config",
-            evaluation_metric="LLMaaJ:Sem_Sim_3",
+            evaluation_metric="LLMaaJ:Sem_Sim_1",
             goldens=[
                 {
                     "fields": {
@@ -361,34 +373,46 @@ class TestAsyncPromptAdaptation:
             prototype_mode=True,
             test_goldens=[
                 {
-                    "fields": {"question": "What is 3*3?"},
-                    "answer": "9",
+                    "fields": {"question": "How many digits are in (9876543210*123456)?"},
+                    "answer": "15",
                 },
                 {
-                    "fields": {"question": "What is the largest ocean?"},
-                    "answer": "Pacific Ocean",
+                    "fields": {"question": "How many odd digits are in (135*579*246)?"},
+                    "answer": "8",
+                },
+                {
+                    "fields": {"question": "How often does the number '42' appear in the digits of (123456789*42)?"},
+                    "answer": "1",
+                },
+                {
+                    "fields": {"question": "How many even digits are in (1111*2222*3333)?"},
+                    "answer": "10",
+                },
+                {
+                    "fields": {"question": "How many 9s are in (999999*888888)?"},
+                    "answer": "11",
                 },
             ],
             train_goldens=[
                 {
-                    "fields": {"question": "What is 2+2?"},
-                    "answer": "4",
+                    "fields": {"question": "How many digits are in (23874045494*2789392485)?"},
+                    "answer": "20",
                 },
                 {
-                    "fields": {"question": "What is the capital of France?"},
-                    "answer": "Paris",
+                    "fields": {"question": "How many odd digits are in (999*777*555*333*111)?"},
+                    "answer": "10",
                 },
                 {
-                    "fields": {"question": "Who wrote Romeo and Juliet?"},
-                    "answer": "William Shakespeare",
+                    "fields": {"question": "How often does the number '17' appear in the digits of (287558*17)?"},
+                    "answer": "0",
                 },
                 {
-                    "fields": {"question": "What is H2O?"},
-                    "answer": "Water",
+                    "fields": {"question": "How many even digits are in (222*444*666*888)?"},
+                    "answer": "16",
                 },
                 {
-                    "fields": {"question": "How many continents are there?"},
-                    "answer": "7",
+                    "fields": {"question": "How many 0s are in (1234567890*1357908642)?"},
+                    "answer": "2",
                 },
             ],
         )
@@ -398,7 +422,7 @@ class TestAsyncPromptAdaptation:
     async def test_raw_response_adapt(self, async_client: AsyncNotdiamond) -> None:
         response = await async_client.prompt_adaptation.with_raw_response.adapt(
             fields=["question"],
-            system_prompt="You are a helpful assistant that answers questions accurately.",
+            system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
                 {
                     "model": "claude-sonnet-4-5-20250929",
@@ -421,7 +445,7 @@ class TestAsyncPromptAdaptation:
     async def test_streaming_response_adapt(self, async_client: AsyncNotdiamond) -> None:
         async with async_client.prompt_adaptation.with_streaming_response.adapt(
             fields=["question"],
-            system_prompt="You are a helpful assistant that answers questions accurately.",
+            system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
                 {
                     "model": "claude-sonnet-4-5-20250929",
