@@ -35,16 +35,17 @@ pip install --pre notdiamond
 
 ```python
 import os
+import time
 from notdiamond import Notdiamond
 
 client = Notdiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
 )
 
-# Step 1: Start a prompt adaptation job
+# Step 1: Start a prompt adaptation job with prototype mode
 adaptation = client.prompt_adaptation.adapt(
     fields=["question"],
-    system_prompt="You are a helpful assistant that answers questions accurately.",
+    system_prompt="You are a mathematical assistant that counts digits accurately.",
     target_models=[
         {
             "model": "claude-sonnet-4-5-20250929",
@@ -57,18 +58,51 @@ adaptation = client.prompt_adaptation.adapt(
     ],
     template="Question: {question}\nAnswer:",
     train_goldens=[
-        {"fields": {"question": "What is 2+2?"}, "answer": "4"},
-        {"fields": {"question": "What is the capital of France?"}, "answer": "Paris"},
-        {"fields": {"question": "Who wrote Romeo and Juliet?"}, "answer": "William Shakespeare"},
-        # Add at least 25 training examples for best results
-        # More examples = better adaptation quality
+        {
+            "fields": {"question": "How many digits are in (23874045494*2789392485)?"},
+            "answer": "20",
+        },
+        {
+            "fields": {"question": "How many odd digits are in (999*777*555*333*111)?"},
+            "answer": "10",
+        },
+        {
+            "fields": {"question": "How often does the number '17' appear in the digits of (287558*17)?"},
+            "answer": "0",
+        },
+        {
+            "fields": {"question": "How many even digits are in (222*444*666*888)?"},
+            "answer": "16",
+        },
+        {
+            "fields": {"question": "How many 0s are in (1234567890*1357908642)?"},
+            "answer": "2",
+        },
     ],
     test_goldens=[
-        {"fields": {"question": "What is 3*3?"}, "answer": "9"},
-        {"fields": {"question": "What is the largest ocean?"}, "answer": "Pacific Ocean"},
-        # Add test examples to validate performance
+        {
+            "fields": {"question": "How many digits are in (9876543210*123456)?"},
+            "answer": "15",
+        },
+        {
+            "fields": {"question": "How many odd digits are in (135*579*246)?"},
+            "answer": "8",
+        },
+        {
+            "fields": {"question": "How often does the number '42' appear in the digits of (123456789*42)?"},
+            "answer": "1",
+        },
+        {
+            "fields": {"question": "How many even digits are in (1111*2222*3333)?"},
+            "answer": "10",
+        },
+        {
+            "fields": {"question": "How many 9s are in (999999*888888)?"},
+            "answer": "11",
+        },
     ],
     evaluation_metric="LLMaaJ:Sem_Sim_1",  # Or use custom evaluation
+    prototype_mode=True,  # Enable faster prototype mode for quick experimentation
 )
 
 print(f"Adaptation started: {adaptation.adaptation_run_id}")
