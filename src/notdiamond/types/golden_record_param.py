@@ -9,6 +9,8 @@ __all__ = ["GoldenRecordParam"]
 
 
 class GoldenRecordParam(TypedDict, total=False):
+    """A training or test example for prompt adaptation."""
+
     fields: Required[Dict[str, str]]
     """Dictionary mapping field names to their values.
 

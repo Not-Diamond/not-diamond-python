@@ -8,6 +8,13 @@ __all__ = ["ModelRouterSelectModelResponse", "Provider"]
 
 
 class Provider(BaseModel):
+    """Selected LLM provider information from model selection endpoints.
+
+    Part of ModelSelectResponse. Contains the provider and model that Not Diamond's
+    routing algorithm selected as optimal for your query. Use these values to make
+    your LLM API call to the recommended model.
+    """
+
     model: str
     """
     Model identifier for the selected model (e.g., 'gpt-4o',
@@ -19,6 +26,8 @@ class Provider(BaseModel):
 
 
 class ModelRouterSelectModelResponse(BaseModel):
+    """Response from model selection endpoint."""
+
     providers: List[Provider]
     """List containing the selected provider"""
 
