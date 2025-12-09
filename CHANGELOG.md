@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.1 (2025-12-09)
+
+Full Changelog: [v1.0.0...v1.0.1](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0...v1.0.1)
+
+### Bug Fixes
+
+* **types:** allow pyright to infer TypedDict types within SequenceNotStr ([5663881](https://github.com/Not-Diamond/not-diamond-python/commit/566388145d7d3fea2e52158963fc2ad8e8ee45c8))
+
+
+### Chores
+
+* add missing docstrings ([003db35](https://github.com/Not-Diamond/not-diamond-python/commit/003db35899fda442fd45bdcafe4aeaad09b1dd4d))
+
 ## 1.0.0 (2025-12-08)
 
 Full Changelog: [v1.0.0-rc18...v1.0.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0-rc18...v1.0.0)

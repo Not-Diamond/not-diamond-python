@@ -58,6 +58,19 @@ class ModelRouterSelectModelParams(TypedDict, total=False):
 
 
 class LlmProviderOpenRouterProvider(TypedDict, total=False):
+    """Model for specifying an LLM provider using OpenRouter format.
+
+    Used in model routing requests when you want to specify providers using the
+    OpenRouter naming convention (combined 'provider/model' format). This is an
+    alternative to the standard RequestProvider which uses separate provider and
+    model fields.
+
+    **When to use:**
+    - When working with OpenRouter-compatible systems
+    - When you prefer the unified 'provider/model' format
+    - For models accessed via OpenRouter proxy
+    """
+
     model: Required[str]
     """
     OpenRouter model identifier in 'provider/model' format (e.g., 'openai/gpt-4o',

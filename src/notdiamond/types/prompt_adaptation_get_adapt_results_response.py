@@ -12,6 +12,25 @@ __all__ = ["PromptAdaptationGetAdaptResultsResponse", "TargetModel", "OriginMode
 
 
 class TargetModel(BaseModel):
+    """Optimized prompt results for a single target model in prompt adaptation.
+
+    Part of AdaptationRunResultsResponse. Contains the optimized system prompt and
+    user message template for a specific target model, along with performance scores
+    before and after optimization. Use these optimized prompts with the target model
+    to achieve better performance than the original prompt.
+
+    **Key metrics:**
+    - **pre_optimization_score**: Performance with original prompt on this target model
+    - **post_optimization_score**: Performance with optimized prompt on this target model
+    - **Score improvement**: post - pre shows how much optimization helped
+
+    **Usage:**
+    1. Extract the optimized system_prompt and user_message_template
+    2. Replace placeholders in user_message_template using fields from your data
+    3. Use these prompts when calling this target model
+    4. Compare pre/post scores to see improvement gained
+    """
+
     cost: Optional[float] = None
 
     api_model_name: str = FieldInfo(alias="model_name")
@@ -60,6 +79,19 @@ class TargetModel(BaseModel):
 
 
 class OriginModel(BaseModel):
+    """Baseline results for the origin model in prompt adaptation.
+
+    Part of AdaptationRunResultsResponse. Contains the performance metrics and prompt
+    configuration for your original prompt on the origin model. This serves as the
+    baseline to compare against optimized prompts for target models.
+
+    **Fields include:**
+    - Original system prompt and user message template
+    - Baseline performance score and evaluation metrics
+    - Cost of running the baseline evaluation
+    - Job status for the origin model evaluation
+    """
+
     cost: Optional[float] = None
 
     evals: Optional[Dict[str, object]] = None
@@ -90,6 +122,18 @@ class OriginModel(BaseModel):
 
 
 class PromptAdaptationGetAdaptResultsResponse(BaseModel):
+    """Response model for GET /v2/prompt/adaptResults/{adaptation_run_id} endpoint.
+
+    Contains the complete results of a prompt adaptation run, including optimized prompts
+    and evaluation metrics for all target models. Use this to retrieve your adapted prompts
+    after the adaptation status is 'completed'.
+
+    The response includes:
+    - Baseline performance of your original prompt on the origin model
+    - Optimized prompts for each target model with pre/post optimization scores
+    - Evaluation metrics and cost information for each model
+    """
+
     id: str
     """Unique ID for this adaptation run"""
 

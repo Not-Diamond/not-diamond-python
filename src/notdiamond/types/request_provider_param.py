@@ -9,6 +9,8 @@ __all__ = ["RequestProviderParam"]
 
 
 class RequestProviderParam(TypedDict, total=False):
+    """Model for specifying an LLM provider in API requests."""
+
     model: Required[str]
     """Model name (e.g., 'gpt-4o', 'claude-sonnet-4-5-20250929')"""
 

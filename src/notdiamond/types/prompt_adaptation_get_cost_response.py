@@ -8,6 +8,12 @@ __all__ = ["PromptAdaptationGetCostResponse", "UsageRecord"]
 
 
 class UsageRecord(BaseModel):
+    """Individual LLM usage record with token counts and cost breakdown.
+
+    Returned by GET /llm-usage endpoint and included in AdaptationRunCostResponse.
+    Each record represents a single LLM API call with detailed usage metrics.
+    """
+
     id: str
     """Unique identifier for this usage record"""
 
@@ -52,6 +58,12 @@ class UsageRecord(BaseModel):
 
 
 class PromptAdaptationGetCostResponse(BaseModel):
+    """Response model for GET /v2/prompt/adapt/{adaptation_run_id}/costs endpoint.
+
+    Contains the total LLM costs and detailed usage records for a prompt adaptation run.
+    Use this to track costs associated with optimizing prompts for different target models.
+    """
+
     adaptation_run_id: str
     """Unique identifier for the adaptation run"""
 
