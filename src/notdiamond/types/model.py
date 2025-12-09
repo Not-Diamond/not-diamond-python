@@ -8,6 +8,12 @@ __all__ = ["Model"]
 
 
 class Model(BaseModel):
+    """Response model for a single LLM model from GET /v2/models endpoint.
+
+    Contains metadata about a supported text generation model including pricing,
+    context limits, and availability information.
+    """
+
     context_length: int
     """Maximum context window size in tokens"""
 
