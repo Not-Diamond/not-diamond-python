@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from notdiamond import Notdiamond, AsyncNotdiamond
+from notdiamond import NotDiamond, AsyncNotDiamond
 from tests.utils import assert_matches_type
 from notdiamond.types import ModelListResponse
 
@@ -18,12 +18,12 @@ class TestModels:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_list(self, client: Notdiamond) -> None:
+    def test_method_list(self, client: NotDiamond) -> None:
         model = client.models.list()
         assert_matches_type(ModelListResponse, model, path=["response"])
 
     @parametrize
-    def test_method_list_with_all_params(self, client: Notdiamond) -> None:
+    def test_method_list_with_all_params(self, client: NotDiamond) -> None:
         model = client.models.list(
             openrouter_only=True,
             provider=["openai", "anthropic"],
@@ -31,7 +31,7 @@ class TestModels:
         assert_matches_type(ModelListResponse, model, path=["response"])
 
     @parametrize
-    def test_raw_response_list(self, client: Notdiamond) -> None:
+    def test_raw_response_list(self, client: NotDiamond) -> None:
         response = client.models.with_raw_response.list()
 
         assert response.is_closed is True
@@ -40,7 +40,7 @@ class TestModels:
         assert_matches_type(ModelListResponse, model, path=["response"])
 
     @parametrize
-    def test_streaming_response_list(self, client: Notdiamond) -> None:
+    def test_streaming_response_list(self, client: NotDiamond) -> None:
         with client.models.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -57,12 +57,12 @@ class TestAsyncModels:
     )
 
     @parametrize
-    async def test_method_list(self, async_client: AsyncNotdiamond) -> None:
+    async def test_method_list(self, async_client: AsyncNotDiamond) -> None:
         model = await async_client.models.list()
         assert_matches_type(ModelListResponse, model, path=["response"])
 
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncNotdiamond) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         model = await async_client.models.list(
             openrouter_only=True,
             provider=["openai", "anthropic"],
@@ -70,7 +70,7 @@ class TestAsyncModels:
         assert_matches_type(ModelListResponse, model, path=["response"])
 
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncNotdiamond) -> None:
+    async def test_raw_response_list(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.models.with_raw_response.list()
 
         assert response.is_closed is True
@@ -79,7 +79,7 @@ class TestAsyncModels:
         assert_matches_type(ModelListResponse, model, path=["response"])
 
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncNotdiamond) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.models.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
