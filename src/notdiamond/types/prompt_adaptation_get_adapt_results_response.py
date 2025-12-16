@@ -57,6 +57,7 @@ class TargetModel(BaseModel):
     - **processing**: Job is currently being executed
     - **completed**: Job finished successfully and results are available
     - **failed**: Job encountered an error and did not complete
+    - **cancelled**: Job was cancelled due to a restart operation
     """
 
     system_prompt: Optional[str] = None
@@ -112,6 +113,7 @@ class OriginModel(BaseModel):
     - **processing**: Job is currently being executed
     - **completed**: Job finished successfully and results are available
     - **failed**: Job encountered an error and did not complete
+    - **cancelled**: Job was cancelled due to a restart operation
     """
 
     system_prompt: Optional[str] = None
@@ -153,10 +155,10 @@ class PromptAdaptationGetAdaptResultsResponse(BaseModel):
 
     evaluation_metric: Optional[str] = None
 
-    llm_request_metrics: Optional[Dict[str, float]] = None
-    """
-    Metrics for the LLM requests made during the adaptation run (e.g.,
-    total_requests, avg_latency)
+    llm_request_metrics: Optional[List[Dict[str, object]]] = None
+    """Metrics for the LLM requests made during the adaptation run.
+
+    List of {model: str, num_requests: int}.
     """
 
     origin_model: Optional[OriginModel] = None
