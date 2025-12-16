@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from notdiamond import Notdiamond, AsyncNotdiamond
+from notdiamond import NotDiamond, AsyncNotDiamond
 from tests.utils import assert_matches_type
 from notdiamond.types import ModelRouterSelectModelResponse
 
@@ -18,7 +18,7 @@ class TestModelRouter:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_select_model(self, client: Notdiamond) -> None:
+    def test_method_select_model(self, client: NotDiamond) -> None:
         model_router = client.model_router.select_model(
             llm_providers=[
                 {
@@ -48,7 +48,7 @@ class TestModelRouter:
         assert_matches_type(ModelRouterSelectModelResponse, model_router, path=["response"])
 
     @parametrize
-    def test_method_select_model_with_all_params(self, client: Notdiamond) -> None:
+    def test_method_select_model_with_all_params(self, client: NotDiamond) -> None:
         model_router = client.model_router.select_model(
             llm_providers=[
                 {
@@ -101,7 +101,7 @@ class TestModelRouter:
         assert_matches_type(ModelRouterSelectModelResponse, model_router, path=["response"])
 
     @parametrize
-    def test_raw_response_select_model(self, client: Notdiamond) -> None:
+    def test_raw_response_select_model(self, client: NotDiamond) -> None:
         response = client.model_router.with_raw_response.select_model(
             llm_providers=[
                 {
@@ -135,7 +135,7 @@ class TestModelRouter:
         assert_matches_type(ModelRouterSelectModelResponse, model_router, path=["response"])
 
     @parametrize
-    def test_streaming_response_select_model(self, client: Notdiamond) -> None:
+    def test_streaming_response_select_model(self, client: NotDiamond) -> None:
         with client.model_router.with_streaming_response.select_model(
             llm_providers=[
                 {
@@ -177,7 +177,7 @@ class TestAsyncModelRouter:
     )
 
     @parametrize
-    async def test_method_select_model(self, async_client: AsyncNotdiamond) -> None:
+    async def test_method_select_model(self, async_client: AsyncNotDiamond) -> None:
         model_router = await async_client.model_router.select_model(
             llm_providers=[
                 {
@@ -207,7 +207,7 @@ class TestAsyncModelRouter:
         assert_matches_type(ModelRouterSelectModelResponse, model_router, path=["response"])
 
     @parametrize
-    async def test_method_select_model_with_all_params(self, async_client: AsyncNotdiamond) -> None:
+    async def test_method_select_model_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         model_router = await async_client.model_router.select_model(
             llm_providers=[
                 {
@@ -260,7 +260,7 @@ class TestAsyncModelRouter:
         assert_matches_type(ModelRouterSelectModelResponse, model_router, path=["response"])
 
     @parametrize
-    async def test_raw_response_select_model(self, async_client: AsyncNotdiamond) -> None:
+    async def test_raw_response_select_model(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.model_router.with_raw_response.select_model(
             llm_providers=[
                 {
@@ -294,7 +294,7 @@ class TestAsyncModelRouter:
         assert_matches_type(ModelRouterSelectModelResponse, model_router, path=["response"])
 
     @parametrize
-    async def test_streaming_response_select_model(self, async_client: AsyncNotdiamond) -> None:
+    async def test_streaming_response_select_model(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.model_router.with_streaming_response.select_model(
             llm_providers=[
                 {

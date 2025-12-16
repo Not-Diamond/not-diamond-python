@@ -26,9 +26,9 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 import os
-from notdiamond import Notdiamond
+from notdiamond import NotDiamond
 
-client = Notdiamond(
+client = NotDiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
 )
 
@@ -68,14 +68,14 @@ so that your API Key is not stored in source control.
 
 ## Async usage
 
-Simply import `AsyncNotdiamond` instead of `Notdiamond` and use `await` with each API call:
+Simply import `AsyncNotDiamond` instead of `NotDiamond` and use `await` with each API call:
 
 ```python
 import os
 import asyncio
-from notdiamond import AsyncNotdiamond
+from notdiamond import AsyncNotDiamond
 
-client = AsyncNotdiamond(
+client = AsyncNotDiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
 )
 
@@ -132,11 +132,11 @@ Then you can enable it by instantiating the client with `http_client=DefaultAioH
 import os
 import asyncio
 from notdiamond import DefaultAioHttpClient
-from notdiamond import AsyncNotdiamond
+from notdiamond import AsyncNotDiamond
 
 
 async def main() -> None:
-    async with AsyncNotdiamond(
+    async with AsyncNotDiamond(
         api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
@@ -186,9 +186,9 @@ Typed requests and responses provide autocomplete and documentation within your 
 Nested parameters are dictionaries, typed using `TypedDict`, for example:
 
 ```python
-from notdiamond import Notdiamond
+from notdiamond import NotDiamond
 
-client = Notdiamond()
+client = NotDiamond()
 
 response = client.prompt_adaptation.adapt(
     fields=["question"],
@@ -218,9 +218,9 @@ Request parameters that correspond to file uploads can be passed as `bytes`, or 
 
 ```python
 from pathlib import Path
-from notdiamond import Notdiamond
+from notdiamond import NotDiamond
 
-client = Notdiamond()
+client = NotDiamond()
 
 client.custom_router.train_custom_router(
     dataset_file=Path("/path/to/file"),
@@ -244,9 +244,9 @@ All errors inherit from `notdiamond.APIError`.
 
 ```python
 import notdiamond
-from notdiamond import Notdiamond
+from notdiamond import NotDiamond
 
-client = Notdiamond()
+client = NotDiamond()
 
 try:
     client.model_router.select_model(
@@ -308,10 +308,10 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from notdiamond import Notdiamond
+from notdiamond import NotDiamond
 
 # Configure the default for all requests:
-client = Notdiamond(
+client = NotDiamond(
     # default is 2
     max_retries=0,
 )
@@ -351,16 +351,16 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
-from notdiamond import Notdiamond
+from notdiamond import NotDiamond
 
 # Configure the default for all requests:
-client = Notdiamond(
+client = NotDiamond(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = Notdiamond(
+client = NotDiamond(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
@@ -428,9 +428,9 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from notdiamond import Notdiamond
+from notdiamond import NotDiamond
 
-client = Notdiamond()
+client = NotDiamond()
 response = client.model_router.with_raw_response.select_model(
     llm_providers=[{
         "model": "gpt-4o",
@@ -545,9 +545,9 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from notdiamond import Notdiamond, DefaultHttpxClient
+from notdiamond import NotDiamond, DefaultHttpxClient
 
-client = Notdiamond(
+client = NotDiamond(
     # Or use the `NOTDIAMOND_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
@@ -568,9 +568,9 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from notdiamond import Notdiamond
+from notdiamond import NotDiamond
 
-with Notdiamond() as client:
+with NotDiamond() as client:
   # make requests here
   ...
 
