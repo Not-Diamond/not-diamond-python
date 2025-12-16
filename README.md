@@ -35,10 +35,9 @@ pip install notdiamond
 
 ```python
 import os
-import time
-from notdiamond import Notdiamond
+from notdiamond import NotDiamond
 
-client = Notdiamond(
+client = NotDiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
 )
 
@@ -206,9 +205,9 @@ All errors inherit from `notdiamond.APIError`.
 
 ```python
 import notdiamond
-from notdiamond import Notdiamond
+from notdiamond import NotDiamond
 
-client = Notdiamond()
+client = NotDiamond()
 
 try:
     client.prompt_adaptation.adapt(
@@ -263,16 +262,16 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
-from notdiamond import Notdiamond
+from notdiamond import NotDiamond
 
 # Configure the default for all requests:
-client = Notdiamond(
+client = NotDiamond(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = Notdiamond(
+client = NotDiamond(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
@@ -334,9 +333,9 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from notdiamond import Notdiamond, DefaultHttpxClient
+from notdiamond import NotDiamond, DefaultHttpxClient
 
-client = Notdiamond(
+client = NotDiamond(
     # Or use the `NOTDIAMOND_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
@@ -351,9 +350,9 @@ client = Notdiamond(
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from notdiamond import Notdiamond
+from notdiamond import NotDiamond
 
-with Notdiamond() as client:
+with NotDiamond() as client:
   # make requests here
   ...
 
