@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.0 (2025-12-16)
+
+Full Changelog: [v1.0.1...v1.1.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.1...v1.1.0)
+
+### Features
+
+* **api:** api update ([aa449df](https://github.com/Not-Diamond/not-diamond-python/commit/aa449df78f1d0aa8d6714f375cd2075df4456837))
+* **api:** api update ([b5cbefd](https://github.com/Not-Diamond/not-diamond-python/commit/b5cbefd0b1ce6ee883e7847510b9f5fd5ad22899))
+
+
+### Chores
+
+* **api:** changed default client name to NotDiamond ([8599dc8](https://github.com/Not-Diamond/not-diamond-python/commit/8599dc8db216ea164a04f781fd12b9455d00366c))
+* **internal:** add missing files argument to base client ([6a2fc27](https://github.com/Not-Diamond/not-diamond-python/commit/6a2fc2744efef181cbf6a413e3e35bda38c79a1a))
+
 ## 1.0.1 (2025-12-09)
 
 Full Changelog: [v1.0.0...v1.0.1](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.0...v1.0.1)
