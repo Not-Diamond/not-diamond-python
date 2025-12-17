@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 from typing_extensions import Self, override
 
 import httpx
@@ -20,8 +20,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import models, preferences, model_router, custom_router, prompt_adaptation
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, NotDiamondError
 from ._base_client import (
@@ -29,6 +29,14 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+
+if TYPE_CHECKING:
+    from .resources import models, preferences, model_router, custom_router, prompt_adaptation
+    from .resources.models import ModelsResource, AsyncModelsResource
+    from .resources.preferences import PreferencesResource, AsyncPreferencesResource
+    from .resources.model_router import ModelRouterResource, AsyncModelRouterResource
+    from .resources.custom_router import CustomRouterResource, AsyncCustomRouterResource
+    from .resources.prompt_adaptation import PromptAdaptationResource, AsyncPromptAdaptationResource
 
 __all__ = [
     "Timeout",
@@ -43,14 +51,6 @@ __all__ = [
 
 
 class NotDiamond(SyncAPIClient):
-    model_router: model_router.ModelRouterResource
-    preferences: preferences.PreferencesResource
-    prompt_adaptation: prompt_adaptation.PromptAdaptationResource
-    custom_router: custom_router.CustomRouterResource
-    models: models.ModelsResource
-    with_raw_response: NotDiamondWithRawResponse
-    with_streaming_response: NotDiamondWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -105,13 +105,43 @@ class NotDiamond(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.model_router = model_router.ModelRouterResource(self)
-        self.preferences = preferences.PreferencesResource(self)
-        self.prompt_adaptation = prompt_adaptation.PromptAdaptationResource(self)
-        self.custom_router = custom_router.CustomRouterResource(self)
-        self.models = models.ModelsResource(self)
-        self.with_raw_response = NotDiamondWithRawResponse(self)
-        self.with_streaming_response = NotDiamondWithStreamedResponse(self)
+    @cached_property
+    def model_router(self) -> ModelRouterResource:
+        from .resources.model_router import ModelRouterResource
+
+        return ModelRouterResource(self)
+
+    @cached_property
+    def preferences(self) -> PreferencesResource:
+        from .resources.preferences import PreferencesResource
+
+        return PreferencesResource(self)
+
+    @cached_property
+    def prompt_adaptation(self) -> PromptAdaptationResource:
+        from .resources.prompt_adaptation import PromptAdaptationResource
+
+        return PromptAdaptationResource(self)
+
+    @cached_property
+    def custom_router(self) -> CustomRouterResource:
+        from .resources.custom_router import CustomRouterResource
+
+        return CustomRouterResource(self)
+
+    @cached_property
+    def models(self) -> ModelsResource:
+        from .resources.models import ModelsResource
+
+        return ModelsResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> NotDiamondWithRawResponse:
+        return NotDiamondWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> NotDiamondWithStreamedResponse:
+        return NotDiamondWithStreamedResponse(self)
 
     @property
     @override
@@ -219,14 +249,6 @@ class NotDiamond(SyncAPIClient):
 
 
 class AsyncNotDiamond(AsyncAPIClient):
-    model_router: model_router.AsyncModelRouterResource
-    preferences: preferences.AsyncPreferencesResource
-    prompt_adaptation: prompt_adaptation.AsyncPromptAdaptationResource
-    custom_router: custom_router.AsyncCustomRouterResource
-    models: models.AsyncModelsResource
-    with_raw_response: AsyncNotDiamondWithRawResponse
-    with_streaming_response: AsyncNotDiamondWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -281,13 +303,43 @@ class AsyncNotDiamond(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.model_router = model_router.AsyncModelRouterResource(self)
-        self.preferences = preferences.AsyncPreferencesResource(self)
-        self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResource(self)
-        self.custom_router = custom_router.AsyncCustomRouterResource(self)
-        self.models = models.AsyncModelsResource(self)
-        self.with_raw_response = AsyncNotDiamondWithRawResponse(self)
-        self.with_streaming_response = AsyncNotDiamondWithStreamedResponse(self)
+    @cached_property
+    def model_router(self) -> AsyncModelRouterResource:
+        from .resources.model_router import AsyncModelRouterResource
+
+        return AsyncModelRouterResource(self)
+
+    @cached_property
+    def preferences(self) -> AsyncPreferencesResource:
+        from .resources.preferences import AsyncPreferencesResource
+
+        return AsyncPreferencesResource(self)
+
+    @cached_property
+    def prompt_adaptation(self) -> AsyncPromptAdaptationResource:
+        from .resources.prompt_adaptation import AsyncPromptAdaptationResource
+
+        return AsyncPromptAdaptationResource(self)
+
+    @cached_property
+    def custom_router(self) -> AsyncCustomRouterResource:
+        from .resources.custom_router import AsyncCustomRouterResource
+
+        return AsyncCustomRouterResource(self)
+
+    @cached_property
+    def models(self) -> AsyncModelsResource:
+        from .resources.models import AsyncModelsResource
+
+        return AsyncModelsResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncNotDiamondWithRawResponse:
+        return AsyncNotDiamondWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncNotDiamondWithStreamedResponse:
+        return AsyncNotDiamondWithStreamedResponse(self)
 
     @property
     @override
@@ -395,45 +447,151 @@ class AsyncNotDiamond(AsyncAPIClient):
 
 
 class NotDiamondWithRawResponse:
+    _client: NotDiamond
+
     def __init__(self, client: NotDiamond) -> None:
-        self.model_router = model_router.ModelRouterResourceWithRawResponse(client.model_router)
-        self.preferences = preferences.PreferencesResourceWithRawResponse(client.preferences)
-        self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithRawResponse(client.prompt_adaptation)
-        self.custom_router = custom_router.CustomRouterResourceWithRawResponse(client.custom_router)
-        self.models = models.ModelsResourceWithRawResponse(client.models)
+        self._client = client
+
+    @cached_property
+    def model_router(self) -> model_router.ModelRouterResourceWithRawResponse:
+        from .resources.model_router import ModelRouterResourceWithRawResponse
+
+        return ModelRouterResourceWithRawResponse(self._client.model_router)
+
+    @cached_property
+    def preferences(self) -> preferences.PreferencesResourceWithRawResponse:
+        from .resources.preferences import PreferencesResourceWithRawResponse
+
+        return PreferencesResourceWithRawResponse(self._client.preferences)
+
+    @cached_property
+    def prompt_adaptation(self) -> prompt_adaptation.PromptAdaptationResourceWithRawResponse:
+        from .resources.prompt_adaptation import PromptAdaptationResourceWithRawResponse
+
+        return PromptAdaptationResourceWithRawResponse(self._client.prompt_adaptation)
+
+    @cached_property
+    def custom_router(self) -> custom_router.CustomRouterResourceWithRawResponse:
+        from .resources.custom_router import CustomRouterResourceWithRawResponse
+
+        return CustomRouterResourceWithRawResponse(self._client.custom_router)
+
+    @cached_property
+    def models(self) -> models.ModelsResourceWithRawResponse:
+        from .resources.models import ModelsResourceWithRawResponse
+
+        return ModelsResourceWithRawResponse(self._client.models)
 
 
 class AsyncNotDiamondWithRawResponse:
+    _client: AsyncNotDiamond
+
     def __init__(self, client: AsyncNotDiamond) -> None:
-        self.model_router = model_router.AsyncModelRouterResourceWithRawResponse(client.model_router)
-        self.preferences = preferences.AsyncPreferencesResourceWithRawResponse(client.preferences)
-        self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithRawResponse(
-            client.prompt_adaptation
-        )
-        self.custom_router = custom_router.AsyncCustomRouterResourceWithRawResponse(client.custom_router)
-        self.models = models.AsyncModelsResourceWithRawResponse(client.models)
+        self._client = client
+
+    @cached_property
+    def model_router(self) -> model_router.AsyncModelRouterResourceWithRawResponse:
+        from .resources.model_router import AsyncModelRouterResourceWithRawResponse
+
+        return AsyncModelRouterResourceWithRawResponse(self._client.model_router)
+
+    @cached_property
+    def preferences(self) -> preferences.AsyncPreferencesResourceWithRawResponse:
+        from .resources.preferences import AsyncPreferencesResourceWithRawResponse
+
+        return AsyncPreferencesResourceWithRawResponse(self._client.preferences)
+
+    @cached_property
+    def prompt_adaptation(self) -> prompt_adaptation.AsyncPromptAdaptationResourceWithRawResponse:
+        from .resources.prompt_adaptation import AsyncPromptAdaptationResourceWithRawResponse
+
+        return AsyncPromptAdaptationResourceWithRawResponse(self._client.prompt_adaptation)
+
+    @cached_property
+    def custom_router(self) -> custom_router.AsyncCustomRouterResourceWithRawResponse:
+        from .resources.custom_router import AsyncCustomRouterResourceWithRawResponse
+
+        return AsyncCustomRouterResourceWithRawResponse(self._client.custom_router)
+
+    @cached_property
+    def models(self) -> models.AsyncModelsResourceWithRawResponse:
+        from .resources.models import AsyncModelsResourceWithRawResponse
+
+        return AsyncModelsResourceWithRawResponse(self._client.models)
 
 
 class NotDiamondWithStreamedResponse:
+    _client: NotDiamond
+
     def __init__(self, client: NotDiamond) -> None:
-        self.model_router = model_router.ModelRouterResourceWithStreamingResponse(client.model_router)
-        self.preferences = preferences.PreferencesResourceWithStreamingResponse(client.preferences)
-        self.prompt_adaptation = prompt_adaptation.PromptAdaptationResourceWithStreamingResponse(
-            client.prompt_adaptation
-        )
-        self.custom_router = custom_router.CustomRouterResourceWithStreamingResponse(client.custom_router)
-        self.models = models.ModelsResourceWithStreamingResponse(client.models)
+        self._client = client
+
+    @cached_property
+    def model_router(self) -> model_router.ModelRouterResourceWithStreamingResponse:
+        from .resources.model_router import ModelRouterResourceWithStreamingResponse
+
+        return ModelRouterResourceWithStreamingResponse(self._client.model_router)
+
+    @cached_property
+    def preferences(self) -> preferences.PreferencesResourceWithStreamingResponse:
+        from .resources.preferences import PreferencesResourceWithStreamingResponse
+
+        return PreferencesResourceWithStreamingResponse(self._client.preferences)
+
+    @cached_property
+    def prompt_adaptation(self) -> prompt_adaptation.PromptAdaptationResourceWithStreamingResponse:
+        from .resources.prompt_adaptation import PromptAdaptationResourceWithStreamingResponse
+
+        return PromptAdaptationResourceWithStreamingResponse(self._client.prompt_adaptation)
+
+    @cached_property
+    def custom_router(self) -> custom_router.CustomRouterResourceWithStreamingResponse:
+        from .resources.custom_router import CustomRouterResourceWithStreamingResponse
+
+        return CustomRouterResourceWithStreamingResponse(self._client.custom_router)
+
+    @cached_property
+    def models(self) -> models.ModelsResourceWithStreamingResponse:
+        from .resources.models import ModelsResourceWithStreamingResponse
+
+        return ModelsResourceWithStreamingResponse(self._client.models)
 
 
 class AsyncNotDiamondWithStreamedResponse:
+    _client: AsyncNotDiamond
+
     def __init__(self, client: AsyncNotDiamond) -> None:
-        self.model_router = model_router.AsyncModelRouterResourceWithStreamingResponse(client.model_router)
-        self.preferences = preferences.AsyncPreferencesResourceWithStreamingResponse(client.preferences)
-        self.prompt_adaptation = prompt_adaptation.AsyncPromptAdaptationResourceWithStreamingResponse(
-            client.prompt_adaptation
-        )
-        self.custom_router = custom_router.AsyncCustomRouterResourceWithStreamingResponse(client.custom_router)
-        self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
+        self._client = client
+
+    @cached_property
+    def model_router(self) -> model_router.AsyncModelRouterResourceWithStreamingResponse:
+        from .resources.model_router import AsyncModelRouterResourceWithStreamingResponse
+
+        return AsyncModelRouterResourceWithStreamingResponse(self._client.model_router)
+
+    @cached_property
+    def preferences(self) -> preferences.AsyncPreferencesResourceWithStreamingResponse:
+        from .resources.preferences import AsyncPreferencesResourceWithStreamingResponse
+
+        return AsyncPreferencesResourceWithStreamingResponse(self._client.preferences)
+
+    @cached_property
+    def prompt_adaptation(self) -> prompt_adaptation.AsyncPromptAdaptationResourceWithStreamingResponse:
+        from .resources.prompt_adaptation import AsyncPromptAdaptationResourceWithStreamingResponse
+
+        return AsyncPromptAdaptationResourceWithStreamingResponse(self._client.prompt_adaptation)
+
+    @cached_property
+    def custom_router(self) -> custom_router.AsyncCustomRouterResourceWithStreamingResponse:
+        from .resources.custom_router import AsyncCustomRouterResourceWithStreamingResponse
+
+        return AsyncCustomRouterResourceWithStreamingResponse(self._client.custom_router)
+
+    @cached_property
+    def models(self) -> models.AsyncModelsResourceWithStreamingResponse:
+        from .resources.models import AsyncModelsResourceWithStreamingResponse
+
+        return AsyncModelsResourceWithStreamingResponse(self._client.models)
 
 
 Client = NotDiamond
