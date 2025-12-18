@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.1.1 (2025-12-18)
+
+Full Changelog: [v1.1.0...v1.1.1](https://github.com/Not-Diamond/not-diamond-python/compare/v1.1.0...v1.1.1)
+
+### Bug Fixes
+
+* use async_to_httpx_files in patch method ([edc6ef8](https://github.com/Not-Diamond/not-diamond-python/commit/edc6ef8ed4023637b73f77a60d671118490149ad))
+
+
+### Chores
+
+* speedup initial import ([6a70606](https://github.com/Not-Diamond/not-diamond-python/commit/6a706065bd55c616c38d10f3fa1c13cd6e32ca99))
+
 ## 1.1.0 (2025-12-16)
 
 Full Changelog: [v1.0.1...v1.1.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.0.1...v1.1.0)
