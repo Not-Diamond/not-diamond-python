@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.2 (2025-12-19)
+
+Full Changelog: [v1.1.1...v1.1.2](https://github.com/Not-Diamond/not-diamond-python/compare/v1.1.1...v1.1.2)
+
+### Chores
+
+* **internal:** add `--fix` argument to lint script ([448c196](https://github.com/Not-Diamond/not-diamond-python/commit/448c1962fc32893b4cd7ace7d2a1c1b1a8beb479))
+
 ## 1.1.1 (2025-12-18)
 
 Full Changelog: [v1.1.0...v1.1.1](https://github.com/Not-Diamond/not-diamond-python/compare/v1.1.0...v1.1.1)
