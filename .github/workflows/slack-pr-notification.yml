@@ -2,12 +2,14 @@ name: Slack PR Notification
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, ready_for_review]
 
 jobs:
   notify:
     name: Send Slack notification
     runs-on: ubuntu-latest
+    # Skip notifications from bots (dependabot, renovate, etc.)
+    if: github.event.pull_request.user.type != 'Bot'
     steps:
       - name: Send Slack notification
         uses: slackapi/slack-github-action@v2.0.0
@@ -21,8 +23,20 @@ jobs:
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "🔀 New Pull Request",
+                    "text": "${{ github.event.action == 'ready_for_review' && 'PR Ready for Review' || 'New Pull Request Opened' }}",
                     "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*<${{ github.event.pull_request.html_url }}|#${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}>*"
+                  },
+                  "accessory": {
+                    "type": "image",
+                    "image_url": "${{ github.event.pull_request.user.avatar_url }}",
+                    "alt_text": "${{ github.event.pull_request.user.login }}"
                   }
                 },
                 {
@@ -30,30 +44,57 @@ jobs:
                   "fields": [
                     {
                       "type": "mrkdwn",
-                      "text": "*Repository:*\n${{ github.repository }}"
+                      "text": "*Author:*\n<${{ github.event.pull_request.user.html_url }}|${{ github.event.pull_request.user.login }}>"
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Author:*\n${{ github.event.pull_request.user.login }}"
+                      "text": "*Branch:*\n`${{ github.event.pull_request.head.ref }}` → `${{ github.event.pull_request.base.ref }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commits:*\n${{ github.event.pull_request.commits }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Changed files:*\n${{ github.event.pull_request.changed_files }}"
                     }
                   ]
                 },
                 {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*<${{ github.event.pull_request.html_url }}|#${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}>*"
-                  }
+                  "type": "divider"
                 },
                 {
                   "type": "context",
                   "elements": [
                     {
                       "type": "mrkdwn",
-                      "text": "${{ github.event.pull_request.head.ref }} → ${{ github.event.pull_request.base.ref }}"
+                      "text": "📦 *${{ github.repository }}*${{ github.event.pull_request.draft && ' • 📝 Draft' || '' }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Pull Request",
+                        "emoji": true
+                      },
+                      "url": "${{ github.event.pull_request.html_url }}",
+                      "style": "primary"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Files Changed",
+                        "emoji": true
+                      },
+                      "url": "${{ github.event.pull_request.html_url }}/files"
                     }
                   ]
                 }
               ]
             }
-
