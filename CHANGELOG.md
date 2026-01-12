@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.1.3 (2026-01-12)
+
+Full Changelog: [v1.1.2...v1.1.3](https://github.com/Not-Diamond/not-diamond-python/compare/v1.1.2...v1.1.3)
+
+### Features
+
+* add Slack notification workflow for new pull requests ([97535a3](https://github.com/Not-Diamond/not-diamond-python/commit/97535a3158340c4dce76370718068ebd412e64e9))
+* **api:** api update ([616dcaa](https://github.com/Not-Diamond/not-diamond-python/commit/616dcaa965dc5fde8d79dfa2ce01ad14f1d5ab91))
+* enhance Slack PR notification to include 'ready for review' status and additional details ([af8afd5](https://github.com/Not-Diamond/not-diamond-python/commit/af8afd5aa9253bac48f0600c06eb649c66a3b2d7))
+
+
+### Chores
+
+* remove commented-out line for bot notification exclusion in Slack PR workflow ([e0c337e](https://github.com/Not-Diamond/not-diamond-python/commit/e0c337ed9a951826b060204809180d074ca79c88))
+* remove condition to exclude bot users from Slack notification in PR workflow ([776b597](https://github.com/Not-Diamond/not-diamond-python/commit/776b597086b06869bca76818eaaaaca4e4940531))
+
 ## 1.1.2 (2025-12-19)
 
 Full Changelog: [v1.1.1...v1.1.2](https://github.com/Not-Diamond/not-diamond-python/compare/v1.1.1...v1.1.2)
