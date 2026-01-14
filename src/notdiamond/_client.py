@@ -31,12 +31,11 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import models, preferences, model_router, custom_router, prompt_adaptation
+    from .resources import models, preferences, model_router, custom_router
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.preferences import PreferencesResource, AsyncPreferencesResource
     from .resources.model_router import ModelRouterResource, AsyncModelRouterResource
     from .resources.custom_router import CustomRouterResource, AsyncCustomRouterResource
-    from .resources.prompt_adaptation import PromptAdaptationResource, AsyncPromptAdaptationResource
 
 __all__ = [
     "Timeout",
@@ -116,12 +115,6 @@ class NotDiamond(SyncAPIClient):
         from .resources.preferences import PreferencesResource
 
         return PreferencesResource(self)
-
-    @cached_property
-    def prompt_adaptation(self) -> PromptAdaptationResource:
-        from .resources.prompt_adaptation import PromptAdaptationResource
-
-        return PromptAdaptationResource(self)
 
     @cached_property
     def custom_router(self) -> CustomRouterResource:
@@ -316,12 +309,6 @@ class AsyncNotDiamond(AsyncAPIClient):
         return AsyncPreferencesResource(self)
 
     @cached_property
-    def prompt_adaptation(self) -> AsyncPromptAdaptationResource:
-        from .resources.prompt_adaptation import AsyncPromptAdaptationResource
-
-        return AsyncPromptAdaptationResource(self)
-
-    @cached_property
     def custom_router(self) -> AsyncCustomRouterResource:
         from .resources.custom_router import AsyncCustomRouterResource
 
@@ -465,12 +452,6 @@ class NotDiamondWithRawResponse:
         return PreferencesResourceWithRawResponse(self._client.preferences)
 
     @cached_property
-    def prompt_adaptation(self) -> prompt_adaptation.PromptAdaptationResourceWithRawResponse:
-        from .resources.prompt_adaptation import PromptAdaptationResourceWithRawResponse
-
-        return PromptAdaptationResourceWithRawResponse(self._client.prompt_adaptation)
-
-    @cached_property
     def custom_router(self) -> custom_router.CustomRouterResourceWithRawResponse:
         from .resources.custom_router import CustomRouterResourceWithRawResponse
 
@@ -500,12 +481,6 @@ class AsyncNotDiamondWithRawResponse:
         from .resources.preferences import AsyncPreferencesResourceWithRawResponse
 
         return AsyncPreferencesResourceWithRawResponse(self._client.preferences)
-
-    @cached_property
-    def prompt_adaptation(self) -> prompt_adaptation.AsyncPromptAdaptationResourceWithRawResponse:
-        from .resources.prompt_adaptation import AsyncPromptAdaptationResourceWithRawResponse
-
-        return AsyncPromptAdaptationResourceWithRawResponse(self._client.prompt_adaptation)
 
     @cached_property
     def custom_router(self) -> custom_router.AsyncCustomRouterResourceWithRawResponse:
@@ -539,12 +514,6 @@ class NotDiamondWithStreamedResponse:
         return PreferencesResourceWithStreamingResponse(self._client.preferences)
 
     @cached_property
-    def prompt_adaptation(self) -> prompt_adaptation.PromptAdaptationResourceWithStreamingResponse:
-        from .resources.prompt_adaptation import PromptAdaptationResourceWithStreamingResponse
-
-        return PromptAdaptationResourceWithStreamingResponse(self._client.prompt_adaptation)
-
-    @cached_property
     def custom_router(self) -> custom_router.CustomRouterResourceWithStreamingResponse:
         from .resources.custom_router import CustomRouterResourceWithStreamingResponse
 
@@ -574,12 +543,6 @@ class AsyncNotDiamondWithStreamedResponse:
         from .resources.preferences import AsyncPreferencesResourceWithStreamingResponse
 
         return AsyncPreferencesResourceWithStreamingResponse(self._client.preferences)
-
-    @cached_property
-    def prompt_adaptation(self) -> prompt_adaptation.AsyncPromptAdaptationResourceWithStreamingResponse:
-        from .resources.prompt_adaptation import AsyncPromptAdaptationResourceWithStreamingResponse
-
-        return AsyncPromptAdaptationResourceWithStreamingResponse(self._client.prompt_adaptation)
 
     @cached_property
     def custom_router(self) -> custom_router.AsyncCustomRouterResourceWithStreamingResponse:
