@@ -9,10 +9,10 @@ from .._types import SequenceNotStr
 from .golden_record_param import GoldenRecordParam
 from .request_provider_param import RequestProviderParam
 
-__all__ = ["PromptAdaptationOptimizeParams"]
+__all__ = ["PromptOptimizationOptimizeParams"]
 
 
-class PromptAdaptationOptimizeParams(TypedDict, total=False):
+class PromptOptimizationOptimizeParams(TypedDict, total=False):
     fields: Required[SequenceNotStr[str]]
     """List of field names that will be substituted into the template.
 

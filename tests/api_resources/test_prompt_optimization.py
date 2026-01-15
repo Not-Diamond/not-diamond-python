@@ -10,135 +10,137 @@ import pytest
 from notdiamond import NotDiamond, AsyncNotDiamond
 from tests.utils import assert_matches_type
 from notdiamond.types import (
-    PromptAdaptationGetCostResponse,
-    PromptAdaptationOptimizeResponse,
-    PromptAdaptationGetOptimziationStatusResponse,
-    PromptAdaptationGetOptimizationResultsResponse,
+    PromptOptimizationGetCostResponse,
+    PromptOptimizationOptimizeResponse,
+    PromptOptimizationGetOptimziationStatusResponse,
+    PromptOptimizationGetOptimizationResultsResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
-class TestPromptAdaptation:
+class TestPromptOptimization:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_get_cost(self, client: NotDiamond) -> None:
-        prompt_adaptation = client.prompt_adaptation.get_cost(
+        prompt_optimization = client.prompt_optimization.get_cost(
             "optimization_run_id",
         )
-        assert_matches_type(PromptAdaptationGetCostResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptOptimizationGetCostResponse, prompt_optimization, path=["response"])
 
     @parametrize
     def test_raw_response_get_cost(self, client: NotDiamond) -> None:
-        response = client.prompt_adaptation.with_raw_response.get_cost(
+        response = client.prompt_optimization.with_raw_response.get_cost(
             "optimization_run_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = response.parse()
-        assert_matches_type(PromptAdaptationGetCostResponse, prompt_adaptation, path=["response"])
+        prompt_optimization = response.parse()
+        assert_matches_type(PromptOptimizationGetCostResponse, prompt_optimization, path=["response"])
 
     @parametrize
     def test_streaming_response_get_cost(self, client: NotDiamond) -> None:
-        with client.prompt_adaptation.with_streaming_response.get_cost(
+        with client.prompt_optimization.with_streaming_response.get_cost(
             "optimization_run_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            prompt_adaptation = response.parse()
-            assert_matches_type(PromptAdaptationGetCostResponse, prompt_adaptation, path=["response"])
+            prompt_optimization = response.parse()
+            assert_matches_type(PromptOptimizationGetCostResponse, prompt_optimization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_path_params_get_cost(self, client: NotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `optimization_run_id` but received ''"):
-            client.prompt_adaptation.with_raw_response.get_cost(
+            client.prompt_optimization.with_raw_response.get_cost(
                 "",
             )
 
     @parametrize
     def test_method_get_optimization_results(self, client: NotDiamond) -> None:
-        prompt_adaptation = client.prompt_adaptation.get_optimization_results(
+        prompt_optimization = client.prompt_optimization.get_optimization_results(
             "optimization_run_id",
         )
-        assert_matches_type(PromptAdaptationGetOptimizationResultsResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptOptimizationGetOptimizationResultsResponse, prompt_optimization, path=["response"])
 
     @parametrize
     def test_raw_response_get_optimization_results(self, client: NotDiamond) -> None:
-        response = client.prompt_adaptation.with_raw_response.get_optimization_results(
+        response = client.prompt_optimization.with_raw_response.get_optimization_results(
             "optimization_run_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = response.parse()
-        assert_matches_type(PromptAdaptationGetOptimizationResultsResponse, prompt_adaptation, path=["response"])
+        prompt_optimization = response.parse()
+        assert_matches_type(PromptOptimizationGetOptimizationResultsResponse, prompt_optimization, path=["response"])
 
     @parametrize
     def test_streaming_response_get_optimization_results(self, client: NotDiamond) -> None:
-        with client.prompt_adaptation.with_streaming_response.get_optimization_results(
+        with client.prompt_optimization.with_streaming_response.get_optimization_results(
             "optimization_run_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            prompt_adaptation = response.parse()
-            assert_matches_type(PromptAdaptationGetOptimizationResultsResponse, prompt_adaptation, path=["response"])
+            prompt_optimization = response.parse()
+            assert_matches_type(
+                PromptOptimizationGetOptimizationResultsResponse, prompt_optimization, path=["response"]
+            )
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_path_params_get_optimization_results(self, client: NotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `optimization_run_id` but received ''"):
-            client.prompt_adaptation.with_raw_response.get_optimization_results(
+            client.prompt_optimization.with_raw_response.get_optimization_results(
                 "",
             )
 
     @parametrize
     def test_method_get_optimziation_status(self, client: NotDiamond) -> None:
-        prompt_adaptation = client.prompt_adaptation.get_optimziation_status(
+        prompt_optimization = client.prompt_optimization.get_optimziation_status(
             "optimization_run_id",
         )
-        assert_matches_type(PromptAdaptationGetOptimziationStatusResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptOptimizationGetOptimziationStatusResponse, prompt_optimization, path=["response"])
 
     @parametrize
     def test_raw_response_get_optimziation_status(self, client: NotDiamond) -> None:
-        response = client.prompt_adaptation.with_raw_response.get_optimziation_status(
+        response = client.prompt_optimization.with_raw_response.get_optimziation_status(
             "optimization_run_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = response.parse()
-        assert_matches_type(PromptAdaptationGetOptimziationStatusResponse, prompt_adaptation, path=["response"])
+        prompt_optimization = response.parse()
+        assert_matches_type(PromptOptimizationGetOptimziationStatusResponse, prompt_optimization, path=["response"])
 
     @parametrize
     def test_streaming_response_get_optimziation_status(self, client: NotDiamond) -> None:
-        with client.prompt_adaptation.with_streaming_response.get_optimziation_status(
+        with client.prompt_optimization.with_streaming_response.get_optimziation_status(
             "optimization_run_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            prompt_adaptation = response.parse()
-            assert_matches_type(PromptAdaptationGetOptimziationStatusResponse, prompt_adaptation, path=["response"])
+            prompt_optimization = response.parse()
+            assert_matches_type(PromptOptimizationGetOptimziationStatusResponse, prompt_optimization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_path_params_get_optimziation_status(self, client: NotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `optimization_run_id` but received ''"):
-            client.prompt_adaptation.with_raw_response.get_optimziation_status(
+            client.prompt_optimization.with_raw_response.get_optimziation_status(
                 "",
             )
 
     @parametrize
     def test_method_optimize(self, client: NotDiamond) -> None:
-        prompt_adaptation = client.prompt_adaptation.optimize(
+        prompt_optimization = client.prompt_optimization.optimize(
             fields=["question"],
             system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
@@ -153,11 +155,11 @@ class TestPromptAdaptation:
             ],
             template="Question: {question}\nAnswer:",
         )
-        assert_matches_type(PromptAdaptationOptimizeResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptOptimizationOptimizeResponse, prompt_optimization, path=["response"])
 
     @parametrize
     def test_method_optimize_with_all_params(self, client: NotDiamond) -> None:
-        prompt_adaptation = client.prompt_adaptation.optimize(
+        prompt_optimization = client.prompt_optimization.optimize(
             fields=["question"],
             system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
@@ -248,11 +250,11 @@ class TestPromptAdaptation:
                 },
             ],
         )
-        assert_matches_type(PromptAdaptationOptimizeResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptOptimizationOptimizeResponse, prompt_optimization, path=["response"])
 
     @parametrize
     def test_raw_response_optimize(self, client: NotDiamond) -> None:
-        response = client.prompt_adaptation.with_raw_response.optimize(
+        response = client.prompt_optimization.with_raw_response.optimize(
             fields=["question"],
             system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
@@ -270,12 +272,12 @@ class TestPromptAdaptation:
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = response.parse()
-        assert_matches_type(PromptAdaptationOptimizeResponse, prompt_adaptation, path=["response"])
+        prompt_optimization = response.parse()
+        assert_matches_type(PromptOptimizationOptimizeResponse, prompt_optimization, path=["response"])
 
     @parametrize
     def test_streaming_response_optimize(self, client: NotDiamond) -> None:
-        with client.prompt_adaptation.with_streaming_response.optimize(
+        with client.prompt_optimization.with_streaming_response.optimize(
             fields=["question"],
             system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
@@ -293,134 +295,136 @@ class TestPromptAdaptation:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            prompt_adaptation = response.parse()
-            assert_matches_type(PromptAdaptationOptimizeResponse, prompt_adaptation, path=["response"])
+            prompt_optimization = response.parse()
+            assert_matches_type(PromptOptimizationOptimizeResponse, prompt_optimization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
 
-class TestAsyncPromptAdaptation:
+class TestAsyncPromptOptimization:
     parametrize = pytest.mark.parametrize(
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
     @parametrize
     async def test_method_get_cost(self, async_client: AsyncNotDiamond) -> None:
-        prompt_adaptation = await async_client.prompt_adaptation.get_cost(
+        prompt_optimization = await async_client.prompt_optimization.get_cost(
             "optimization_run_id",
         )
-        assert_matches_type(PromptAdaptationGetCostResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptOptimizationGetCostResponse, prompt_optimization, path=["response"])
 
     @parametrize
     async def test_raw_response_get_cost(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.prompt_adaptation.with_raw_response.get_cost(
+        response = await async_client.prompt_optimization.with_raw_response.get_cost(
             "optimization_run_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = await response.parse()
-        assert_matches_type(PromptAdaptationGetCostResponse, prompt_adaptation, path=["response"])
+        prompt_optimization = await response.parse()
+        assert_matches_type(PromptOptimizationGetCostResponse, prompt_optimization, path=["response"])
 
     @parametrize
     async def test_streaming_response_get_cost(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.prompt_adaptation.with_streaming_response.get_cost(
+        async with async_client.prompt_optimization.with_streaming_response.get_cost(
             "optimization_run_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            prompt_adaptation = await response.parse()
-            assert_matches_type(PromptAdaptationGetCostResponse, prompt_adaptation, path=["response"])
+            prompt_optimization = await response.parse()
+            assert_matches_type(PromptOptimizationGetCostResponse, prompt_optimization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_path_params_get_cost(self, async_client: AsyncNotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `optimization_run_id` but received ''"):
-            await async_client.prompt_adaptation.with_raw_response.get_cost(
+            await async_client.prompt_optimization.with_raw_response.get_cost(
                 "",
             )
 
     @parametrize
     async def test_method_get_optimization_results(self, async_client: AsyncNotDiamond) -> None:
-        prompt_adaptation = await async_client.prompt_adaptation.get_optimization_results(
+        prompt_optimization = await async_client.prompt_optimization.get_optimization_results(
             "optimization_run_id",
         )
-        assert_matches_type(PromptAdaptationGetOptimizationResultsResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptOptimizationGetOptimizationResultsResponse, prompt_optimization, path=["response"])
 
     @parametrize
     async def test_raw_response_get_optimization_results(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.prompt_adaptation.with_raw_response.get_optimization_results(
+        response = await async_client.prompt_optimization.with_raw_response.get_optimization_results(
             "optimization_run_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = await response.parse()
-        assert_matches_type(PromptAdaptationGetOptimizationResultsResponse, prompt_adaptation, path=["response"])
+        prompt_optimization = await response.parse()
+        assert_matches_type(PromptOptimizationGetOptimizationResultsResponse, prompt_optimization, path=["response"])
 
     @parametrize
     async def test_streaming_response_get_optimization_results(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.prompt_adaptation.with_streaming_response.get_optimization_results(
+        async with async_client.prompt_optimization.with_streaming_response.get_optimization_results(
             "optimization_run_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            prompt_adaptation = await response.parse()
-            assert_matches_type(PromptAdaptationGetOptimizationResultsResponse, prompt_adaptation, path=["response"])
+            prompt_optimization = await response.parse()
+            assert_matches_type(
+                PromptOptimizationGetOptimizationResultsResponse, prompt_optimization, path=["response"]
+            )
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_path_params_get_optimization_results(self, async_client: AsyncNotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `optimization_run_id` but received ''"):
-            await async_client.prompt_adaptation.with_raw_response.get_optimization_results(
+            await async_client.prompt_optimization.with_raw_response.get_optimization_results(
                 "",
             )
 
     @parametrize
     async def test_method_get_optimziation_status(self, async_client: AsyncNotDiamond) -> None:
-        prompt_adaptation = await async_client.prompt_adaptation.get_optimziation_status(
+        prompt_optimization = await async_client.prompt_optimization.get_optimziation_status(
             "optimization_run_id",
         )
-        assert_matches_type(PromptAdaptationGetOptimziationStatusResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptOptimizationGetOptimziationStatusResponse, prompt_optimization, path=["response"])
 
     @parametrize
     async def test_raw_response_get_optimziation_status(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.prompt_adaptation.with_raw_response.get_optimziation_status(
+        response = await async_client.prompt_optimization.with_raw_response.get_optimziation_status(
             "optimization_run_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = await response.parse()
-        assert_matches_type(PromptAdaptationGetOptimziationStatusResponse, prompt_adaptation, path=["response"])
+        prompt_optimization = await response.parse()
+        assert_matches_type(PromptOptimizationGetOptimziationStatusResponse, prompt_optimization, path=["response"])
 
     @parametrize
     async def test_streaming_response_get_optimziation_status(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.prompt_adaptation.with_streaming_response.get_optimziation_status(
+        async with async_client.prompt_optimization.with_streaming_response.get_optimziation_status(
             "optimization_run_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            prompt_adaptation = await response.parse()
-            assert_matches_type(PromptAdaptationGetOptimziationStatusResponse, prompt_adaptation, path=["response"])
+            prompt_optimization = await response.parse()
+            assert_matches_type(PromptOptimizationGetOptimziationStatusResponse, prompt_optimization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_path_params_get_optimziation_status(self, async_client: AsyncNotDiamond) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `optimization_run_id` but received ''"):
-            await async_client.prompt_adaptation.with_raw_response.get_optimziation_status(
+            await async_client.prompt_optimization.with_raw_response.get_optimziation_status(
                 "",
             )
 
     @parametrize
     async def test_method_optimize(self, async_client: AsyncNotDiamond) -> None:
-        prompt_adaptation = await async_client.prompt_adaptation.optimize(
+        prompt_optimization = await async_client.prompt_optimization.optimize(
             fields=["question"],
             system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
@@ -435,11 +439,11 @@ class TestAsyncPromptAdaptation:
             ],
             template="Question: {question}\nAnswer:",
         )
-        assert_matches_type(PromptAdaptationOptimizeResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptOptimizationOptimizeResponse, prompt_optimization, path=["response"])
 
     @parametrize
     async def test_method_optimize_with_all_params(self, async_client: AsyncNotDiamond) -> None:
-        prompt_adaptation = await async_client.prompt_adaptation.optimize(
+        prompt_optimization = await async_client.prompt_optimization.optimize(
             fields=["question"],
             system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
@@ -530,11 +534,11 @@ class TestAsyncPromptAdaptation:
                 },
             ],
         )
-        assert_matches_type(PromptAdaptationOptimizeResponse, prompt_adaptation, path=["response"])
+        assert_matches_type(PromptOptimizationOptimizeResponse, prompt_optimization, path=["response"])
 
     @parametrize
     async def test_raw_response_optimize(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.prompt_adaptation.with_raw_response.optimize(
+        response = await async_client.prompt_optimization.with_raw_response.optimize(
             fields=["question"],
             system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
@@ -552,12 +556,12 @@ class TestAsyncPromptAdaptation:
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_adaptation = await response.parse()
-        assert_matches_type(PromptAdaptationOptimizeResponse, prompt_adaptation, path=["response"])
+        prompt_optimization = await response.parse()
+        assert_matches_type(PromptOptimizationOptimizeResponse, prompt_optimization, path=["response"])
 
     @parametrize
     async def test_streaming_response_optimize(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.prompt_adaptation.with_streaming_response.optimize(
+        async with async_client.prompt_optimization.with_streaming_response.optimize(
             fields=["question"],
             system_prompt="You are a mathematical assistant that counts digits accurately.",
             target_models=[
@@ -575,7 +579,7 @@ class TestAsyncPromptAdaptation:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            prompt_adaptation = await response.parse()
-            assert_matches_type(PromptAdaptationOptimizeResponse, prompt_adaptation, path=["response"])
+            prompt_optimization = await response.parse()
+            assert_matches_type(PromptOptimizationOptimizeResponse, prompt_optimization, path=["response"])
 
         assert cast(Any, response.is_closed) is True

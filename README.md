@@ -190,7 +190,7 @@ from notdiamond import NotDiamond
 
 client = NotDiamond()
 
-response = client.prompt_adaptation.optimize(
+response = client.prompt_optimization.optimize(
     fields=["question"],
     system_prompt="You are a mathematical assistant that counts digits accurately.",
     target_models=[

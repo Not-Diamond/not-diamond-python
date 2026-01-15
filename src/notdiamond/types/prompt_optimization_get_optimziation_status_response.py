@@ -5,10 +5,10 @@ from typing import Optional
 from .._models import BaseModel
 from .job_status import JobStatus
 
-__all__ = ["PromptAdaptationGetOptimziationStatusResponse"]
+__all__ = ["PromptOptimizationGetOptimziationStatusResponse"]
 
 
-class PromptAdaptationGetOptimziationStatusResponse(BaseModel):
+class PromptOptimizationGetOptimziationStatusResponse(BaseModel):
     """Response model for GET /v2/prompt/optimizeStatus/{optimization_run_id} endpoint.
 
     Returns the current status of an asynchronous prompt optimization job. Poll this

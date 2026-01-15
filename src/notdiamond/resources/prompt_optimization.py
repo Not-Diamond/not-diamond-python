@@ -6,7 +6,7 @@ from typing import Iterable, Optional
 
 import httpx
 
-from ..types import prompt_adaptation_optimize_params
+from ..types import prompt_optimization_optimize_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -20,33 +20,35 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.golden_record_param import GoldenRecordParam
 from ..types.request_provider_param import RequestProviderParam
-from ..types.prompt_adaptation_get_cost_response import PromptAdaptationGetCostResponse
-from ..types.prompt_adaptation_optimize_response import PromptAdaptationOptimizeResponse
-from ..types.prompt_adaptation_get_optimziation_status_response import PromptAdaptationGetOptimziationStatusResponse
-from ..types.prompt_adaptation_get_optimization_results_response import PromptAdaptationGetOptimizationResultsResponse
+from ..types.prompt_optimization_get_cost_response import PromptOptimizationGetCostResponse
+from ..types.prompt_optimization_optimize_response import PromptOptimizationOptimizeResponse
+from ..types.prompt_optimization_get_optimziation_status_response import PromptOptimizationGetOptimziationStatusResponse
+from ..types.prompt_optimization_get_optimization_results_response import (
+    PromptOptimizationGetOptimizationResultsResponse,
+)
 
-__all__ = ["PromptAdaptationResource", "AsyncPromptAdaptationResource"]
+__all__ = ["PromptOptimizationResource", "AsyncPromptOptimizationResource"]
 
 
-class PromptAdaptationResource(SyncAPIResource):
+class PromptOptimizationResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> PromptAdaptationResourceWithRawResponse:
+    def with_raw_response(self) -> PromptOptimizationResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#accessing-raw-response-data-eg-headers
         """
-        return PromptAdaptationResourceWithRawResponse(self)
+        return PromptOptimizationResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> PromptAdaptationResourceWithStreamingResponse:
+    def with_streaming_response(self) -> PromptOptimizationResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
         """
-        return PromptAdaptationResourceWithStreamingResponse(self)
+        return PromptOptimizationResourceWithStreamingResponse(self)
 
     def get_cost(
         self,
@@ -58,7 +60,7 @@ class PromptAdaptationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetCostResponse:
+    ) -> PromptOptimizationGetCostResponse:
         """
         Get LLM usage costs for a specific prompt optimization run.
 
@@ -95,7 +97,7 @@ class PromptAdaptationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationGetCostResponse,
+            cast_to=PromptOptimizationGetCostResponse,
         )
 
     def get_optimization_results(
@@ -108,7 +110,7 @@ class PromptAdaptationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetOptimizationResultsResponse:
+    ) -> PromptOptimizationGetOptimizationResultsResponse:
         """
         Retrieve the complete results of a prompt optimization run, including optimized
         prompts for all target models.
@@ -176,7 +178,7 @@ class PromptAdaptationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationGetOptimizationResultsResponse,
+            cast_to=PromptOptimizationGetOptimizationResultsResponse,
         )
 
     def get_optimziation_status(
@@ -189,7 +191,7 @@ class PromptAdaptationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetOptimziationStatusResponse:
+    ) -> PromptOptimizationGetOptimziationStatusResponse:
         """
         Check the status of a prompt optimization run.
 
@@ -240,7 +242,7 @@ class PromptAdaptationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationGetOptimziationStatusResponse,
+            cast_to=PromptOptimizationGetOptimziationStatusResponse,
         )
 
     def optimize(
@@ -264,7 +266,7 @@ class PromptAdaptationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationOptimizeResponse:
+    ) -> PromptOptimizationOptimizeResponse:
         """
         Adapt your prompt from one LLM to work optimally across different target LLMs.
 
@@ -376,34 +378,34 @@ class PromptAdaptationResource(SyncAPIResource):
                     "test_goldens": test_goldens,
                     "train_goldens": train_goldens,
                 },
-                prompt_adaptation_optimize_params.PromptAdaptationOptimizeParams,
+                prompt_optimization_optimize_params.PromptOptimizationOptimizeParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationOptimizeResponse,
+            cast_to=PromptOptimizationOptimizeResponse,
         )
 
 
-class AsyncPromptAdaptationResource(AsyncAPIResource):
+class AsyncPromptOptimizationResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncPromptAdaptationResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncPromptOptimizationResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncPromptAdaptationResourceWithRawResponse(self)
+        return AsyncPromptOptimizationResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncPromptAdaptationResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncPromptOptimizationResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
         """
-        return AsyncPromptAdaptationResourceWithStreamingResponse(self)
+        return AsyncPromptOptimizationResourceWithStreamingResponse(self)
 
     async def get_cost(
         self,
@@ -415,7 +417,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetCostResponse:
+    ) -> PromptOptimizationGetCostResponse:
         """
         Get LLM usage costs for a specific prompt optimization run.
 
@@ -452,7 +454,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationGetCostResponse,
+            cast_to=PromptOptimizationGetCostResponse,
         )
 
     async def get_optimization_results(
@@ -465,7 +467,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetOptimizationResultsResponse:
+    ) -> PromptOptimizationGetOptimizationResultsResponse:
         """
         Retrieve the complete results of a prompt optimization run, including optimized
         prompts for all target models.
@@ -533,7 +535,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationGetOptimizationResultsResponse,
+            cast_to=PromptOptimizationGetOptimizationResultsResponse,
         )
 
     async def get_optimziation_status(
@@ -546,7 +548,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetOptimziationStatusResponse:
+    ) -> PromptOptimizationGetOptimziationStatusResponse:
         """
         Check the status of a prompt optimization run.
 
@@ -597,7 +599,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationGetOptimziationStatusResponse,
+            cast_to=PromptOptimizationGetOptimziationStatusResponse,
         )
 
     async def optimize(
@@ -621,7 +623,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationOptimizeResponse:
+    ) -> PromptOptimizationOptimizeResponse:
         """
         Adapt your prompt from one LLM to work optimally across different target LLMs.
 
@@ -733,82 +735,82 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
                     "test_goldens": test_goldens,
                     "train_goldens": train_goldens,
                 },
-                prompt_adaptation_optimize_params.PromptAdaptationOptimizeParams,
+                prompt_optimization_optimize_params.PromptOptimizationOptimizeParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationOptimizeResponse,
+            cast_to=PromptOptimizationOptimizeResponse,
         )
 
 
-class PromptAdaptationResourceWithRawResponse:
-    def __init__(self, prompt_adaptation: PromptAdaptationResource) -> None:
-        self._prompt_adaptation = prompt_adaptation
+class PromptOptimizationResourceWithRawResponse:
+    def __init__(self, prompt_optimization: PromptOptimizationResource) -> None:
+        self._prompt_optimization = prompt_optimization
 
         self.get_cost = to_raw_response_wrapper(
-            prompt_adaptation.get_cost,
+            prompt_optimization.get_cost,
         )
         self.get_optimization_results = to_raw_response_wrapper(
-            prompt_adaptation.get_optimization_results,
+            prompt_optimization.get_optimization_results,
         )
         self.get_optimziation_status = to_raw_response_wrapper(
-            prompt_adaptation.get_optimziation_status,
+            prompt_optimization.get_optimziation_status,
         )
         self.optimize = to_raw_response_wrapper(
-            prompt_adaptation.optimize,
+            prompt_optimization.optimize,
         )
 
 
-class AsyncPromptAdaptationResourceWithRawResponse:
-    def __init__(self, prompt_adaptation: AsyncPromptAdaptationResource) -> None:
-        self._prompt_adaptation = prompt_adaptation
+class AsyncPromptOptimizationResourceWithRawResponse:
+    def __init__(self, prompt_optimization: AsyncPromptOptimizationResource) -> None:
+        self._prompt_optimization = prompt_optimization
 
         self.get_cost = async_to_raw_response_wrapper(
-            prompt_adaptation.get_cost,
+            prompt_optimization.get_cost,
         )
         self.get_optimization_results = async_to_raw_response_wrapper(
-            prompt_adaptation.get_optimization_results,
+            prompt_optimization.get_optimization_results,
         )
         self.get_optimziation_status = async_to_raw_response_wrapper(
-            prompt_adaptation.get_optimziation_status,
+            prompt_optimization.get_optimziation_status,
         )
         self.optimize = async_to_raw_response_wrapper(
-            prompt_adaptation.optimize,
+            prompt_optimization.optimize,
         )
 
 
-class PromptAdaptationResourceWithStreamingResponse:
-    def __init__(self, prompt_adaptation: PromptAdaptationResource) -> None:
-        self._prompt_adaptation = prompt_adaptation
+class PromptOptimizationResourceWithStreamingResponse:
+    def __init__(self, prompt_optimization: PromptOptimizationResource) -> None:
+        self._prompt_optimization = prompt_optimization
 
         self.get_cost = to_streamed_response_wrapper(
-            prompt_adaptation.get_cost,
+            prompt_optimization.get_cost,
         )
         self.get_optimization_results = to_streamed_response_wrapper(
-            prompt_adaptation.get_optimization_results,
+            prompt_optimization.get_optimization_results,
         )
         self.get_optimziation_status = to_streamed_response_wrapper(
-            prompt_adaptation.get_optimziation_status,
+            prompt_optimization.get_optimziation_status,
         )
         self.optimize = to_streamed_response_wrapper(
-            prompt_adaptation.optimize,
+            prompt_optimization.optimize,
         )
 
 
-class AsyncPromptAdaptationResourceWithStreamingResponse:
-    def __init__(self, prompt_adaptation: AsyncPromptAdaptationResource) -> None:
-        self._prompt_adaptation = prompt_adaptation
+class AsyncPromptOptimizationResourceWithStreamingResponse:
+    def __init__(self, prompt_optimization: AsyncPromptOptimizationResource) -> None:
+        self._prompt_optimization = prompt_optimization
 
         self.get_cost = async_to_streamed_response_wrapper(
-            prompt_adaptation.get_cost,
+            prompt_optimization.get_cost,
         )
         self.get_optimization_results = async_to_streamed_response_wrapper(
-            prompt_adaptation.get_optimization_results,
+            prompt_optimization.get_optimization_results,
         )
         self.get_optimziation_status = async_to_streamed_response_wrapper(
-            prompt_adaptation.get_optimziation_status,
+            prompt_optimization.get_optimziation_status,
         )
         self.optimize = async_to_streamed_response_wrapper(
-            prompt_adaptation.optimize,
+            prompt_optimization.optimize,
         )

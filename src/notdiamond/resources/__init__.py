@@ -32,13 +32,13 @@ from .custom_router import (
     CustomRouterResourceWithStreamingResponse,
     AsyncCustomRouterResourceWithStreamingResponse,
 )
-from .prompt_adaptation import (
-    PromptAdaptationResource,
-    AsyncPromptAdaptationResource,
-    PromptAdaptationResourceWithRawResponse,
-    AsyncPromptAdaptationResourceWithRawResponse,
-    PromptAdaptationResourceWithStreamingResponse,
-    AsyncPromptAdaptationResourceWithStreamingResponse,
+from .prompt_optimization import (
+    PromptOptimizationResource,
+    AsyncPromptOptimizationResource,
+    PromptOptimizationResourceWithRawResponse,
+    AsyncPromptOptimizationResourceWithRawResponse,
+    PromptOptimizationResourceWithStreamingResponse,
+    AsyncPromptOptimizationResourceWithStreamingResponse,
 )
 
 __all__ = [
@@ -54,12 +54,12 @@ __all__ = [
     "AsyncPreferencesResourceWithRawResponse",
     "PreferencesResourceWithStreamingResponse",
     "AsyncPreferencesResourceWithStreamingResponse",
-    "PromptAdaptationResource",
-    "AsyncPromptAdaptationResource",
-    "PromptAdaptationResourceWithRawResponse",
-    "AsyncPromptAdaptationResourceWithRawResponse",
-    "PromptAdaptationResourceWithStreamingResponse",
-    "AsyncPromptAdaptationResourceWithStreamingResponse",
+    "PromptOptimizationResource",
+    "AsyncPromptOptimizationResource",
+    "PromptOptimizationResourceWithRawResponse",
+    "AsyncPromptOptimizationResourceWithRawResponse",
+    "PromptOptimizationResourceWithStreamingResponse",
+    "AsyncPromptOptimizationResourceWithStreamingResponse",
     "CustomRouterResource",
     "AsyncCustomRouterResource",
     "CustomRouterResourceWithRawResponse",
