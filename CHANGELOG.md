@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.4 (2026-01-15)
+
+Full Changelog: [v1.1.3...v1.1.4](https://github.com/Not-Diamond/not-diamond-python/compare/v1.1.3...v1.1.4)
+
+### Features
+
+* **api:** api update ([db00ca9](https://github.com/Not-Diamond/not-diamond-python/commit/db00ca90b883b9b184139ad5fecafd54d33b184d))
+* **client:** add support for binary request streaming ([8b9ac11](https://github.com/Not-Diamond/not-diamond-python/commit/8b9ac113ad23c8b30fcb360ad46dad41f5ea970f))
+
 ## 1.1.3 (2026-01-12)
 
 Full Changelog: [v1.1.2...v1.1.3](https://github.com/Not-Diamond/not-diamond-python/compare/v1.1.2...v1.1.3)
