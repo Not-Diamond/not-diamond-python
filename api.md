@@ -29,8 +29,23 @@ Methods:
 Types:
 
 ```python
-from notdiamond.types import GoldenRecord, JobStatus, RequestProvider
+from notdiamond.types import (
+    GoldenRecord,
+    JobStatus,
+    RequestProvider,
+    PromptAdaptationGetCostResponse,
+    PromptAdaptationGetOptimizationResultsResponse,
+    PromptAdaptationGetOptimziationStatusResponse,
+    PromptAdaptationOptimizeResponse,
+)
 ```
+
+Methods:
+
+- <code title="get /v2/prompt/optimize/{optimization_run_id}/costs">client.prompt_adaptation.<a href="./src/notdiamond/resources/prompt_adaptation.py">get_cost</a>(optimization_run_id) -> <a href="./src/notdiamond/types/prompt_adaptation_get_cost_response.py">PromptAdaptationGetCostResponse</a></code>
+- <code title="get /v2/prompt/optimizeResults/{optimization_run_id}">client.prompt_adaptation.<a href="./src/notdiamond/resources/prompt_adaptation.py">get_optimization_results</a>(optimization_run_id) -> <a href="./src/notdiamond/types/prompt_adaptation_get_optimization_results_response.py">PromptAdaptationGetOptimizationResultsResponse</a></code>
+- <code title="get /v2/prompt/optimizeStatus/{optimization_run_id}">client.prompt_adaptation.<a href="./src/notdiamond/resources/prompt_adaptation.py">get_optimziation_status</a>(optimization_run_id) -> <a href="./src/notdiamond/types/prompt_adaptation_get_optimziation_status_response.py">PromptAdaptationGetOptimziationStatusResponse</a></code>
+- <code title="post /v2/prompt/optimize">client.prompt_adaptation.<a href="./src/notdiamond/resources/prompt_adaptation.py">optimize</a>(\*\*<a href="src/notdiamond/types/prompt_adaptation_optimize_params.py">params</a>) -> <a href="./src/notdiamond/types/prompt_adaptation_optimize_response.py">PromptAdaptationOptimizeResponse</a></code>
 
 # CustomRouter
 
