@@ -31,12 +31,12 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import models, preferences, model_router, custom_router, prompt_adaptation
+    from .resources import models, preferences, model_router, custom_router, prompt_optimization
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.preferences import PreferencesResource, AsyncPreferencesResource
     from .resources.model_router import ModelRouterResource, AsyncModelRouterResource
     from .resources.custom_router import CustomRouterResource, AsyncCustomRouterResource
-    from .resources.prompt_adaptation import PromptAdaptationResource, AsyncPromptAdaptationResource
+    from .resources.prompt_optimization import PromptOptimizationResource, AsyncPromptOptimizationResource
 
 __all__ = [
     "Timeout",
@@ -118,10 +118,10 @@ class NotDiamond(SyncAPIClient):
         return PreferencesResource(self)
 
     @cached_property
-    def prompt_adaptation(self) -> PromptAdaptationResource:
-        from .resources.prompt_adaptation import PromptAdaptationResource
+    def prompt_optimization(self) -> PromptOptimizationResource:
+        from .resources.prompt_optimization import PromptOptimizationResource
 
-        return PromptAdaptationResource(self)
+        return PromptOptimizationResource(self)
 
     @cached_property
     def custom_router(self) -> CustomRouterResource:
@@ -316,10 +316,10 @@ class AsyncNotDiamond(AsyncAPIClient):
         return AsyncPreferencesResource(self)
 
     @cached_property
-    def prompt_adaptation(self) -> AsyncPromptAdaptationResource:
-        from .resources.prompt_adaptation import AsyncPromptAdaptationResource
+    def prompt_optimization(self) -> AsyncPromptOptimizationResource:
+        from .resources.prompt_optimization import AsyncPromptOptimizationResource
 
-        return AsyncPromptAdaptationResource(self)
+        return AsyncPromptOptimizationResource(self)
 
     @cached_property
     def custom_router(self) -> AsyncCustomRouterResource:
@@ -465,10 +465,10 @@ class NotDiamondWithRawResponse:
         return PreferencesResourceWithRawResponse(self._client.preferences)
 
     @cached_property
-    def prompt_adaptation(self) -> prompt_adaptation.PromptAdaptationResourceWithRawResponse:
-        from .resources.prompt_adaptation import PromptAdaptationResourceWithRawResponse
+    def prompt_optimization(self) -> prompt_optimization.PromptOptimizationResourceWithRawResponse:
+        from .resources.prompt_optimization import PromptOptimizationResourceWithRawResponse
 
-        return PromptAdaptationResourceWithRawResponse(self._client.prompt_adaptation)
+        return PromptOptimizationResourceWithRawResponse(self._client.prompt_optimization)
 
     @cached_property
     def custom_router(self) -> custom_router.CustomRouterResourceWithRawResponse:
@@ -502,10 +502,10 @@ class AsyncNotDiamondWithRawResponse:
         return AsyncPreferencesResourceWithRawResponse(self._client.preferences)
 
     @cached_property
-    def prompt_adaptation(self) -> prompt_adaptation.AsyncPromptAdaptationResourceWithRawResponse:
-        from .resources.prompt_adaptation import AsyncPromptAdaptationResourceWithRawResponse
+    def prompt_optimization(self) -> prompt_optimization.AsyncPromptOptimizationResourceWithRawResponse:
+        from .resources.prompt_optimization import AsyncPromptOptimizationResourceWithRawResponse
 
-        return AsyncPromptAdaptationResourceWithRawResponse(self._client.prompt_adaptation)
+        return AsyncPromptOptimizationResourceWithRawResponse(self._client.prompt_optimization)
 
     @cached_property
     def custom_router(self) -> custom_router.AsyncCustomRouterResourceWithRawResponse:
@@ -539,10 +539,10 @@ class NotDiamondWithStreamedResponse:
         return PreferencesResourceWithStreamingResponse(self._client.preferences)
 
     @cached_property
-    def prompt_adaptation(self) -> prompt_adaptation.PromptAdaptationResourceWithStreamingResponse:
-        from .resources.prompt_adaptation import PromptAdaptationResourceWithStreamingResponse
+    def prompt_optimization(self) -> prompt_optimization.PromptOptimizationResourceWithStreamingResponse:
+        from .resources.prompt_optimization import PromptOptimizationResourceWithStreamingResponse
 
-        return PromptAdaptationResourceWithStreamingResponse(self._client.prompt_adaptation)
+        return PromptOptimizationResourceWithStreamingResponse(self._client.prompt_optimization)
 
     @cached_property
     def custom_router(self) -> custom_router.CustomRouterResourceWithStreamingResponse:
@@ -576,10 +576,10 @@ class AsyncNotDiamondWithStreamedResponse:
         return AsyncPreferencesResourceWithStreamingResponse(self._client.preferences)
 
     @cached_property
-    def prompt_adaptation(self) -> prompt_adaptation.AsyncPromptAdaptationResourceWithStreamingResponse:
-        from .resources.prompt_adaptation import AsyncPromptAdaptationResourceWithStreamingResponse
+    def prompt_optimization(self) -> prompt_optimization.AsyncPromptOptimizationResourceWithStreamingResponse:
+        from .resources.prompt_optimization import AsyncPromptOptimizationResourceWithStreamingResponse
 
-        return AsyncPromptAdaptationResourceWithStreamingResponse(self._client.prompt_adaptation)
+        return AsyncPromptOptimizationResourceWithStreamingResponse(self._client.prompt_optimization)
 
     @cached_property
     def custom_router(self) -> custom_router.AsyncCustomRouterResourceWithStreamingResponse:

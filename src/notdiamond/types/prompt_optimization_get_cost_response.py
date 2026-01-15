@@ -4,7 +4,7 @@ from typing import List
 
 from .._models import BaseModel
 
-__all__ = ["PromptAdaptationGetCostResponse", "UsageRecord"]
+__all__ = ["PromptOptimizationGetCostResponse", "UsageRecord"]
 
 
 class UsageRecord(BaseModel):
@@ -57,7 +57,7 @@ class UsageRecord(BaseModel):
     """User ID who made the request"""
 
 
-class PromptAdaptationGetCostResponse(BaseModel):
+class PromptOptimizationGetCostResponse(BaseModel):
     """Response model for GET /v2/prompt/adapt/{adaptation_run_id}/costs endpoint.
 
     Contains the total LLM costs and detailed usage records for a prompt adaptation run.

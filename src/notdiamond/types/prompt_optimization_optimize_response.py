@@ -2,10 +2,10 @@
 
 from .._models import BaseModel
 
-__all__ = ["PromptAdaptationOptimizeResponse"]
+__all__ = ["PromptOptimizationOptimizeResponse"]
 
 
-class PromptAdaptationOptimizeResponse(BaseModel):
+class PromptOptimizationOptimizeResponse(BaseModel):
     """Response model for POST /v2/prompt/optimize endpoint.
 
     Returned immediately after submitting a prompt optimization request. The optimization

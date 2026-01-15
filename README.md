@@ -42,7 +42,7 @@ client = NotDiamond(
 )
 
 # Step 1: Start a prompt adaptation job with prototype mode
-adaptation = client.prompt_adaptation.adapt(
+adaptation = client.prompt_optimization.adapt(
     fields=["question"],
     system_prompt="You are a mathematical assistant that counts digits accurately.",
     target_models=[
