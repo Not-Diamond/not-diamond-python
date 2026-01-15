@@ -32,6 +32,14 @@ from .custom_router import (
     CustomRouterResourceWithStreamingResponse,
     AsyncCustomRouterResourceWithStreamingResponse,
 )
+from .prompt_adaptation import (
+    PromptAdaptationResource,
+    AsyncPromptAdaptationResource,
+    PromptAdaptationResourceWithRawResponse,
+    AsyncPromptAdaptationResourceWithRawResponse,
+    PromptAdaptationResourceWithStreamingResponse,
+    AsyncPromptAdaptationResourceWithStreamingResponse,
+)
 
 __all__ = [
     "ModelRouterResource",
@@ -46,6 +54,12 @@ __all__ = [
     "AsyncPreferencesResourceWithRawResponse",
     "PreferencesResourceWithStreamingResponse",
     "AsyncPreferencesResourceWithStreamingResponse",
+    "PromptAdaptationResource",
+    "AsyncPromptAdaptationResource",
+    "PromptAdaptationResourceWithRawResponse",
+    "AsyncPromptAdaptationResourceWithRawResponse",
+    "PromptAdaptationResourceWithStreamingResponse",
+    "AsyncPromptAdaptationResourceWithStreamingResponse",
     "CustomRouterResource",
     "AsyncCustomRouterResource",
     "CustomRouterResourceWithRawResponse",
