@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.1 (2026-01-15)
+
+Full Changelog: [v1.2.0...v1.2.1](https://github.com/Not-Diamond/not-diamond-python/compare/v1.2.0...v1.2.1)
+
+### Features
+
+* **api:** manual updates ([7c53e94](https://github.com/Not-Diamond/not-diamond-python/commit/7c53e9422d28da27ad6bddc91273bd20dcc177db))
+
 ## 1.2.0 (2026-01-15)
 
 Full Changelog: [v1.1.3...v1.2.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.1.3...v1.2.0)
