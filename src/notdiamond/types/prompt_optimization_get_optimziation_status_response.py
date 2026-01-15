@@ -5,37 +5,37 @@ from typing import Optional
 from .._models import BaseModel
 from .job_status import JobStatus
 
-__all__ = ["PromptAdaptationGetAdaptStatusResponse"]
+__all__ = ["PromptOptimizationGetOptimziationStatusResponse"]
 
 
-class PromptAdaptationGetAdaptStatusResponse(BaseModel):
-    """Response model for GET /v2/prompt/adaptStatus/{adaptation_run_id} endpoint.
+class PromptOptimizationGetOptimziationStatusResponse(BaseModel):
+    """Response model for GET /v2/prompt/optimizeStatus/{optimization_run_id} endpoint.
 
-    Returns the current status of an asynchronous prompt adaptation job. Poll this
+    Returns the current status of an asynchronous prompt optimization job. Poll this
     endpoint periodically to track progress. When status is 'completed', you can
-    retrieve the optimized prompts using the /adaptResults endpoint.
+    retrieve the optimized prompts using the /optimizeResults endpoint.
 
     **Status values:**
     - **created**: Job has been initialized
     - **queued**: Waiting in queue (check queue_position for your place in line)
     - **processing**: Currently running optimization
-    - **completed**: Finished successfully, results available via /adaptResults
+    - **completed**: Finished successfully, results available via /optimizeResults
     - **failed**: Encountered an error during processing
 
     **Polling recommendations:**
     - Poll every 30-60 seconds while status is incomplete
     - Stop polling once status is 'completed' or 'failed'
-    - Adaptation typically takes 10-30 minutes total
+    - Optimization typically takes 10-30 minutes total
     """
 
-    adaptation_run_id: str
-    """Unique identifier for this adaptation run.
+    optimization_run_id: str
+    """Unique identifier for this optimization run.
 
     Use this to poll status and retrieve optimized prompts when complete
     """
 
     status: JobStatus
-    """Current status of the adaptation run.
+    """Current status of the optimization run.
 
     Poll until this is 'completed' or 'failed'
     """

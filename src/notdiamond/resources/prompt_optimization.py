@@ -6,7 +6,7 @@ from typing import Iterable, Optional
 
 import httpx
 
-from ..types import prompt_adaptation_adapt_params
+from ..types import prompt_optimization_optimize_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -20,35 +20,232 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.golden_record_param import GoldenRecordParam
 from ..types.request_provider_param import RequestProviderParam
-from ..types.prompt_adaptation_adapt_response import PromptAdaptationAdaptResponse
-from ..types.prompt_adaptation_get_cost_response import PromptAdaptationGetCostResponse
-from ..types.prompt_adaptation_get_adapt_status_response import PromptAdaptationGetAdaptStatusResponse
-from ..types.prompt_adaptation_get_adapt_results_response import PromptAdaptationGetAdaptResultsResponse
+from ..types.prompt_optimization_get_cost_response import PromptOptimizationGetCostResponse
+from ..types.prompt_optimization_optimize_response import PromptOptimizationOptimizeResponse
+from ..types.prompt_optimization_get_optimziation_status_response import PromptOptimizationGetOptimziationStatusResponse
+from ..types.prompt_optimization_get_optimization_results_response import (
+    PromptOptimizationGetOptimizationResultsResponse,
+)
 
-__all__ = ["PromptAdaptationResource", "AsyncPromptAdaptationResource"]
+__all__ = ["PromptOptimizationResource", "AsyncPromptOptimizationResource"]
 
 
-class PromptAdaptationResource(SyncAPIResource):
+class PromptOptimizationResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> PromptAdaptationResourceWithRawResponse:
+    def with_raw_response(self) -> PromptOptimizationResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#accessing-raw-response-data-eg-headers
         """
-        return PromptAdaptationResourceWithRawResponse(self)
+        return PromptOptimizationResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> PromptAdaptationResourceWithStreamingResponse:
+    def with_streaming_response(self) -> PromptOptimizationResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
         """
-        return PromptAdaptationResourceWithStreamingResponse(self)
+        return PromptOptimizationResourceWithStreamingResponse(self)
 
-    def adapt(
+    def get_cost(
+        self,
+        optimization_run_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PromptOptimizationGetCostResponse:
+        """
+        Get LLM usage costs for a specific prompt optimization run.
+
+        This endpoint returns the total cost and detailed usage records for all LLM
+        requests made during a prompt optimization run. Use this to track costs
+        associated with optimizing prompts for different target models.
+
+        **Cost Breakdown:**
+
+        - Total cost across all models used in the optimization
+        - Individual usage records with provider, model, tokens, and costs
+        - Timestamps for each LLM request
+
+        **Access Control:**
+
+        - Only accessible by the user who created the optimization run
+        - Requires prompt optimization access
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not optimization_run_id:
+            raise ValueError(
+                f"Expected a non-empty value for `optimization_run_id` but received {optimization_run_id!r}"
+            )
+        return self._get(
+            f"/v2/prompt/optimize/{optimization_run_id}/costs",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=PromptOptimizationGetCostResponse,
+        )
+
+    def get_optimization_results(
+        self,
+        optimization_run_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PromptOptimizationGetOptimizationResultsResponse:
+        """
+        Retrieve the complete results of a prompt optimization run, including optimized
+        prompts for all target models.
+
+        This endpoint returns the optimized prompts and evaluation metrics for each
+        target model in your optimization request. Call this endpoint after the
+        optimization status is 'completed' to get your optimized prompts.
+
+        **Response Structure:**
+
+        - **origin_model**: Baseline performance of your original prompt on the origin
+          model
+          - Includes: system_prompt, user_message_template, score, evaluation metrics,
+            cost
+        - **target_models**: Array of results for each target model
+          - Includes: optimized system_prompt, user_message_template, template_fields
+          - pre_optimization_score: Performance before optimization
+          - post_optimization_score: Performance after optimization
+          - Evaluation metrics and cost information
+
+        **Using Optimized Prompts:**
+
+        1. Extract the `system_prompt` and `user_message_template` from each target
+           model result
+        2. Use `user_message_template_fields` to know which fields to substitute
+        3. Apply the optimized prompts when calling the respective target models
+        4. Compare pre/post optimization scores to see improvement
+
+        **Status Handling:**
+
+        - If optimization is still processing, target model results will have
+          `result_status: "processing"`
+        - Only completed target models will have system_prompt and template values
+        - Failed target models will have `result_status: "failed"` with null values
+
+        **Cost Information:**
+
+        - Each model result includes cost in USD for the optimization process
+        - Costs vary based on model pricing and number of evaluation examples
+        - Typical range: $0.10 - $2.00 per target model
+
+        **Best Practices:**
+
+        1. Wait for status 'completed' before calling this endpoint
+        2. Check result_status for each target model
+        3. Validate that post_optimization_score > pre_optimization_score
+        4. Save optimized prompts for production use
+        5. A/B test optimized prompts against originals in production
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not optimization_run_id:
+            raise ValueError(
+                f"Expected a non-empty value for `optimization_run_id` but received {optimization_run_id!r}"
+            )
+        return self._get(
+            f"/v2/prompt/optimizeResults/{optimization_run_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=PromptOptimizationGetOptimizationResultsResponse,
+        )
+
+    def get_optimziation_status(
+        self,
+        optimization_run_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PromptOptimizationGetOptimziationStatusResponse:
+        """
+        Check the status of a prompt optimization run.
+
+        Use this endpoint to poll the status of your optimization request. Processing is
+        asynchronous, so you'll need to check periodically until the status indicates
+        completion.
+
+        **Status Values:**
+
+        - `created`: Initial state, not yet processing
+        - `queued`: Waiting for processing capacity (check queue_position)
+        - `processing`: Currently optimizing prompts
+        - `completed`: All target models have been processed successfully
+        - `failed`: One or more target models failed to process
+
+        **Polling Recommendations:**
+
+        - Poll every 30-60 seconds during processing
+        - Check queue_position if status is 'queued' to estimate wait time
+        - Stop polling once status is 'completed' or 'failed'
+        - Use GET /v2/prompt/optimizeResults to retrieve results after completion
+
+        **Queue Position:**
+
+        - Only present when status is 'queued'
+        - Lower numbers mean earlier processing (position 1 is next)
+        - Typical wait time: 1-5 minutes per position
+
+        **Note:** This endpoint only returns status information. To get the actual
+        optimized prompts and evaluation results, use GET /v2/prompt/optimizeResults
+        once status is 'completed'.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not optimization_run_id:
+            raise ValueError(
+                f"Expected a non-empty value for `optimization_run_id` but received {optimization_run_id!r}"
+            )
+        return self._get(
+            f"/v2/prompt/optimizeStatus/{optimization_run_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=PromptOptimizationGetOptimziationStatusResponse,
+        )
+
+    def optimize(
         self,
         *,
         fields: SequenceNotStr[str],
@@ -69,7 +266,7 @@ class PromptAdaptationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationAdaptResponse:
+    ) -> PromptOptimizationOptimizeResponse:
         """
         Adapt your prompt from one LLM to work optimally across different target LLMs.
 
@@ -95,7 +292,7 @@ class PromptAdaptationResource(SyncAPIResource):
 
         **Dataset Requirements:**
 
-        - Minimum 25 examples in train_goldens (more examples = better adaptation)
+        - Minimum 25 examples in train_goldens (more examples = better optimization)
         - **Prototype mode**: Set `prototype_mode: true` to use as few as 3 examples for
           prototyping
           - Recommended when you don't have enough data yet to build a proof-of-concept
@@ -110,14 +307,14 @@ class PromptAdaptationResource(SyncAPIResource):
 
         - Processing is asynchronous and typically takes 10-30 minutes
         - Time depends on: number of target models, dataset size, model availability
-        - Use the returned adaptation_run_id to check status and retrieve results
+        - Use the returned optimization_run_id to check status and retrieve results
 
         **Example Workflow:**
 
         ```
-        1. POST /v2/prompt/adapt - Submit adaptation request
-        2. GET /v2/prompt/adaptStatus/{id} - Poll status until completed
-        3. GET /v2/prompt/adaptResults/{id} - Retrieve optimized prompts
+        1. POST /v2/prompt/optimize - Submit optimization request
+        2. GET /v2/prompt/optimizeStatus/{id} - Poll status until completed
+        3. GET /v2/prompt/optimizeResults/{id} - Retrieve optimized prompts
         4. Use optimized prompts in production with target models
         ```
 
@@ -165,7 +362,7 @@ class PromptAdaptationResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._post(
-            "/v2/prompt/adapt",
+            "/v2/prompt/optimize",
             body=maybe_transform(
                 {
                     "fields": fields,
@@ -181,17 +378,38 @@ class PromptAdaptationResource(SyncAPIResource):
                     "test_goldens": test_goldens,
                     "train_goldens": train_goldens,
                 },
-                prompt_adaptation_adapt_params.PromptAdaptationAdaptParams,
+                prompt_optimization_optimize_params.PromptOptimizationOptimizeParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationAdaptResponse,
+            cast_to=PromptOptimizationOptimizeResponse,
         )
 
-    def get_adapt_results(
+
+class AsyncPromptOptimizationResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncPromptOptimizationResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/Not-Diamond/not-diamond-python#accessing-raw-response-data-eg-headers
+        """
+        return AsyncPromptOptimizationResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncPromptOptimizationResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
+        """
+        return AsyncPromptOptimizationResourceWithStreamingResponse(self)
+
+    async def get_cost(
         self,
-        adaptation_run_id: str,
+        optimization_run_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -199,55 +417,24 @@ class PromptAdaptationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetAdaptResultsResponse:
+    ) -> PromptOptimizationGetCostResponse:
         """
-        Retrieve the complete results of a prompt adaptation run, including optimized
-        prompts for all target models.
+        Get LLM usage costs for a specific prompt optimization run.
 
-        This endpoint returns the adapted prompts and evaluation metrics for each target
-        model in your adaptation request. Call this endpoint after the adaptation status
-        is 'completed' to get your optimized prompts.
+        This endpoint returns the total cost and detailed usage records for all LLM
+        requests made during a prompt optimization run. Use this to track costs
+        associated with optimizing prompts for different target models.
 
-        **Response Structure:**
+        **Cost Breakdown:**
 
-        - **origin_model**: Baseline performance of your original prompt on the origin
-          model
-          - Includes: system_prompt, user_message_template, score, evaluation metrics,
-            cost
-        - **target_models**: Array of results for each target model
-          - Includes: optimized system_prompt, user_message_template, template_fields
-          - pre_optimization_score: Performance before adaptation
-          - post_optimization_score: Performance after adaptation
-          - Evaluation metrics and cost information
+        - Total cost across all models used in the optimization
+        - Individual usage records with provider, model, tokens, and costs
+        - Timestamps for each LLM request
 
-        **Using Adapted Prompts:**
+        **Access Control:**
 
-        1. Extract the `system_prompt` and `user_message_template` from each target
-           model result
-        2. Use `user_message_template_fields` to know which fields to substitute
-        3. Apply the optimized prompts when calling the respective target models
-        4. Compare pre/post optimization scores to see improvement
-
-        **Status Handling:**
-
-        - If adaptation is still processing, target model results will have
-          `result_status: "processing"`
-        - Only completed target models will have system_prompt and template values
-        - Failed target models will have `result_status: "failed"` with null values
-
-        **Cost Information:**
-
-        - Each model result includes cost in USD for the adaptation process
-        - Costs vary based on model pricing and number of evaluation examples
-        - Typical range: $0.10 - $2.00 per target model
-
-        **Best Practices:**
-
-        1. Wait for status 'completed' before calling this endpoint
-        2. Check result_status for each target model
-        3. Validate that post_optimization_score > pre_optimization_score
-        4. Save optimized prompts for production use
-        5. A/B test adapted prompts against originals in production
+        - Only accessible by the user who created the optimization run
+        - Requires prompt optimization access
 
         Args:
           extra_headers: Send extra headers
@@ -258,19 +445,21 @@ class PromptAdaptationResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not adaptation_run_id:
-            raise ValueError(f"Expected a non-empty value for `adaptation_run_id` but received {adaptation_run_id!r}")
-        return self._get(
-            f"/v2/prompt/adaptResults/{adaptation_run_id}",
+        if not optimization_run_id:
+            raise ValueError(
+                f"Expected a non-empty value for `optimization_run_id` but received {optimization_run_id!r}"
+            )
+        return await self._get(
+            f"/v2/prompt/optimize/{optimization_run_id}/costs",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationGetAdaptResultsResponse,
+            cast_to=PromptOptimizationGetCostResponse,
         )
 
-    def get_adapt_status(
+    async def get_optimization_results(
         self,
-        adaptation_run_id: str,
+        optimization_run_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -278,11 +467,92 @@ class PromptAdaptationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetAdaptStatusResponse:
+    ) -> PromptOptimizationGetOptimizationResultsResponse:
         """
-        Check the status of a prompt adaptation run.
+        Retrieve the complete results of a prompt optimization run, including optimized
+        prompts for all target models.
 
-        Use this endpoint to poll the status of your adaptation request. Processing is
+        This endpoint returns the optimized prompts and evaluation metrics for each
+        target model in your optimization request. Call this endpoint after the
+        optimization status is 'completed' to get your optimized prompts.
+
+        **Response Structure:**
+
+        - **origin_model**: Baseline performance of your original prompt on the origin
+          model
+          - Includes: system_prompt, user_message_template, score, evaluation metrics,
+            cost
+        - **target_models**: Array of results for each target model
+          - Includes: optimized system_prompt, user_message_template, template_fields
+          - pre_optimization_score: Performance before optimization
+          - post_optimization_score: Performance after optimization
+          - Evaluation metrics and cost information
+
+        **Using Optimized Prompts:**
+
+        1. Extract the `system_prompt` and `user_message_template` from each target
+           model result
+        2. Use `user_message_template_fields` to know which fields to substitute
+        3. Apply the optimized prompts when calling the respective target models
+        4. Compare pre/post optimization scores to see improvement
+
+        **Status Handling:**
+
+        - If optimization is still processing, target model results will have
+          `result_status: "processing"`
+        - Only completed target models will have system_prompt and template values
+        - Failed target models will have `result_status: "failed"` with null values
+
+        **Cost Information:**
+
+        - Each model result includes cost in USD for the optimization process
+        - Costs vary based on model pricing and number of evaluation examples
+        - Typical range: $0.10 - $2.00 per target model
+
+        **Best Practices:**
+
+        1. Wait for status 'completed' before calling this endpoint
+        2. Check result_status for each target model
+        3. Validate that post_optimization_score > pre_optimization_score
+        4. Save optimized prompts for production use
+        5. A/B test optimized prompts against originals in production
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not optimization_run_id:
+            raise ValueError(
+                f"Expected a non-empty value for `optimization_run_id` but received {optimization_run_id!r}"
+            )
+        return await self._get(
+            f"/v2/prompt/optimizeResults/{optimization_run_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=PromptOptimizationGetOptimizationResultsResponse,
+        )
+
+    async def get_optimziation_status(
+        self,
+        optimization_run_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PromptOptimizationGetOptimziationStatusResponse:
+        """
+        Check the status of a prompt optimization run.
+
+        Use this endpoint to poll the status of your optimization request. Processing is
         asynchronous, so you'll need to check periodically until the status indicates
         completion.
 
@@ -299,7 +569,7 @@ class PromptAdaptationResource(SyncAPIResource):
         - Poll every 30-60 seconds during processing
         - Check queue_position if status is 'queued' to estimate wait time
         - Stop polling once status is 'completed' or 'failed'
-        - Use GET /v2/prompt/adaptResults to retrieve results after completion
+        - Use GET /v2/prompt/optimizeResults to retrieve results after completion
 
         **Queue Position:**
 
@@ -308,8 +578,8 @@ class PromptAdaptationResource(SyncAPIResource):
         - Typical wait time: 1-5 minutes per position
 
         **Note:** This endpoint only returns status information. To get the actual
-        adapted prompts and evaluation results, use GET /v2/prompt/adaptResults once
-        status is 'completed'.
+        optimized prompts and evaluation results, use GET /v2/prompt/optimizeResults
+        once status is 'completed'.
 
         Args:
           extra_headers: Send extra headers
@@ -320,86 +590,19 @@ class PromptAdaptationResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not adaptation_run_id:
-            raise ValueError(f"Expected a non-empty value for `adaptation_run_id` but received {adaptation_run_id!r}")
-        return self._get(
-            f"/v2/prompt/adaptStatus/{adaptation_run_id}",
+        if not optimization_run_id:
+            raise ValueError(
+                f"Expected a non-empty value for `optimization_run_id` but received {optimization_run_id!r}"
+            )
+        return await self._get(
+            f"/v2/prompt/optimizeStatus/{optimization_run_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationGetAdaptStatusResponse,
+            cast_to=PromptOptimizationGetOptimziationStatusResponse,
         )
 
-    def get_cost(
-        self,
-        adaptation_run_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetCostResponse:
-        """
-        Get LLM usage costs for a specific prompt adaptation run.
-
-        This endpoint returns the total cost and detailed usage records for all LLM
-        requests made during a prompt adaptation run. Use this to track costs associated
-        with optimizing prompts for different target models.
-
-        **Cost Breakdown:**
-
-        - Total cost across all models used in the adaptation
-        - Individual usage records with provider, model, tokens, and costs
-        - Timestamps for each LLM request
-
-        **Access Control:**
-
-        - Only accessible by the user who created the adaptation run
-        - Requires prompt adaptation access
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not adaptation_run_id:
-            raise ValueError(f"Expected a non-empty value for `adaptation_run_id` but received {adaptation_run_id!r}")
-        return self._get(
-            f"/v2/prompt/adapt/{adaptation_run_id}/costs",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PromptAdaptationGetCostResponse,
-        )
-
-
-class AsyncPromptAdaptationResource(AsyncAPIResource):
-    @cached_property
-    def with_raw_response(self) -> AsyncPromptAdaptationResourceWithRawResponse:
-        """
-        This property can be used as a prefix for any HTTP method call to return
-        the raw response object instead of the parsed content.
-
-        For more information, see https://www.github.com/Not-Diamond/not-diamond-python#accessing-raw-response-data-eg-headers
-        """
-        return AsyncPromptAdaptationResourceWithRawResponse(self)
-
-    @cached_property
-    def with_streaming_response(self) -> AsyncPromptAdaptationResourceWithStreamingResponse:
-        """
-        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
-
-        For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
-        """
-        return AsyncPromptAdaptationResourceWithStreamingResponse(self)
-
-    async def adapt(
+    async def optimize(
         self,
         *,
         fields: SequenceNotStr[str],
@@ -420,7 +623,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationAdaptResponse:
+    ) -> PromptOptimizationOptimizeResponse:
         """
         Adapt your prompt from one LLM to work optimally across different target LLMs.
 
@@ -446,7 +649,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
 
         **Dataset Requirements:**
 
-        - Minimum 25 examples in train_goldens (more examples = better adaptation)
+        - Minimum 25 examples in train_goldens (more examples = better optimization)
         - **Prototype mode**: Set `prototype_mode: true` to use as few as 3 examples for
           prototyping
           - Recommended when you don't have enough data yet to build a proof-of-concept
@@ -461,14 +664,14 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
 
         - Processing is asynchronous and typically takes 10-30 minutes
         - Time depends on: number of target models, dataset size, model availability
-        - Use the returned adaptation_run_id to check status and retrieve results
+        - Use the returned optimization_run_id to check status and retrieve results
 
         **Example Workflow:**
 
         ```
-        1. POST /v2/prompt/adapt - Submit adaptation request
-        2. GET /v2/prompt/adaptStatus/{id} - Poll status until completed
-        3. GET /v2/prompt/adaptResults/{id} - Retrieve optimized prompts
+        1. POST /v2/prompt/optimize - Submit optimization request
+        2. GET /v2/prompt/optimizeStatus/{id} - Poll status until completed
+        3. GET /v2/prompt/optimizeResults/{id} - Retrieve optimized prompts
         4. Use optimized prompts in production with target models
         ```
 
@@ -516,7 +719,7 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._post(
-            "/v2/prompt/adapt",
+            "/v2/prompt/optimize",
             body=await async_maybe_transform(
                 {
                     "fields": fields,
@@ -532,271 +735,82 @@ class AsyncPromptAdaptationResource(AsyncAPIResource):
                     "test_goldens": test_goldens,
                     "train_goldens": train_goldens,
                 },
-                prompt_adaptation_adapt_params.PromptAdaptationAdaptParams,
+                prompt_optimization_optimize_params.PromptOptimizationOptimizeParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PromptAdaptationAdaptResponse,
-        )
-
-    async def get_adapt_results(
-        self,
-        adaptation_run_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetAdaptResultsResponse:
-        """
-        Retrieve the complete results of a prompt adaptation run, including optimized
-        prompts for all target models.
-
-        This endpoint returns the adapted prompts and evaluation metrics for each target
-        model in your adaptation request. Call this endpoint after the adaptation status
-        is 'completed' to get your optimized prompts.
-
-        **Response Structure:**
-
-        - **origin_model**: Baseline performance of your original prompt on the origin
-          model
-          - Includes: system_prompt, user_message_template, score, evaluation metrics,
-            cost
-        - **target_models**: Array of results for each target model
-          - Includes: optimized system_prompt, user_message_template, template_fields
-          - pre_optimization_score: Performance before adaptation
-          - post_optimization_score: Performance after adaptation
-          - Evaluation metrics and cost information
-
-        **Using Adapted Prompts:**
-
-        1. Extract the `system_prompt` and `user_message_template` from each target
-           model result
-        2. Use `user_message_template_fields` to know which fields to substitute
-        3. Apply the optimized prompts when calling the respective target models
-        4. Compare pre/post optimization scores to see improvement
-
-        **Status Handling:**
-
-        - If adaptation is still processing, target model results will have
-          `result_status: "processing"`
-        - Only completed target models will have system_prompt and template values
-        - Failed target models will have `result_status: "failed"` with null values
-
-        **Cost Information:**
-
-        - Each model result includes cost in USD for the adaptation process
-        - Costs vary based on model pricing and number of evaluation examples
-        - Typical range: $0.10 - $2.00 per target model
-
-        **Best Practices:**
-
-        1. Wait for status 'completed' before calling this endpoint
-        2. Check result_status for each target model
-        3. Validate that post_optimization_score > pre_optimization_score
-        4. Save optimized prompts for production use
-        5. A/B test adapted prompts against originals in production
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not adaptation_run_id:
-            raise ValueError(f"Expected a non-empty value for `adaptation_run_id` but received {adaptation_run_id!r}")
-        return await self._get(
-            f"/v2/prompt/adaptResults/{adaptation_run_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PromptAdaptationGetAdaptResultsResponse,
-        )
-
-    async def get_adapt_status(
-        self,
-        adaptation_run_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetAdaptStatusResponse:
-        """
-        Check the status of a prompt adaptation run.
-
-        Use this endpoint to poll the status of your adaptation request. Processing is
-        asynchronous, so you'll need to check periodically until the status indicates
-        completion.
-
-        **Status Values:**
-
-        - `created`: Initial state, not yet processing
-        - `queued`: Waiting for processing capacity (check queue_position)
-        - `processing`: Currently optimizing prompts
-        - `completed`: All target models have been processed successfully
-        - `failed`: One or more target models failed to process
-
-        **Polling Recommendations:**
-
-        - Poll every 30-60 seconds during processing
-        - Check queue_position if status is 'queued' to estimate wait time
-        - Stop polling once status is 'completed' or 'failed'
-        - Use GET /v2/prompt/adaptResults to retrieve results after completion
-
-        **Queue Position:**
-
-        - Only present when status is 'queued'
-        - Lower numbers mean earlier processing (position 1 is next)
-        - Typical wait time: 1-5 minutes per position
-
-        **Note:** This endpoint only returns status information. To get the actual
-        adapted prompts and evaluation results, use GET /v2/prompt/adaptResults once
-        status is 'completed'.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not adaptation_run_id:
-            raise ValueError(f"Expected a non-empty value for `adaptation_run_id` but received {adaptation_run_id!r}")
-        return await self._get(
-            f"/v2/prompt/adaptStatus/{adaptation_run_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PromptAdaptationGetAdaptStatusResponse,
-        )
-
-    async def get_cost(
-        self,
-        adaptation_run_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptAdaptationGetCostResponse:
-        """
-        Get LLM usage costs for a specific prompt adaptation run.
-
-        This endpoint returns the total cost and detailed usage records for all LLM
-        requests made during a prompt adaptation run. Use this to track costs associated
-        with optimizing prompts for different target models.
-
-        **Cost Breakdown:**
-
-        - Total cost across all models used in the adaptation
-        - Individual usage records with provider, model, tokens, and costs
-        - Timestamps for each LLM request
-
-        **Access Control:**
-
-        - Only accessible by the user who created the adaptation run
-        - Requires prompt adaptation access
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not adaptation_run_id:
-            raise ValueError(f"Expected a non-empty value for `adaptation_run_id` but received {adaptation_run_id!r}")
-        return await self._get(
-            f"/v2/prompt/adapt/{adaptation_run_id}/costs",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PromptAdaptationGetCostResponse,
+            cast_to=PromptOptimizationOptimizeResponse,
         )
 
 
-class PromptAdaptationResourceWithRawResponse:
-    def __init__(self, prompt_adaptation: PromptAdaptationResource) -> None:
-        self._prompt_adaptation = prompt_adaptation
+class PromptOptimizationResourceWithRawResponse:
+    def __init__(self, prompt_optimization: PromptOptimizationResource) -> None:
+        self._prompt_optimization = prompt_optimization
 
-        self.adapt = to_raw_response_wrapper(
-            prompt_adaptation.adapt,
-        )
-        self.get_adapt_results = to_raw_response_wrapper(
-            prompt_adaptation.get_adapt_results,
-        )
-        self.get_adapt_status = to_raw_response_wrapper(
-            prompt_adaptation.get_adapt_status,
-        )
         self.get_cost = to_raw_response_wrapper(
-            prompt_adaptation.get_cost,
+            prompt_optimization.get_cost,
+        )
+        self.get_optimization_results = to_raw_response_wrapper(
+            prompt_optimization.get_optimization_results,
+        )
+        self.get_optimziation_status = to_raw_response_wrapper(
+            prompt_optimization.get_optimziation_status,
+        )
+        self.optimize = to_raw_response_wrapper(
+            prompt_optimization.optimize,
         )
 
 
-class AsyncPromptAdaptationResourceWithRawResponse:
-    def __init__(self, prompt_adaptation: AsyncPromptAdaptationResource) -> None:
-        self._prompt_adaptation = prompt_adaptation
+class AsyncPromptOptimizationResourceWithRawResponse:
+    def __init__(self, prompt_optimization: AsyncPromptOptimizationResource) -> None:
+        self._prompt_optimization = prompt_optimization
 
-        self.adapt = async_to_raw_response_wrapper(
-            prompt_adaptation.adapt,
-        )
-        self.get_adapt_results = async_to_raw_response_wrapper(
-            prompt_adaptation.get_adapt_results,
-        )
-        self.get_adapt_status = async_to_raw_response_wrapper(
-            prompt_adaptation.get_adapt_status,
-        )
         self.get_cost = async_to_raw_response_wrapper(
-            prompt_adaptation.get_cost,
+            prompt_optimization.get_cost,
+        )
+        self.get_optimization_results = async_to_raw_response_wrapper(
+            prompt_optimization.get_optimization_results,
+        )
+        self.get_optimziation_status = async_to_raw_response_wrapper(
+            prompt_optimization.get_optimziation_status,
+        )
+        self.optimize = async_to_raw_response_wrapper(
+            prompt_optimization.optimize,
         )
 
 
-class PromptAdaptationResourceWithStreamingResponse:
-    def __init__(self, prompt_adaptation: PromptAdaptationResource) -> None:
-        self._prompt_adaptation = prompt_adaptation
+class PromptOptimizationResourceWithStreamingResponse:
+    def __init__(self, prompt_optimization: PromptOptimizationResource) -> None:
+        self._prompt_optimization = prompt_optimization
 
-        self.adapt = to_streamed_response_wrapper(
-            prompt_adaptation.adapt,
-        )
-        self.get_adapt_results = to_streamed_response_wrapper(
-            prompt_adaptation.get_adapt_results,
-        )
-        self.get_adapt_status = to_streamed_response_wrapper(
-            prompt_adaptation.get_adapt_status,
-        )
         self.get_cost = to_streamed_response_wrapper(
-            prompt_adaptation.get_cost,
+            prompt_optimization.get_cost,
+        )
+        self.get_optimization_results = to_streamed_response_wrapper(
+            prompt_optimization.get_optimization_results,
+        )
+        self.get_optimziation_status = to_streamed_response_wrapper(
+            prompt_optimization.get_optimziation_status,
+        )
+        self.optimize = to_streamed_response_wrapper(
+            prompt_optimization.optimize,
         )
 
 
-class AsyncPromptAdaptationResourceWithStreamingResponse:
-    def __init__(self, prompt_adaptation: AsyncPromptAdaptationResource) -> None:
-        self._prompt_adaptation = prompt_adaptation
+class AsyncPromptOptimizationResourceWithStreamingResponse:
+    def __init__(self, prompt_optimization: AsyncPromptOptimizationResource) -> None:
+        self._prompt_optimization = prompt_optimization
 
-        self.adapt = async_to_streamed_response_wrapper(
-            prompt_adaptation.adapt,
-        )
-        self.get_adapt_results = async_to_streamed_response_wrapper(
-            prompt_adaptation.get_adapt_results,
-        )
-        self.get_adapt_status = async_to_streamed_response_wrapper(
-            prompt_adaptation.get_adapt_status,
-        )
         self.get_cost = async_to_streamed_response_wrapper(
-            prompt_adaptation.get_cost,
+            prompt_optimization.get_cost,
+        )
+        self.get_optimization_results = async_to_streamed_response_wrapper(
+            prompt_optimization.get_optimization_results,
+        )
+        self.get_optimziation_status = async_to_streamed_response_wrapper(
+            prompt_optimization.get_optimziation_status,
+        )
+        self.optimize = async_to_streamed_response_wrapper(
+            prompt_optimization.optimize,
         )

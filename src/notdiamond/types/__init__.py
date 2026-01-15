@@ -11,20 +11,24 @@ from .request_provider_param import RequestProviderParam as RequestProviderParam
 from .preference_create_params import PreferenceCreateParams as PreferenceCreateParams
 from .preference_update_params import PreferenceUpdateParams as PreferenceUpdateParams
 from .preference_create_response import PreferenceCreateResponse as PreferenceCreateResponse
-from .prompt_adaptation_adapt_params import PromptAdaptationAdaptParams as PromptAdaptationAdaptParams
 from .model_router_select_model_params import ModelRouterSelectModelParams as ModelRouterSelectModelParams
-from .prompt_adaptation_adapt_response import PromptAdaptationAdaptResponse as PromptAdaptationAdaptResponse
 from .model_router_select_model_response import ModelRouterSelectModelResponse as ModelRouterSelectModelResponse
-from .prompt_adaptation_get_cost_response import PromptAdaptationGetCostResponse as PromptAdaptationGetCostResponse
+from .prompt_optimization_optimize_params import PromptOptimizationOptimizeParams as PromptOptimizationOptimizeParams
+from .prompt_optimization_get_cost_response import (
+    PromptOptimizationGetCostResponse as PromptOptimizationGetCostResponse,
+)
+from .prompt_optimization_optimize_response import (
+    PromptOptimizationOptimizeResponse as PromptOptimizationOptimizeResponse,
+)
 from .custom_router_train_custom_router_params import (
     CustomRouterTrainCustomRouterParams as CustomRouterTrainCustomRouterParams,
 )
 from .custom_router_train_custom_router_response import (
     CustomRouterTrainCustomRouterResponse as CustomRouterTrainCustomRouterResponse,
 )
-from .prompt_adaptation_get_adapt_status_response import (
-    PromptAdaptationGetAdaptStatusResponse as PromptAdaptationGetAdaptStatusResponse,
+from .prompt_optimization_get_optimziation_status_response import (
+    PromptOptimizationGetOptimziationStatusResponse as PromptOptimizationGetOptimziationStatusResponse,
 )
-from .prompt_adaptation_get_adapt_results_response import (
-    PromptAdaptationGetAdaptResultsResponse as PromptAdaptationGetAdaptResultsResponse,
+from .prompt_optimization_get_optimization_results_response import (
+    PromptOptimizationGetOptimizationResultsResponse as PromptOptimizationGetOptimizationResultsResponse,
 )
