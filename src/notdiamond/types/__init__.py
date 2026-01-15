@@ -14,9 +14,6 @@ from .preference_create_response import PreferenceCreateResponse as PreferenceCr
 from .model_router_select_model_params import ModelRouterSelectModelParams as ModelRouterSelectModelParams
 from .model_router_select_model_response import ModelRouterSelectModelResponse as ModelRouterSelectModelResponse
 from .prompt_optimization_optimize_params import PromptOptimizationOptimizeParams as PromptOptimizationOptimizeParams
-from .prompt_optimization_get_cost_response import (
-    PromptOptimizationGetCostResponse as PromptOptimizationGetCostResponse,
-)
 from .prompt_optimization_optimize_response import (
     PromptOptimizationOptimizeResponse as PromptOptimizationOptimizeResponse,
 )
