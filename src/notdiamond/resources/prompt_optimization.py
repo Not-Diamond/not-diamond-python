@@ -20,7 +20,6 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.golden_record_param import GoldenRecordParam
 from ..types.request_provider_param import RequestProviderParam
-from ..types.prompt_optimization_get_cost_response import PromptOptimizationGetCostResponse
 from ..types.prompt_optimization_optimize_response import PromptOptimizationOptimizeResponse
 from ..types.prompt_optimization_get_optimziation_status_response import PromptOptimizationGetOptimziationStatusResponse
 from ..types.prompt_optimization_get_optimization_results_response import (
@@ -49,56 +48,6 @@ class PromptOptimizationResource(SyncAPIResource):
         For more information, see https://www.github.com/Not-Diamond/not-diamond-python#with_streaming_response
         """
         return PromptOptimizationResourceWithStreamingResponse(self)
-
-    def get_cost(
-        self,
-        optimization_run_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptOptimizationGetCostResponse:
-        """
-        Get LLM usage costs for a specific prompt optimization run.
-
-        This endpoint returns the total cost and detailed usage records for all LLM
-        requests made during a prompt optimization run. Use this to track costs
-        associated with optimizing prompts for different target models.
-
-        **Cost Breakdown:**
-
-        - Total cost across all models used in the optimization
-        - Individual usage records with provider, model, tokens, and costs
-        - Timestamps for each LLM request
-
-        **Access Control:**
-
-        - Only accessible by the user who created the optimization run
-        - Requires prompt optimization access
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not optimization_run_id:
-            raise ValueError(
-                f"Expected a non-empty value for `optimization_run_id` but received {optimization_run_id!r}"
-            )
-        return self._get(
-            f"/v2/prompt/optimize/{optimization_run_id}/costs",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PromptOptimizationGetCostResponse,
-        )
 
     def get_optimization_results(
         self,
@@ -407,56 +356,6 @@ class AsyncPromptOptimizationResource(AsyncAPIResource):
         """
         return AsyncPromptOptimizationResourceWithStreamingResponse(self)
 
-    async def get_cost(
-        self,
-        optimization_run_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PromptOptimizationGetCostResponse:
-        """
-        Get LLM usage costs for a specific prompt optimization run.
-
-        This endpoint returns the total cost and detailed usage records for all LLM
-        requests made during a prompt optimization run. Use this to track costs
-        associated with optimizing prompts for different target models.
-
-        **Cost Breakdown:**
-
-        - Total cost across all models used in the optimization
-        - Individual usage records with provider, model, tokens, and costs
-        - Timestamps for each LLM request
-
-        **Access Control:**
-
-        - Only accessible by the user who created the optimization run
-        - Requires prompt optimization access
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not optimization_run_id:
-            raise ValueError(
-                f"Expected a non-empty value for `optimization_run_id` but received {optimization_run_id!r}"
-            )
-        return await self._get(
-            f"/v2/prompt/optimize/{optimization_run_id}/costs",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=PromptOptimizationGetCostResponse,
-        )
-
     async def get_optimization_results(
         self,
         optimization_run_id: str,
@@ -748,9 +647,6 @@ class PromptOptimizationResourceWithRawResponse:
     def __init__(self, prompt_optimization: PromptOptimizationResource) -> None:
         self._prompt_optimization = prompt_optimization
 
-        self.get_cost = to_raw_response_wrapper(
-            prompt_optimization.get_cost,
-        )
         self.get_optimization_results = to_raw_response_wrapper(
             prompt_optimization.get_optimization_results,
         )
@@ -766,9 +662,6 @@ class AsyncPromptOptimizationResourceWithRawResponse:
     def __init__(self, prompt_optimization: AsyncPromptOptimizationResource) -> None:
         self._prompt_optimization = prompt_optimization
 
-        self.get_cost = async_to_raw_response_wrapper(
-            prompt_optimization.get_cost,
-        )
         self.get_optimization_results = async_to_raw_response_wrapper(
             prompt_optimization.get_optimization_results,
         )
@@ -784,9 +677,6 @@ class PromptOptimizationResourceWithStreamingResponse:
     def __init__(self, prompt_optimization: PromptOptimizationResource) -> None:
         self._prompt_optimization = prompt_optimization
 
-        self.get_cost = to_streamed_response_wrapper(
-            prompt_optimization.get_cost,
-        )
         self.get_optimization_results = to_streamed_response_wrapper(
             prompt_optimization.get_optimization_results,
         )
@@ -802,9 +692,6 @@ class AsyncPromptOptimizationResourceWithStreamingResponse:
     def __init__(self, prompt_optimization: AsyncPromptOptimizationResource) -> None:
         self._prompt_optimization = prompt_optimization
 
-        self.get_cost = async_to_streamed_response_wrapper(
-            prompt_optimization.get_cost,
-        )
         self.get_optimization_results = async_to_streamed_response_wrapper(
             prompt_optimization.get_optimization_results,
         )
