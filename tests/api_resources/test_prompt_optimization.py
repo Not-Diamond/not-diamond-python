@@ -10,7 +10,6 @@ import pytest
 from notdiamond import NotDiamond, AsyncNotDiamond
 from tests.utils import assert_matches_type
 from notdiamond.types import (
-    PromptOptimizationGetCostResponse,
     PromptOptimizationOptimizeResponse,
     PromptOptimizationGetOptimziationStatusResponse,
     PromptOptimizationGetOptimizationResultsResponse,
@@ -21,44 +20,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 class TestPromptOptimization:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
-
-    @parametrize
-    def test_method_get_cost(self, client: NotDiamond) -> None:
-        prompt_optimization = client.prompt_optimization.get_cost(
-            "optimization_run_id",
-        )
-        assert_matches_type(PromptOptimizationGetCostResponse, prompt_optimization, path=["response"])
-
-    @parametrize
-    def test_raw_response_get_cost(self, client: NotDiamond) -> None:
-        response = client.prompt_optimization.with_raw_response.get_cost(
-            "optimization_run_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_optimization = response.parse()
-        assert_matches_type(PromptOptimizationGetCostResponse, prompt_optimization, path=["response"])
-
-    @parametrize
-    def test_streaming_response_get_cost(self, client: NotDiamond) -> None:
-        with client.prompt_optimization.with_streaming_response.get_cost(
-            "optimization_run_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            prompt_optimization = response.parse()
-            assert_matches_type(PromptOptimizationGetCostResponse, prompt_optimization, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_get_cost(self, client: NotDiamond) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `optimization_run_id` but received ''"):
-            client.prompt_optimization.with_raw_response.get_cost(
-                "",
-            )
 
     @parametrize
     def test_method_get_optimization_results(self, client: NotDiamond) -> None:
@@ -305,44 +266,6 @@ class TestAsyncPromptOptimization:
     parametrize = pytest.mark.parametrize(
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
-
-    @parametrize
-    async def test_method_get_cost(self, async_client: AsyncNotDiamond) -> None:
-        prompt_optimization = await async_client.prompt_optimization.get_cost(
-            "optimization_run_id",
-        )
-        assert_matches_type(PromptOptimizationGetCostResponse, prompt_optimization, path=["response"])
-
-    @parametrize
-    async def test_raw_response_get_cost(self, async_client: AsyncNotDiamond) -> None:
-        response = await async_client.prompt_optimization.with_raw_response.get_cost(
-            "optimization_run_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        prompt_optimization = await response.parse()
-        assert_matches_type(PromptOptimizationGetCostResponse, prompt_optimization, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_get_cost(self, async_client: AsyncNotDiamond) -> None:
-        async with async_client.prompt_optimization.with_streaming_response.get_cost(
-            "optimization_run_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            prompt_optimization = await response.parse()
-            assert_matches_type(PromptOptimizationGetCostResponse, prompt_optimization, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_get_cost(self, async_client: AsyncNotDiamond) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `optimization_run_id` but received ''"):
-            await async_client.prompt_optimization.with_raw_response.get_cost(
-                "",
-            )
 
     @parametrize
     async def test_method_get_optimization_results(self, async_client: AsyncNotDiamond) -> None:
