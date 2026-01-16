@@ -36,6 +36,7 @@ from notdiamond.types import (
     PromptOptimizationGetOptimizationResultsResponse,
     PromptOptimizationGetOptimziationStatusResponse,
     PromptOptimizationOptimizeResponse,
+    PromptOptimizationRetrieveCostsResponse,
 )
 ```
 
@@ -44,6 +45,7 @@ Methods:
 - <code title="get /v2/prompt/optimizeResults/{optimization_run_id}">client.prompt_optimization.<a href="./src/notdiamond/resources/prompt_optimization.py">get_optimization_results</a>(optimization_run_id) -> <a href="./src/notdiamond/types/prompt_optimization_get_optimization_results_response.py">PromptOptimizationGetOptimizationResultsResponse</a></code>
 - <code title="get /v2/prompt/optimizeStatus/{optimization_run_id}">client.prompt_optimization.<a href="./src/notdiamond/resources/prompt_optimization.py">get_optimziation_status</a>(optimization_run_id) -> <a href="./src/notdiamond/types/prompt_optimization_get_optimziation_status_response.py">PromptOptimizationGetOptimziationStatusResponse</a></code>
 - <code title="post /v2/prompt/optimize">client.prompt_optimization.<a href="./src/notdiamond/resources/prompt_optimization.py">optimize</a>(\*\*<a href="src/notdiamond/types/prompt_optimization_optimize_params.py">params</a>) -> <a href="./src/notdiamond/types/prompt_optimization_optimize_response.py">PromptOptimizationOptimizeResponse</a></code>
+- <code title="get /v2/prompt/optimize/{optimization_run_id}/costs">client.prompt_optimization.<a href="./src/notdiamond/resources/prompt_optimization.py">retrieve_costs</a>(optimization_run_id) -> <a href="./src/notdiamond/types/prompt_optimization_retrieve_costs_response.py">PromptOptimizationRetrieveCostsResponse</a></code>
 
 # CustomRouter
 
