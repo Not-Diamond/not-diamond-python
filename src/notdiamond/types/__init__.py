@@ -23,6 +23,9 @@ from .custom_router_train_custom_router_params import (
 from .custom_router_train_custom_router_response import (
     CustomRouterTrainCustomRouterResponse as CustomRouterTrainCustomRouterResponse,
 )
+from .prompt_optimization_retrieve_costs_response import (
+    PromptOptimizationRetrieveCostsResponse as PromptOptimizationRetrieveCostsResponse,
+)
 from .prompt_optimization_get_optimziation_status_response import (
     PromptOptimizationGetOptimziationStatusResponse as PromptOptimizationGetOptimziationStatusResponse,
 )
