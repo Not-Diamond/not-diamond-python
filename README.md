@@ -7,12 +7,12 @@ The Notdiamond Python library provides convenient access to the Notdiamond REST 
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
-## What is Prompt Adaptation?
+## What is Prompt Optimization?
 
-Not Diamond specializes in **Prompt Adaptation** - automatically optimizing your prompts to work optimally across different LLMs. Each language model has unique characteristics, instruction-following patterns, and preferred prompt formats. A prompt that works perfectly for GPT-5 might perform poorly on Claude or Gemini.
+Not Diamond specializes in **Prompt Optimization** - automatically optimizing your prompts to work optimally across different LLMs. Each language model has unique characteristics, instruction-following patterns, and preferred prompt formats. A prompt that works perfectly for GPT-5 might perform poorly on Claude or Gemini.
 Manually rewriting prompts for each model is time-consuming and requires deep expertise in each model's quirks.
 
-**The Solution**: Not Diamond automatically adapts your prompts with:
+**The Solution**: Not Diamond automatically optimizes your prompts with:
 - Automatic optimization of both system and user prompts
 - Built-in evaluation metrics
 - Minimum 25 training examples recommended
@@ -41,8 +41,8 @@ client = NotDiamond(
     api_key=os.environ.get("NOT_DIAMOND_API_KEY"),  # This is the default and can be omitted
 )
 
-# Step 1: Start a prompt adaptation job with prototype mode
-adaptation = client.prompt_optimization.adapt(
+# Step 1: Start a prompt optimization job with prototype mode
+result = client.prompt_optimization.optimize(
     fields=["question"],
     system_prompt="You are a mathematical assistant that counts digits accurately.",
     target_models=[
@@ -104,11 +104,11 @@ adaptation = client.prompt_optimization.adapt(
     prototype_mode=True,  # Enable faster prototype mode for quick experimentation
 )
 
-print(f"Adaptation started: {adaptation.adaptation_run_id}")
+print(f"Optimization started: {result.optimization_run_id}")
 
 # Step 2: Poll for completion (typically takes 10-30 minutes)
 while True:
-    status = client.prompt_adaptation.get_adapt_status(adaptation.adaptation_run_id)
+    status = client.prompt_optimization.get_optimziation_status(result.optimization_run_id)
     print(f"Status: {status.status}")
     
     if status.status == "queued":
@@ -121,13 +121,13 @@ while True:
 
 # Step 3: Get the optimized prompts
 if status.status == "completed":
-    results = client.prompt_adaptation.get_adapt_results(adaptation.adaptation_run_id)
+    results = client.prompt_optimization.get_optimization_results(result.optimization_run_id)
     
     print(f"\nOrigin model baseline: {results.origin_model.score:.2f}")
     
     for target in results.target_models:
         print(f"\n{'='*50}")
-        print(f"Model: {target.model.model} ({target.model.provider})")
+        print(f"Model: {target.api_model_name}")
         print(f"Optimized System Prompt:\n{target.system_prompt}")
         print(f"Optimized Template:\n{target.user_message_template}")
         print(f"Pre-optimization score: {target.pre_optimization_score:.2f}")
@@ -136,7 +136,7 @@ if status.status == "completed":
         print(f"Cost: ${target.cost:.4f}")
 ```
 
-For more details, see the [Prompt Adaptation documentation](https://docs.notdiamond.ai/docs/adapting-prompts-to-new-models).
+For more details, see the [Prompt Optimization documentation](https://docs.notdiamond.ai/docs/what-is-prompt-adaptation).
 
 ### Model Routing
 
@@ -210,7 +210,7 @@ from notdiamond import NotDiamond
 client = NotDiamond()
 
 try:
-    client.prompt_adaptation.adapt(
+    client.prompt_optimization.optimize(
         fields=["question"],
         system_prompt="You are a helpful assistant.",
         target_models=[
@@ -275,9 +275,9 @@ client = NotDiamond(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
-# Override per-request (note: prompt adaptation may take 10-30 minutes, so increase timeout accordingly):
-client.with_options(timeout=120.0).prompt.get_adapt_status(
-    adaptation_run_id="your-adaptation-run-id"
+# Override per-request (note: prompt optimization may take 10-30 minutes, so increase timeout accordingly):
+client.with_options(timeout=120.0).prompt_optimization.get_optimziation_status(
+    optimization_run_id="your-optimization-run-id"
 )
 ```
 
