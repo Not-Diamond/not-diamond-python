@@ -26,7 +26,7 @@ class PromptOptimizationOptimizeParams(TypedDict, total=False):
     """
 
     target_models: Required[Iterable[RequestProviderParam]]
-    """List of models to adapt the prompt for.
+    """List of models to optimize the prompt for.
 
     Maximum count depends on your subscription tier (Free: 1, Starter: 3, Startup:
     5, Enterprise: 10)
