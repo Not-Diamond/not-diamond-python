@@ -218,20 +218,21 @@ class PromptOptimizationResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PromptOptimizationOptimizeResponse:
         """
-        Adapt your prompt from one LLM to work optimally across different target LLMs.
+        Optimize your prompt from one LLM to work optimally across different target
+        LLMs.
 
         This endpoint automatically optimizes your prompt (system prompt + user message
         template) to improve accuracy on your use case across various models. Each model
         has unique characteristics, and what works well for GPT-5 might not work as well
         for Claude or Gemini.
 
-        **How Prompt Adaptation Works:**
+        **How Prompt Optimization Works:**
 
         1. You provide your current prompt and optionally your current origin model
-        2. You specify the target models you want to adapt your prompt to
+        2. You specify the target models you want to optimize your prompt to
         3. You provide evaluation examples (golden records) with expected answers
         4. The system runs optimization to find the best prompt for each target model
-        5. You receive adapted prompts that perform well on your target models
+        5. You receive optimized prompts that perform well on your target models
 
         **Evaluation Metrics:** Choose either a standard metric or provide custom
         evaluation:
@@ -268,10 +269,6 @@ class PromptOptimizationResource(SyncAPIResource):
         4. Use optimized prompts in production with target models
         ```
 
-        **Related Documentation:** See
-        https://docs.notdiamond.ai/docs/adapting-prompts-to-new-models for detailed
-        guide.
-
         Args:
           fields: List of field names that will be substituted into the template. Must match keys
               in golden records
@@ -279,7 +276,7 @@ class PromptOptimizationResource(SyncAPIResource):
           system_prompt: System prompt to use with the origin model. This sets the context and role for
               the LLM
 
-          target_models: List of models to adapt the prompt for. Maximum count depends on your
+          target_models: List of models to optimize the prompt for. Maximum count depends on your
               subscription tier (Free: 1, Starter: 3, Startup: 5, Enterprise: 10)
 
           template: User message template with placeholders for fields. Use curly braces for field
@@ -575,20 +572,21 @@ class AsyncPromptOptimizationResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PromptOptimizationOptimizeResponse:
         """
-        Adapt your prompt from one LLM to work optimally across different target LLMs.
+        Optimize your prompt from one LLM to work optimally across different target
+        LLMs.
 
         This endpoint automatically optimizes your prompt (system prompt + user message
         template) to improve accuracy on your use case across various models. Each model
         has unique characteristics, and what works well for GPT-5 might not work as well
         for Claude or Gemini.
 
-        **How Prompt Adaptation Works:**
+        **How Prompt Optimization Works:**
 
         1. You provide your current prompt and optionally your current origin model
-        2. You specify the target models you want to adapt your prompt to
+        2. You specify the target models you want to optimize your prompt to
         3. You provide evaluation examples (golden records) with expected answers
         4. The system runs optimization to find the best prompt for each target model
-        5. You receive adapted prompts that perform well on your target models
+        5. You receive optimized prompts that perform well on your target models
 
         **Evaluation Metrics:** Choose either a standard metric or provide custom
         evaluation:
@@ -625,10 +623,6 @@ class AsyncPromptOptimizationResource(AsyncAPIResource):
         4. Use optimized prompts in production with target models
         ```
 
-        **Related Documentation:** See
-        https://docs.notdiamond.ai/docs/adapting-prompts-to-new-models for detailed
-        guide.
-
         Args:
           fields: List of field names that will be substituted into the template. Must match keys
               in golden records
@@ -636,7 +630,7 @@ class AsyncPromptOptimizationResource(AsyncAPIResource):
           system_prompt: System prompt to use with the origin model. This sets the context and role for
               the LLM
 
-          target_models: List of models to adapt the prompt for. Maximum count depends on your
+          target_models: List of models to optimize the prompt for. Maximum count depends on your
               subscription tier (Free: 1, Starter: 3, Startup: 5, Enterprise: 10)
 
           template: User message template with placeholders for fields. Use curly braces for field

@@ -58,13 +58,13 @@ class UsageRecord(BaseModel):
 
 
 class PromptOptimizationRetrieveCostsResponse(BaseModel):
-    """Response model for GET /v2/prompt/adapt/{adaptation_run_id}/costs endpoint.
+    """Response model for GET /v2/prompt/optimize/{optimization_run_id}/costs endpoint.
 
     Contains the total LLM costs and detailed usage records for a prompt adaptation run.
     Use this to track costs associated with optimizing prompts for different target models.
     """
 
-    adaptation_run_id: str
+    optimization_run_id: str
     """Unique identifier for the adaptation run"""
 
     total_cost: float

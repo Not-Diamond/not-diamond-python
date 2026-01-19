@@ -124,7 +124,8 @@ class OriginModel(BaseModel):
 
 
 class PromptOptimizationGetOptimizationResultsResponse(BaseModel):
-    """Response model for GET /v2/prompt/adaptResults/{adaptation_run_id} endpoint.
+    """
+    Response model for GET /v2/prompt/optimizeResults/{optimization_run_id} endpoint.
 
     Contains the complete results of a prompt adaptation run, including optimized prompts
     and evaluation metrics for all target models. Use this to retrieve your adapted prompts
