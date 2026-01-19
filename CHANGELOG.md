@@ -1,18 +1,5 @@
 # Changelog
 
-## 1.3.0 (2026-01-17)
-
-Full Changelog: [v1.2.2...v1.3.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.2.2...v1.3.0)
-
-### Features
-
-* **api:** manual updates ([4f5cbc8](https://github.com/Not-Diamond/not-diamond-python/commit/4f5cbc86230f35d5eaa7421e5c794fe037b32b92))
-
-
-### Chores
-
-* **internal:** update `actions/checkout` version ([15211cd](https://github.com/Not-Diamond/not-diamond-python/commit/15211cd2310f289b894c358840e4c122fea68515))
-
 ## 1.2.2 (2026-01-16)
 
 Full Changelog: [v1.2.1...v1.2.2](https://github.com/Not-Diamond/not-diamond-python/compare/v1.2.1...v1.2.2)
