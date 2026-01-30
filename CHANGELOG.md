@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.5.0 (2026-01-30)
+
+Full Changelog: [v1.4.0...v1.5.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.4.0...v1.5.0)
+
+### Features
+
+* **client:** add custom JSON encoder for extended type support ([4e78c03](https://github.com/Not-Diamond/not-diamond-python/commit/4e78c03979aef5612cd26cc655ad8ac8dae5f4c2))
+
 ## 1.4.0 (2026-01-24)
 
 Full Changelog: [v1.3.0...v1.4.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.3.0...v1.4.0)
