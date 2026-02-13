@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.5.1 (2026-02-13)
+
+Full Changelog: [v1.5.0...v1.5.1](https://github.com/Not-Diamond/not-diamond-python/compare/v1.5.0...v1.5.1)
+
+### Chores
+
+* format all `api.md` files ([8febad2](https://github.com/Not-Diamond/not-diamond-python/commit/8febad237de882dd951430312e9405550d886a80))
+* **internal:** bump dependencies ([fd1873d](https://github.com/Not-Diamond/not-diamond-python/commit/fd1873d2be995bff5a50365213c684a4373c6a25))
+* **internal:** fix lint error on Python 3.14 ([c8f2481](https://github.com/Not-Diamond/not-diamond-python/commit/c8f2481d092ee82c6912a1965a79de732ce29ef3))
+
 ## 1.5.0 (2026-01-30)
 
 Full Changelog: [v1.4.0...v1.5.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.4.0...v1.5.0)
