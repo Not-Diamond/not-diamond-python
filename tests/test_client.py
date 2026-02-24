@@ -1082,6 +1082,8 @@ class TestNotDiamond:
     def test_proxy_environment_variables(self, monkeypatch: pytest.MonkeyPatch) -> None:
         # Test that the proxy environment variables are set correctly
         monkeypatch.setenv("HTTPS_PROXY", "https://example.org")
+        # Delete in case our environment has this set
+        monkeypatch.delenv("HTTP_PROXY", raising=False)
 
         client = DefaultHttpxClient()
 
@@ -2117,6 +2119,8 @@ class TestAsyncNotDiamond:
     async def test_proxy_environment_variables(self, monkeypatch: pytest.MonkeyPatch) -> None:
         # Test that the proxy environment variables are set correctly
         monkeypatch.setenv("HTTPS_PROXY", "https://example.org")
+        # Delete in case our environment has this set
+        monkeypatch.delenv("HTTP_PROXY", raising=False)
 
         client = DefaultAsyncHttpxClient()
 
