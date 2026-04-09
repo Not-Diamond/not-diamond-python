@@ -85,7 +85,8 @@ class ModelRouterResource(SyncAPIResource):
         2. Specify which LLM providers you want to route between
         3. Optionally provide a preference_id to use a custom router that you've trained
         4. Receive a recommended model and session_id
-        5. Use the session_id to submit feedback and improve routing
+        5. Use the session_id to submit feedback and improve routing for non-hashed
+           sessions
 
         **Related Endpoints:**
 
@@ -103,7 +104,7 @@ class ModelRouterResource(SyncAPIResource):
           type: Optional format type. Use 'openrouter' to accept and return OpenRouter-format
               model identifiers
 
-          hash_content: Whether to hash message content for privacy
+          hash_content: Whether to hash message content for privacy. Hashed content is not persisted.
 
           max_model_depth: Maximum number of models to consider for routing. If not specified, considers
               all provided models
@@ -217,7 +218,8 @@ class AsyncModelRouterResource(AsyncAPIResource):
         2. Specify which LLM providers you want to route between
         3. Optionally provide a preference_id to use a custom router that you've trained
         4. Receive a recommended model and session_id
-        5. Use the session_id to submit feedback and improve routing
+        5. Use the session_id to submit feedback and improve routing for non-hashed
+           sessions
 
         **Related Endpoints:**
 
@@ -235,7 +237,7 @@ class AsyncModelRouterResource(AsyncAPIResource):
           type: Optional format type. Use 'openrouter' to accept and return OpenRouter-format
               model identifiers
 
-          hash_content: Whether to hash message content for privacy
+          hash_content: Whether to hash message content for privacy. Hashed content is not persisted.
 
           max_model_depth: Maximum number of models to consider for routing. If not specified, considers
               all provided models
