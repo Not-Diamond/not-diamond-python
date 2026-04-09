@@ -27,7 +27,7 @@ class ModelRouterSelectModelParams(TypedDict, total=False):
     """
 
     hash_content: bool
-    """Whether to hash message content for privacy"""
+    """Whether to hash message content for privacy. Hashed content is not persisted."""
 
     max_model_depth: Optional[int]
     """Maximum number of models to consider for routing.
