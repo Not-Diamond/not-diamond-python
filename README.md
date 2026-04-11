@@ -34,18 +34,9 @@ client = NotDiamond(
 
 response = client.model_router.select_model(
     llm_providers=[
-        {
-            "model": "gpt-4o",
-            "provider": "openai",
-        },
-        {
-            "model": "claude-sonnet-4-5-20250929",
-            "provider": "anthropic",
-        },
-        {
-            "model": "gemini-2.5-flash",
-            "provider": "google",
-        },
+        {"model": "gpt-4o"},
+        {"model": "claude-sonnet-4-5-20250929"},
+        {"model": "gemini-2.5-flash"},
     ],
     messages=[
         {
@@ -83,18 +74,9 @@ client = AsyncNotDiamond(
 async def main() -> None:
     response = await client.model_router.select_model(
         llm_providers=[
-            {
-                "model": "gpt-4o",
-                "provider": "openai",
-            },
-            {
-                "model": "claude-sonnet-4-5-20250929",
-                "provider": "anthropic",
-            },
-            {
-                "model": "gemini-2.5-flash",
-                "provider": "google",
-            },
+            {"model": "gpt-4o"},
+            {"model": "claude-sonnet-4-5-20250929"},
+            {"model": "gemini-2.5-flash"},
         ],
         messages=[
             {
@@ -142,18 +124,9 @@ async def main() -> None:
     ) as client:
         response = await client.model_router.select_model(
             llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-2.5-flash",
-                    "provider": "google",
-                },
+                {"model": "gpt-4o"},
+                {"model": "claude-sonnet-4-5-20250929"},
+                {"model": "gemini-2.5-flash"},
             ],
             messages=[
                 {
@@ -251,18 +224,9 @@ client = NotDiamond()
 try:
     client.model_router.select_model(
         llm_providers=[
-            {
-                "model": "gpt-4o",
-                "provider": "openai",
-            },
-            {
-                "model": "claude-sonnet-4-5-20250929",
-                "provider": "anthropic",
-            },
-            {
-                "model": "gemini-2.5-flash",
-                "provider": "google",
-            },
+            {"model": "gpt-4o"},
+            {"model": "claude-sonnet-4-5-20250929"},
+            {"model": "gemini-2.5-flash"},
         ],
         messages=[
             {
@@ -319,18 +283,9 @@ client = NotDiamond(
 # Or, configure per-request:
 client.with_options(max_retries=5).model_router.select_model(
     llm_providers=[
-        {
-            "model": "gpt-4o",
-            "provider": "openai",
-        },
-        {
-            "model": "claude-sonnet-4-5-20250929",
-            "provider": "anthropic",
-        },
-        {
-            "model": "gemini-2.5-flash",
-            "provider": "google",
-        },
+        {"model": "gpt-4o"},
+        {"model": "claude-sonnet-4-5-20250929"},
+        {"model": "gemini-2.5-flash"},
     ],
     messages=[
         {
@@ -367,18 +322,9 @@ client = NotDiamond(
 # Override per-request:
 client.with_options(timeout=5.0).model_router.select_model(
     llm_providers=[
-        {
-            "model": "gpt-4o",
-            "provider": "openai",
-        },
-        {
-            "model": "claude-sonnet-4-5-20250929",
-            "provider": "anthropic",
-        },
-        {
-            "model": "gemini-2.5-flash",
-            "provider": "google",
-        },
+        {"model": "gpt-4o"},
+        {"model": "claude-sonnet-4-5-20250929"},
+        {"model": "gemini-2.5-flash"},
     ],
     messages=[
         {
@@ -433,14 +379,11 @@ from notdiamond import NotDiamond
 client = NotDiamond()
 response = client.model_router.with_raw_response.select_model(
     llm_providers=[{
-        "model": "gpt-4o",
-        "provider": "openai",
+        "model": "gpt-4o"
     }, {
-        "model": "claude-sonnet-4-5-20250929",
-        "provider": "anthropic",
+        "model": "claude-sonnet-4-5-20250929"
     }, {
-        "model": "gemini-2.5-flash",
-        "provider": "google",
+        "model": "gemini-2.5-flash"
     }],
     messages=[{
         "role": "system",
@@ -469,18 +412,9 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 ```python
 with client.model_router.with_streaming_response.select_model(
     llm_providers=[
-        {
-            "model": "gpt-4o",
-            "provider": "openai",
-        },
-        {
-            "model": "claude-sonnet-4-5-20250929",
-            "provider": "anthropic",
-        },
-        {
-            "model": "gemini-2.5-flash",
-            "provider": "google",
-        },
+        {"model": "gpt-4o"},
+        {"model": "claude-sonnet-4-5-20250929"},
+        {"model": "gemini-2.5-flash"},
     ],
     messages=[
         {
