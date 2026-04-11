@@ -1,5 +1,48 @@
 # Changelog
 
+## 1.6.0 (2026-04-11)
+
+Full Changelog: [v1.5.1...v1.6.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.5.1...v1.6.0)
+
+### Features
+
+* **api:** api update ([aeadd13](https://github.com/Not-Diamond/not-diamond-python/commit/aeadd131bb55464a890d7d7efa52582dce89806f))
+* **internal:** implement indices array format for query and form serialization ([2dfa6b8](https://github.com/Not-Diamond/not-diamond-python/commit/2dfa6b863c29ad5165ca63ca34baeca3ece2d9c3))
+
+
+### Bug Fixes
+
+* **client:** preserve hardcoded query params when merging with user params ([79afa6a](https://github.com/Not-Diamond/not-diamond-python/commit/79afa6a54502a5cbdd379ff56354d2b698a981b0))
+* **deps:** bump minimum typing-extensions version ([b534367](https://github.com/Not-Diamond/not-diamond-python/commit/b53436721bbcb8e1dad0b87cb9ee33db389323aa))
+* ensure file data are only sent as 1 parameter ([21155cb](https://github.com/Not-Diamond/not-diamond-python/commit/21155cba0c37c064b7f0494e94423687c1c9d1e6))
+* **pydantic:** do not pass `by_alias` unless set ([491e554](https://github.com/Not-Diamond/not-diamond-python/commit/491e554ed5dded8b7a2420af0f9ac031928f416d))
+* sanitize endpoint path params ([4ae88e9](https://github.com/Not-Diamond/not-diamond-python/commit/4ae88e926ed96c26f1241ba27d40f21992218077))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([3248e26](https://github.com/Not-Diamond/not-diamond-python/commit/3248e2698ce1b356ac929d5695194eab00ed36eb))
+* **ci:** skip uploading artifacts on stainless-internal branches ([b476f66](https://github.com/Not-Diamond/not-diamond-python/commit/b476f661bf4048cb8deaaad5f4f10a39c6676c44))
+* **internal:** add request options to SSE classes ([0318c8c](https://github.com/Not-Diamond/not-diamond-python/commit/0318c8cbe29b70892c2838ce0399c4712058e077))
+* **internal:** make `test_proxy_environment_variables` more resilient ([bf042c7](https://github.com/Not-Diamond/not-diamond-python/commit/bf042c78c266ad77f3e037f9971dfdec55e691f3))
+* **internal:** make `test_proxy_environment_variables` more resilient to env ([02c3a32](https://github.com/Not-Diamond/not-diamond-python/commit/02c3a32aa289e14786a0a766a75724eced87f822))
+* **internal:** tweak CI branches ([74c1977](https://github.com/Not-Diamond/not-diamond-python/commit/74c19775794f33b2d12bd71e6381590f956363f7))
+* **internal:** update gitignore ([9830e49](https://github.com/Not-Diamond/not-diamond-python/commit/9830e492bce485b52911658ce2444326332e2e7b))
+* **test:** do not count install time for mock server timeout ([81d9b5b](https://github.com/Not-Diamond/not-diamond-python/commit/81d9b5b41f20e1decbd150a4c2b5aaa717fa5dad))
+* **tests:** bump steady to v0.19.4 ([d0163e4](https://github.com/Not-Diamond/not-diamond-python/commit/d0163e4ec9450816c45512d386e458fba938e5f6))
+* **tests:** bump steady to v0.19.5 ([56d8074](https://github.com/Not-Diamond/not-diamond-python/commit/56d807440c7a8d2e0cd4d57d4f1db991e2c78380))
+* **tests:** bump steady to v0.19.6 ([a0ea487](https://github.com/Not-Diamond/not-diamond-python/commit/a0ea4879ed19b394ba449420aae345295c032135))
+* **tests:** bump steady to v0.19.7 ([93a6177](https://github.com/Not-Diamond/not-diamond-python/commit/93a6177d3eea65c15f84994c1ae6556b17842b04))
+* **tests:** bump steady to v0.20.1 ([7b7196a](https://github.com/Not-Diamond/not-diamond-python/commit/7b7196ad0e52c0aba5fb268c23992d40d4bd75ae))
+* **tests:** bump steady to v0.20.2 ([6dd4973](https://github.com/Not-Diamond/not-diamond-python/commit/6dd4973a2d4cb944bfb893307d3beda74c1e2603))
+* update mock server docs ([ce8f436](https://github.com/Not-Diamond/not-diamond-python/commit/ce8f436984c0e46ed4d53c276add66e0603e3de0))
+* update placeholder string ([7767361](https://github.com/Not-Diamond/not-diamond-python/commit/7767361d016bc23b67bc7c968adba90453108896))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([7693765](https://github.com/Not-Diamond/not-diamond-python/commit/769376567e6fbcd46ce1d378d763c7d348b3cfe1))
+
 ## 1.5.1 (2026-02-13)
 
 Full Changelog: [v1.5.0...v1.5.1](https://github.com/Not-Diamond/not-diamond-python/compare/v1.5.0...v1.5.1)
