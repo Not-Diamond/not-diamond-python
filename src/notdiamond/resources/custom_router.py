@@ -7,8 +7,9 @@ from typing import Mapping, Optional, cast
 import httpx
 
 from ..types import custom_router_train_custom_router_params
+from .._files import deepcopy_with_paths
 from .._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
-from .._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from .._utils import extract_files, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -147,7 +148,7 @@ class CustomRouterResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = deepcopy_minimal(
+        body = deepcopy_with_paths(
             {
                 "dataset_file": dataset_file,
                 "language": language,
@@ -156,7 +157,8 @@ class CustomRouterResource(SyncAPIResource):
                 "prompt_column": prompt_column,
                 "override": override,
                 "preference_id": preference_id,
-            }
+            },
+            [["dataset_file"]],
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["dataset_file"]])
         # It should be noted that the actual Content-Type header that will be
@@ -298,7 +300,7 @@ class AsyncCustomRouterResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = deepcopy_minimal(
+        body = deepcopy_with_paths(
             {
                 "dataset_file": dataset_file,
                 "language": language,
@@ -307,7 +309,8 @@ class AsyncCustomRouterResource(AsyncAPIResource):
                 "prompt_column": prompt_column,
                 "override": override,
                 "preference_id": preference_id,
-            }
+            },
+            [["dataset_file"]],
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["dataset_file"]])
         # It should be noted that the actual Content-Type header that will be
