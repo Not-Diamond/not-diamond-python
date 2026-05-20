@@ -26,6 +26,12 @@ class ModelRouterSelectModelParams(TypedDict, total=False):
     Use 'openrouter' to accept and return OpenRouter-format model identifiers
     """
 
+    cost_quality_tradeoff: Optional[int]
+    """Blend cost and quality: 0 = pure quality (default), 10 = pure cost.
+
+    Mutually exclusive with `tradeoff`. Not supported with custom routers.
+    """
+
     hash_content: bool
     """Whether to hash message content for privacy. Hashed content is not persisted."""
 
