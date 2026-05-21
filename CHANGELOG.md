@@ -1,5 +1,39 @@
 # Changelog
 
+## 1.7.0 (2026-05-21)
+
+Full Changelog: [v1.6.0...v1.7.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.6.0...v1.7.0)
+
+### Features
+
+* **api:** api update ([c174dfe](https://github.com/Not-Diamond/not-diamond-python/commit/c174dfed54777b32b3727f8a299f89f3318c0a68))
+* **internal/types:** support eagerly validating pydantic iterators ([d6f52d9](https://github.com/Not-Diamond/not-diamond-python/commit/d6f52d91b321157b527650a5b525378837adfb08))
+* support setting headers via env ([e4d8142](https://github.com/Not-Diamond/not-diamond-python/commit/e4d8142f6fe05accf9529e2aea146d73732c764c))
+
+
+### Bug Fixes
+
+* **client:** add missing f-string prefix in file type error message ([b976e15](https://github.com/Not-Diamond/not-diamond-python/commit/b976e150b7dbb398824d3385a86b197432bfd5c2))
+* use correct field name format for multipart file arrays ([75a23a9](https://github.com/Not-Diamond/not-diamond-python/commit/75a23a9d44a396770a2a68e421ac68f9777e0dd9))
+
+
+### Performance Improvements
+
+* **client:** optimize file structure copying in multipart requests ([2d57d0c](https://github.com/Not-Diamond/not-diamond-python/commit/2d57d0c0e41e16d137dfb34a1b86452f1b7582dd))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([31301e1](https://github.com/Not-Diamond/not-diamond-python/commit/31301e18564d5d487dab1a1f565d9b6a393ee76d))
+* **internal:** reformat pyproject.toml ([b0436af](https://github.com/Not-Diamond/not-diamond-python/commit/b0436af903a26176f31d65f2595e59601b999f1f))
+* **tests:** bump steady to v0.22.1 ([6ecea7e](https://github.com/Not-Diamond/not-diamond-python/commit/6ecea7e18281ab3bc1f2b28f4cfcac3a427d4e1e))
+
+
+### Documentation
+
+* improve examples ([7c71ae5](https://github.com/Not-Diamond/not-diamond-python/commit/7c71ae5933c951c669a512fd8e0c7952a148b015))
+* update examples ([8e37eca](https://github.com/Not-Diamond/not-diamond-python/commit/8e37eca91e4d36e7a8260503ea0ffa9b4c43e662))
+
 ## 1.6.0 (2026-04-11)
 
 Full Changelog: [v1.5.1...v1.6.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.5.1...v1.6.0)

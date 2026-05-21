@@ -25,7 +25,7 @@ class TestPreferences:
     @parametrize
     def test_method_create_with_all_params(self, client: NotDiamond) -> None:
         preference = client.preferences.create(
-            name="name",
+            name="My Production Router",
         )
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 
@@ -140,7 +140,7 @@ class TestAsyncPreferences:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         preference = await async_client.preferences.create(
-            name="name",
+            name="My Production Router",
         )
         assert_matches_type(PreferenceCreateResponse, preference, path=["response"])
 

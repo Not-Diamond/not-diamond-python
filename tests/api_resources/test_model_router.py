@@ -20,20 +20,7 @@ class TestModelRouter:
     @parametrize
     def test_method_select_model(self, client: NotDiamond) -> None:
         model_router = client.model_router.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-2.5-flash",
-                    "provider": "google",
-                },
-            ],
+            llm_providers=[{"model": "gpt-4o"}, {"model": "claude-sonnet-4-5-20250929"}, {"model": "gemini-2.5-flash"}],
             messages=[
                 {
                     "role": "system",
@@ -53,7 +40,6 @@ class TestModelRouter:
             llm_providers=[
                 {
                     "model": "gpt-4o",
-                    "provider": "openai",
                     "context_length": 0,
                     "input_price": 0,
                     "is_custom": True,
@@ -62,7 +48,6 @@ class TestModelRouter:
                 },
                 {
                     "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
                     "context_length": 0,
                     "input_price": 0,
                     "is_custom": True,
@@ -71,7 +56,6 @@ class TestModelRouter:
                 },
                 {
                     "model": "gemini-2.5-flash",
-                    "provider": "google",
                     "context_length": 0,
                     "input_price": 0,
                     "is_custom": True,
@@ -90,6 +74,7 @@ class TestModelRouter:
                 },
             ],
             type="type",
+            cost_quality_tradeoff=0,
             hash_content=True,
             max_model_depth=0,
             metric="metric",
@@ -103,20 +88,7 @@ class TestModelRouter:
     @parametrize
     def test_raw_response_select_model(self, client: NotDiamond) -> None:
         response = client.model_router.with_raw_response.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-2.5-flash",
-                    "provider": "google",
-                },
-            ],
+            llm_providers=[{"model": "gpt-4o"}, {"model": "claude-sonnet-4-5-20250929"}, {"model": "gemini-2.5-flash"}],
             messages=[
                 {
                     "role": "system",
@@ -137,20 +109,7 @@ class TestModelRouter:
     @parametrize
     def test_streaming_response_select_model(self, client: NotDiamond) -> None:
         with client.model_router.with_streaming_response.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-2.5-flash",
-                    "provider": "google",
-                },
-            ],
+            llm_providers=[{"model": "gpt-4o"}, {"model": "claude-sonnet-4-5-20250929"}, {"model": "gemini-2.5-flash"}],
             messages=[
                 {
                     "role": "system",
@@ -179,20 +138,7 @@ class TestAsyncModelRouter:
     @parametrize
     async def test_method_select_model(self, async_client: AsyncNotDiamond) -> None:
         model_router = await async_client.model_router.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-2.5-flash",
-                    "provider": "google",
-                },
-            ],
+            llm_providers=[{"model": "gpt-4o"}, {"model": "claude-sonnet-4-5-20250929"}, {"model": "gemini-2.5-flash"}],
             messages=[
                 {
                     "role": "system",
@@ -212,7 +158,6 @@ class TestAsyncModelRouter:
             llm_providers=[
                 {
                     "model": "gpt-4o",
-                    "provider": "openai",
                     "context_length": 0,
                     "input_price": 0,
                     "is_custom": True,
@@ -221,7 +166,6 @@ class TestAsyncModelRouter:
                 },
                 {
                     "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
                     "context_length": 0,
                     "input_price": 0,
                     "is_custom": True,
@@ -230,7 +174,6 @@ class TestAsyncModelRouter:
                 },
                 {
                     "model": "gemini-2.5-flash",
-                    "provider": "google",
                     "context_length": 0,
                     "input_price": 0,
                     "is_custom": True,
@@ -249,6 +192,7 @@ class TestAsyncModelRouter:
                 },
             ],
             type="type",
+            cost_quality_tradeoff=0,
             hash_content=True,
             max_model_depth=0,
             metric="metric",
@@ -262,20 +206,7 @@ class TestAsyncModelRouter:
     @parametrize
     async def test_raw_response_select_model(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.model_router.with_raw_response.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-2.5-flash",
-                    "provider": "google",
-                },
-            ],
+            llm_providers=[{"model": "gpt-4o"}, {"model": "claude-sonnet-4-5-20250929"}, {"model": "gemini-2.5-flash"}],
             messages=[
                 {
                     "role": "system",
@@ -296,20 +227,7 @@ class TestAsyncModelRouter:
     @parametrize
     async def test_streaming_response_select_model(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.model_router.with_streaming_response.select_model(
-            llm_providers=[
-                {
-                    "model": "gpt-4o",
-                    "provider": "openai",
-                },
-                {
-                    "model": "claude-sonnet-4-5-20250929",
-                    "provider": "anthropic",
-                },
-                {
-                    "model": "gemini-2.5-flash",
-                    "provider": "google",
-                },
-            ],
+            llm_providers=[{"model": "gpt-4o"}, {"model": "claude-sonnet-4-5-20250929"}, {"model": "gemini-2.5-flash"}],
             messages=[
                 {
                     "role": "system",

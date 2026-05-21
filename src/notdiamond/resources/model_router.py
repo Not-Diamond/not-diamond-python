@@ -49,6 +49,7 @@ class ModelRouterResource(SyncAPIResource):
         llm_providers: Iterable[model_router_select_model_params.LlmProvider],
         messages: Union[Iterable[Dict[str, Union[str, Iterable[object]]]], str],
         type: Optional[str] | Omit = omit,
+        cost_quality_tradeoff: Optional[int] | Omit = omit,
         hash_content: bool | Omit = omit,
         max_model_depth: Optional[int] | Omit = omit,
         metric: str | Omit = omit,
@@ -104,6 +105,9 @@ class ModelRouterResource(SyncAPIResource):
           type: Optional format type. Use 'openrouter' to accept and return OpenRouter-format
               model identifiers
 
+          cost_quality_tradeoff: Blend cost and quality: 0 = pure quality (default), 10 = pure cost. Mutually
+              exclusive with `tradeoff`. Not supported with custom routers.
+
           hash_content: Whether to hash message content for privacy. Hashed content is not persisted.
 
           max_model_depth: Maximum number of models to consider for routing. If not specified, considers
@@ -135,6 +139,7 @@ class ModelRouterResource(SyncAPIResource):
                 {
                     "llm_providers": llm_providers,
                     "messages": messages,
+                    "cost_quality_tradeoff": cost_quality_tradeoff,
                     "hash_content": hash_content,
                     "max_model_depth": max_model_depth,
                     "metric": metric,
@@ -182,6 +187,7 @@ class AsyncModelRouterResource(AsyncAPIResource):
         llm_providers: Iterable[model_router_select_model_params.LlmProvider],
         messages: Union[Iterable[Dict[str, Union[str, Iterable[object]]]], str],
         type: Optional[str] | Omit = omit,
+        cost_quality_tradeoff: Optional[int] | Omit = omit,
         hash_content: bool | Omit = omit,
         max_model_depth: Optional[int] | Omit = omit,
         metric: str | Omit = omit,
@@ -237,6 +243,9 @@ class AsyncModelRouterResource(AsyncAPIResource):
           type: Optional format type. Use 'openrouter' to accept and return OpenRouter-format
               model identifiers
 
+          cost_quality_tradeoff: Blend cost and quality: 0 = pure quality (default), 10 = pure cost. Mutually
+              exclusive with `tradeoff`. Not supported with custom routers.
+
           hash_content: Whether to hash message content for privacy. Hashed content is not persisted.
 
           max_model_depth: Maximum number of models to consider for routing. If not specified, considers
@@ -268,6 +277,7 @@ class AsyncModelRouterResource(AsyncAPIResource):
                 {
                     "llm_providers": llm_providers,
                     "messages": messages,
+                    "cost_quality_tradeoff": cost_quality_tradeoff,
                     "hash_content": hash_content,
                     "max_model_depth": max_model_depth,
                     "metric": metric,
