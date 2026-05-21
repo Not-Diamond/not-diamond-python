@@ -8,7 +8,7 @@ import httpx
 
 from ..types import preference_create_params, preference_update_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -164,7 +164,7 @@ class PreferencesResource(SyncAPIResource):
         if not preference_id:
             raise ValueError(f"Expected a non-empty value for `preference_id` but received {preference_id!r}")
         return self._delete(
-            f"/v2/preferences/userPreferenceDelete/{preference_id}",
+            path_template("/v2/preferences/userPreferenceDelete/{preference_id}", preference_id=preference_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -313,7 +313,7 @@ class AsyncPreferencesResource(AsyncAPIResource):
         if not preference_id:
             raise ValueError(f"Expected a non-empty value for `preference_id` but received {preference_id!r}")
         return await self._delete(
-            f"/v2/preferences/userPreferenceDelete/{preference_id}",
+            path_template("/v2/preferences/userPreferenceDelete/{preference_id}", preference_id=preference_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
