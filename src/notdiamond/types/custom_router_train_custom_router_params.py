@@ -5,13 +5,11 @@ from __future__ import annotations
 from typing import Optional
 from typing_extensions import Required, TypedDict
 
-from .._types import FileTypes
-
 __all__ = ["CustomRouterTrainCustomRouterParams"]
 
 
 class CustomRouterTrainCustomRouterParams(TypedDict, total=False):
-    dataset_file: Required[FileTypes]
+    dataset_file: Required[str]
     """
     CSV file containing evaluation data with prompt column and score/response
     columns for each model
