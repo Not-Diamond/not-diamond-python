@@ -20,7 +20,7 @@ class TestCustomRouter:
     @parametrize
     def test_method_train_custom_router(self, client: NotDiamond) -> None:
         custom_router = client.custom_router.train_custom_router(
-            dataset_file=b"Example data",
+            dataset_file="dataset_file",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
@@ -31,7 +31,7 @@ class TestCustomRouter:
     @parametrize
     def test_method_train_custom_router_with_all_params(self, client: NotDiamond) -> None:
         custom_router = client.custom_router.train_custom_router(
-            dataset_file=b"Example data",
+            dataset_file="dataset_file",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
@@ -44,7 +44,7 @@ class TestCustomRouter:
     @parametrize
     def test_raw_response_train_custom_router(self, client: NotDiamond) -> None:
         response = client.custom_router.with_raw_response.train_custom_router(
-            dataset_file=b"Example data",
+            dataset_file="dataset_file",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
@@ -59,7 +59,7 @@ class TestCustomRouter:
     @parametrize
     def test_streaming_response_train_custom_router(self, client: NotDiamond) -> None:
         with client.custom_router.with_streaming_response.train_custom_router(
-            dataset_file=b"Example data",
+            dataset_file="dataset_file",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
@@ -82,7 +82,7 @@ class TestAsyncCustomRouter:
     @parametrize
     async def test_method_train_custom_router(self, async_client: AsyncNotDiamond) -> None:
         custom_router = await async_client.custom_router.train_custom_router(
-            dataset_file=b"Example data",
+            dataset_file="dataset_file",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
@@ -93,7 +93,7 @@ class TestAsyncCustomRouter:
     @parametrize
     async def test_method_train_custom_router_with_all_params(self, async_client: AsyncNotDiamond) -> None:
         custom_router = await async_client.custom_router.train_custom_router(
-            dataset_file=b"Example data",
+            dataset_file="dataset_file",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
@@ -106,7 +106,7 @@ class TestAsyncCustomRouter:
     @parametrize
     async def test_raw_response_train_custom_router(self, async_client: AsyncNotDiamond) -> None:
         response = await async_client.custom_router.with_raw_response.train_custom_router(
-            dataset_file=b"Example data",
+            dataset_file="dataset_file",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,
@@ -121,7 +121,7 @@ class TestAsyncCustomRouter:
     @parametrize
     async def test_streaming_response_train_custom_router(self, async_client: AsyncNotDiamond) -> None:
         async with async_client.custom_router.with_streaming_response.train_custom_router(
-            dataset_file=b"Example data",
+            dataset_file="dataset_file",
             language="english",
             llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
             maximize=True,

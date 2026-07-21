@@ -185,27 +185,6 @@ response = client.prompt_optimization.optimize(
 print(response.origin_model)
 ```
 
-## File uploads
-
-Request parameters that correspond to file uploads can be passed as `bytes`, or a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance or a tuple of `(filename, contents, media type)`.
-
-```python
-from pathlib import Path
-from notdiamond import NotDiamond
-
-client = NotDiamond()
-
-client.custom_router.train_custom_router(
-    dataset_file=Path("/path/to/file"),
-    language="english",
-    llm_providers='[{"provider": "openai", "model": "gpt-4o"}, {"provider": "anthropic", "model": "claude-sonnet-4-5-20250929"}]',
-    maximize=True,
-    prompt_column="prompt",
-)
-```
-
-The async client uses the exact same interface. If you pass a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance, the file contents will be read asynchronously automatically.
-
 ## Handling errors
 
 When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `notdiamond.APIConnectionError` is raised.

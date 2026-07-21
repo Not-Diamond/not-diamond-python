@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Mapping, Optional, cast
+from typing import Optional
 
 import httpx
 
 from ..types import custom_router_train_custom_router_params
-from .._files import deepcopy_with_paths
-from .._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
-from .._utils import extract_files, maybe_transform, async_maybe_transform
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -47,7 +46,7 @@ class CustomRouterResource(SyncAPIResource):
     def train_custom_router(
         self,
         *,
-        dataset_file: FileTypes,
+        dataset_file: str,
         language: str,
         llm_providers: str,
         maximize: bool,
@@ -148,27 +147,24 @@ class CustomRouterResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = deepcopy_with_paths(
-            {
-                "dataset_file": dataset_file,
-                "language": language,
-                "llm_providers": llm_providers,
-                "maximize": maximize,
-                "prompt_column": prompt_column,
-                "override": override,
-                "preference_id": preference_id,
-            },
-            [["dataset_file"]],
-        )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["dataset_file"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/v2/pzn/trainCustomRouter",
-            body=maybe_transform(body, custom_router_train_custom_router_params.CustomRouterTrainCustomRouterParams),
-            files=files,
+            body=maybe_transform(
+                {
+                    "dataset_file": dataset_file,
+                    "language": language,
+                    "llm_providers": llm_providers,
+                    "maximize": maximize,
+                    "prompt_column": prompt_column,
+                    "override": override,
+                    "preference_id": preference_id,
+                },
+                custom_router_train_custom_router_params.CustomRouterTrainCustomRouterParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -199,7 +195,7 @@ class AsyncCustomRouterResource(AsyncAPIResource):
     async def train_custom_router(
         self,
         *,
-        dataset_file: FileTypes,
+        dataset_file: str,
         language: str,
         llm_providers: str,
         maximize: bool,
@@ -300,19 +296,6 @@ class AsyncCustomRouterResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = deepcopy_with_paths(
-            {
-                "dataset_file": dataset_file,
-                "language": language,
-                "llm_providers": llm_providers,
-                "maximize": maximize,
-                "prompt_column": prompt_column,
-                "override": override,
-                "preference_id": preference_id,
-            },
-            [["dataset_file"]],
-        )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["dataset_file"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
@@ -320,9 +303,17 @@ class AsyncCustomRouterResource(AsyncAPIResource):
         return await self._post(
             "/v2/pzn/trainCustomRouter",
             body=await async_maybe_transform(
-                body, custom_router_train_custom_router_params.CustomRouterTrainCustomRouterParams
+                {
+                    "dataset_file": dataset_file,
+                    "language": language,
+                    "llm_providers": llm_providers,
+                    "maximize": maximize,
+                    "prompt_column": prompt_column,
+                    "override": override,
+                    "preference_id": preference_id,
+                },
+                custom_router_train_custom_router_params.CustomRouterTrainCustomRouterParams,
             ),
-            files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
