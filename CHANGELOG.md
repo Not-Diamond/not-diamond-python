@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.8.0 (2026-08-20)
+
+Full Changelog: [v1.7.0...v1.8.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.7.0...v1.8.0)
+
+### Features
+
+* **api:** api update ([550a00c](https://github.com/Not-Diamond/not-diamond-python/commit/550a00c7501b63eeb6d812fdd5bf92825e3c9217))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([0e214ac](https://github.com/Not-Diamond/not-diamond-python/commit/0e214acb2fabde864de8acb7cdbd1cf01372368d))
+
+
+### Chores
+
+* **internal:** allow the mock server port to be set with STAINLESS_MOCK_PORT ([863cc38](https://github.com/Not-Diamond/not-diamond-python/commit/863cc385021aa65d7b3daab9be59dd8b15d10f9e))
+
+
+### Documentation
+
+* add cost_quality_tradeoff parameter example to README ([4451beb](https://github.com/Not-Diamond/not-diamond-python/commit/4451beb8161ce718062f3922e003fdc06083fdad))
+
 ## 1.7.0 (2026-05-21)
 
 Full Changelog: [v1.6.0...v1.7.0](https://github.com/Not-Diamond/not-diamond-python/compare/v1.6.0...v1.7.0)
